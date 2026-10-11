@@ -1,0 +1,173 @@
+{
+  "canvas-scalars.workflow.json": {
+    "format_version": 1,
+    "name": "Archived sliders and switches, typed component callbacks and save retry",
+    "records": {
+      "Plans": [
+        {
+          "ID": 1,
+          "Title": "Fictional budget",
+          "Amount": 25,
+          "Enabled": false
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.CurrentAmount=25 && !Left.CurrentEnabled && !Right.CurrentEnabled && CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/AmountSlider",
+        "event": "OnInput",
+        "value": 40.5
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentAmount=40.5 && CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/AmountSlider",
+        "event": "OnChange",
+        "value": 40.5
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1 && Last(events).Amount=40.5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/AmountSlider",
+        "event": "OnChange",
+        "value": 40.5
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/EnabledToggle",
+        "event": "OnSelect",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentEnabled && !Right.CurrentEnabled && CountRows(Left.History)=3 && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/EnabledToggle",
+        "event": "OnSelect",
+        "value": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentAmount=25 && !Left.CurrentEnabled && Right.CurrentEnabled && CountRows(Left.History)=0 && CountRows(events)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/NewDefault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentAmount=75 && Left.CurrentEnabled && Right.CurrentAmount=75 && CountRows(events)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleView",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/AmountSlider",
+        "event": "OnChange",
+        "value": 10,
+        "expect_blocked": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/EnabledToggle",
+        "event": "OnSelect",
+        "value": false,
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentAmount=75 && Left.CurrentEnabled && CountRows(events)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleView",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/PlanForm/AmountCard/FormAmount",
+        "event": "OnChange",
+        "value": 125.5
+      },
+      {
+        "op": "event",
+        "path": "Home/PlanForm/EnabledCard/FormEnabled",
+        "event": "OnSelect",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "PlanForm.Unsaved && PlanForm.Valid && PlanForm.Updates.AmountValue=125.5 && PlanForm.Updates.EnabledValue",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Plans",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "PlanForm.Unsaved && First(Plans).AmountValue=25 && !First(Plans).EnabledValue",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Plans",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!PlanForm.Unsaved && First(Plans).AmountValue=125.5 && First(Plans).EnabledValue && status=\"Saved\"",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

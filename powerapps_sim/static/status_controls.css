@@ -1,0 +1,10 @@
+.fx-badge,.fx-information{box-sizing:border-box;width:100%;height:100%;display:inline-flex;gap:4px;align-items:center;justify-content:center;min-width:0;min-height:0;font:inherit}
+.fx-badge{overflow:hidden;white-space:nowrap}
+button.fx-badge,button.fx-information{cursor:pointer}
+.fx-badge .fx-fluent-glyph{width:16px;height:16px;flex:none}
+.fx-information{background:transparent;border:0;padding:0;border-radius:4px}
+.fx-information .fx-fluent-glyph{width:24px;height:24px;max-width:100%;max-height:100%}
+.fx-information:hover:enabled{background:#f0f0f0}
+.fx-information:disabled{cursor:default;opacity:.4}
+.fx-badge:focus-visible,.fx-information:focus-visible{outline:2px solid #242424;outline-offset:-2px}
+.fx-information-flyout{position:fixed;z-index:10000;box-sizing:border-box;width:max-content;min-width:32px;padding:12px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;box-shadow:0 8px 28px #0002;overflow:auto;overscroll-behavior:contain;text-align:left}

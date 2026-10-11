@@ -1,0 +1,46 @@
+{
+  "Events": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 80
+      },
+      "DueDate": {
+        "type": "string",
+        "format": "date",
+        "default": "2026-01-01"
+      },
+      "Appointment": {
+        "type": "string",
+        "format": "date-time",
+        "default": "2026-01-01T09:30:00+00:00"
+      },
+      "Created": {
+        "type": "string",
+        "format": "date-time",
+        "x-ms-permission": "read-only"
+      },
+      "Modified": {
+        "type": "string",
+        "format": "date-time",
+        "x-ms-permission": "read-only"
+      }
+    },
+    "mapping": {
+      "ID": "ID",
+      "Title": "Title",
+      "DueDate": "Due date",
+      "Appointment": "Appointment",
+      "Created": "Created",
+      "Modified": "Modified"
+    },
+    "required": [
+      "Title",
+      "DueDate"
+    ]
+  }
+}

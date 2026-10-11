@@ -1,0 +1,167 @@
+App:
+  Properties:
+    StartScreen: =CoercionScreen
+    Formulas: "=Entry := Type({Title:Text,Amount:Number,Enabled:Boolean});\nEntries := Type([Entry]);\nNormalize(row:Entry):Entry=row;\nAsEntries(rows:Entries):Entries=rows;\nAsNumber(value:Text):Number=value;\nAsFlag(value:Text):Boolean=value;\nAsLabel(value:Number):Text=value;\nTotal(rows:Entries):Number=Sum(rows,Amount);\nSaveEntry(row:Entry):Void={Patch(Projects,Defaults(Projects),row)};\n"
+    OnStart: =Set(seed,"12.5");Set(result,Normalize({Title:100,Amount:seed,Enabled:"true"}));Set(status,"Ready");Set(lastSaved,Blank());ClearCollect(events,FirstN(Table({Title:"",Amount:0,Enabled:true}),0))
+ComponentDefinitions:
+  AmountPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Amount"
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="5"
+      TextValue:
+        PropertyKind: Output
+        DataType: Text
+        Default: =AmountInput.Text
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Text
+        Default: =Blank()
+    Properties:
+      Width: =410
+      Height: =142
+      Fill: =RGBA(245,245,245,1)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =AmountPanel.Caption
+            X: =12
+            Y: =10
+            Width: =380
+            Height: =30
+      - AmountInput:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            Default: =AmountPanel.Seed
+            AccessibleLabel: =AmountPanel.Caption
+            X: =12
+            Y: =50
+            Width: =238
+            Height: =36
+      - Pick:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Use amount"
+            OnSelect: =AmountPanel.Picked(AmountInput.Text)
+            X: =262
+            Y: =50
+            Width: =136
+            Height: =36
+      - Note:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Text output: " & AmountInput.Text'
+            X: =12
+            Y: =96
+            Width: =380
+            Height: =30
+Screens:
+  CoercionScreen:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Power Fx · typed function conversions"
+            X: =24
+            Y: =16
+            Width: =850
+            Height: =42
+            Size: =24
+      - Amount:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            Default: =seed
+            AccessibleLabel: ="Amount text"
+            X: =24
+            Y: =82
+            Width: =200
+            Height: =36
+      - Enabled:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            Default: ="true"
+            AccessibleLabel: ="Boolean text"
+            X: =240
+            Y: =82
+            Width: =180
+            Height: =36
+      - Convert:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Convert record"
+            OnSelect: =IfError(AsNumber(Amount.Text),Set(status,FirstError.Message),IfError(AsFlag(Enabled.Text),Set(status,FirstError.Message),Set(result,Normalize({Title:100,Amount:Amount.Text,Enabled:Enabled.Text}));Set(status,"Converted")))
+            X: =440
+            Y: =82
+            Width: =180
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save result"
+            OnSelect: =IfError(SaveEntry(result);Set(lastSaved,result);Set(status,"Saved"),Set(status,FirstError.Message))
+            X: =636
+            Y: =82
+            Width: =240
+            Height: =36
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status & " · title " & result.Title & " · amount " & result.Amount & " · enabled " & result.Enabled
+            X: =24
+            Y: =144
+            Width: =850
+            Height: =46
+      - ListSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Stored " & CountRows(Projects) & " rows · total " & Total(ShowColumns(Projects,Title,Amount,Enabled)) & " · callbacks " & CountRows(events)
+            X: =24
+            Y: =194
+            Width: =850
+            Height: =36
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            Caption: ="Left component amount"
+            Seed: ="5"
+            Picked: =IfError(AsNumber(amount),Set(status,FirstError.Message),Set(result,Normalize({Title:"Left callback",Amount:amount,Enabled:1}));Collect(events,result);Set(status,"Left callback"))
+            X: =24
+            Y: =258
+          ComponentName: AmountPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            Caption: ="Right component amount"
+            Seed: ="7"
+            Picked: =IfError(AsNumber(amount),Set(status,FirstError.Message),Set(result,Normalize({Title:"Right callback",Amount:amount,Enabled:0}));Collect(events,result);Set(status,"Right callback"))
+            X: =466
+            Y: =258
+          ComponentName: AmountPanel
+      - History:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =events
+            X: =24
+            Y: =438
+            Width: =852
+            Height: =144
+            TemplateSize: =46
+          Children:
+            - HistoryLabel:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title & " · " & ThisItem.Amount & " · " & ThisItem.Enabled
+                  X: =8
+                  Y: =6
+                  Width: =828
+                  Height: =34

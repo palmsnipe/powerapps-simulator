@@ -1,0 +1,31 @@
+{
+  "Cards": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      }
+    },
+    "mapping": {
+      "Title": "Card title"
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional forest"
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional river"
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional meadow"
+      }
+    ]
+  }
+}

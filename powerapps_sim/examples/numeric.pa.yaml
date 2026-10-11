@@ -1,0 +1,173 @@
+App:
+  Properties:
+    StartScreen: =Numbers
+    Formulas: '=LineTotal(price: Number, quantity: Number): Number = price * quantity; SampleTotal = .1 + .2;'
+    OnStart: =Set(savedAmount, Blank())
+ComponentDefinitions:
+  MoneyPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =.1
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(localTotal, MoneyPanel.Seed)
+      Add:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - increment:
+              DataType: Number
+        Default: =Set(localTotal, MoneyPanel.Total + increment); MoneyPanel.OnChanged(localTotal)
+      Caption:
+        PropertyKind: Function
+        PropertyDefinition: Output
+        ReturnType: Text
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: ="Total " & Text(amount)
+      OnChanged:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =420
+      Height: =100
+      OnReset: =Set(localTotal, MoneyPanel.Seed)
+    Children:
+      - TotalLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =MoneyPanel.Caption(MoneyPanel.Total)
+            X: =12
+            Y: =0
+            Width: =Parent.Width - 24
+            Height: =32
+      - Advance:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Add 0.1"
+            AccessibleLabel: ="Add to " & Text(MoneyPanel.Seed)
+            OnSelect: =MoneyPanel.Add(.1)
+            X: =12
+            Y: =40
+            Width: =140
+Screens:
+  Numbers:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Decimal precision · components and forms"
+            X: =32
+            Y: =8
+            Width: =Parent.Width - 64
+            Height: =40
+            Size: =24
+      - Arithmetic:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =If(SampleTotal = .3, "0.1 + 0.2 = 0.3 (exact)", "Float rounding differs from 0.3")
+            X: =32
+            Y: =48
+            Width: =Parent.Width - 64
+      - LeftMoney:
+          Control: CanvasComponent
+          ComponentName: MoneyPanel
+          Properties:
+            Seed: =.1
+            OnChanged: =Set(leftChanged, amount)
+            X: =32
+            Y: =90
+      - RightMoney:
+          Control: CanvasComponent
+          ComponentName: MoneyPanel
+          Properties:
+            Seed: =.2
+            OnChanged: =Set(rightChanged, amount)
+            X: =480
+            Y: =90
+      - AmountForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Ledger
+            DefaultMode: =FormMode.New
+            Item: =First(Ledger)
+            X: =32
+            Y: =190
+            Width: =420
+            Height: =170
+            NumberOfColumns: =1
+            OnSuccess: =Set(savedAmount, Self.LastSubmit.Amount); Notify("Amount saved", NotificationType.Success)
+            OnFailure: =Notify(Self.Error, NotificationType.Error)
+          Children:
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ModernTextualEdit
+                Properties:
+                  DataField: ="Amount"
+                  Default: =ThisItem.Amount
+                  Update: =Value(AmountInput.Text)
+                  Required: =true
+                  X: =0
+                  Y: =0
+                  Width: =Parent.Width
+                  Height: =150
+                Children:
+                  - AmountLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Exact amount · text input preserves digits"
+                        X: =12
+                        Y: =0
+                        Width: =Parent.Width - 24
+                        Height: =40
+                  - AmountInput:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Default: =Text(Parent.Default)
+                        AccessibleLabel: ="Exact amount"
+                        X: =12
+                        Y: =44
+                        Width: =Parent.Width - 24
+      - SaveAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save amount"
+            OnSelect: =SubmitForm(AmountForm)
+            X: =44
+            Y: =290
+            Width: =140
+      - NewAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="New amount draft"
+            OnSelect: =NewForm(AmountForm)
+            X: =200
+            Y: =290
+            Width: =180
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left component"
+            OnSelect: =Reset(LeftMoney)
+            X: =492
+            Y: =190
+            Width: =220
+      - SavedCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '=If(IsBlank(savedAmount), "No saved amount yet", "Saved exactly: " & Text(savedAmount))'
+            X: =492
+            Y: =238
+            Width: =680
+            Height: =80

@@ -1,0 +1,5345 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Scalar/table Sqrt, Exp, Ln, Log, Power, Int, Trunc and trigonometry. Expected values are decoded only from upstream literal oracles. Float values opt into the pinned BaseRunner.NumberCompare rule (absolute <1e-5 or relative <1e-14); existing corpus cases keep exact matching. Compiler-message cases and the undocumented Canvas Trunc digits overload are excluded. Formula-level error handling is enabled; legacy blank-on-invalid-math behavior is not simulated.",
+  "comparison_source": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestHelpers/BaseRunner.cs#L421",
+  "cases": [
+    {
+      "id": "math-sqrt-4",
+      "expression": "Sqrt(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L4",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-sqrt-7",
+      "expression": "Sqrt(5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L7",
+        "expected_powerfx": "2.23606798"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.23606798
+    },
+    {
+      "id": "math-sqrt-10",
+      "expression": "Sqrt(144)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L10",
+        "expected_powerfx": "12"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 12.0
+    },
+    {
+      "id": "math-sqrt-15",
+      "expression": "Sqrt(-0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L15",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-sqrt-19",
+      "expression": "Sqrt(-5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L19",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-sqrt-23",
+      "expression": "Sqrt(-144)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L23",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-sqrt-28",
+      "expression": "Sqrt(0.00)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L28",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-sqrt-31",
+      "expression": "Sqrt(-0.00)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L31",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-sqrt-34",
+      "expression": "Sqrt(2.34567)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L34",
+        "expected_powerfx": "1.53155803"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.53155803
+    },
+    {
+      "id": "math-sqrt-38",
+      "expression": "Sqrt(-345.6)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L38",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-sqrt-43",
+      "expression": "Sqrt(1/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L43",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-sqrt-47",
+      "expression": "Sqrt(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L47",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-sqrt-52",
+      "expression": "Sqrt(\"sampleText\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L52",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-sqrt-55",
+      "expression": "Sqrt(\"4\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L55",
+        "expected_powerfx": "2"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.0
+    },
+    {
+      "id": "math-sqrt-59",
+      "expression": "Sqrt(\"-9\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L59",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-sqrt-65",
+      "expression": "Sqrt(true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L65",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-sqrt-68",
+      "expression": "Sqrt(false)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L68",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-sqrt-71",
+      "expression": "Sqrt(\"true\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L71",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-sqrt-74",
+      "expression": "Sqrt(\"false\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L74",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-sqrt-79",
+      "expression": "Sqrt(Ln(2))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L79",
+        "expected_powerfx": "0.83255461"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.83255461
+    },
+    {
+      "id": "math-sqrt-82",
+      "expression": "Sqrt(Power(2,2))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Sqrt.txt#L82",
+        "expected_powerfx": "2"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.0
+    },
+    {
+      "id": "math-sqrtt-3",
+      "expression": "Sqrt([1, 529, 144, 324])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/SqrtT.txt#L3",
+        "expected_powerfx": "Table({Value:1},{Value:23},{Value:12},{Value:18})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 23.0
+        },
+        {
+          "Value": 12.0
+        },
+        {
+          "Value": 18.0
+        }
+      ]
+    },
+    {
+      "id": "math-sqrtt-9",
+      "expression": "Sqrt([9, 1444])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/SqrtT.txt#L9",
+        "expected_powerfx": "Table({Value:3},{Value:38})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 3.0
+        },
+        {
+          "Value": 38.0
+        }
+      ]
+    },
+    {
+      "id": "math-sqrtt-12",
+      "expression": "Sqrt(If(1<0,[1]))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/SqrtT.txt#L12",
+        "expected_powerfx": "Blank()"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": null
+    },
+    {
+      "id": "math-sqrtt-15",
+      "expression": "Sqrt(Table({a:16}, {a:289}, {a:1/0}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/SqrtT.txt#L15",
+        "expected_powerfx": "Table({Value:4},{Value:17},{Value:Error({Kind:ErrorKind.Div0})})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 4.0
+        },
+        {
+          "Value": 17.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "math-sqrtt-18",
+      "expression": "Sqrt(Table({a:6.25}, {a:Power(2,2)}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/SqrtT.txt#L18",
+        "expected_powerfx": "Table({Value:2.5},{Value:2})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 2.5
+        },
+        {
+          "Value": 2.0
+        }
+      ]
+    },
+    {
+      "id": "math-sqrtt-21",
+      "expression": "Round(Sqrt(Table({a: 5}, {a: 2.34567}, {a: Ln(2)})), 8)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/SqrtT.txt#L21",
+        "expected_powerfx": "Table({Value:2.23606798},{Value:1.53155803},{Value:0.83255461})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 2.23606798
+        },
+        {
+          "Value": 1.53155803
+        },
+        {
+          "Value": 0.83255461
+        }
+      ]
+    },
+    {
+      "id": "math-exp-2",
+      "expression": "Exp(1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L2",
+        "expected_powerfx": "2.71828182845904"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.71828182845904
+    },
+    {
+      "id": "math-exp-5",
+      "expression": "Exp(2.302585092994045)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L5",
+        "expected_powerfx": "10"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 10.0
+    },
+    {
+      "id": "math-exp-8",
+      "expression": "Ln(Exp(2))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L8",
+        "expected_powerfx": "2"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.0
+    },
+    {
+      "id": "math-exp-11",
+      "expression": "Round(Exp(2), 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L11",
+        "expected_powerfx": "7.39"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 7.39
+    },
+    {
+      "id": "math-exp-17",
+      "expression": "Exp(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L17",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-exp-20",
+      "expression": "Exp(5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L20",
+        "expected_powerfx": "148.4131591"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 148.4131591
+    },
+    {
+      "id": "math-exp-23",
+      "expression": "Exp(66)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L23",
+        "expected_powerfx": "46071866343312750000000000000"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 4.607186634331275e+28
+    },
+    {
+      "id": "math-exp-26",
+      "expression": "Exp(750)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L26",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-exp-31",
+      "expression": "Exp(-0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L31",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-exp-34",
+      "expression": "Exp(-5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L34",
+        "expected_powerfx": "0.00673795"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.00673795
+    },
+    {
+      "id": "math-exp-38",
+      "expression": "Exp(-430)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L38",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-exp-41",
+      "expression": "Exp(-750)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L41",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-exp-46",
+      "expression": "Exp(0.00)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L46",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-exp-49",
+      "expression": "Exp(-0.00)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L49",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-exp-52",
+      "expression": "Exp(2.34567)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L52",
+        "expected_powerfx": "10.44026536"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 10.44026536
+    },
+    {
+      "id": "math-exp-56",
+      "expression": "Exp(-345.6)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L56",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-exp-60",
+      "expression": "Exp(1/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L60",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-exp-64",
+      "expression": "Exp(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L64",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-exp-69",
+      "expression": "Exp(\"sampleText\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L69",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-exp-72",
+      "expression": "Exp(\"10\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L72",
+        "expected_powerfx": "22026.46579481"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 22026.46579481
+    },
+    {
+      "id": "math-exp-75",
+      "expression": "Exp(\"-10.123\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L75",
+        "expected_powerfx": "0.00004015"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 4.015e-05
+    },
+    {
+      "id": "math-exp-80",
+      "expression": "Exp(true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L80",
+        "expected_powerfx": "2.71828183"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.71828183
+    },
+    {
+      "id": "math-exp-83",
+      "expression": "Exp(false)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L83",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-exp-86",
+      "expression": "Exp(\"true\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L86",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-exp-89",
+      "expression": "Exp(\"false\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L89",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-exp-94",
+      "expression": "Exp(Ln(2))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Exp.txt#L94",
+        "expected_powerfx": "2"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.0
+    },
+    {
+      "id": "math-expt-3",
+      "expression": "Exp([false, 0])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ExpT.txt#L3",
+        "expected_powerfx": "Table({Value:1},{Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-expt-6",
+      "expression": "Round(Exp(Table({a: Ln(3)}, {a: 0})),4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ExpT.txt#L6",
+        "expected_powerfx": "Table({Value:3},{Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 3.0
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-expt-9",
+      "expression": "Exp(Table({a: 1/0}, {a: -750}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ExpT.txt#L9",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-expt-14",
+      "expression": "Round(Exp(Table({a: -0}, {a: 5}, {a: 2.302585092994045})), 7)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ExpT.txt#L14",
+        "expected_powerfx": "Table({Value:1},{Value:148.4131591},{Value:10})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 148.4131591
+        },
+        {
+          "Value": 10.0
+        }
+      ]
+    },
+    {
+      "id": "math-expt-17",
+      "expression": "Round(Exp(Table({a: -5}, {a: 2.34567}, {a: 1})), 8)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ExpT.txt#L17",
+        "expected_powerfx": "Table({Value:0.00673795},{Value:10.44026536},{Value:2.71828183})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.00673795
+        },
+        {
+          "Value": 10.44026536
+        },
+        {
+          "Value": 2.71828183
+        }
+      ]
+    },
+    {
+      "id": "math-expt-20",
+      "expression": "Round(Exp(Table({a: \"10\"}, {a: \"-2\"})), 8)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ExpT.txt#L20",
+        "expected_powerfx": "Table({Value:22026.46579481},{Value:0.13533528})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 22026.46579481
+        },
+        {
+          "Value": 0.13533528
+        }
+      ]
+    },
+    {
+      "id": "math-ln-4",
+      "expression": "Ln(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L4",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-7",
+      "expression": "Ln(5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L7",
+        "expected_powerfx": "1.60943791"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.60943791
+    },
+    {
+      "id": "math-ln-10",
+      "expression": "Ln(430)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L10",
+        "expected_powerfx": "6.06378521"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 6.06378521
+    },
+    {
+      "id": "math-ln-15",
+      "expression": "Ln(-0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L15",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-18",
+      "expression": "Ln(-5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L18",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-21",
+      "expression": "Ln(-430)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L21",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-26",
+      "expression": "Ln(0.00)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L26",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-29",
+      "expression": "Ln(-0.00)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L29",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-32",
+      "expression": "Ln(2.34567)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L32",
+        "expected_powerfx": "0.85257108"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.85257108
+    },
+    {
+      "id": "math-ln-35",
+      "expression": "Ln(-345.6)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L35",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-40",
+      "expression": "Ln(1/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L40",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-44",
+      "expression": "Ln(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L44",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-49",
+      "expression": "Ln(\"sampleText\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L49",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-52",
+      "expression": "Ln(\"10\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L52",
+        "expected_powerfx": "2.30258509"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.30258509
+    },
+    {
+      "id": "math-ln-55",
+      "expression": "Ln(\"-10.123\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L55",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-60",
+      "expression": "Ln(true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L60",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-ln-63",
+      "expression": "Ln(false)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L63",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-66",
+      "expression": "Ln(\"true\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L66",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-69",
+      "expression": "Ln(\"false\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L69",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-ln-74",
+      "expression": "Ln(Exp(2))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Ln.txt#L74",
+        "expected_powerfx": "2"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.0
+    },
+    {
+      "id": "math-lnt-3",
+      "expression": "Ln([1, true])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/LnT.txt#L3",
+        "expected_powerfx": "Table({Value:0},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-lnt-6",
+      "expression": "Ln(Table({a: Exp(22)}, {a: Exp(-33)}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/LnT.txt#L6",
+        "expected_powerfx": "Table({Value:22},{Value:-33})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 22.0
+        },
+        {
+          "Value": -33.0
+        }
+      ]
+    },
+    {
+      "id": "math-lnt-9",
+      "expression": "Ln(Table({a: -57.88}, {a: 1/0}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/LnT.txt#L9",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Numeric})},{Value:Error({Kind:ErrorKind.Div0})})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 24
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "math-lnt-14",
+      "expression": "Round(Ln(Table({a: 5}, {a: 430}, {a: 2.34567})), 8)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/LnT.txt#L14",
+        "expected_powerfx": "Table({Value:1.60943791},{Value:6.06378521},{Value:0.85257108})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.60943791
+        },
+        {
+          "Value": 6.06378521
+        },
+        {
+          "Value": 0.85257108
+        }
+      ]
+    },
+    {
+      "id": "math-lnt-17",
+      "expression": "Round(Ln(Table({a: \"-10.123\"}, {a: \"10\"})), 8)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/LnT.txt#L17",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Numeric})},{Value:2.30258509})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 24
+            }
+          }
+        },
+        {
+          "Value": 2.30258509
+        }
+      ]
+    },
+    {
+      "id": "math-log-3",
+      "expression": "Log(100)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L3",
+        "expected_powerfx": "2"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.0
+    },
+    {
+      "id": "math-log-6",
+      "expression": "Log(64, 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L6",
+        "expected_powerfx": "6"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 6.0
+    },
+    {
+      "id": "math-log-9",
+      "expression": "Log(64, 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L9",
+        "expected_powerfx": "3"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 3.0
+    },
+    {
+      "id": "math-log-12",
+      "expression": "Log(64, 8)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L12",
+        "expected_powerfx": "2"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.0
+    },
+    {
+      "id": "math-log-15",
+      "expression": "Log(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L15",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-log-18",
+      "expression": "Log(-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L18",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-log-21",
+      "expression": "Log(-8, -2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L21",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-log-24",
+      "expression": "Log(10, 1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L24",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-log-27",
+      "expression": "Log(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L27",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-log-30",
+      "expression": "Log(64, Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L30",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-log-33",
+      "expression": "Log(Blank(), 64)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L33",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-log-36",
+      "expression": "Log(Blank(), Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L36",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-log-39",
+      "expression": "Log(1/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Log.txt#L39",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-8",
+      "expression": "Power(0,0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L8",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-11",
+      "expression": "Power(0,1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L11",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-14",
+      "expression": "Power(230,0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L14",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-17",
+      "expression": "Power(230,1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L17",
+        "expected_powerfx": "230"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 230.0
+    },
+    {
+      "id": "math-power-20",
+      "expression": "Power(230,10)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L20",
+        "expected_powerfx": "414265112136490000000000"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 4.1426511213649e+23
+    },
+    {
+      "id": "math-power-24",
+      "expression": "Power(230,230)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L24",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-29",
+      "expression": "Power(-0,1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L29",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-32",
+      "expression": "Power(-456,0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L32",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-35",
+      "expression": "Power(-456,1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L35",
+        "expected_powerfx": "-456"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -456.0
+    },
+    {
+      "id": "math-power-38",
+      "expression": "Power(-456,2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L38",
+        "expected_powerfx": "207936"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 207936.0
+    },
+    {
+      "id": "math-power-41",
+      "expression": "Power(-456,9)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L41",
+        "expected_powerfx": "-852478793130085600000000"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -8.524787931300856e+23
+    },
+    {
+      "id": "math-power-46",
+      "expression": "Power(3456,-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L46",
+        "expected_powerfx": "0.00028935"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.00028935
+    },
+    {
+      "id": "math-power-49",
+      "expression": "Power(3456,-2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L49",
+        "expected_powerfx": "0.00000008"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 8e-08
+    },
+    {
+      "id": "math-power-52",
+      "expression": "Power(3456,-3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L52",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-55",
+      "expression": "Power(3456789,-4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L55",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-60",
+      "expression": "Power(-3456,-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L60",
+        "expected_powerfx": "-0.00028935"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.00028935
+    },
+    {
+      "id": "math-power-63",
+      "expression": "Power(-3456,-2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L63",
+        "expected_powerfx": "0.00000008"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 8e-08
+    },
+    {
+      "id": "math-power-67",
+      "expression": "Power(-3456,-3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L67",
+        "expected_powerfx": "-0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.0
+    },
+    {
+      "id": "math-power-70",
+      "expression": "Power(-3456,-4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L70",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-76",
+      "expression": "Power(14.123456,0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L76",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-79",
+      "expression": "Power(14.123456,1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L79",
+        "expected_powerfx": "14.123456"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 14.123456
+    },
+    {
+      "id": "math-power-82",
+      "expression": "Power(14.123456,2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L82",
+        "expected_powerfx": "199.47200938"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 199.47200938
+    },
+    {
+      "id": "math-power-85",
+      "expression": "Power(14.123456,3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L85",
+        "expected_powerfx": "2817.23414777"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2817.23414777
+    },
+    {
+      "id": "math-power-88",
+      "expression": "Power(14.123456,4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L88",
+        "expected_powerfx": "39789.08252767"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 39789.08252767
+    },
+    {
+      "id": "math-power-91",
+      "expression": "Power(14.123456,5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L91",
+        "expected_powerfx": "561959.35635985"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 561959.35635985
+    },
+    {
+      "id": "math-power-94",
+      "expression": "Power(1412.34,-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L94",
+        "expected_powerfx": "0.00070804"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.00070804
+    },
+    {
+      "id": "math-power-97",
+      "expression": "Power(1412.34,-2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L97",
+        "expected_powerfx": "0.0000005"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 5e-07
+    },
+    {
+      "id": "math-power-100",
+      "expression": "Power(1600.34,-3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L100",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-105",
+      "expression": "Power(-14.123456,0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L105",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-108",
+      "expression": "Power(-14.123456,1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L108",
+        "expected_powerfx": "-14.123456"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -14.123456
+    },
+    {
+      "id": "math-power-111",
+      "expression": "Power(-14.123456,2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L111",
+        "expected_powerfx": "199.47200938"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 199.47200938
+    },
+    {
+      "id": "math-power-114",
+      "expression": "Power(-14.123456,3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L114",
+        "expected_powerfx": "-2817.23414777"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -2817.23414777
+    },
+    {
+      "id": "math-power-117",
+      "expression": "Power(-14.123456,4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L117",
+        "expected_powerfx": "39789.08252767"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 39789.08252767
+    },
+    {
+      "id": "math-power-120",
+      "expression": "Power(-1412.34,-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L120",
+        "expected_powerfx": "-0.00070804"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.00070804
+    },
+    {
+      "id": "math-power-123",
+      "expression": "Power(-1412.34,-2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L123",
+        "expected_powerfx": "0.0000005"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 5e-07
+    },
+    {
+      "id": "math-power-127",
+      "expression": "Power(-1412.34,-3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L127",
+        "expected_powerfx": "-0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.0
+    },
+    {
+      "id": "math-power-131",
+      "expression": "Power(-1600.34,-3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L131",
+        "expected_powerfx": "-0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.0
+    },
+    {
+      "id": "math-power-136",
+      "expression": "Power(14.123456,1111111111)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L136",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-139",
+      "expression": "Power(14.123456,0.123)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L139",
+        "expected_powerfx": "1.38497757"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.38497757
+    },
+    {
+      "id": "math-power-142",
+      "expression": "Power(14.123456,1.67)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L142",
+        "expected_powerfx": "83.25329648"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 83.25329648
+    },
+    {
+      "id": "math-power-145",
+      "expression": "Power(14.123456,2.12)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L145",
+        "expected_powerfx": "274.07844417"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 274.07844417
+    },
+    {
+      "id": "math-power-148",
+      "expression": "Power(-14.123456,3.678)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L148",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-151",
+      "expression": "Power(-1412.34567,4.78)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L151",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-154",
+      "expression": "Power(1412.34,-1.2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L154",
+        "expected_powerfx": "0.00016599"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.00016599
+    },
+    {
+      "id": "math-power-157",
+      "expression": "Power(-1412.34,-1.6)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L157",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-160",
+      "expression": "Power(-1412.34,-2.9)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L160",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-163",
+      "expression": "Power(1500.34,-3.5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L163",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-166",
+      "expression": "Power(3*0.415, 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L166",
+        "expected_powerfx": "1.550025"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.550025
+    },
+    {
+      "id": "math-power-172",
+      "expression": "Power(1/0,1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L172",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-176",
+      "expression": "Power(1,1/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L176",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-179",
+      "expression": "Power(Blank(),1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L179",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-183",
+      "expression": "Power(Blank(), -1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L183",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-186",
+      "expression": "Power(56.78, Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L186",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-189",
+      "expression": "Power(-56.78, Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L189",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-193",
+      "expression": "Power(Blank(),Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L193",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-199",
+      "expression": "Power(\"sampleText\",1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L199",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-202",
+      "expression": "Power(\"10.5678\",\"ABC\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L202",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-205",
+      "expression": "Power(\"-10.5678\",\"2\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L205",
+        "expected_powerfx": "111.67839684"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 111.67839684
+    },
+    {
+      "id": "math-power-208",
+      "expression": "Power(\"-10.5678\",\"-2\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L208",
+        "expected_powerfx": "0.00895428"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.00895428
+    },
+    {
+      "id": "math-power-211",
+      "expression": "Power(\"-10.123\", \"1.234\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L211",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-power-216",
+      "expression": "Power(true,true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L216",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-219",
+      "expression": "Power(true,false)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L219",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-222",
+      "expression": "Power(false,true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L222",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-226",
+      "expression": "Power(false,false)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L226",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-229",
+      "expression": "Power(\"true\",\"false\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L229",
+        "expected_powerfx": "Error(Table({Kind:ErrorKind.InvalidArgument},{Kind:ErrorKind.InvalidArgument}))"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime",
+        "count": 2
+      }
+    },
+    {
+      "id": "math-power-234",
+      "expression": "Power(Mod(1976,11),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L234",
+        "expected_powerfx": "343"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 343.0
+    },
+    {
+      "id": "math-power-237",
+      "expression": "Power(Exp(29.5),2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L237",
+        "expected_powerfx": "4.201210403790501E+25"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 4.201210403790501e+25
+    },
+    {
+      "id": "math-power-240",
+      "expression": "16 ^ Blank()",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L240",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-power-243",
+      "expression": "Blank() ^ 16",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L243",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-power-246",
+      "expression": "Blank() ^ Blank()",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Power.txt#L246",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-int-7",
+      "expression": "Int(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L7",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-int-10",
+      "expression": "Int(230)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L10",
+        "expected_powerfx": "230"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 230.0
+    },
+    {
+      "id": "math-int-15",
+      "expression": "Int(-0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L15",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-int-18",
+      "expression": "Int(-456)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L18",
+        "expected_powerfx": "-456"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -456.0
+    },
+    {
+      "id": "math-int-26",
+      "expression": "Int(14.123456)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L26",
+        "expected_powerfx": "14"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 14.0
+    },
+    {
+      "id": "math-int-29",
+      "expression": "Int(45.7)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L29",
+        "expected_powerfx": "45"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 45.0
+    },
+    {
+      "id": "math-int-32",
+      "expression": "Int(3*0.415)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L32",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-int-37",
+      "expression": "Int(-14.123456)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L37",
+        "expected_powerfx": "-15"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -15.0
+    },
+    {
+      "id": "math-int-40",
+      "expression": "Int(-45.7)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L40",
+        "expected_powerfx": "-46"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -46.0
+    },
+    {
+      "id": "math-int-43",
+      "expression": "Int(-3*0.415)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L43",
+        "expected_powerfx": "-2"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -2.0
+    },
+    {
+      "id": "math-int-48",
+      "expression": "Int(1/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L48",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-int-52",
+      "expression": "Int(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L52",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-int-57",
+      "expression": "Int(\"sampleText\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L57",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-int-60",
+      "expression": "Int(\"10.5678\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L60",
+        "expected_powerfx": "10"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 10.0
+    },
+    {
+      "id": "math-int-63",
+      "expression": "Int(\"-10.5678\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L63",
+        "expected_powerfx": "-11"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -11.0
+    },
+    {
+      "id": "math-int-68",
+      "expression": "Int(true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L68",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-int-71",
+      "expression": "Int(false)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L71",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-int-74",
+      "expression": "Int(\"true\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L74",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-int-77",
+      "expression": "Int(\"false\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Int.txt#L77",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-intt-3",
+      "expression": "Int([0, 230])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IntT.txt#L3",
+        "expected_powerfx": "Table({Value:0},{Value:230})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 230.0
+        }
+      ]
+    },
+    {
+      "id": "math-intt-6",
+      "expression": "Int([14.123456, 45.7, 3*0.415])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IntT.txt#L6",
+        "expected_powerfx": "Table({Value:14},{Value:45},{Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 14.0
+        },
+        {
+          "Value": 45.0
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-intt-9",
+      "expression": "Int(Table({a: -14.123456}, {a: -45.7}, {a: -3*0.415}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IntT.txt#L9",
+        "expected_powerfx": "Table({Value:-15},{Value:-46},{Value:-2})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": -15.0
+        },
+        {
+          "Value": -46.0
+        },
+        {
+          "Value": -2.0
+        }
+      ]
+    },
+    {
+      "id": "math-intt-12",
+      "expression": "Int(Table({a: false}, {a: true}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IntT.txt#L12",
+        "expected_powerfx": "Table({Value:0},{Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trunc-22",
+      "expression": "Trunc(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L22",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trunc-25",
+      "expression": "Trunc(230)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L25",
+        "expected_powerfx": "230"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 230.0
+    },
+    {
+      "id": "math-trunc-43",
+      "expression": "Trunc(-0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L43",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trunc-46",
+      "expression": "Trunc(-456)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L46",
+        "expected_powerfx": "-456"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -456.0
+    },
+    {
+      "id": "math-trunc-84",
+      "expression": "Trunc(45.7)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L84",
+        "expected_powerfx": "45"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 45.0
+    },
+    {
+      "id": "math-trunc-90",
+      "expression": "Trunc(14.123456)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L90",
+        "expected_powerfx": "14"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 14.0
+    },
+    {
+      "id": "math-trunc-122",
+      "expression": "Trunc(-45.5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L122",
+        "expected_powerfx": "-45"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -45.0
+    },
+    {
+      "id": "math-trunc-128",
+      "expression": "Trunc(-45.7)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L128",
+        "expected_powerfx": "-45"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -45.0
+    },
+    {
+      "id": "math-trunc-134",
+      "expression": "Trunc(-14.123456)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L134",
+        "expected_powerfx": "-14"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -14.0
+    },
+    {
+      "id": "math-trunc-204",
+      "expression": "Trunc(1/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L204",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-trunc-207",
+      "expression": "Trunc(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L207",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trunc-233",
+      "expression": "Trunc(\"-10.5678\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trunc.txt#L233",
+        "expected_powerfx": "-10"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -10.0
+    },
+    {
+      "id": "math-trunct-11",
+      "expression": "Trunc([1.2, 3.4, 5.6, 7.8])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TruncT.txt#L11",
+        "expected_powerfx": "Table({Value:1},{Value:3},{Value:5},{Value:7})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 3.0
+        },
+        {
+          "Value": 5.0
+        },
+        {
+          "Value": 7.0
+        }
+      ]
+    },
+    {
+      "id": "math-trunct-20",
+      "expression": "Trunc(Table({a: 1.23}, {a: 4.56}, {a: 7.89}, {a: 10.12}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TruncT.txt#L20",
+        "expected_powerfx": "Table({Value:1},{Value:4},{Value:7},{Value:10})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 4.0
+        },
+        {
+          "Value": 7.0
+        },
+        {
+          "Value": 10.0
+        }
+      ]
+    },
+    {
+      "id": "math-trunct-41",
+      "expression": "Trunc( If(1<0,[1]) )",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TruncT.txt#L41",
+        "expected_powerfx": "Blank()"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": null
+    },
+    {
+      "id": "math-trunct-64",
+      "expression": "Trunc(If(1<0,[\"12.34\", \"56.78\"]))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TruncT.txt#L64",
+        "expected_powerfx": "Blank()"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": null
+    },
+    {
+      "id": "math-trigfunctions-1",
+      "expression": "Sin(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L1",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-4",
+      "expression": "Sin(Pi())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L4",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-7",
+      "expression": "Sin(Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L7",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-trigfunctions-10",
+      "expression": "Sin(-Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L10",
+        "expected_powerfx": "-1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -1.0
+    },
+    {
+      "id": "math-trigfunctions-13",
+      "expression": "Sin(3*Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L13",
+        "expected_powerfx": "-1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -1.0
+    },
+    {
+      "id": "math-trigfunctions-16",
+      "expression": "Sin(2*Pi())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L16",
+        "expected_powerfx": "-0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.0
+    },
+    {
+      "id": "math-trigfunctions-19",
+      "expression": "Sin(Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L19",
+        "expected_powerfx": "0.707106781"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.707106781
+    },
+    {
+      "id": "math-trigfunctions-22",
+      "expression": "Sin(-Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L22",
+        "expected_powerfx": "-0.707106781"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.707106781
+    },
+    {
+      "id": "math-trigfunctions-25",
+      "expression": "Sin(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L25",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-28",
+      "expression": "Cos(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L28",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-trigfunctions-31",
+      "expression": "Cos(Pi())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L31",
+        "expected_powerfx": "-1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -1.0
+    },
+    {
+      "id": "math-trigfunctions-34",
+      "expression": "Cos(Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L34",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-37",
+      "expression": "Cos(-Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L37",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-40",
+      "expression": "Cos(3*Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L40",
+        "expected_powerfx": "-0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.0
+    },
+    {
+      "id": "math-trigfunctions-43",
+      "expression": "Cos(2*Pi())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L43",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-trigfunctions-46",
+      "expression": "Cos(Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L46",
+        "expected_powerfx": "0.707106781"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.707106781
+    },
+    {
+      "id": "math-trigfunctions-49",
+      "expression": "Cos(-Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L49",
+        "expected_powerfx": "0.707106781"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.707106781
+    },
+    {
+      "id": "math-trigfunctions-52",
+      "expression": "Cos(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L52",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-trigfunctions-55",
+      "expression": "Tan(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L55",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-58",
+      "expression": "Tan(Pi())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L58",
+        "expected_powerfx": "-0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.0
+    },
+    {
+      "id": "math-trigfunctions-61",
+      "expression": "1 / Tan(Pi()/2) // not quite infinity, but a very large number",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L61",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-64",
+      "expression": "1 / Tan(-Pi()/2) // not quite infinity, but a very large number",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L64",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-67",
+      "expression": "1 / Tan(3*Pi()/2) // not quite infinity, but a very large number",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L67",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-70",
+      "expression": "Tan(2*Pi())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L70",
+        "expected_powerfx": "-0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.0
+    },
+    {
+      "id": "math-trigfunctions-73",
+      "expression": "Tan(Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L73",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-trigfunctions-76",
+      "expression": "Tan(-Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L76",
+        "expected_powerfx": "-1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -1.0
+    },
+    {
+      "id": "math-trigfunctions-79",
+      "expression": "Tan(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L79",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-82",
+      "expression": "Cot(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L82",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-trigfunctions-85",
+      "expression": "1 / Cot(Pi()) // not quite infinity, but a very large number",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L85",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-88",
+      "expression": "Cot(Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L88",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-91",
+      "expression": "Cot(-Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L91",
+        "expected_powerfx": "-0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.0
+    },
+    {
+      "id": "math-trigfunctions-94",
+      "expression": "Cot(3*Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L94",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-97",
+      "expression": "1 / Cot(2*Pi()) // not quite infinity, but a very large number",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L97",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-100",
+      "expression": "Cot(Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L100",
+        "expected_powerfx": "1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.0
+    },
+    {
+      "id": "math-trigfunctions-103",
+      "expression": "Cot(-Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L103",
+        "expected_powerfx": "-1"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -1.0
+    },
+    {
+      "id": "math-trigfunctions-106",
+      "expression": "Cot(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L106",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-trigfunctions-109",
+      "expression": "Asin(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L109",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-112",
+      "expression": "Asin(1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L112",
+        "expected_powerfx": "1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.570796327
+    },
+    {
+      "id": "math-trigfunctions-115",
+      "expression": "Asin(-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L115",
+        "expected_powerfx": "-1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -1.570796327
+    },
+    {
+      "id": "math-trigfunctions-118",
+      "expression": "Asin(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L118",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-121",
+      "expression": "Acos(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L121",
+        "expected_powerfx": "1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.570796327
+    },
+    {
+      "id": "math-trigfunctions-124",
+      "expression": "Acos(1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L124",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-127",
+      "expression": "Acos(-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L127",
+        "expected_powerfx": "3.141592654"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 3.141592654
+    },
+    {
+      "id": "math-trigfunctions-130",
+      "expression": "Acos(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L130",
+        "expected_powerfx": "1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.570796327
+    },
+    {
+      "id": "math-trigfunctions-133",
+      "expression": "Atan(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L133",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-136",
+      "expression": "Atan(1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L136",
+        "expected_powerfx": "0.785398163"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.785398163
+    },
+    {
+      "id": "math-trigfunctions-139",
+      "expression": "Atan(-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L139",
+        "expected_powerfx": "-0.785398163"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.785398163
+    },
+    {
+      "id": "math-trigfunctions-142",
+      "expression": "Atan(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L142",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-145",
+      "expression": "Acot(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L145",
+        "expected_powerfx": "1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.570796327
+    },
+    {
+      "id": "math-trigfunctions-148",
+      "expression": "Acot(1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L148",
+        "expected_powerfx": "0.785398163"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.785398163
+    },
+    {
+      "id": "math-trigfunctions-151",
+      "expression": "Acot(-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L151",
+        "expected_powerfx": "2.35619449"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.35619449
+    },
+    {
+      "id": "math-trigfunctions-154",
+      "expression": "Acot(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L154",
+        "expected_powerfx": "1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.570796327
+    },
+    {
+      "id": "math-trigfunctions-157",
+      "expression": "Atan2(0, 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L157",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-trigfunctions-160",
+      "expression": "Atan2(0, 1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L160",
+        "expected_powerfx": "1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.570796327
+    },
+    {
+      "id": "math-trigfunctions-163",
+      "expression": "Atan2(1, 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L163",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-166",
+      "expression": "Atan2(1, 1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L166",
+        "expected_powerfx": "0.785398163"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.785398163
+    },
+    {
+      "id": "math-trigfunctions-169",
+      "expression": "Atan2(-234, 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L169",
+        "expected_powerfx": "3.141592654"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 3.141592654
+    },
+    {
+      "id": "math-trigfunctions-172",
+      "expression": "Atan2(0, -0.01)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L172",
+        "expected_powerfx": "-1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -1.570796327
+    },
+    {
+      "id": "math-trigfunctions-175",
+      "expression": "Atan2(2, 5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L175",
+        "expected_powerfx": "1.19028995"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.19028995
+    },
+    {
+      "id": "math-trigfunctions-178",
+      "expression": "Atan2(1, Blank()) // Blanks are coerced to zero",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L178",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-181",
+      "expression": "Atan2(-2, Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L181",
+        "expected_powerfx": "3.141592654"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 3.141592654
+    },
+    {
+      "id": "math-trigfunctions-184",
+      "expression": "Atan2(Blank(), Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L184",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-trigfunctions-187",
+      "expression": "Atan2(Sqrt(-1), 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L187",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-trigfunctions-190",
+      "expression": "Degrees(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L190",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-193",
+      "expression": "Degrees(Pi())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L193",
+        "expected_powerfx": "180"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 180.0
+    },
+    {
+      "id": "math-trigfunctions-196",
+      "expression": "Degrees(Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L196",
+        "expected_powerfx": "90"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 90.0
+    },
+    {
+      "id": "math-trigfunctions-199",
+      "expression": "Degrees(-Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L199",
+        "expected_powerfx": "-90"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -90.0
+    },
+    {
+      "id": "math-trigfunctions-202",
+      "expression": "Degrees(3*Pi()/2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L202",
+        "expected_powerfx": "270"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 270.0
+    },
+    {
+      "id": "math-trigfunctions-205",
+      "expression": "Degrees(2*Pi())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L205",
+        "expected_powerfx": "360"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 360.0
+    },
+    {
+      "id": "math-trigfunctions-208",
+      "expression": "Degrees(Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L208",
+        "expected_powerfx": "45"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 45.0
+    },
+    {
+      "id": "math-trigfunctions-211",
+      "expression": "Degrees(-Pi()/4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L211",
+        "expected_powerfx": "-45"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -45.0
+    },
+    {
+      "id": "math-trigfunctions-214",
+      "expression": "Degrees(Pi()*10)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L214",
+        "expected_powerfx": "1800"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1800.0
+    },
+    {
+      "id": "math-trigfunctions-217",
+      "expression": "Degrees(1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L217",
+        "expected_powerfx": "57.295779513"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 57.295779513
+    },
+    {
+      "id": "math-trigfunctions-220",
+      "expression": "Degrees(-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L220",
+        "expected_powerfx": "-57.295779513"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -57.295779513
+    },
+    {
+      "id": "math-trigfunctions-223",
+      "expression": "Degrees(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L223",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-226",
+      "expression": "Radians(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L226",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigfunctions-229",
+      "expression": "Radians(1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L229",
+        "expected_powerfx": "0.017453293"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.017453293
+    },
+    {
+      "id": "math-trigfunctions-232",
+      "expression": "Radians(-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L232",
+        "expected_powerfx": "-0.017453293"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -0.017453293
+    },
+    {
+      "id": "math-trigfunctions-235",
+      "expression": "Radians(180)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L235",
+        "expected_powerfx": "3.141592654"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 3.141592654
+    },
+    {
+      "id": "math-trigfunctions-238",
+      "expression": "Radians(90)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L238",
+        "expected_powerfx": "1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 1.570796327
+    },
+    {
+      "id": "math-trigfunctions-241",
+      "expression": "Radians(-180)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L241",
+        "expected_powerfx": "-3.141592654"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -3.141592654
+    },
+    {
+      "id": "math-trigfunctions-244",
+      "expression": "Radians(-90)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L244",
+        "expected_powerfx": "-1.570796327"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -1.570796327
+    },
+    {
+      "id": "math-trigfunctions-247",
+      "expression": "Radians(-360)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L247",
+        "expected_powerfx": "-6.283185307"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": -6.283185307
+    },
+    {
+      "id": "math-trigfunctions-250",
+      "expression": "Radians(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigFunctions.txt#L250",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "math-trigtablefunctions-4",
+      "expression": "Round(Sin(Table({a:0},{a:Pi()/6},{a:Pi()/2})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L4",
+        "expected_powerfx": "Table({Value:0},{Value:0.5},{Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.5
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-7",
+      "expression": "Round(Sin([0, Pi()/6, Pi()/2]),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L7",
+        "expected_powerfx": "Table({Value:0},{Value:0.5},{Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.5
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-10",
+      "expression": "Round(Sin(Table({a:0},{a:1/0},{a:Pi()/2})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L10",
+        "expected_powerfx": "Table({Value:0},{Value:Error({Kind:ErrorKind.Div0})},{Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-13",
+      "expression": "Round(Sin(Table({a:0},{a:Pi()/6},If(1/0<2,{a:Pi()}))),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L13",
+        "expected_powerfx": "Table({Value:0},{Value:0.5},Error({Kind:ErrorKind.Div0}))"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.5
+        },
+        {
+          "$error": {
+            "Kind": 13
+          }
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-16",
+      "expression": "Round(Sin([0, Pi(), Pi()/2, -Pi()/2, 3*Pi()/2, 2*Pi(), Pi()/4, -Pi()/4, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L16",
+        "expected_powerfx": "Table({Value:0},{Value:0},{Value:1},{Value:-1},{Value:-1},{Value:0},{Value:0.7071},{Value:-0.7071},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": -1.0
+        },
+        {
+          "Value": -1.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.7071
+        },
+        {
+          "Value": -0.7071
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-19",
+      "expression": "Round(Cos(Table({a:0},{a:Pi()/3},{a:Pi()/2})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L19",
+        "expected_powerfx": "Table({Value:1},{Value:0.5},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 0.5
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-22",
+      "expression": "Round(Cos(Table({a:1/0},{a:Pi()/3},{a:Pi()/2})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L22",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:0.5},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": 0.5
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-25",
+      "expression": "Round(Cos(Table({a:0},If(1/0<2,{a:Pi()/3}),{a:Pi()/2})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L25",
+        "expected_powerfx": "Table({Value:1},Error({Kind:ErrorKind.Div0}),{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-28",
+      "expression": "Round(Cos([0, Pi(), Pi()/2, -Pi()/2, 3*Pi()/2, 2*Pi(), Pi()/4, -Pi()/4, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L28",
+        "expected_powerfx": "Table({Value:1},{Value:-1},{Value:0},{Value:0},{Value:0},{Value:1},{Value:0.7071},{Value:0.7071},{Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": -1.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 0.7071
+        },
+        {
+          "Value": 0.7071
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-31",
+      "expression": "Round(Tan(Table({a:0},{a:Pi()/4},{a:-Pi()/4})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L31",
+        "expected_powerfx": "Table({Value:0},{Value:1},{Value:-1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": -1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-34",
+      "expression": "Round(Tan(Table({a:1/0},{a:Pi()/4},{a:-Pi()/4})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L34",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:1},{Value:-1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": -1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-37",
+      "expression": "Round(Tan(Table(If(1/0<2,{a:0}),{a:Pi()/4},{a:-Pi()/4})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L37",
+        "expected_powerfx": "Table(Error({Kind:ErrorKind.Div0}),{Value:1},{Value:-1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": -1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-40",
+      "expression": "Round(Tan([0, Pi(), 2*Pi(), Pi()/4, -Pi()/4, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L40",
+        "expected_powerfx": "Table({Value:0},{Value:0},{Value:0},{Value:1},{Value:-1},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": -1.0
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-43",
+      "expression": "Round(Cot(Table({a:Pi()/2},{a:Pi()/4},{a:-Pi()/4})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L43",
+        "expected_powerfx": "Table({Value:0},{Value:1},{Value:-1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": -1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-46",
+      "expression": "Round(Cot(Table({a:Pi()/2},{a:0},{a:-Pi()/4})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L46",
+        "expected_powerfx": "Table({Value:0},{Value:Error({Kind:ErrorKind.Div0})},{Value:-1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": -1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-49",
+      "expression": "Round(Cot(Table({a:Pi()/2},If(Sqrt(-1)<1,{a:Pi()/4}),{a:-Pi()/4})),3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L49",
+        "expected_powerfx": "Table({Value:0},Error({Kind:ErrorKind.Numeric}),{Value:-1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "$error": {
+            "Kind": 24
+          }
+        },
+        {
+          "Value": -1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-52",
+      "expression": "Round(Cot([Pi()/2, -Pi()/2, 3*Pi()/2, Pi()/4, -Pi()/4]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L52",
+        "expected_powerfx": "Table({Value:0},{Value:0},{Value:0},{Value:1},{Value:-1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": -1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-55",
+      "expression": "Round(Asin([0, 1, -1, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L55",
+        "expected_powerfx": "Table({Value:0},{Value:1.5708},{Value:-1.5708},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.5708
+        },
+        {
+          "Value": -1.5708
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-58",
+      "expression": "Round(Acos([0, 1, -1, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L58",
+        "expected_powerfx": "Table({Value:1.5708},{Value:0},{Value:3.1416},{Value:1.5708})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.5708
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 3.1416
+        },
+        {
+          "Value": 1.5708
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-61",
+      "expression": "Round(Atan([0, 1e28, -1e28, 1, -1, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L61",
+        "expected_powerfx": "Table({Value:0},{Value:1.5708},{Value:-1.5708},{Value:0.7854},{Value:-0.7854},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 1.5708
+        },
+        {
+          "Value": -1.5708
+        },
+        {
+          "Value": 0.7854
+        },
+        {
+          "Value": -0.7854
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-64",
+      "expression": "Round(Acot([0, 1e28, -1e28, 1, -1, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L64",
+        "expected_powerfx": "Table({Value:1.5708},{Value:0},{Value:3.1416},{Value:0.7854},{Value:2.3562},{Value:1.5708})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.5708
+        },
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 3.1416
+        },
+        {
+          "Value": 0.7854
+        },
+        {
+          "Value": 2.3562
+        },
+        {
+          "Value": 1.5708
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-67",
+      "expression": "Round(Degrees([0, Pi(), Pi()/2, -Pi()/2, 3*Pi()/2, 2*Pi(), Pi()/4, -Pi()/4, Pi()*10, 1, -1, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L67",
+        "expected_powerfx": "Table({Value:0},{Value:180},{Value:90},{Value:-90},{Value:270},{Value:360},{Value:45},{Value:-45},{Value:1800},{Value:57.2958},{Value:-57.2958},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 180.0
+        },
+        {
+          "Value": 90.0
+        },
+        {
+          "Value": -90.0
+        },
+        {
+          "Value": 270.0
+        },
+        {
+          "Value": 360.0
+        },
+        {
+          "Value": 45.0
+        },
+        {
+          "Value": -45.0
+        },
+        {
+          "Value": 1800.0
+        },
+        {
+          "Value": 57.2958
+        },
+        {
+          "Value": -57.2958
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-70",
+      "expression": "Round(Radians([0, 1, -1, 180, 90, -180, -90, -360, Blank()]), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L70",
+        "expected_powerfx": "Table({Value:0},{Value:0.0175},{Value:-0.0175},{Value:3.1416},{Value:1.5708},{Value:-3.1416},{Value:-1.5708},{Value:-6.2832},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0175
+        },
+        {
+          "Value": -0.0175
+        },
+        {
+          "Value": 3.1416
+        },
+        {
+          "Value": 1.5708
+        },
+        {
+          "Value": -3.1416
+        },
+        {
+          "Value": -1.5708
+        },
+        {
+          "Value": -6.2832
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-73",
+      "expression": "Round(Degrees(Table({a:0}, {a:Pi()}, {a:Pi()/2}, {a:-Pi()/2}, {a:3*Pi()/2}, {a:2*Pi()}, {a:Pi()/4}, {a:-Pi()/4}, {a:Pi()*10}, {a:1}, {a:-1}, {a:Blank()})), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L73",
+        "expected_powerfx": "Table({Value:0},{Value:180},{Value:90},{Value:-90},{Value:270},{Value:360},{Value:45},{Value:-45},{Value:1800},{Value:57.2958},{Value:-57.2958},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 180.0
+        },
+        {
+          "Value": 90.0
+        },
+        {
+          "Value": -90.0
+        },
+        {
+          "Value": 270.0
+        },
+        {
+          "Value": 360.0
+        },
+        {
+          "Value": 45.0
+        },
+        {
+          "Value": -45.0
+        },
+        {
+          "Value": 1800.0
+        },
+        {
+          "Value": 57.2958
+        },
+        {
+          "Value": -57.2958
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-76",
+      "expression": "Round(Radians(Table({a:0}, {a:1}, {a:-1}, {a:180}, {a:90}, {a:-180}, {a:-90}, {a:-360}, {a:Blank()})), 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L76",
+        "expected_powerfx": "Table({Value:0},{Value:0.0175},{Value:-0.0175},{Value:3.1416},{Value:1.5708},{Value:-3.1416},{Value:-1.5708},{Value:-6.2832},{Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        },
+        {
+          "Value": 0.0175
+        },
+        {
+          "Value": -0.0175
+        },
+        {
+          "Value": 3.1416
+        },
+        {
+          "Value": 1.5708
+        },
+        {
+          "Value": -3.1416
+        },
+        {
+          "Value": -1.5708
+        },
+        {
+          "Value": -6.2832
+        },
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-80",
+      "expression": "Sin([\"0\"])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L80",
+        "expected_powerfx": "Table({Value:0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 0.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-83",
+      "expression": "If(1<0,Sin([\"0\"]))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L83",
+        "expected_powerfx": "Blank()"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": null
+    },
+    {
+      "id": "math-trigtablefunctions-86",
+      "expression": "Sin(If(Sqrt(-1)<0,[\"0\"]))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L86",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "math-trigtablefunctions-89",
+      "expression": "Cos([\"0\"])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L89",
+        "expected_powerfx": "Table({Value:1})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": [
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "math-trigtablefunctions-92",
+      "expression": "If(1<0,Cos([\"0\"]))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L92",
+        "expected_powerfx": "Blank()"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": null
+    },
+    {
+      "id": "math-trigtablefunctions-95",
+      "expression": "Cos(If(Sqrt(-1)<0,[\"0\"]))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrigTableFunctions.txt#L95",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    }
+  ]
+}

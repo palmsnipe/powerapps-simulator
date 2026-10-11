@@ -1,0 +1,242 @@
+App:
+  Properties:
+    StartScreen: =ButtonsLab
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+    OnStart: =Set(rotation,0);Set(filled,false);Set(after,false);Set(leftResult,0);Set(rightResult,0);Set(styledClicks,0);Set(editable,true);Clear(trace);Clear(failures);Reset(LeftPanel);Reset(RightPanel)
+    OnError: =Collect(failures,{Kind:FirstError.Kind,Source:FirstError.Source,Message:FirstError.Message})
+ComponentDefinitions:
+  ButtonPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Counter"
+      Filled:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Rotation:
+        PropertyKind: Input
+        DataType: Number
+        Default: =0
+      After:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Count:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(clicks,0)
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Add:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+        Default: =Set(clicks,ButtonPanel.Count+amount);Collect(history,{Count:clicks});ButtonPanel.Changed(clicks)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - count:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =280
+      Height: =150
+      OnReset: =Set(clicks,0);Clear(history)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =ButtonPanel.Caption & " · " & ButtonPanel.Count
+            Width: =Parent.Width
+            Height: =40
+      - Increase:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =ButtonPanel.Caption
+            X: =8
+            Y: =48
+            Width: =180
+            Height: =40
+            Icon: ="Add"
+            IconStyle: =If(ButtonPanel.Filled,IconStyle.Filled,IconStyle.Outline)
+            IconRotation: =ButtonPanel.Rotation
+            Layout: =If(ButtonPanel.After,ButtonLayout.IconAfter,ButtonLayout.IconBefore)
+            OnSelect: =ButtonPanel.Add()
+      - ResetCounter:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset"
+            X: =8
+            Y: =98
+            Width: =180
+            Height: =40
+            Appearance: =ButtonAppearance.Secondary
+            Icon: ="ArrowCounterclockwise"
+            OnSelect: =Reset(ButtonPanel)
+Screens:
+  ButtonsLab:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =16
+            Width: =850
+            Height: =44
+            Text: =T("Modern buttons · layouts, glyphs and events","Boutons modernes · dispositions, icônes et événements")
+            Size: =24
+      - Rotate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Rotate icons","Tourner les icônes")
+            X: =24
+            Y: =72
+            Width: =180
+            Height: =40
+            Icon: ="ArrowClockwise"
+            IconStyle: =IconStyle.Filled
+            OnSelect: =Set(rotation,rotation+45)
+      - ToggleStyle:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Filled / outline","Plein / contour")
+            X: =216
+            Y: =72
+            Width: =180
+            Height: =40
+            Icon: ="Checkmark"
+            OnSelect: =Set(filled,!filled)
+      - ToggleLayout:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Before / after","Avant / après")
+            X: =408
+            Y: =72
+            Width: =180
+            Height: =40
+            Icon: ="ArrowSwap"
+            OnSelect: =Set(after,!after)
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =136
+            Width: =280
+            Height: =150
+            Caption: =T("Left","Gauche")
+            Filled: =filled
+            Rotation: =rotation
+            After: =after
+            Changed: =Set(leftResult,count);Collect(trace,{Panel:"Left",Count:count})
+          ComponentName: ButtonPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =340
+            Y: =136
+            Width: =280
+            Height: =150
+            Caption: =T("Right","Droite")
+            Changed: =Set(rightResult,count);Collect(trace,{Panel:"Right",Count:count})
+          ComponentName: ButtonPanel
+      - IconOnly:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase left"
+            X: =24
+            Y: =304
+            Width: =180
+            Height: =40
+            Icon: ="Add"
+            IconStyle: =IconStyle.Filled
+            IconRotation: =rotation
+            Layout: =ButtonLayout.IconOnly
+            AccessibleLabel: =T("Increase left with icon","Augmenter gauche avec icône")
+            OnSelect: =LeftPanel.Add(2)
+      - TextOnly:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Text only","Texte seul")
+            X: =216
+            Y: =304
+            Width: =180
+            Height: =40
+            Icon: ="Add"
+            Layout: =ButtonLayout.TextOnly
+            OnSelect: =RightPanel.Add(2)
+      - Styled:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Custom style","Style personnalisé")
+            X: =408
+            Y: =304
+            Width: =180
+            Height: =40
+            Appearance: =ButtonAppearance.Outline
+            Icon: ="PaintBrush"
+            Color: =Color.DarkGreen
+            Align: =Align.Right
+            VerticalAlign: =VerticalAlign.Bottom
+            PaddingRight: =12
+            PaddingBottom: =8
+            BorderColor: =Color.DarkGreen
+            BorderStyle: =BorderStyle.Dashed
+            BorderThickness: =3
+            RadiusTopLeft: =0
+            RadiusTopRight: =12
+            RadiusBottomLeft: =18
+            RadiusBottomRight: =4
+            FontWeight: =FontWeight.Bold
+            Italic: =true
+            Underline: =true
+            OnSelect: =Set(styledClicks,styledClicks+1)
+      - Gated:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Guarded action","Action protégée")
+            X: =24
+            Y: =368
+            Width: =180
+            Height: =40
+            Icon: ="LockClosed"
+            DisplayMode: =If(editable,DisplayMode.Edit,DisplayMode.Disabled)
+            OnSelect: =LeftPanel.Add(10)
+      - ToggleGate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Enable / disable","Activer / désactiver")
+            X: =216
+            Y: =368
+            Width: =180
+            Height: =40
+            Appearance: =ButtonAppearance.Secondary
+            OnSelect: =Set(editable,!editable)
+      - SaveSnapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save snapshot","Enregistrer")
+            X: =408
+            Y: =368
+            Width: =180
+            Height: =40
+            Icon: ="Save"
+            IconStyle: =IconStyle.Filled
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:T("Fictional button snapshot","Capture fictive"),Clicks:LeftPanel.Count,'Icon rotation':rotation,Style:If(filled,"Filled","Outline")})
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =428
+            Width: =850
+            Height: =64
+            Text: =T("Left","Gauche") & " " & leftResult & " · " & T("Right","Droite") & " " & rightResult & " · " & rotation & "° · " & CountRows(Snapshots)

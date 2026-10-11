@@ -1,0 +1,27 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "Left": {
+        "type": "number"
+      },
+      "Right": {
+        "type": "number"
+      },
+      "Selected": {
+        "type": "string"
+      }
+    },
+    "mapping": {},
+    "required": [
+      "Title"
+    ],
+    "records": []
+  }
+}

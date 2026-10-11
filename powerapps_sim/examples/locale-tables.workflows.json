@@ -1,0 +1,124 @@
+{
+  "locale-tables.workflow.json": {
+    "format_version": 1,
+    "name": "Calendar selectors \u00b7 localized tables and isolated callbacks",
+    "records": {
+      "Calendars": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(Left.Months)=12 && CountRows(Right.Days)=7 && Left.Is24=Clock.IsClock24()",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.ChosenMonth=First(Calendar.MonthsLong()).Value && Right.ChosenMonth=Index(Calendar.MonthsLong(),4).Value",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.ChosenDay=First(Calendar.WeekdaysLong()).Value && CountRows(history)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/Month",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Left.ChosenMonth=Index(Calendar.MonthsLong(),2).Value && Right.ChosenMonth=Index(Calendar.MonthsLong(),4).Value",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=1 && First(history).Panel=\"Left\" && First(history).Language=Language()",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/Day",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Left.ChosenDay=Index(Calendar.WeekdaysLong(),2).Value && Right.ChosenDay=First(Calendar.WeekdaysLong()).Value",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=2 && Last(history).Day=Left.ChosenDay",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Calendars)=1 && First(Calendars).Month=Left.ChosenMonth && First(Calendars).Is24=Clock.IsClock24()",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/ResetButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.ChosenMonth=First(Calendar.MonthsLong()).Value && Left.ChosenDay=First(Calendar.WeekdaysLong()).Value && CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Right/Month",
+        "event": "OnChange",
+        "selection": [
+          11
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Right.ChosenMonth=Last(Calendar.MonthsLong()).Value && Left.ChosenMonth=First(Calendar.MonthsLong()).Value",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=3 && Last(history).Panel=\"Right\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Right/ResetButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.ChosenMonth=Index(Calendar.MonthsLong(),4).Value && CountRows(history)=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(monthSnapshot)=12 && CountRows(MonthOptions)=12",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Clock.AmPm())=If(Clock.IsClock24(),0,2) && CountRows(Clock.AmPmShort())=CountRows(Clock.AmPm())",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

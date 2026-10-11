@@ -1,0 +1,2555 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Complete six active Weekday/WeekNum expression files. Literal numeric and error oracles decoded independently. Numeric dates use the pinned engine serial-day profile; explicit strong enum variants remain separate from legacy numeric-code variants. ISOWeekNum is tested separately against Microsoft Learn examples because its interpreter cases are NotYetReady in this revision.",
+  "cases": [
+    {
+      "id": "calendar-Weekday-5",
+      "expression": "Weekday(Date(2016, 1, 3))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L5",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday-9",
+      "expression": "Weekday(Date(2016, 1, 4))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L9",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-Weekday-13",
+      "expression": "Weekday(Date(2016, 1, 5))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L13",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "calendar-Weekday-17",
+      "expression": "Weekday(Date(2016, 1, 6))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L17",
+        "expected_powerfx": "4"
+      },
+      "expected": 4
+    },
+    {
+      "id": "calendar-Weekday-21",
+      "expression": "Weekday(Date(2016, 1, 7))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L21",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "calendar-Weekday-25",
+      "expression": "Weekday(Date(2016, 1, 8))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L25",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "calendar-Weekday-29",
+      "expression": "Weekday(Date(2016, 1, 9))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L29",
+        "expected_powerfx": "7"
+      },
+      "expected": 7
+    },
+    {
+      "id": "calendar-Weekday-33",
+      "expression": "Weekday(DateTimeValue(\"1/1/2022 12:00:00 AM\"))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L33",
+        "expected_powerfx": "7"
+      },
+      "expected": 7
+    },
+    {
+      "id": "calendar-Weekday-37",
+      "expression": "Weekday(DateValue(\"1/2/2022\"))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L37",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday-41",
+      "expression": "Weekday(Date(2022,1,3))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L41",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-Weekday-45",
+      "expression": "Weekday(Date(2016, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L45",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-Weekday-51",
+      "expression": "Weekday(Date(2016, 1, 3),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L51",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday-55",
+      "expression": "Weekday(Date(2016, 1, 3),StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L55",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday-59",
+      "expression": "Weekday(Date(2016, 1, 3),StartOfWeek.Monday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L59",
+        "expected_powerfx": "7"
+      },
+      "expected": 7
+    },
+    {
+      "id": "calendar-Weekday-63",
+      "expression": "Weekday(Date(2016, 1, 3),StartOfWeek.MondayZero)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L63",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "calendar-Weekday-67",
+      "expression": "Weekday(Date(2016, 1, 4),StartOfWeek.MondayZero)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L67",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "calendar-Weekday-71",
+      "expression": "Weekday(Date(2016, 1, 3),StartOfWeek.Tuesday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L71",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "calendar-Weekday-75",
+      "expression": "Weekday(Date(2016, 1, 3),StartOfWeek.Wednesday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L75",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "calendar-Weekday-79",
+      "expression": "Weekday(Date(2016, 1, 3),StartOfWeek.Thursday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L79",
+        "expected_powerfx": "4"
+      },
+      "expected": 4
+    },
+    {
+      "id": "calendar-Weekday-83",
+      "expression": "Weekday(Date(2016, 1, 3),StartOfWeek.Friday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L83",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "calendar-Weekday-87",
+      "expression": "Weekday(Date(2016, 1, 3),StartOfWeek.Saturday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L87",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-Weekday-93",
+      "expression": "Weekday(1,StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L93",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday-97",
+      "expression": "Weekday(5,StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L97",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "calendar-Weekday-101",
+      "expression": "Weekday(100,StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L101",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-Weekday-105",
+      "expression": "Weekday(-1,StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L105",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "calendar-Weekday-109",
+      "expression": "Weekday(1.5,StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L109",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday-115",
+      "expression": "Weekday(\"ABC\",StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L115",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday-119",
+      "expression": "Weekday(\"2023-01-01\",StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L119",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday-125",
+      "expression": "Weekday(Date(2016, 1, 9),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L125",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday-129",
+      "expression": "Weekday(Date(2022,1,2),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L129",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday-133",
+      "expression": "Weekday(Blank(),StartOfWeek.Saturday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L133",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday-137",
+      "expression": "Weekday(\"\",StartOfWeek.Saturday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L137",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday-141",
+      "expression": "Weekday(Blank(),StartOfWeek.Tuesday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L141",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "calendar-Weekday-145",
+      "expression": "Weekday(\"\",StartOfWeek.Tuesday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L145",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "calendar-Weekday-149",
+      "expression": "Weekday(Blank(),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L149",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday-153",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),If(1/0<2,StartOfWeek.Sunday))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L153",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday-157",
+      "expression": "Weekday(1/0,StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L157",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday-161",
+      "expression": "Weekday(100000000,StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday.txt#L161",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-6",
+      "expression": "Weekday(Date(2016, 1, 3),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L6",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-10",
+      "expression": "Weekday(Date(2016, 1, 3),17)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L10",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-14",
+      "expression": "Weekday(Date(2016, 1, 3),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L14",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-18",
+      "expression": "Weekday(Date(2016, 1, 3),11)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L18",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-22",
+      "expression": "Weekday(Date(2016, 1, 3),3)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L22",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-26",
+      "expression": "Weekday(Date(2016, 1, 4),3)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L26",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-30",
+      "expression": "Weekday(Date(2016, 1, 3),12)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L30",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-34",
+      "expression": "Weekday(Date(2016, 1, 3),12.9)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L34",
+        "expected_powerfx": "Errors: Error 25-29: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-38",
+      "expression": "Weekday(Date(2016, 1, 3),13)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L38",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-42",
+      "expression": "Weekday(Date(2016, 1, 3),14)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L42",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-46",
+      "expression": "Weekday(Date(2016, 1, 3),15)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L46",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-50",
+      "expression": "Weekday(Date(2016, 1, 3),16)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L50",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-55",
+      "expression": "Weekday(Date(2016, 1, 3), ErrorKind.Div0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L55",
+        "expected_powerfx": "Errors: Error 35-40: Invalid argument type (Enum (ErrorKind)). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-61",
+      "expression": "Weekday(Date(2016, 1, 3),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L61",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-65",
+      "expression": "Weekday(Date(2016, 1, 3),5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L65",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-69",
+      "expression": "Weekday(Date(2016, 1, 3),-12)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L69",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-72",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),1E10)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L72",
+        "expected_powerfx": "Errors: Error 30-34: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-78",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),\"12\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L78",
+        "expected_powerfx": "Errors: Error 30-34: Invalid argument type (Text). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-82",
+      "expression": "Weekday(Date(2016, 1, 3),\"abc\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L82",
+        "expected_powerfx": "Errors: Error 25-30: Invalid argument type (Text). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-88",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),true)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L88",
+        "expected_powerfx": "Errors: Error 30-34: Invalid argument type (Boolean). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-92",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),false)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L92",
+        "expected_powerfx": "Errors: Error 30-35: Invalid argument type (Boolean). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-99",
+      "expression": "Weekday(Date(2016, 1, 9),\"\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L99",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Text). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-103",
+      "expression": "Weekday(Date(2022,1,2),\"\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L103",
+        "expected_powerfx": "Errors: Error 23-25: Invalid argument type (Text). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnum-107",
+      "expression": "Weekday(\"\",\"\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnum.txt#L107",
+        "expected_powerfx": "Errors: Error 11-13: Invalid argument type (Text). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-6",
+      "expression": "Weekday(Date(2016, 1, 3),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L6",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-10",
+      "expression": "Weekday(Date(2016, 1, 3),17)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L10",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-14",
+      "expression": "Weekday(Date(2016, 1, 3),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L14",
+        "expected_powerfx": "7"
+      },
+      "expected": 7
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-18",
+      "expression": "Weekday(Date(2016, 1, 3),11)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L18",
+        "expected_powerfx": "7"
+      },
+      "expected": 7
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-22",
+      "expression": "Weekday(Date(2016, 1, 3),3)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L22",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-26",
+      "expression": "Weekday(Date(2016, 1, 4),3)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L26",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-30",
+      "expression": "Weekday(Date(2016, 1, 3),12)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L30",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-34",
+      "expression": "Weekday(Date(2016, 1, 3),12.9)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L34",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-38",
+      "expression": "Weekday(Date(2016, 1, 3),13)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L38",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-42",
+      "expression": "Weekday(Date(2016, 1, 3),14)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L42",
+        "expected_powerfx": "4"
+      },
+      "expected": 4
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-46",
+      "expression": "Weekday(Date(2016, 1, 3),15)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L46",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-50",
+      "expression": "Weekday(Date(2016, 1, 3),16)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L50",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-54",
+      "expression": "Weekday(Date(2016, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L54",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-59",
+      "expression": "Weekday(Date(2016, 1, 3), ErrorKind.Div0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L59",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-65",
+      "expression": "Weekday(Date(2016, 1, 3),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L65",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-69",
+      "expression": "Weekday(Date(2016, 1, 3),5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L69",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-73",
+      "expression": "Weekday(Date(2016, 1, 3),-12)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L73",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-76",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),1E10)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L76",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-82",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),\"12\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L82",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-86",
+      "expression": "Weekday(Date(2016, 1, 3),\"abc\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L86",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-92",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),true)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L92",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-96",
+      "expression": "Weekday(DateValue(\"1/2/2022\"),false)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L96",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-103",
+      "expression": "Weekday(Date(2016, 1, 9),\"\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L103",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-107",
+      "expression": "Weekday(Date(2022,1,2),\"\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L107",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-Weekday_StronglyTypedEnumDisabled-111",
+      "expression": "Weekday(\"\",\"\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Weekday_StronglyTypedEnumDisabled.txt#L111",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-4",
+      "expression": "WeekNum(Blank(),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L4",
+        "expected_powerfx": "52"
+      },
+      "expected": {
+        "$decimal": "52"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-8",
+      "expression": "WeekNum(Blank(),StartOfWeek.Tuesday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L8",
+        "expected_powerfx": "53"
+      },
+      "expected": {
+        "$decimal": "53"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-11",
+      "expression": "WeekNum(Blank(),StartOfWeek.Saturday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L11",
+        "expected_powerfx": "53"
+      },
+      "expected": {
+        "$decimal": "53"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-14",
+      "expression": "WeekNum(Date(1,2,2022),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L14",
+        "expected_powerfx": "33"
+      },
+      "expected": {
+        "$decimal": "33"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-19",
+      "expression": "WeekNum(If(1/0, Date(1900,11,22)),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L19",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-22",
+      "expression": "WeekNum(Date(2020, 12, 4),If(1/0, StartOfWeek.Sunday))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L22",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-27",
+      "expression": "WeekNum(Date(0001,1,1))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L27",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-30",
+      "expression": "WeekNum(Date(9999,12,31))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L30",
+        "expected_powerfx": "53"
+      },
+      "expected": {
+        "$decimal": "53"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-35",
+      "expression": "WeekNum(Date(1900, 11, 22), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L35",
+        "expected_powerfx": "47"
+      },
+      "expected": {
+        "$decimal": "47"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-38",
+      "expression": "WeekNum(Date(1900, 1, 11), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L38",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-41",
+      "expression": "WeekNum(Date(1900, 4, 4), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L41",
+        "expected_powerfx": "14"
+      },
+      "expected": {
+        "$decimal": "14"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-44",
+      "expression": "WeekNum(Date(1900, 10, 16), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L44",
+        "expected_powerfx": "42"
+      },
+      "expected": {
+        "$decimal": "42"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-47",
+      "expression": "WeekNum(Date(1900, 11, 12), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L47",
+        "expected_powerfx": "46"
+      },
+      "expected": {
+        "$decimal": "46"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-50",
+      "expression": "WeekNum(Date(1900, 8, 30), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L50",
+        "expected_powerfx": "35"
+      },
+      "expected": {
+        "$decimal": "35"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-53",
+      "expression": "WeekNum(Date(1900, 10, 2), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L53",
+        "expected_powerfx": "40"
+      },
+      "expected": {
+        "$decimal": "40"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-56",
+      "expression": "WeekNum(Date(1900, 6, 18), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L56",
+        "expected_powerfx": "25"
+      },
+      "expected": {
+        "$decimal": "25"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-59",
+      "expression": "WeekNum(Date(1900, 11, 17), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L59",
+        "expected_powerfx": "46"
+      },
+      "expected": {
+        "$decimal": "46"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-62",
+      "expression": "WeekNum(Date(1900, 11, 8), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L62",
+        "expected_powerfx": "45"
+      },
+      "expected": {
+        "$decimal": "45"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-65",
+      "expression": "WeekNum(Date(1900, 6, 24), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L65",
+        "expected_powerfx": "26"
+      },
+      "expected": {
+        "$decimal": "26"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-68",
+      "expression": "WeekNum(Date(1900, 6, 11), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L68",
+        "expected_powerfx": "24"
+      },
+      "expected": {
+        "$decimal": "24"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-73",
+      "expression": "WeekNum(Date(2020, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L73",
+        "expected_powerfx": "9"
+      },
+      "expected": {
+        "$decimal": "9"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-76",
+      "expression": "WeekNum(Date(2020, 12, 4))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L76",
+        "expected_powerfx": "49"
+      },
+      "expected": {
+        "$decimal": "49"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-79",
+      "expression": "WeekNum(Date(2020, 5, 9))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L79",
+        "expected_powerfx": "19"
+      },
+      "expected": {
+        "$decimal": "19"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-82",
+      "expression": "WeekNum(Date(2020, 12, 8))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L82",
+        "expected_powerfx": "50"
+      },
+      "expected": {
+        "$decimal": "50"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-85",
+      "expression": "WeekNum(Date(2020, 9, 26))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L85",
+        "expected_powerfx": "39"
+      },
+      "expected": {
+        "$decimal": "39"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-88",
+      "expression": "WeekNum(Date(2020, 5, 3))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L88",
+        "expected_powerfx": "19"
+      },
+      "expected": {
+        "$decimal": "19"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-91",
+      "expression": "WeekNum(Date(2020, 6, 28))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L91",
+        "expected_powerfx": "27"
+      },
+      "expected": {
+        "$decimal": "27"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-94",
+      "expression": "WeekNum(Date(2020, 9, 20))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L94",
+        "expected_powerfx": "39"
+      },
+      "expected": {
+        "$decimal": "39"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-97",
+      "expression": "WeekNum(Date(2020, 6, 5))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L97",
+        "expected_powerfx": "23"
+      },
+      "expected": {
+        "$decimal": "23"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-100",
+      "expression": "WeekNum(Date(2020, 2, 9))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L100",
+        "expected_powerfx": "7"
+      },
+      "expected": {
+        "$decimal": "7"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-103",
+      "expression": "WeekNum(Date(2020, 3, 30))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L103",
+        "expected_powerfx": "14"
+      },
+      "expected": {
+        "$decimal": "14"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-106",
+      "expression": "WeekNum(Date(2020, 7, 26))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L106",
+        "expected_powerfx": "31"
+      },
+      "expected": {
+        "$decimal": "31"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-111",
+      "expression": "WeekNum(Date(2024, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L111",
+        "expected_powerfx": "9"
+      },
+      "expected": {
+        "$decimal": "9"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-114",
+      "expression": "WeekNum(Date(2028, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L114",
+        "expected_powerfx": "10"
+      },
+      "expected": {
+        "$decimal": "10"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-117",
+      "expression": "WeekNum(Date(2032, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L117",
+        "expected_powerfx": "10"
+      },
+      "expected": {
+        "$decimal": "10"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-120",
+      "expression": "WeekNum(Date(2036, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L120",
+        "expected_powerfx": "9"
+      },
+      "expected": {
+        "$decimal": "9"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-123",
+      "expression": "WeekNum(Date(2040, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L123",
+        "expected_powerfx": "9"
+      },
+      "expected": {
+        "$decimal": "9"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-126",
+      "expression": "WeekNum(Date(2044, 2, 29))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L126",
+        "expected_powerfx": "10"
+      },
+      "expected": {
+        "$decimal": "10"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-131",
+      "expression": "WeekNum(DateTime(2021,1,7,0,0,0), StartOfWeek.Friday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L131",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-134",
+      "expression": "WeekNum(DateTime(2021,1,7,12,0,0), StartOfWeek.Friday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L134",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-137",
+      "expression": "WeekNum(DateTime(2021,1,7,23,59,59,999), StartOfWeek.Friday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L137",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-141",
+      "expression": "WeekNum(Date(2020, 12, 8), StartOfWeek.Sunday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L141",
+        "expected_powerfx": "50"
+      },
+      "expected": {
+        "$decimal": "50"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-144",
+      "expression": "WeekNum(Date(2020, 9, 26), StartOfWeek.Monday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L144",
+        "expected_powerfx": "39"
+      },
+      "expected": {
+        "$decimal": "39"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-147",
+      "expression": "WeekNum(Date(2020, 6, 28), StartOfWeek.Tuesday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L147",
+        "expected_powerfx": "26"
+      },
+      "expected": {
+        "$decimal": "26"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-150",
+      "expression": "WeekNum(Date(2020, 9, 20), StartOfWeek.Wednesday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L150",
+        "expected_powerfx": "38"
+      },
+      "expected": {
+        "$decimal": "38"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-153",
+      "expression": "WeekNum(Date(2020, 6, 5), StartOfWeek.Thursday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L153",
+        "expected_powerfx": "24"
+      },
+      "expected": {
+        "$decimal": "24"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-156",
+      "expression": "WeekNum(Date(2020, 2, 9), StartOfWeek.Friday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L156",
+        "expected_powerfx": "7"
+      },
+      "expected": {
+        "$decimal": "7"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-159",
+      "expression": "WeekNum(Date(2020, 3, 30), StartOfWeek.Saturday)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L159",
+        "expected_powerfx": "14"
+      },
+      "expected": {
+        "$decimal": "14"
+      }
+    },
+    {
+      "id": "calendar-WeekNum-165",
+      "expression": "WeekNum(Date(2020, 5, 3),StartOfWeek.MondayZero)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum.txt#L165",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumEnabled-4",
+      "expression": "WeekNum(Date(2016, 1, 3),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumEnabled.txt#L4",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumEnabled-7",
+      "expression": "WeekNum(Date(2016, 1, 3),5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumEnabled.txt#L7",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumEnabled-10",
+      "expression": "WeekNum(Date(2016, 1, 3),12.5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumEnabled.txt#L10",
+        "expected_powerfx": "Errors: Error 25-29: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumEnabled-13",
+      "expression": "WeekNum(Date(2016, 1, 3),-12)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumEnabled.txt#L13",
+        "expected_powerfx": "Errors: Error 25-26: Invalid argument type (Decimal). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumEnabled-16",
+      "expression": "WeekNum(Date(2016, 1, 3),\"\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "strong"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumEnabled.txt#L16",
+        "expected_powerfx": "Errors: Error 25-27: Invalid argument type (Text). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-4",
+      "expression": "WeekNum(DateTime(2021,1,7,0,0,0), 1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L4",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-7",
+      "expression": "WeekNum(DateTime(2021,1,7,0,0,0), 2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L7",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-10",
+      "expression": "WeekNum(DateTime(2021,1,7,0,0,0), 12)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L10",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-13",
+      "expression": "WeekNum(DateTime(2021,1,7,0,0,0), 13)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L13",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-16",
+      "expression": "WeekNum(DateTime(2021,1,7,0,0,0), 14)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L16",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-19",
+      "expression": "WeekNum(DateTime(2021,1,7,0,0,0), 15)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L19",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-22",
+      "expression": "WeekNum(DateTime(2021,1,7,0,0,0), 16)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L22",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-26",
+      "expression": "WeekNum(Date(2016, 1, 3), 0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L26",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-29",
+      "expression": "WeekNum(Date(2016, 1, 3), 3)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L29",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-32",
+      "expression": "WeekNum(Date(2016, 1, 3), 5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L32",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-35",
+      "expression": "WeekNum(Date(2016, 1, 3), 12.5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L35",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "calendar-WeekNum_StronglyTypedEnumDisabled-38",
+      "expression": "WeekNum(Date(2016, 1, 3), -12)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/WeekNum_StronglyTypedEnumDisabled.txt#L38",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    }
+  ]
+}

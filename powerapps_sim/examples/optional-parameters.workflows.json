@@ -1,0 +1,106 @@
+{
+  "optional-parameters.workflow.json": {
+    "format_version": 1,
+    "name": "Required schemas, optional defaults and isolated callbacks",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Total=10 && Right.Total=100 && Left.Calculate(7)=8 && Left.Calculate(7,3)=10",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.IsMissing() && Left.IsMissing(Blank()) && !Left.IsMissing(4) && Left.Calculate(Blank())=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Caption(7)=\"Left Total 7\" && Right.Caption(7)=\"Total 7\" && Left.Trouble(7)=7",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Amount",
+        "event": "OnChange",
+        "value": "7"
+      },
+      {
+        "op": "event",
+        "path": "Home/Calculate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "result=8",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total=24 && Right.Total=100 && CountRows(Left.Rows)=1 && First(Left.Rows).Amount=7 && First(history).Tag=\"saved\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/RightAdd",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total=115 && CountRows(Right.Rows)=1 && CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Direct",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=3 && Last(history).Value=42 && Last(history).Tag=\"explicit\" && Left.Total=24",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Catch",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "caught=\"Home/Left.Trouble.x.Default\" && result=8",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total=10 && Right.Total=115 && IsEmpty(Left.Rows) && CountRows(Right.Rows)=1 && CountRows(history)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && First(Snapshots).LeftTotal=10 && First(Snapshots).RightTotal=115 && First(Snapshots).Callbacks=3",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

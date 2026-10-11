@@ -1,0 +1,172 @@
+{
+  "icons.workflow.json": {
+    "format_version": 1,
+    "name": "Fluent icons, independent component state, media contracts and SQLite snapshots",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 100
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/LeftPanel/IncreaseIcon",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 11
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 100
+      },
+      {
+        "op": "assert",
+        "formula": "leftValue",
+        "expect": 11
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/LeftPanel/IncreaseIcon",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/RightPanel/IncreaseIcon",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 12
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "rightValue",
+        "expect": 101
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/Rotate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Rotate.Rotation",
+        "expect": 45
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/ToggleStyle",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Rotate.IconStyle",
+        "expect": "Filled"
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/Disabled",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/ReadOnly",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Ready"
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).LeftCount",
+        "expect": 12
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).RightCount",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).Picture=LeftPanel.CurrentPicture",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "event",
+        "path": "IconsScreen/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.EchoPicture(Blank())",
+        "expect": null
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ],
+    "records": {
+      "Snapshots": []
+    }
+  }
+}

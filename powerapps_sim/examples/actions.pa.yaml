@@ -1,0 +1,171 @@
+App:
+  Properties:
+    Formulas: "=Initialize(): Void = { Set(balance,20); Set(spent,0); Set(lastTotal,0); ClearCollect(events,{Action:\"start\",Amount:0}); Set(saveError,\"\") };\nSpend(amount: Number): Void = { If(amount > balance, Error({Kind:ErrorKind.Validation,Message:\"Insufficient balance\"}), Set(balance,balance-amount); Set(spent,spent+amount); Collect(events,{Action:\"spend\",Amount:amount})) };\nSpendTwice(amount: Number): Void = { Spend(amount); Spend(amount) };\nAdd(amount: Number): Number = { Set(balance,balance+amount); Collect(events,{Action:\"add\",Amount:amount}); balance };\nSaveDraft(title: Text): Record = { Patch(Drafts,Defaults(Drafts),{Title:title,Amount:spent}) };\nRemember(total: Number, panel: Text): Void = { Set(lastTotal,total); Collect(events,{Action:panel,Amount:total}) };\nStatus = \"Balance \" & balance & \" · spent \" & spent & \" · last component \" & lastTotal;\n"
+    StartScreen: =Actions
+    OnStart: =Initialize()
+ComponentDefinitions:
+  Counter:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,Counter.Seed)
+      Add:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: =Set(current,Counter.Total+amount);Counter.Changed(current)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - total:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =320
+      Height: =130
+      Fill: =RGBA(245,245,245,1)
+      OnReset: =Set(current,Counter.Seed)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Component total " & Counter.Total
+            X: =12
+            Y: =12
+            Width: =296
+            Height: =38
+      - Increase:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase component"
+            OnSelect: =Counter.Add(1)
+            X: =12
+            Y: =66
+            Width: =180
+            Height: =34
+Screens:
+  Actions:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Reusable Power Fx actions"
+            X: =24
+            Y: =18
+            Width: =700
+            Height: =40
+            Size: =24
+      - Spend3:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Spend 3"
+            OnSelect: =Spend(3)
+            X: =24
+            Y: =78
+            Width: =180
+            Height: =34
+      - SpendTwo:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Spend 2 twice"
+            OnSelect: =SpendTwice(2)
+            X: =216
+            Y: =78
+            Width: =180
+            Height: =34
+      - Add5:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Add 5"
+            OnSelect: =Set(addedBalance,Add(5))
+            X: =408
+            Y: =78
+            Width: =180
+            Height: =34
+      - TooMuch:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try overspend"
+            OnSelect: =IfError(Spend(100),Set(saveError,FirstError.Message))
+            X: =600
+            Y: =78
+            Width: =180
+            Height: =34
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Status
+            X: =24
+            Y: =126
+            Width: =800
+            Height: =40
+      - SaveError:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =saveError
+            X: =24
+            Y: =174
+            Width: =800
+            Height: =34
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =230
+            Seed: =10
+            Changed: =Remember(total,"left")
+          ComponentName: Counter
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            X: =370
+            Y: =230
+            Seed: =100
+            Changed: =Remember(total,"right")
+          ComponentName: Counter
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save fictional draft"
+            OnSelect: =Set(saveError,"");Set(lastSaved,IfError(SaveDraft("Fictional action draft"),Set(saveError,FirstError.Message);Blank()))
+            X: =24
+            Y: =388
+            Width: =180
+            Height: =34
+      - Saved:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Saved drafts " & CountRows(Drafts) & " · last " & Coalesce(lastSaved.Title,"")
+            X: =216
+            Y: =388
+            Width: =570
+            Height: =40
+      - History:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =events
+            X: =24
+            Y: =454
+            Width: =760
+            Height: =200
+            TemplateSize: =40
+          Children:
+            - Row:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Action & " · " & ThisItem.Amount
+                  X: =8
+                  Y: =0
+                  Width: =720
+                  Height: =36

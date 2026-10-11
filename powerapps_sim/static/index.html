@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power Apps Simulator</title>
+  <link rel="stylesheet" href="/static/editor.css">
+  <link rel="stylesheet" href="/static/dependencies.css">
+  <link rel="stylesheet" href="/static/tablist.css">
+  <link rel="stylesheet" href="/static/status_controls.css">
+  <script src="/static/data_table.js" defer></script>
+  <script src="/static/rating.js" defer></script>
+  <script src="/static/modern_grid.js" defer></script>
+  <script src="/static/listbox.js" defer></script>
+<script src="/static/modern_controls.js?v=canvas-radio-1" defer></script>
+  <script src="/static/text_controls.js" defer></script>
+  <script src="/static/canvas_inputs.js" defer></script>
+  <script src="/static/canvas_scalars.js?v=canvas-scalars-2" defer></script>
+  <script src="/static/canvas_selectors.js" defer></script>
+  <script src="/static/html_controls.js" defer></script>
+  <script src="/static/rich_text.js" defer></script>
+  <script src="/static/timers.js" defer></script>
+  <script src="/static/classic_controls.js" defer></script>
+  <script src="/static/scalar_controls.js?v=canvas-dates-3" defer></script>
+  <script src="/static/focus_controls.js" defer></script>
+  <script src="/static/icons.js" defer></script>
+  <script src="/static/modern_button.js" defer></script>
+  <script src="/static/modern_link.js" defer></script>
+  <script src="/static/classic_button.js" defer></script>
+  <script src="/static/classic_display.js" defer></script>
+  <script src="/static/canvas_text.js" defer></script>
+  <script src="/static/status_controls.js" defer></script>
+  <script src="/static/tablist.js" defer></script>
+  <script src="/static/toolbar.js" defer></script>
+  <script src="/static/gallery.js" defer></script>
+  <script src="/static/media_controls.js" defer></script>
+  <script src="/static/editor.js?v=canvas-scalars-1" defer></script>
+  <script src="/static/inspection.js" defer></script>
+  <script src="/static/dependencies.js" defer></script>
+  <script src="/static/record_fields.js" defer></script>
+  <script src="/static/workspace.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand-mark" aria-hidden="true">◈</div>
+    <div class="brand"><strong>Power Apps Simulator</strong><span id="project-title">Local workspace</span></div>
+    <div class="header-actions">
+      <select id="projects" aria-label="Open project"></select>
+      <button id="import-button">Import app</button><input type="file" id="file-import" accept=".msapp,.yaml,.yml" hidden>
+      <button id="paste-button">Paste YAML</button>
+      <a class="button" href="/api/export">Export source</a>
+    </div>
+  </header>
+  <nav class="workspace-nav" aria-label="Workspace">
+    <div class="tabs"><button data-view="build" class="active">Editor & preview</button><button data-view="data">Local data</button><button data-view="changes">Changes</button><button data-view="workflows">Workflows</button><button data-view="diagnostics">Diagnostics <span id="diagnostic-count" class="count">0</span></button></div>
+    <button id="ai-button">AI tools</button>
+    <button id="scenario-button">Simulation settings</button>
+    <button id="seed-button">Reset mock data</button>
+    <button id="restart-button" class="primary">↻ Restart app</button>
+  </nav>
+  <div id="status" role="status" aria-live="polite">Ready</div>
+  <main>
+    <aside class="sidebar" id="structure-pane">
+      <div class="sidebar-head"><strong>App structure</strong><span id="structure-count"></span><button data-hide-pane="structure" aria-label="Hide structure" title="Hide structure">‹</button></div>
+      <div class="app-properties"><button data-app="Formulas">ƒ App.Formulas</button><button data-app="OnStart">↗ App.OnStart</button><button data-app="OnError">⚠ App.OnError</button><button data-app="StartScreen">▣ App.StartScreen</button></div>
+      <label class="tree-search"><input id="tree-search" placeholder="Find a screen or control" aria-label="Find a screen or control"></label>
+      <div id="tree"></div>
+    </aside>
+    <div class="pane-resizer" data-resize="structure" role="separator" tabindex="0" aria-label="Resize structure" aria-orientation="vertical"></div>
+    <section id="build-view" class="view build-view">
+      <div class="pane-toolbar" role="toolbar" aria-label="Workspace panes">
+        <button data-pane="structure" aria-pressed="true">Structure</button><button data-pane="source" aria-pressed="true">Source</button><button data-pane="preview" aria-pressed="true">Preview</button><button data-pane="inspector" aria-pressed="true">Inspector</button><span class="pane-toolbar-spacer"></span><button id="refresh-runtime">Refresh values</button><label><input id="live-values" type="checkbox" checked> Live</label>
+      </div>
+      <div class="work-area">
+        <section class="source-pane" id="source-pane">
+          <div class="pane-head"><strong>Source</strong><button id="toggle-source" aria-label="Hide source" title="Hide source">‹</button></div>
+          <select id="document-selector" aria-label="Source document"></select>
+          <div class="source-actions"><button id="apply-button" class="primary">Apply source</button><button id="copy-button">Copy</button><span id="source-state">Saved</span></div>
+          <textarea id="source-editor" aria-label="YAML or Power Fx source" spellcheck="false" wrap="off"></textarea>
+          <div class="source-foot"><span id="cursor-position">Line 1</span></div>
+        </section>
+        <div class="pane-resizer" data-resize="source" role="separator" tabindex="0" aria-label="Resize source" aria-orientation="vertical"></div>
+        <section class="preview-pane" id="preview-pane">
+          <div class="pane-head"><div><strong>Interactive preview</strong> <span id="screen-label"></span></div><button id="show-source" hidden>Show source</button><button data-hide-pane="preview" aria-label="Hide preview" title="Hide preview">×</button></div>
+          <div class="preview-toolbar"><button id="play-button">Play from active screen</button><label><input type="checkbox" id="inspect-toggle"> Inspect controls</label><label>W <input id="viewport-width" type="number" min="200" max="4000" aria-label="Preview width"></label><label>H <input id="viewport-height" type="number" min="200" max="4000" aria-label="Preview height"></label><button id="resize-button">Resize</button><span id="timer-controls" class="timer-controls" hidden><output id="timer-clock" aria-label="Simulation elapsed time">0.0 s</output><button id="timer-pause" type="button">Pause time</button><button id="timer-step" type="button">Advance 1s</button></span></div>
+          <div id="inspection-note" class="inspection-note" hidden>Screen inspection: normal app navigation is preserved. <button id="visible-button">Run this screen’s OnVisible</button></div>
+          <div id="preview-scroll"><div id="preview-frame"><div id="canvas" aria-label="App preview"></div></div></div>
+          <div id="notifications" aria-live="polite"></div>
+        </section>
+      </div>
+      <div class="pane-resizer horizontal" data-resize="inspector" role="separator" tabindex="0" aria-label="Resize inspector" aria-orientation="horizontal"></div>
+      <section class="inspector-pane" id="inspector-pane">
+        <div class="inspector-tabs"><button data-inspector="control" class="active">Control</button><button data-inspector="globals">Variables</button><button data-inspector="collections">Collections</button><button data-inspector="components">Components</button><button data-inspector="analysis">Power Fx types</button><button data-inspector="dependencies">Dependencies</button><span id="selection-label"></span><button data-hide-pane="inspector" aria-label="Hide inspector" title="Hide inspector">×</button></div>
+        <div id="inspector"><p class="empty-note">Select a control.</p></div>
+      </section>
+    </section>
+    <section id="data-view" class="view" hidden>
+      <div class="page-heading"><div><h1>Lists</h1></div></div>
+      <div class="data-toolbar"><select id="list-selector" aria-label="SharePoint list"></select><button id="add-list">Add list</button><button id="add-record" class="primary">New record</button><input id="data-search" type="search" placeholder="Search records" aria-label="Search records"><span id="data-count"></span><button id="data-refresh">Refresh</button><button id="data-import">Import JSON / CSV</button><input id="data-file" type="file" accept=".json,.csv" hidden><a id="data-json" class="button">Export JSON</a><a id="data-csv" class="button">Export CSV</a><label>Simulate failure <select id="failure-selector"><option value="">None</option><option value="read">Read</option><option value="write">Write</option><option value="all">All operations</option></select></label></div>
+      <div id="data-table" tabindex="0" aria-label="List records"></div><div id="data-pagination" class="pagination"></div>
+      <section id="list-errors" class="operation-errors" hidden><h2>Operation errors</h2><div id="list-error-table" class="table-scroll" tabindex="0" aria-label="List operation errors"></div></section>
+      <div class="data-editors"><details class="data-editor"><summary>Records JSON</summary><section><div class="pane-head"><strong>Records · JSON</strong><button id="save-records" class="primary">Replace list records</button></div><textarea id="records-editor" spellcheck="false" aria-label="List records JSON"></textarea></section></details><details class="data-editor"><summary>Schema & choices</summary><section><div class="pane-head"><strong>Schema, choices & lookup targets</strong><button id="save-schema">Review schema change</button></div><small id="schema-location"></small><textarea id="schema-editor" spellcheck="false" aria-label="List schema JSON"></textarea><details class="migration-options"><summary>Column migration</summary><p>For removed columns, declare rename_columns or drop_columns explicitly.</p><textarea id="migration-editor" aria-label="Column migration JSON" spellcheck="false">{}</textarea></details></section></details></div>
+    </section>
+    <section id="changes-view" class="view" hidden><div class="page-heading"><div><h1>Changes</h1></div></div><div id="changes-list"></div></section>
+    <section id="workflows-view" class="view" hidden>
+      <div class="page-heading"><div><h1>Workflows</h1></div></div>
+      <div class="data-toolbar"><label>Scenario <select id="workflow-selector" aria-label="Workflow scenario"></select></label><label>Source <select id="workflow-candidate" aria-label="Workflow source"></select></label><button id="run-workflow" class="primary">Run isolated workflow</button><button id="download-workflow-report" disabled>Download report</button></div>
+
+      <div class="workflow-columns"><section><label for="workflow-editor">Scenario · JSON</label><textarea id="workflow-editor" spellcheck="false"></textarea></section><section id="workflow-report" aria-live="polite"><p>Choose a scenario or edit the startup check, then run it.</p></section></div>
+    </section>
+    <section id="diagnostics-view" class="view" hidden>
+      <div class="page-heading"><div><h1>Diagnostics</h1></div></div>
+      <div class="diagnostic-toolbar"><button id="current-diagnostics" class="active">Current findings</button><button id="historical-diagnostics">Power Apps checker <span id="historical-count"></span></button><input id="diagnostic-search" placeholder="Filter findings" aria-label="Filter diagnostics"></div>
+      <div id="diagnostics-list"></div>
+    </section>
+  </main>
+  <dialog id="record-dialog"><form id="record-form"><h2 id="record-title">Edit record</h2><div id="record-fields" class="record-fields"></div><div id="record-error" role="alert" hidden></div><div class="dialog-actions"><button type="button" id="cancel-record">Cancel</button><button type="submit" class="primary" id="save-record">Save record</button></div></form></dialog>
+  <dialog id="change-dialog"><form method="dialog"><h2 id="change-title">Review local change</h2><pre id="change-impact"></pre><pre id="change-diff"></pre><details><summary>Candidate diagnostics</summary><pre id="change-diagnostics"></pre></details><div class="dialog-actions"><button>Close</button><button type="button" id="undo-change">Undo change</button><button type="button" id="apply-change" class="primary">Apply reviewed change</button></div></form></dialog>
+  <dialog id="ai-dialog"><form method="dialog"><h2>Connect an AI client</h2><p>Use this command and argument list in your MCP client's stdio settings. The client must run on this computer. Keep this simulator server running.</p><p id="ai-project"></p><p id="ai-sdk-status"></p><pre id="ai-install"></pre><textarea id="ai-config" aria-label="MCP command and arguments" spellcheck="false" readonly></textarea><p>AI tools can inspect source and local lists, stage coordinated changes, run isolated workflows, and explicitly apply or undo changes. Review staged diffs in Changes. Source edits load after Restart app.</p><p>Connection is bound to this project. Reconnect explicitly after switching projects. This dialog supplies settings; it does not install or connect your AI client.</p><div class="dialog-actions"><button>Close</button><button type="button" id="copy-ai-config" class="primary">Copy MCP settings</button></div></form></dialog>
+  <dialog id="paste-dialog"><form method="dialog"><h2>Paste Power Apps YAML</h2><p>Paste a screen, component definition, or control subtree.</p><textarea id="paste-editor" spellcheck="false" aria-label="Pasted YAML"></textarea><div class="dialog-actions"><button>Cancel</button><button type="button" id="paste-import" class="primary">Create local project</button></div></form></dialog>
+  <dialog id="scenario-dialog"><form method="dialog"><h2>Simulation settings</h2><p>Restart to rerun App.OnStart.</p><label>Simulated user<select id="user-selector"></select></label><label>Number arithmetic<select id="number-mode"><option value="float">Canvas default · Float</option><option value="decimal">Optional Power Fx host · Decimal</option></select></label><p>Decimal mode is for other Power Fx hosts. Canvas compatibility uses Float. Restart after changing arithmetic.</p><label>Numeric date conversions<select id="date-numeric-mode"><option value="canvas-milliseconds">Canvas apps · milliseconds since 1970</option><option value="powerfx-days">Open-source engine · days since 1899-12-30</option></select></label><label>Rounding tables of unequal length<select id="round-table-mode"><option value="canvas-zero">Canvas · missing digits use zero</option><option value="powerfx-errors">Open-source engine · length mismatch errors</option></select></label><label>Built-in enum handling<select id="enum-mode"><option value="legacy">Legacy scalar enums</option><option value="strong">Strong enum identity</option></select></label><label>Regex compatibility<select id="regex-mode"><option value="canvas">Canvas · Complete validation, legacy captures</option><option value="powerfx-legacy">Engine legacy · Contains validation</option><option value="powerfx-v1">Power Fx V1 · Unicode and explicit captures</option></select></label><label>Environment · JSON<textarea id="environment-editor" spellcheck="false" aria-label="Environment JSON"></textarea></label><details><summary>Fictional people directory</summary><textarea id="people-editor" aria-label="People directory JSON"></textarea></details><div class="dialog-actions"><button>Cancel</button><button type="button" id="save-scenario" class="primary">Save settings</button></div></form></dialog>
+</body>
+</html>

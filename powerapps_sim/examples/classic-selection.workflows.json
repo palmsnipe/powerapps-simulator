@@ -1,0 +1,337 @@
+{
+  "classic-selection.workflow.json": {
+    "format_version": 1,
+    "name": "Classic Boolean/radio component state and mapped form failures",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Project Title": "Fictional first draft",
+          "Project Stage": "Draft",
+          "Is Enabled": true
+        },
+        {
+          "ID": 2,
+          "Project Title": "Fictional second draft",
+          "Project Stage": "Review",
+          "Is Enabled": false
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current",
+        "expect": {
+          "Enabled": false,
+          "Stage": "Draft"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current",
+        "expect": {
+          "Enabled": true,
+          "Stage": "Review"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/LeftPanel/Agree",
+        "event": "OnChange",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Enabled",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Enabled",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/RightPanel/Choice",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Stage",
+        "expect": "Done"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Stage",
+        "expect": "Draft"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/Standalone",
+        "event": "OnChange",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "Standalone.Value",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "First(trace).Enabled",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/Standalone",
+        "event": "OnChange",
+        "value": false
+      },
+      {
+        "op": "assert",
+        "formula": "Last(trace).Kind",
+        "expect": "uncheck"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)",
+        "expect": 4
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Standalone.Value",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)",
+        "expect": 4
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/Standalone",
+        "event": "OnChange",
+        "value": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/ResetStandalone",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Standalone.Value",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)",
+        "expect": 6
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/ReadOnly",
+        "event": "OnChange",
+        "value": false,
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "ReadOnly.Value",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/Disabled",
+        "event": "OnChange",
+        "value": true,
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "Disabled.Value",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/DraftForm/EnabledCard/EnabledInput",
+        "event": "OnChange",
+        "value": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/DraftForm/StageCard/StageInput",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Updates.'Is Enabled'",
+        "expect": false
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Is Enabled'",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Is Enabled'",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Project Stage'",
+        "expect": "Review"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/ClearStage",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(StageInput.Selected)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Project Stage'",
+        "expect": "Review"
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/Restore",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "StageInput.Selected.Code",
+        "expect": "Review"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicSelection/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current",
+        "expect": {
+          "Enabled": false,
+          "Stage": "Draft"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Stage",
+        "expect": "Done"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

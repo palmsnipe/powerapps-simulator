@@ -1,0 +1,43 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readOnly": true
+      },
+      "Hex": {
+        "type": "string",
+        "title": "Hex Code",
+        "maxLength": 10
+      },
+      "Amount": {
+        "type": "number",
+        "title": "Numeric Value"
+      },
+      "EnumName": {
+        "type": "string",
+        "title": "Error Kind",
+        "maxLength": 40
+      }
+    },
+    "mapping": {
+      "ID": "ID",
+      "Hex": "Hex Code",
+      "Amount": "Numeric Value",
+      "EnumName": "Error Kind"
+    },
+    "required": [
+      "Hex",
+      "Amount",
+      "EnumName"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Hex": "00",
+        "Amount": 0,
+        "EnumName": "Fictional"
+      }
+    ]
+  }
+}

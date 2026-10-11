@@ -1,0 +1,111 @@
+{
+  "counts.workflow.json": {
+    "format_version": 1,
+    "name": "Single-column counts, isolated components and mapped SQLite writes",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=1 && LeftPanel.Summary.Present=1 && LeftPanel.Summary.Rows=2 && RightPanel.Summary.Numeric=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "NumericCount(ShowColumns(LeftRows,Amount))=1 && LeftPanel.NumericCount(ShowColumns(LeftRows,Amount))=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CountsLab/LeftPanel/AddSample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=2 && LeftPanel.Summary.Present=2 && LeftPanel.Summary.Rows=3 && RightPanel.Summary.Rows=1 && First(trace).Panel=\"LeftPanel\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CountsLab/RightPanel/AddSample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Summary.Numeric=2 && RightPanel.Summary.Rows=2 && CountRows(trace)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CountsLab/LeftPanel/ResetSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=1 && RightPanel.Summary.Numeric=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CountsLab/ClearAmount",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=0 && LeftPanel.Summary.Rows=2 && LeftPanel.Summary.Present=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CountsLab/RestoreAmount",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "CountsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && IsEmpty(Snapshots)",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "CountsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=1 && First(Snapshots).Numeric=1 && First(Snapshots).Present=1 && First(Snapshots).Rows=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CountsLab/RightPanel/ResetSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Summary.Rows=1 && LeftPanel.Summary.Rows=2",
+        "expect": true
+      }
+    ]
+  }
+}

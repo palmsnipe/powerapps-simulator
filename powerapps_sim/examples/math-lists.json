@@ -1,0 +1,37 @@
+{
+  "Measurements": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Area": {
+        "type": "number"
+      },
+      "Angle": {
+        "type": "number"
+      },
+      "Estimate": {
+        "type": "number"
+      }
+    },
+    "mapping": {
+      "Area": "Area",
+      "Angle": "Angle",
+      "Estimate": "Estimate"
+    },
+    "required": [
+      "Area",
+      "Angle",
+      "Estimate"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Area": 16,
+        "Angle": 30,
+        "Estimate": 8
+      }
+    ]
+  }
+}

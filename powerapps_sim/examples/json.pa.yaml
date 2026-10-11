@@ -1,0 +1,185 @@
+App:
+  Properties:
+    StartScreen: =JsonScreen
+    Formulas: "=Envelope := Type({Projects:[{Title:Text,Amount:Number,Owners:[{Claims:Text,Email:Text,DisplayName:Text}],Status:{Value:Text}}]});\nTotal(rows:TypeRows):Number=Sum(rows,Amount);\nTypeRows := Type([{Title:Text,Amount:Number,Owners:[{Claims:Text,Email:Text,DisplayName:Text}],Status:{Value:Text}}]);"
+    OnStart: =Set(payload,"{""Projects"":[{""Title"":""Fictional Alpha"",""Amount"":10,""Owners"":[{""Claims"":""i:0#.f|membership|admin@example.test"",""Email"":""admin@example.test"",""DisplayName"":""Fictional administrator""}],""Status"":{""Value"":""Draft""}},{""Title"":""Fictional Beta"",""Amount"":20,""Owners"":[],""Status"":{""Value"":""Review""}}]}");Set(document,ParseJSON(payload));ClearCollect(parsedRows,ParseJSON(payload,Envelope).Projects);Set(encoded,"");Set(status,"Ready");Set(selected,Blank());Set(picked,Blank());Set(peerChanged,false);ClearCollect(events,FirstN(Table({Title:"",Amount:0}),0))
+ComponentDefinitions:
+  JsonPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Payload:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="{}"
+      Count:
+        PropertyKind: Output
+        DataType: Number
+        Default: =CountRows(ParseJSON(JsonPanel.Payload).Projects)
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - row:
+              DataType: Record
+              Default: ={Title:"",Amount:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =300
+      Height: =130
+      Fill: =RGBA(245,245,245,1)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Dynamic panel · " & JsonPanel.Count & " rows"
+            X: =12
+            Y: =8
+            Width: =276
+            Height: =32
+      - FirstTitle:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(First(ParseJSON(JsonPanel.Payload).Projects).Title)
+            X: =12
+            Y: =43
+            Width: =276
+            Height: =32
+      - Pick:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Pick first"
+            OnSelect: =JsonPanel.Picked({Title:Text(First(ParseJSON(JsonPanel.Payload).Projects).Title),Amount:Value(First(ParseJSON(JsonPanel.Payload).Projects).Amount)})
+            X: =12
+            Y: =85
+            Width: =150
+            Height: =32
+Screens:
+  JsonScreen:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="JSON · nested records and components"
+            X: =24
+            Y: =16
+            Width: =900
+            Height: =42
+            Size: =24
+      - PayloadInput:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            Default: =payload
+            Type: =TextInputType.Multiline
+            AccessibleLabel: ="JSON payload"
+            X: =24
+            Y: =76
+            Width: =912
+            Height: =154
+      - Parse:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Parse payload"
+            OnSelect: =IfError(If(IsType(ParseJSON(PayloadInput.Text),Envelope),ClearCollect(parsedRows,AsType(ParseJSON(PayloadInput.Text),Envelope).Projects);Set(document,ParseJSON(PayloadInput.Text));Set(status,"Parsed"),Set(status,"Schema mismatch")),Set(status,FirstError.Message))
+            X: =24
+            Y: =244
+            Width: =170
+            Height: =36
+      - Serialize:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Serialize rows"
+            OnSelect: =Set(encoded,JSON(parsedRows,JSONFormat.IndentFour));Set(status,"Serialized")
+            X: =204
+            Y: =244
+            Width: =170
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save selected"
+            OnSelect: =IfError(Patch(Projects,Defaults(Projects),selected),Set(status,FirstError.Message),Set(status,"Saved"))
+            DisplayMode: =If(IsBlank(selected),DisplayMode.Disabled,DisplayMode.Edit)
+            X: =384
+            Y: =244
+            Width: =170
+            Height: =36
+      - ResetPayload:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset payload"
+            OnSelect: =Reset(PayloadInput)
+            X: =564
+            Y: =244
+            Width: =170
+            Height: =36
+      - ChangePeer:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Change peer"
+            OnSelect: =Set(peerChanged,!peerChanged)
+            X: =744
+            Y: =244
+            Width: =192
+            Height: =36
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status & " · " & CountRows(parsedRows) & " rows · total " & Total(parsedRows) & " · saved " & CountRows(Projects)
+            X: =24
+            Y: =295
+            Width: =912
+            Height: =34
+      - Records:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =parsedRows
+            OnSelect: =Set(selected,Self.Selected)
+            X: =24
+            Y: =342
+            Width: =610
+            Height: =130
+            TemplateSize: =60
+          Children:
+            - RowLabel:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title & " · " & ThisItem.Amount & " · " & ThisItem.Status.Value
+                  OnSelect: =Select(Parent)
+                  X: =8
+                  Y: =6
+                  Width: =590
+                  Height: =48
+      - Selected:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Selected " & Coalesce(selected.Title,"none") & " · callbacks " & CountRows(events)
+            X: =654
+            Y: =342
+            Width: =282
+            Height: =90
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            Payload: =payload
+            Picked: =Set(picked,row);Collect(events,row)
+            X: =24
+            Y: =490
+          ComponentName: JsonPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            Payload: =If(peerChanged,payload,"{""Projects"":[{""Title"":""Fictional component peer"",""Amount"":50}]}")
+            Picked: =Set(picked,row);Collect(events,row)
+            X: =340
+            Y: =490
+          ComponentName: JsonPanel
+      - Output:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =encoded
+            X: =654
+            Y: =458
+            Width: =282
+            Height: =250
+            Wrap: =true

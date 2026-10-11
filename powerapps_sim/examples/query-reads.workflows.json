@@ -1,0 +1,127 @@
+{
+  "query-reads.workflow.json": {
+    "format_version": 1,
+    "name": "Query results, row draws, isolated components, callbacks and SQLite writes",
+    "environment": {
+      "random_seed": 20261013
+    },
+    "records": {
+      "Cards": [
+        {
+          "ID": 1,
+          "Title": "Fictional forest",
+          "Amount": 10
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional river",
+          "Amount": 20
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional meadow",
+          "Amount": 30
+        }
+      ],
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(Cards)=3 && CountRows(Snapshots)=0 && counter=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/Remember",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/Rename",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=remembered.L && RightPanel.Total=remembered.R && LeftPanel.Rows=remembered.Rows && LeftPanel.Count=remembered.Count && LeftPanel.Whole<>remembered.Whole",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/Remember",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/Unrelated",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=remembered.L && LeftPanel.Rows=remembered.Rows && LeftPanel.Whole=remembered.Whole && counter=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total<>remembered.L && LeftPanel.Rows<>remembered.Rows && LeftPanel.Count=remembered.Count && RightPanel.Total=remembered.R",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/Remember",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/LeftPanel/EmitButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)=1 && First(trace).Caption=\"Left\" && First(trace).Total=remembered.L",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/RightPanel/EmitButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)=2 && Last(trace).Caption=\"Right\" && Last(trace).Total=remembered.R",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/AmountInput",
+        "event": "OnChange",
+        "value": "0"
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/SetAmount",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Cards).Amount=0 && LeftPanel.Count<>remembered.Count && RightPanel.Total=remembered.R",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueryLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && Last(Snapshots).Total=LeftPanel.Total && Last(Snapshots).Rows=LeftPanel.Rows && saved",
+        "expect": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,193 @@
+App:
+  Properties:
+    StartScreen: =Queues
+    OnStart: =Set(reviewFirst, true); Set(pickedProject, Blank())
+ComponentDefinitions:
+  QueuePanel:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: |-
+          =Table({ID: 0, Title: "", State: "Draft", Amount: 0})
+      Search:
+        PropertyKind: Input
+        DataType: Text
+        Default: =""
+      Order:
+        PropertyKind: Input
+        DataType: Table
+        Default: =["Review", "Draft"]
+      Digits:
+        PropertyKind: Input
+        DataType: Table
+        Default: =[1]
+      View:
+        PropertyKind: Output
+        DataType: Table
+        Default: =SortByColumns(RenameColumns(ShowColumns(AddColumns(Filter(QueuePanel.Rows As draft, IsBlank(QueuePanel.Search) || QueuePanel.Search in draft.Title) As candidate, 'Preview amount', candidate.Amount * 2), ID, Title, State, 'Preview amount'), Title, 'Project title'), "State", QueuePanel.Order)
+      Names:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Lower(ShowColumns(QueuePanel.View, 'Project title'))
+      TitleLengths:
+        PropertyKind: Output
+        DataType: Table
+        Default: =QueuePanel.Measure(QueuePanel.Names)
+      Measure:
+        PropertyKind: Function
+        PropertyDefinition: Output
+        ReturnType: Table
+        Parameters:
+          - texts:
+              DataType: Table
+              Default: =[""]
+              IsOptional: true
+        Default: =Len(texts)
+      RoundedAmounts:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Round(ForAll(QueuePanel.Rows, Amount / 3), QueuePanel.Digits)
+      Prepare:
+        PropertyKind: Function
+        PropertyDefinition: Output
+        ReturnType: Record
+        Parameters:
+          - row:
+              DataType: Record
+              Default: '={ID: 0, Title: "", State: "Draft", Amount: 0}'
+              IsOptional: true
+        Default: =RenameColumns(DropColumns(AddColumns(row, 'Preview amount', row.Amount * 2), Amount), Title, 'Project title')
+      OnPick:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - row:
+              DataType: Record
+              Default: '={ID: 0, ''Project title'': "", State: "Draft", ''Preview amount'': 0}'
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =560
+      Height: =285
+    Children:
+      - CountLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(CountRows(QueuePanel.View)) & " projects · shaped inside component"
+            X: =12
+            Y: =0
+            Width: =Parent.Width - 24
+            Height: =32
+      - QueueGallery:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            Items: =QueuePanel.View
+            AccessibleLabel: ="Project queue"
+            OnSelect: =QueuePanel.OnPick(Self.Selected)
+            X: =12
+            Y: =40
+            Width: =Parent.Width - 24
+            Height: =180
+            TemplateSize: =44
+            TemplatePadding: =2
+          Children:
+            - ProjectButton:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =ThisItem.'Project title' & " · " & Coalesce(ThisItem.State, "No status") & " · " & Text(ThisItem.'Preview amount')
+                  AccessibleLabel: ="Select " & ThisItem.'Project title'
+                  Appearance: =If(Self.IsSelected, ButtonAppearance.Primary, ButtonAppearance.Outline)
+                  OnSelect: =Select(Parent)
+                  X: =0
+                  Y: =0
+                  Width: =Parent.TemplateWidth - 4
+                  Height: =38
+      - MetricsCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: |-
+              ="Lower: " & First(QueuePanel.Names).Value & " · length " & Text(First(QueuePanel.TitleLengths).Value) & Char(10) & "Rounded: " & Concat(QueuePanel.RoundedAmounts, IfError(Text(Value), "error " & Text(FirstError.Kind)), " · ")
+            X: =12
+            Y: =225
+            Width: =Parent.Width - 24
+            Height: =60
+Screens:
+  Queues:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Table shaping · queues and components"
+            X: =32
+            Y: =8
+            Width: =Parent.Width - 64
+            Height: =40
+            Size: =24
+      - SearchInput:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: =""
+            AccessibleLabel: ="Search left queue"
+            Placeholder: ="Filter the left component"
+            X: =44
+            Y: =52
+            Width: =320
+      - ChangeOrder:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =If(reviewFirst, "Order left draft first", "Order left review first")
+            OnSelect: =Set(reviewFirst, !reviewFirst)
+            X: =380
+            Y: =52
+            Width: =220
+      - LeftQueue:
+          Control: CanvasComponent
+          ComponentName: QueuePanel
+          Properties:
+            Rows: =Drafts
+            Search: =SearchInput.Text
+            Order: =If(reviewFirst, ["Review", "Draft"], ["Draft", "Review"])
+            OnPick: =Set(pickedProject, row)
+            X: =32
+            Y: =100
+      - RightQueue:
+          Control: CanvasComponent
+          ComponentName: QueuePanel
+          Properties:
+            Rows: =Drafts
+            Order: =["Draft", "Review"]
+            Digits: =[2, 2, 2, 2]
+            OnPick: =Set(rightPicked, row)
+            X: =620
+            Y: =100
+      - PickCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =If(IsBlank(pickedProject), "Choose a project in the left queue", "Selected " & pickedProject.'Project title' & " · preview amount " & Text(pickedProject.'Preview amount'))
+            X: =44
+            Y: =400
+            Width: =560
+            Height: =48
+      - RaiseAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase selected amount"
+            DisplayMode: =If(IsBlank(pickedProject), DisplayMode.Disabled, DisplayMode.Edit)
+            OnSelect: |-
+              =Patch(Drafts, LookUp(Drafts, ID = pickedProject.ID), {Amount: LookUp(Drafts, ID = pickedProject.ID).Amount + 10}); Set(pickedProject, LookUp(LeftQueue.View, ID = pickedProject.ID))
+            X: =44
+            Y: =450
+            Width: =230
+      - RecordCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Record overload · " & LeftQueue.Prepare(First(Drafts)).'Project title'
+            X: =620
+            Y: =400
+            Width: =560
+            Height: =48

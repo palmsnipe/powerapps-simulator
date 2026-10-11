@@ -1,0 +1,97 @@
+{
+  "volatile.workflow.json": {
+    "format_version": 1,
+    "name": "Volatile properties, isolated component draws and mapped list changes",
+    "environment": {
+      "random_seed": 20261010
+    },
+    "records": {
+      "Cards": [
+        {
+          "ID": 1,
+          "Title": "Fictional forest"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional river"
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional meadow"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Fixed>=0 && LeftPanel.Fixed<1 && RightPanel.Fixed>=0 && RightPanel.Fixed<1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "VolatileLab/Remember",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "VolatileLab/Unrelated",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "counter=1 && LeftPanel.Fixed=remembered.Left && RightPanel.Fixed=remembered.Right && LeftPanel.Jitter=remembered.Jitter && ListRoll=remembered.List",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "VolatileLab/LeftPanel/Input",
+        "event": "OnChange",
+        "value": 45
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Jitter>=45 && LeftPanel.Jitter<46 && LeftPanel.Jitter<>remembered.Jitter && RightPanel.Fixed=remembered.Right && LeftPanel.Fixed=remembered.Left && ListRoll=remembered.List",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "VolatileLab/LeftPanel/DrawButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "VolatileLab/RightPanel/DrawButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(draws)=2 && First(draws).Side=\"Left\" && First(draws).Base=45 && First(draws).Value>=45 && First(draws).Value<46 && Last(draws).Base=20",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "VolatileLab/AddCard",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Cards)=4 && ListRoll>=4 && ListRoll<5 && ListRoll<>remembered.List && CountRows(LeftPanel.Shuffled)=4 && LeftPanel.Fixed=remembered.Left",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "VolatileLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Jitter>=10 && LeftPanel.Jitter<11 && LeftPanel.Fixed=remembered.Left && RightPanel.Fixed=remembered.Right",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

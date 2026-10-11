@@ -1,0 +1,732 @@
+{
+  "version": "2.5.0",
+  "source": "https://github.com/microsoft/PowerApps-TestEngine/blob/a497d6c19880d5a4496127ec9c20d682a8cb38c9/samples/mda-icons-controls/MDA_Icons_Solution_1_0_0_2.zip",
+  "archive_sha256": "614c83d127c83723469d6e78e60e28442acd7645ea3fa89639170c2d2e286236",
+  "note": "Enum spellings extracted from Microsoft sample metadata; glyph mappings curated by the simulator and approximate legacy appearance.",
+  "icons": {
+    "Add": {
+      "name": "Add",
+      "style": "Outline"
+    },
+    "ArrowDown": {
+      "name": "ArrowDown",
+      "style": "Outline"
+    },
+    "ArrowLeft": {
+      "name": "ArrowLeft",
+      "style": "Outline"
+    },
+    "ArrowRight": {
+      "name": "ArrowRight",
+      "style": "Outline"
+    },
+    "ArrowUp": {
+      "name": "ArrowUp",
+      "style": "Outline"
+    },
+    "Sort": {
+      "name": "ArrowSort",
+      "style": "Outline"
+    },
+    "NextArrow": {
+      "name": "ArrowRight",
+      "style": "Outline"
+    },
+    "BackArrow": {
+      "name": "ArrowLeft",
+      "style": "Outline"
+    },
+    "Camera": {
+      "name": "Camera",
+      "style": "Outline"
+    },
+    "Cancel": {
+      "name": "Dismiss",
+      "style": "Outline"
+    },
+    "Check": {
+      "name": "Checkmark",
+      "style": "Outline"
+    },
+    "ChevronDown": {
+      "name": "ChevronDown",
+      "style": "Outline"
+    },
+    "ChevronLeft": {
+      "name": "ChevronLeft",
+      "style": "Outline"
+    },
+    "ChevronRight": {
+      "name": "ChevronRight",
+      "style": "Outline"
+    },
+    "Laptop": {
+      "name": "Laptop",
+      "style": "Outline"
+    },
+    "Edit": {
+      "name": "Edit",
+      "style": "Outline"
+    },
+    "Message": {
+      "name": "Chat",
+      "style": "Outline"
+    },
+    "Printing3D": {
+      "name": "Print",
+      "style": "Outline"
+    },
+    "Document": {
+      "name": "Document",
+      "style": "Outline"
+    },
+    "DockCheckProperties": {
+      "name": "ClipboardCheckmark",
+      "style": "Outline"
+    },
+    "Folder": {
+      "name": "Folder",
+      "style": "Outline"
+    },
+    "Items": {
+      "name": "BoxMultiple",
+      "style": "Outline"
+    },
+    "Journal": {
+      "name": "BookOpen",
+      "style": "Outline"
+    },
+    "LevelsLayersItems": {
+      "name": "Layer",
+      "style": "Outline"
+    },
+    "ListWatchlistRemind": {
+      "name": "ClipboardTaskList",
+      "style": "Outline"
+    },
+    "LogJournal": {
+      "name": "Book",
+      "style": "Outline"
+    },
+    "Location": {
+      "name": "Location",
+      "style": "Outline"
+    },
+    "Mobile": {
+      "name": "Phone",
+      "style": "Outline"
+    },
+    "Note": {
+      "name": "Note",
+      "style": "Outline"
+    },
+    "People": {
+      "name": "People",
+      "style": "Outline"
+    },
+    "Person": {
+      "name": "Person",
+      "style": "Outline"
+    },
+    "Phone": {
+      "name": "Phone",
+      "style": "Outline"
+    },
+    "PhoneHangUp": {
+      "name": "CallEnd",
+      "style": "Outline"
+    },
+    "PhotosPictures": {
+      "name": "ImageMultiple",
+      "style": "Outline"
+    },
+    "Pin": {
+      "name": "Pin",
+      "style": "Outline"
+    },
+    "Post": {
+      "name": "Comment",
+      "style": "Outline"
+    },
+    "RadarActivityMonitor": {
+      "name": "Radar",
+      "style": "Outline"
+    },
+    "Tablet": {
+      "name": "Tablet",
+      "style": "Outline"
+    },
+    "Tag": {
+      "name": "Tag",
+      "style": "Outline"
+    },
+    "Tools": {
+      "name": "Toolbox",
+      "style": "Outline"
+    },
+    "ToolsWrench": {
+      "name": "Wrench",
+      "style": "Outline"
+    },
+    "Trending": {
+      "name": "ArrowTrending",
+      "style": "Outline"
+    },
+    "TrendingHashtag": {
+      "name": "NumberSymbol",
+      "style": "Outline"
+    },
+    "TrendingUpwards": {
+      "name": "ArrowTrending",
+      "style": "Outline"
+    },
+    "ChevronUp": {
+      "name": "ChevronUp",
+      "style": "Outline"
+    },
+    "Trash": {
+      "name": "Delete",
+      "style": "Outline"
+    },
+    "Search": {
+      "name": "Search",
+      "style": "Outline"
+    },
+    "Filter": {
+      "name": "Filter",
+      "style": "Outline"
+    },
+    "Reload": {
+      "name": "ArrowClockwise",
+      "style": "Outline"
+    },
+    "ExpandView": {
+      "name": "FullScreenMaximize",
+      "style": "Outline"
+    },
+    "Compose": {
+      "name": "Compose",
+      "style": "Outline"
+    },
+    "Crop": {
+      "name": "Crop",
+      "style": "Outline"
+    },
+    "AddDocument": {
+      "name": "DocumentAdd",
+      "style": "Outline"
+    },
+    "AddLibrary": {
+      "name": "Library",
+      "style": "Outline"
+    },
+    "CameraAperture": {
+      "name": "Camera",
+      "style": "Outline"
+    },
+    "ClearDrawing": {
+      "name": "InkStroke",
+      "style": "Outline"
+    },
+    "Clock": {
+      "name": "Clock",
+      "style": "Outline"
+    },
+    "CollapseView": {
+      "name": "FullScreenMinimize",
+      "style": "Outline"
+    },
+    "ColorPicker": {
+      "name": "Eyedropper",
+      "style": "Outline"
+    },
+    "ComputerDesktop": {
+      "name": "Desktop",
+      "style": "Outline"
+    },
+    "Devices": {
+      "name": "Desktop",
+      "style": "Outline"
+    },
+    "Controller": {
+      "name": "XboxController",
+      "style": "Outline"
+    },
+    "DetailList": {
+      "name": "TextBulletList",
+      "style": "Outline"
+    },
+    "DocumentWithContent": {
+      "name": "DocumentText",
+      "style": "Outline"
+    },
+    "Draw": {
+      "name": "DrawShape",
+      "style": "Outline"
+    },
+    "LineWeight": {
+      "name": "LineThickness",
+      "style": "Outline"
+    },
+    "Erase": {
+      "name": "Eraser",
+      "style": "Outline"
+    },
+    "AddToCalendar": {
+      "name": "CalendarAdd",
+      "style": "Outline"
+    },
+    "CalendarBlank": {
+      "name": "Calendar",
+      "style": "Outline"
+    },
+    "ListScrollEmpty": {
+      "name": "TextBulletList",
+      "style": "Outline"
+    },
+    "ListScrollWatchlist": {
+      "name": "ClipboardTaskList",
+      "style": "Outline"
+    },
+    "Mail": {
+      "name": "Mail",
+      "style": "Outline"
+    },
+    "Send": {
+      "name": "Send",
+      "style": "Outline"
+    },
+    "OptionsList": {
+      "name": "Options",
+      "style": "Outline"
+    },
+    "Airplane": {
+      "name": "Airplane",
+      "style": "Outline"
+    },
+    "PaperClip": {
+      "name": "Attach",
+      "style": "Outline"
+    },
+    "Bell": {
+      "name": "Alert",
+      "style": "Outline"
+    },
+    "Bus": {
+      "name": "VehicleBus",
+      "style": "Outline"
+    },
+    "Cars": {
+      "name": "VehicleCar",
+      "style": "Outline"
+    },
+    "Copy": {
+      "name": "Copy",
+      "style": "Outline"
+    },
+    "Currency": {
+      "name": "CurrencyDollarEuro",
+      "style": "Outline"
+    },
+    "Database": {
+      "name": "Database",
+      "style": "Outline"
+    },
+    "DocumentPDF": {
+      "name": "DocumentPdf",
+      "style": "Outline"
+    },
+    "Download": {
+      "name": "ArrowDownload",
+      "style": "Outline"
+    },
+    "EmojiFrown": {
+      "name": "EmojiSad",
+      "style": "Outline"
+    },
+    "EmojiNeutral": {
+      "name": "Emoji",
+      "style": "Outline"
+    },
+    "EmojiSad": {
+      "name": "EmojiSad",
+      "style": "Outline"
+    },
+    "EmojiSmile": {
+      "name": "Emoji",
+      "style": "Outline"
+    },
+    "ForkKnife": {
+      "name": "Food",
+      "style": "Outline"
+    },
+    "Hamburger": {
+      "name": "Navigation",
+      "style": "Outline"
+    },
+    "Home": {
+      "name": "Home",
+      "style": "Outline"
+    },
+    "Information": {
+      "name": "Info",
+      "style": "Outline"
+    },
+    "LikeDislike": {
+      "name": "ThumbLikeDislike",
+      "style": "Outline"
+    },
+    "Lock": {
+      "name": "LockClosed",
+      "style": "Outline"
+    },
+    "Money": {
+      "name": "Money",
+      "style": "Outline"
+    },
+    "More": {
+      "name": "MoreHorizontal",
+      "style": "Outline"
+    },
+    "MSOffice": {
+      "name": "AppsList",
+      "style": "Outline"
+    },
+    "Newspaper": {
+      "name": "News",
+      "style": "Outline"
+    },
+    "OfficeBuilding": {
+      "name": "Building",
+      "style": "Outline"
+    },
+    "Save": {
+      "name": "Save",
+      "style": "Outline"
+    },
+    "Settings": {
+      "name": "Settings",
+      "style": "Outline"
+    },
+    "ShoppingCart": {
+      "name": "Cart",
+      "style": "Outline"
+    },
+    "Transportation": {
+      "name": "VehicleTruck",
+      "style": "Outline"
+    },
+    "Waffle": {
+      "name": "Grid",
+      "style": "Outline"
+    },
+    "Warning": {
+      "name": "Warning",
+      "style": "Outline"
+    },
+    "Waypoint": {
+      "name": "Location",
+      "style": "Outline"
+    },
+    "Weather": {
+      "name": "WeatherPartlyCloudyDay",
+      "style": "Outline"
+    },
+    "Import": {
+      "name": "ArrowImport",
+      "style": "Outline"
+    },
+    "AddUser": {
+      "name": "PersonAdd",
+      "style": "Outline"
+    },
+    "Alarm": {
+      "name": "Alert",
+      "style": "Outline"
+    },
+    "Blocked": {
+      "name": "Prohibited",
+      "style": "Outline"
+    },
+    "Bookmark": {
+      "name": "Bookmark",
+      "style": "Outline"
+    },
+    "Bug": {
+      "name": "Bug",
+      "style": "Outline"
+    },
+    "Calculator": {
+      "name": "Calculator",
+      "style": "Outline"
+    },
+    "Diamond": {
+      "name": "Diamond",
+      "style": "Outline"
+    },
+    "DockLeft": {
+      "name": "PanelLeft",
+      "style": "Outline"
+    },
+    "DockRight": {
+      "name": "PanelRight",
+      "style": "Outline"
+    },
+    "Enhance": {
+      "name": "Wand",
+      "style": "Outline"
+    },
+    "Error": {
+      "name": "ErrorCircle",
+      "style": "Outline"
+    },
+    "Export": {
+      "name": "ArrowExport",
+      "style": "Outline"
+    },
+    "Flag": {
+      "name": "Flag",
+      "style": "Outline"
+    },
+    "Globe": {
+      "name": "Globe",
+      "style": "Outline"
+    },
+    "GlobeNotConnected": {
+      "name": "GlobeProhibited",
+      "style": "Outline"
+    },
+    "GlobeRefresh": {
+      "name": "GlobeArrowForward",
+      "style": "Outline"
+    },
+    "GlobeChangesPending": {
+      "name": "GlobeClock",
+      "style": "Outline"
+    },
+    "GlobeWarning": {
+      "name": "GlobeError",
+      "style": "Outline"
+    },
+    "GlobeError": {
+      "name": "GlobeError",
+      "style": "Outline"
+    },
+    "HalfFilledCircle": {
+      "name": "CircleHalfFill",
+      "style": "Filled"
+    },
+    "Health": {
+      "name": "HeartPulse",
+      "style": "Outline"
+    },
+    "Heart": {
+      "name": "Heart",
+      "style": "Outline"
+    },
+    "Help": {
+      "name": "QuestionCircle",
+      "style": "Outline"
+    },
+    "Hide": {
+      "name": "EyeOff",
+      "style": "Outline"
+    },
+    "History": {
+      "name": "History",
+      "style": "Outline"
+    },
+    "HorizontalLine": {
+      "name": "Subtract",
+      "style": "Outline"
+    },
+    "Hospital": {
+      "name": "Building",
+      "style": "Outline"
+    },
+    "Key": {
+      "name": "Key",
+      "style": "Outline"
+    },
+    "Lightbulb": {
+      "name": "Lightbulb",
+      "style": "Outline"
+    },
+    "LightningBolt": {
+      "name": "Flash",
+      "style": "Outline"
+    },
+    "Link": {
+      "name": "Link",
+      "style": "Outline"
+    },
+    "Manufacture": {
+      "name": "BuildingFactory",
+      "style": "Outline"
+    },
+    "Medical": {
+      "name": "Stethoscope",
+      "style": "Outline"
+    },
+    "Microphone": {
+      "name": "Mic",
+      "style": "Outline"
+    },
+    "Notebook": {
+      "name": "Notebook",
+      "style": "Outline"
+    },
+    "OpenInNewWindow": {
+      "name": "Open",
+      "style": "Outline"
+    },
+    "Phonebook": {
+      "name": "PersonSquare",
+      "style": "Outline"
+    },
+    "Print": {
+      "name": "Print",
+      "style": "Outline"
+    },
+    "Publish": {
+      "name": "ArrowUpload",
+      "style": "Outline"
+    },
+    "QuestionMark": {
+      "name": "Question",
+      "style": "Outline"
+    },
+    "Redo": {
+      "name": "ArrowRedo",
+      "style": "Outline"
+    },
+    "Reset": {
+      "name": "ArrowCounterclockwise",
+      "style": "Outline"
+    },
+    "Ribbon": {
+      "name": "Ribbon",
+      "style": "Outline"
+    },
+    "Scan": {
+      "name": "Scan",
+      "style": "Outline"
+    },
+    "Share": {
+      "name": "Share",
+      "style": "Outline"
+    },
+    "Shirt": {
+      "name": "Shirt",
+      "style": "Outline"
+    },
+    "Shop": {
+      "name": "BuildingShop",
+      "style": "Outline"
+    },
+    "Signal": {
+      "name": "CellularData4",
+      "style": "Outline"
+    },
+    "Support": {
+      "name": "PersonSupport",
+      "style": "Outline"
+    },
+    "Sync": {
+      "name": "ArrowSync",
+      "style": "Outline"
+    },
+    "Text": {
+      "name": "TextFont",
+      "style": "Outline"
+    },
+    "ThumbsDown": {
+      "name": "ThumbDislike",
+      "style": "Outline"
+    },
+    "ThumbsUp": {
+      "name": "ThumbLike",
+      "style": "Outline"
+    },
+    "Train": {
+      "name": "VehicleSubway",
+      "style": "Outline"
+    },
+    "Tray": {
+      "name": "TrayItemAdd",
+      "style": "Outline"
+    },
+    "Undo": {
+      "name": "ArrowUndo",
+      "style": "Outline"
+    },
+    "Unlock": {
+      "name": "LockOpen",
+      "style": "Outline"
+    },
+    "VerticalLine": {
+      "name": "DividerTall",
+      "style": "Outline"
+    },
+    "Video": {
+      "name": "Video",
+      "style": "Outline"
+    },
+    "View": {
+      "name": "Eye",
+      "style": "Outline"
+    },
+    "ZoomIn": {
+      "name": "ZoomIn",
+      "style": "Outline"
+    },
+    "ZoomOut": {
+      "name": "ZoomOut",
+      "style": "Outline"
+    },
+    "BookmarkFilled": {
+      "name": "Bookmark",
+      "style": "Filled"
+    },
+    "CancelBadge": {
+      "name": "DismissCircle",
+      "style": "Outline"
+    },
+    "CheckBadge": {
+      "name": "CheckmarkCircle",
+      "style": "Outline"
+    },
+    "Cut": {
+      "name": "Cut",
+      "style": "Outline"
+    },
+    "FilterFlat": {
+      "name": "Filter",
+      "style": "Outline"
+    },
+    "FilterFlatFilled": {
+      "name": "Filter",
+      "style": "Filled"
+    },
+    "Leave": {
+      "name": "SignOut",
+      "style": "Outline"
+    },
+    "Paste": {
+      "name": "ClipboardPaste",
+      "style": "Outline"
+    },
+    "ThumbsDownFilled": {
+      "name": "ThumbDislike",
+      "style": "Filled"
+    },
+    "ThumbsUpFilled": {
+      "name": "ThumbLike",
+      "style": "Filled"
+    },
+    "EmojiHappy": {
+      "name": "EmojiSparkle",
+      "style": "Outline"
+    }
+  }
+}

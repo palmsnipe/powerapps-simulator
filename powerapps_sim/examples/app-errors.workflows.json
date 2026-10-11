@@ -1,0 +1,136 @@
+{
+  "app-errors.workflow.json": {
+    "format_version": 1,
+    "name": "Global error handling, component catches and save retry",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional draft"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(reports)=0 && caught=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/CatchCallback",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "caught=13 && CountRows(reports)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/LeftPanel/Fire",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(reports)=1 && First(reports).Source=\"ErrorLab/LeftPanel.Failed\" && First(reports).Observed=\"ErrorLab/LeftPanel/Fire.OnSelect\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/RightPanel/Fire",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(reports)=2 && Last(reports).Kind=1000 && Last(reports).HttpStatus=503",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/FailFunction",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Last(reports).Source=\"App.Formulas.Reciprocal\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/FailChain",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "afterChain=42 && Last(reports).BatchCount=2 && CountRows(reports)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/ToggleFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(reports)=5 && Last(reports).Source=\"App.OnStart\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(reports)=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/ToggleFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/ToggleFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(reports)=6",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/ToggleFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(reports)=7 && First(Drafts).Title=\"Fictional draft\"",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ErrorLab/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(reports)=7 && First(Drafts).Title=\"Fictional updated draft\"",
+        "expect": true
+      }
+    ]
+  }
+}

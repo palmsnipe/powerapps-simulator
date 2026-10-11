@@ -1,0 +1,72 @@
+{
+  "CalendarSnapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readOnly": true
+      },
+      "Day": {
+        "type": "string",
+        "format": "date"
+      },
+      "Weekday": {
+        "type": "number"
+      },
+      "Week": {
+        "type": "number"
+      },
+      "ISO": {
+        "type": "number"
+      },
+      "Zero": {
+        "type": "number"
+      },
+      "Weeks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Value": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "Value"
+          ]
+        }
+      }
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Day": "2021-01-01",
+        "Weekday": 5,
+        "Week": 1,
+        "ISO": 53,
+        "Zero": 4,
+        "Weeks": [
+          {
+            "Value": 53
+          },
+          {
+            "Value": 53
+          },
+          {
+            "Value": 53
+          },
+          {
+            "Value": 1
+          }
+        ]
+      }
+    ],
+    "required": [
+      "Day",
+      "Weekday",
+      "Week",
+      "ISO",
+      "Zero",
+      "Weeks"
+    ]
+  }
+}

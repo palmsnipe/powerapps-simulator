@@ -1,0 +1,117 @@
+ComponentDefinitions:
+  CounterCard:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Counter"
+      Enabled:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =true
+      AutoDisable:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =true
+      Count:
+        PropertyKind: Output
+        DataType: Number
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - count:
+              DataType: Number
+          - pressed:
+              DataType: Boolean
+        Default: =Blank()
+      IsPressed:
+        PropertyKind: Output
+        DataType: Boolean
+      ButtonFill:
+        PropertyKind: Output
+        DataType: Color
+      ButtonHoverFill:
+        PropertyKind: Output
+        DataType: Color
+      ButtonPressedFill:
+        PropertyKind: Output
+        DataType: Color
+      ButtonDisabledFill:
+        PropertyKind: Output
+        DataType: Color
+      ButtonRadius:
+        PropertyKind: Output
+        DataType: Number
+    Properties:
+      Width: =450
+      Height: =170
+      Count: =Coalesce(count,0)
+      OnReset: =Set(count,0)
+      Fill: =ColorValue("#f5f5f5")
+      IsPressed: =Increase.Pressed
+      ButtonFill: =Increase.Fill
+      ButtonHoverFill: =Increase.HoverFill
+      ButtonPressedFill: =Increase.PressedFill
+      ButtonDisabledFill: =Increase.DisabledFill
+      ButtonRadius: =Increase.RadiusTopLeft
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =CounterCard.Caption & " · " & CounterCard.Count
+            X: =12
+            Y: =8
+            Width: =420
+            Height: =36
+            Size: =20
+      - Increase:
+          Control: Classic/Button@2.2.0
+          Properties:
+            Text: =CounterCard.Caption & " +1"
+            AccessibleLabel: =CounterCard.Caption & " counter"
+            X: =12
+            Y: =54
+            Width: =250
+            Height: =62
+            Size: =19
+            FontWeight: =FontWeight.Semibold
+            AutoDisableOnSelect: =CounterCard.AutoDisable
+            DisplayMode: =If(CounterCard.Enabled,DisplayMode.Edit,DisplayMode.Disabled)
+            Fill: =ColorValue("#0f6cbd")
+            Color: =Color.White
+            HoverFill: =ColorValue("#115ea3")
+            HoverColor: =Color.White
+            PressedFill: =ColorValue("#083a60")
+            PressedColor: =Color.White
+            PressedBorderColor: =ColorValue("#062a45")
+            DisabledFill: =ColorValue("#e0e0e0")
+            DisabledColor: =ColorValue("#616161")
+            DisabledBorderColor: =ColorValue("#bdbdbd")
+            FocusedBorderColor: =ColorValue("#c239b3")
+            FocusedBorderThickness: =4
+            RadiusTopLeft: =16
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =16
+            OnSelect: =Set(count,CounterCard.Count+1);CounterCard.Changed(count,Self.Pressed)
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset counter"
+            X: =276
+            Y: =66
+            Width: =170
+            Height: =36
+            OnSelect: =Reset(CounterCard)
+      - Pressed:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Pressed: " & If(Increase.Pressed,"true","false")'
+            X: =12
+            Y: =124
+            Width: =420
+            Height: =36
+            Size: =14

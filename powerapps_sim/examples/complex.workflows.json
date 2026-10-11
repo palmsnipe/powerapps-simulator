@@ -1,0 +1,133 @@
+{
+  "complex.workflow.json": {
+    "format_version": 1,
+    "name": "Multi-value cards, failed saves and isolated component tables",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "TaskForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "TaskForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ComplexScreen/TaskForm/TagsCard/TagsPicker",
+        "event": "OnChange",
+        "selection": [
+          0,
+          1
+        ]
+      },
+      {
+        "op": "event",
+        "path": "ComplexScreen/TaskForm/LinksCard/LinksPicker",
+        "event": "OnChange",
+        "selection": [
+          0,
+          1
+        ]
+      },
+      {
+        "op": "event",
+        "path": "ComplexScreen/TaskForm/OwnersCard/OwnersPicker",
+        "event": "OnChange",
+        "selection": [
+          0,
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(TaskForm.Updates.'Project Owners')",
+        "expect": 2
+      },
+      {
+        "op": "failure",
+        "list": "Tasks",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ComplexScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "TaskForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(OwnersPicker.SelectedItems)",
+        "expect": 2
+      },
+      {
+        "op": "failure",
+        "list": "Tasks",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ComplexScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(TaskForm.LastSubmit.'Project Tags')",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "TaskForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ComplexScreen/LeftPeople/Picker",
+        "event": "OnSearch",
+        "value": "sam"
+      },
+      {
+        "op": "event",
+        "path": "ComplexScreen/LeftPeople/Picker",
+        "event": "OnChange",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "First(leftOwners).Email",
+        "expect": "sam@example.test"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightLinks.Current)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "ComplexScreen/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPeople.Current).Email",
+        "expect": "alex@example.test"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(OwnersPicker.SelectedItems)",
+        "expect": 2
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

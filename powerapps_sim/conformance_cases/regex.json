@@ -1,0 +1,3826 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Selected single-line literal/error oracles from six pinned regex reference files. Independent literal decoder; excludes interpolation, multiline expressions, and inline flags/lookbehind/backreferences outside the supported subset. Both numeric profiles.",
+  "cases": [
+    {
+      "id": "regex-IsMatch-3-float",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L3",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-3-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L3",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-6-float",
+      "expression": "IsMatch(\"Hi\", \"Hi\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L6",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-6-decimal",
+      "expression": "IsMatch(\"Hi\", \"Hi\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L6",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-9-float",
+      "expression": "IsMatch(\"Hi\", \"Hi\", MatchOptions.Complete)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L9",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-9-decimal",
+      "expression": "IsMatch(\"Hi\", \"Hi\", MatchOptions.Complete)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L9",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-12-float",
+      "expression": "IsMatch(\"Bye\", \"H\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L12",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-12-decimal",
+      "expression": "IsMatch(\"Bye\", \"H\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L12",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-15-float",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L15",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-15-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L15",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-18-float",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.Contains & MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L18",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-18-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.Contains & MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L18",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-21-float",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.Contains & MatchOptions.BeginsWith)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L21",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-21-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.Contains & MatchOptions.BeginsWith)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L21",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-24-float",
+      "expression": "IsMatch(\"Hi\", \"H.*\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L24",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-24-decimal",
+      "expression": "IsMatch(\"Hi\", \"H.*\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L24",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-27-float",
+      "expression": "IsMatch(\"Hi\", \"H.*i\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L27",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-27-decimal",
+      "expression": "IsMatch(\"Hi\", \"H.*i\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L27",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-30-float",
+      "expression": "IsMatch(\"000\", Match.Digit & Match.Digit & Match.Digit)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L30",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-30-decimal",
+      "expression": "IsMatch(\"000\", Match.Digit & Match.Digit & Match.Digit)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L30",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-33-float",
+      "expression": "IsMatch(\"JohnDoe@microsoft.com\", Match.Email)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L33",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-33-decimal",
+      "expression": "IsMatch(\"JohnDoe@microsoft.com\", Match.Email)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L33",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-36-float",
+      "expression": "IsMatch(\"JohnDoe@microsoftcom\", Match.Email)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L36",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-36-decimal",
+      "expression": "IsMatch(\"JohnDoe@microsoftcom\", Match.Email)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L36",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-39-float",
+      "expression": "IsMatch(\"Joe 164\" & Char(10) & \"Sam 208\" & Char(10), \"(\\w+)\\s(\\d+)\", MatchOptions.Complete & MatchOptions.Multiline)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L39",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-39-decimal",
+      "expression": "IsMatch(\"Joe 164\" & Char(10) & \"Sam 208\" & Char(10), \"(\\w+)\\s(\\d+)\", MatchOptions.Complete & MatchOptions.Multiline)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L39",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-42-float",
+      "expression": "IsMatch(\"Joe 164\" & Char(10) & \"Sam 208\" & Char(10), \"(\\w+)\\s(\\d+)\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L42",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-42-decimal",
+      "expression": "IsMatch(\"Joe 164\" & Char(10) & \"Sam 208\" & Char(10), \"(\\w+)\\s(\\d+)\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L42",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-45-float",
+      "expression": "IsMatch(1/0, \"Hi\")",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L45",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      }
+    },
+    {
+      "id": "regex-IsMatch-45-decimal",
+      "expression": "IsMatch(1/0, \"Hi\")",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L45",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      }
+    },
+    {
+      "id": "regex-IsMatch-48-float",
+      "expression": "IsMatch(Blank(), \"Hi\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L48",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-48-decimal",
+      "expression": "IsMatch(Blank(), \"Hi\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L48",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-51-float",
+      "expression": "IsMatch(28, \"Bar\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L51",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-51-decimal",
+      "expression": "IsMatch(28, \"Bar\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L51",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-54-float",
+      "expression": "IsMatch(\"\", \"\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L54",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-54-decimal",
+      "expression": "IsMatch(\"\", \"\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L54",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-57-float",
+      "expression": "IsMatch(Blank(), \".\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L57",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-57-decimal",
+      "expression": "IsMatch(Blank(), \".\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L57",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-60-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` A 1234567890\", \"\\p{L}\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L60",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-60-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` A 1234567890\", \"\\p{L}\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L60",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-63-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~`  1234567890\", \"\\p{L}\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L63",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-63-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~`  1234567890\", \"\\p{L}\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L63",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-67-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` Ð 1234567890\", \"\\p{L}\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L67",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-67-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` Ð 1234567890\", \"\\p{L}\", MatchOptions.Complete)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L67",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-70-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` A 1234567890\", \"\\p{L}\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L70",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-70-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` A 1234567890\", \"\\p{L}\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L70",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-73-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~`  1234567890\", \"\\p{L}\", MatchOptions.Contains)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L73",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-73-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~`  1234567890\", \"\\p{L}\", MatchOptions.Contains)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L73",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-77-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` Ð 1234567890\", \"\\p{L}\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L77",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-77-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` Ð 1234567890\", \"\\p{L}\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L77",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-92-float",
+      "expression": "IsMatch(\"\"\"Hello world\"\"\", Char(34) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L92",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-92-decimal",
+      "expression": "IsMatch(\"\"\"Hello world\"\"\", Char(34) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L92",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-95-float",
+      "expression": "IsMatch(\"\"\"Hello world\"\"\", UniChar(34) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L95",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-95-decimal",
+      "expression": "IsMatch(\"\"\"Hello world\"\"\", UniChar(34) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L95",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-98-float",
+      "expression": "IsMatch(\"👽Hello world\", UniChar(Hex2Dec(\"1F47D\")) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L98",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-98-decimal",
+      "expression": "IsMatch(\"👽Hello world\", UniChar(Hex2Dec(\"1F47D\")) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L98",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-101-float",
+      "expression": "IsMatch(\"👽Hello world\", UniChar(128125) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L101",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-101-decimal",
+      "expression": "IsMatch(\"👽Hello world\", UniChar(128125) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L101",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-104-float",
+      "expression": "IsMatch(\"👽Hello world\", \"\\ud83d\\udc7dHello\", MatchOptions.Contains) // surrrogate pairs",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L104",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-104-decimal",
+      "expression": "IsMatch(\"👽Hello world\", \"\\ud83d\\udc7dHello\", MatchOptions.Contains) // surrrogate pairs",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L104",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-107-float",
+      "expression": "IsMatch(UniChar(Hex2Dec(\"1f47d\")) & \"Hello world\", UniChar(128125) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L107",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-107-decimal",
+      "expression": "IsMatch(UniChar(Hex2Dec(\"1f47d\")) & \"Hello world\", UniChar(128125) & \"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L107",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-113-float",
+      "expression": "IsMatch(\"Hello\", \"Hello\", MatchOptions.IgnoreCase)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L113",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-113-decimal",
+      "expression": "IsMatch(\"Hello\", \"Hello\", MatchOptions.IgnoreCase)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L113",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-116-float",
+      "expression": "IsMatch(\"Hi\", \"Hi\", MatchOptions.Multiline)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L116",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-116-decimal",
+      "expression": "IsMatch(\"Hi\", \"Hi\", MatchOptions.Multiline)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L116",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-119-float",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.EndsWith )",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L119",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-119-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.EndsWith )",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L119",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-122-float",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.BeginsWith)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L122",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-122-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", MatchOptions.BeginsWith)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L122",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-125-float",
+      "expression": "IsMatch(\"Hi\", \"i\", MatchOptions.EndsWith)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L125",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-125-decimal",
+      "expression": "IsMatch(\"Hi\", \"i\", MatchOptions.EndsWith)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L125",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-128-float",
+      "expression": "IsMatch(\"Hi\", \"I\", MatchOptions.EndsWith)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L128",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-128-decimal",
+      "expression": "IsMatch(\"Hi\", \"I\", MatchOptions.EndsWith)",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L128",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-131-float",
+      "expression": "IsMatch(\"Hi\", \"I\", MatchOptions.EndsWith & MatchOptions.IgnoreCase)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L131",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-131-decimal",
+      "expression": "IsMatch(\"Hi\", \"I\", MatchOptions.EndsWith & MatchOptions.IgnoreCase)",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L131",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-134-float",
+      "expression": "IsMatch( \"abcba\", \"abcba\", MatchOptions.Complete )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L134",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-134-decimal",
+      "expression": "IsMatch( \"abcba\", \"abcba\", MatchOptions.Complete )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L134",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-137-float",
+      "expression": "IsMatch( \"abcba\", \"abcba\", MatchOptions.BeginsWith & MatchOptions.EndsWith )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L137",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-137-decimal",
+      "expression": "IsMatch( \"abcba\", \"abcba\", MatchOptions.BeginsWith & MatchOptions.EndsWith )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L137",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-140-float",
+      "expression": "IsMatch( \"abcba\", \"bcba\", MatchOptions.BeginsWith & MatchOptions.EndsWith )",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L140",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-140-decimal",
+      "expression": "IsMatch( \"abcba\", \"bcba\", MatchOptions.BeginsWith & MatchOptions.EndsWith )",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L140",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-143-float",
+      "expression": "IsMatch( \"abcba\", \"bcba\", MatchOptions.EndsWith )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L143",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-143-decimal",
+      "expression": "IsMatch( \"abcba\", \"bcba\", MatchOptions.EndsWith )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L143",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-146-float",
+      "expression": "IsMatch( \"abcba\", \"abcb\", MatchOptions.BeginsWith & MatchOptions.EndsWith )",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L146",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-146-decimal",
+      "expression": "IsMatch( \"abcba\", \"abcb\", MatchOptions.BeginsWith & MatchOptions.EndsWith )",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L146",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-149-float",
+      "expression": "IsMatch( \"abcba\", \"abcb\", MatchOptions.BeginsWith )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L149",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-149-decimal",
+      "expression": "IsMatch( \"abcba\", \"abcb\", MatchOptions.BeginsWith )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L149",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-154-float",
+      "expression": "IsMatch( \"ihi\", \"h\" )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L154",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-154-decimal",
+      "expression": "IsMatch( \"ihi\", \"h\" )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L154",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-159-float",
+      "expression": "IsMatch( \"ihi\", \"h\", MatchOptions.Complete )",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L159",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-159-decimal",
+      "expression": "IsMatch( \"ihi\", \"h\", MatchOptions.Complete )",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L159",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch-162-float",
+      "expression": "IsMatch( \"ihi\", \"h\", MatchOptions.Contains )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L162",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch-162-decimal",
+      "expression": "IsMatch( \"ihi\", \"h\", MatchOptions.Contains )",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L162",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-MatchAll-3-float",
+      "expression": "MatchAll(\"Hello\", \"llo\", MatchOptions.Complete)",
+      "expected": [],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L3",
+        "expected_powerfx": "Table()"
+      }
+    },
+    {
+      "id": "regex-MatchAll-3-decimal",
+      "expression": "MatchAll(\"Hello\", \"llo\", MatchOptions.Complete)",
+      "expected": [],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L3",
+        "expected_powerfx": "Table()"
+      }
+    },
+    {
+      "id": "regex-MatchAll-6-float",
+      "expression": "MatchAll(Blank(), \".\")",
+      "expected": [],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L6",
+        "expected_powerfx": "Table()"
+      }
+    },
+    {
+      "id": "regex-MatchAll-6-decimal",
+      "expression": "MatchAll(Blank(), \".\")",
+      "expected": [],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L6",
+        "expected_powerfx": "Table()"
+      }
+    },
+    {
+      "id": "regex-MatchAll-9-float",
+      "expression": "MatchAll(Blank(), Blank())",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L9",
+        "expected_powerfx": "Errors: Error 18-25: Regular expression must be a constant value.|Error 0-8: The function 'MatchAll' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-MatchAll-9-decimal",
+      "expression": "MatchAll(Blank(), Blank())",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L9",
+        "expected_powerfx": "Errors: Error 18-25: Regular expression must be a constant value.|Error 0-8: The function 'MatchAll' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-MatchAll-12-float",
+      "expression": "MatchAll(1/0, \"Hi\")",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L12",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-12-decimal",
+      "expression": "MatchAll(1/0, \"Hi\")",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L12",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-15-float",
+      "expression": "MatchAll(\"Hello\", \"\\w\")",
+      "expected": [
+        {
+          "FullMatch": "H",
+          "StartMatch": 1
+        },
+        {
+          "FullMatch": "e",
+          "StartMatch": 2
+        },
+        {
+          "FullMatch": "l",
+          "StartMatch": 3
+        },
+        {
+          "FullMatch": "l",
+          "StartMatch": 4
+        },
+        {
+          "FullMatch": "o",
+          "StartMatch": 5
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L15",
+        "expected_powerfx": "Table({FullMatch:\"H\",StartMatch:1},{FullMatch:\"e\",StartMatch:2},{FullMatch:\"l\",StartMatch:3},{FullMatch:\"l\",StartMatch:4},{FullMatch:\"o\",StartMatch:5})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-15-decimal",
+      "expression": "MatchAll(\"Hello\", \"\\w\")",
+      "expected": [
+        {
+          "FullMatch": "H",
+          "StartMatch": 1
+        },
+        {
+          "FullMatch": "e",
+          "StartMatch": 2
+        },
+        {
+          "FullMatch": "l",
+          "StartMatch": 3
+        },
+        {
+          "FullMatch": "l",
+          "StartMatch": 4
+        },
+        {
+          "FullMatch": "o",
+          "StartMatch": 5
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L15",
+        "expected_powerfx": "Table({FullMatch:\"H\",StartMatch:1},{FullMatch:\"e\",StartMatch:2},{FullMatch:\"l\",StartMatch:3},{FullMatch:\"l\",StartMatch:4},{FullMatch:\"o\",StartMatch:5})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-18-float",
+      "expression": "MatchAll(\"Bob Jones <bob.jones@contoso.com>\", \"<(?<email>\" & Match.Email & \")>\")",
+      "expected": [
+        {
+          "FullMatch": "<bob.jones@contoso.com>",
+          "StartMatch": 11,
+          "email": "bob.jones@contoso.com"
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L18",
+        "expected_powerfx": "Table({FullMatch:\"<bob.jones@contoso.com>\",StartMatch:11,email:\"bob.jones@contoso.com\"})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-18-decimal",
+      "expression": "MatchAll(\"Bob Jones <bob.jones@contoso.com>\", \"<(?<email>\" & Match.Email & \")>\")",
+      "expected": [
+        {
+          "FullMatch": "<bob.jones@contoso.com>",
+          "StartMatch": 11,
+          "email": "bob.jones@contoso.com"
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L18",
+        "expected_powerfx": "Table({FullMatch:\"<bob.jones@contoso.com>\",StartMatch:11,email:\"bob.jones@contoso.com\"})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-21-float",
+      "expression": "MatchAll(\"PT2H1M39S\", \"PT(?:(?<hours>\\d+)H)?(?:(?<minutes>\\d+)M)?(?:(?<seconds>\\d+)S)?\")",
+      "expected": [
+        {
+          "FullMatch": "PT2H1M39S",
+          "StartMatch": 1,
+          "hours": "2",
+          "minutes": "1",
+          "seconds": "39"
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L21",
+        "expected_powerfx": "Table({FullMatch:\"PT2H1M39S\",StartMatch:1,hours:\"2\",minutes:\"1\",seconds:\"39\"})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-21-decimal",
+      "expression": "MatchAll(\"PT2H1M39S\", \"PT(?:(?<hours>\\d+)H)?(?:(?<minutes>\\d+)M)?(?:(?<seconds>\\d+)S)?\")",
+      "expected": [
+        {
+          "FullMatch": "PT2H1M39S",
+          "StartMatch": 1,
+          "hours": "2",
+          "minutes": "1",
+          "seconds": "39"
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L21",
+        "expected_powerfx": "Table({FullMatch:\"PT2H1M39S\",StartMatch:1,hours:\"2\",minutes:\"1\",seconds:\"39\"})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-24-float",
+      "expression": "MatchAll(\"Hello\", \"(?<p1>\\w)l(?<p2>\\w)\")",
+      "expected": [
+        {
+          "FullMatch": "ell",
+          "StartMatch": 2,
+          "p1": "e",
+          "p2": "l"
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L24",
+        "expected_powerfx": "Table({FullMatch:\"ell\",StartMatch:2,p1:\"e\",p2:\"l\"})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-24-decimal",
+      "expression": "MatchAll(\"Hello\", \"(?<p1>\\w)l(?<p2>\\w)\")",
+      "expected": [
+        {
+          "FullMatch": "ell",
+          "StartMatch": 2,
+          "p1": "e",
+          "p2": "l"
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L24",
+        "expected_powerfx": "Table({FullMatch:\"ell\",StartMatch:2,p1:\"e\",p2:\"l\"})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-27-float",
+      "expression": "MatchAll(\"Hello\", \"(\\w)l(\\w)\")",
+      "expected": [
+        {
+          "FullMatch": "ell",
+          "StartMatch": 2
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L27",
+        "expected_powerfx": "Table({FullMatch:\"ell\",StartMatch:2})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-27-decimal",
+      "expression": "MatchAll(\"Hello\", \"(\\w)l(\\w)\")",
+      "expected": [
+        {
+          "FullMatch": "ell",
+          "StartMatch": 2
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L27",
+        "expected_powerfx": "Table({FullMatch:\"ell\",StartMatch:2})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-30-float",
+      "expression": "MatchAll(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches)",
+      "expected": [
+        {
+          "FullMatch": "ell",
+          "StartMatch": 2,
+          "SubMatches": [
+            {
+              "Value": "e"
+            },
+            {
+              "Value": "l"
+            }
+          ]
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L30",
+        "expected_powerfx": "Table({FullMatch:\"ell\",StartMatch:2,SubMatches:Table({Value:\"e\"},{Value:\"l\"})})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-30-decimal",
+      "expression": "MatchAll(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches)",
+      "expected": [
+        {
+          "FullMatch": "ell",
+          "StartMatch": 2,
+          "SubMatches": [
+            {
+              "Value": "e"
+            },
+            {
+              "Value": "l"
+            }
+          ]
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L30",
+        "expected_powerfx": "Table({FullMatch:\"ell\",StartMatch:2,SubMatches:Table({Value:\"e\"},{Value:\"l\"})})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-33-float",
+      "expression": "MatchAll(\"Joe 164\" & Char(10) & \"Sam 208\" & Char(10), \"(\\w+)\\s(\\d+)\", MatchOptions.Complete & MatchOptions.Multiline & MatchOptions.NumberedSubMatches)",
+      "expected": [
+        {
+          "FullMatch": "Joe 164",
+          "StartMatch": 1,
+          "SubMatches": [
+            {
+              "Value": "Joe"
+            },
+            {
+              "Value": "164"
+            }
+          ]
+        },
+        {
+          "FullMatch": "Sam 208",
+          "StartMatch": 9,
+          "SubMatches": [
+            {
+              "Value": "Sam"
+            },
+            {
+              "Value": "208"
+            }
+          ]
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L33",
+        "expected_powerfx": "Table({FullMatch:\"Joe 164\",StartMatch:1,SubMatches:Table({Value:\"Joe\"},{Value:\"164\"})},{FullMatch:\"Sam 208\",StartMatch:9,SubMatches:Table({Value:\"Sam\"},{Value:\"208\"})})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-33-decimal",
+      "expression": "MatchAll(\"Joe 164\" & Char(10) & \"Sam 208\" & Char(10), \"(\\w+)\\s(\\d+)\", MatchOptions.Complete & MatchOptions.Multiline & MatchOptions.NumberedSubMatches)",
+      "expected": [
+        {
+          "FullMatch": "Joe 164",
+          "StartMatch": 1,
+          "SubMatches": [
+            {
+              "Value": "Joe"
+            },
+            {
+              "Value": "164"
+            }
+          ]
+        },
+        {
+          "FullMatch": "Sam 208",
+          "StartMatch": 9,
+          "SubMatches": [
+            {
+              "Value": "Sam"
+            },
+            {
+              "Value": "208"
+            }
+          ]
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L33",
+        "expected_powerfx": "Table({FullMatch:\"Joe 164\",StartMatch:1,SubMatches:Table({Value:\"Joe\"},{Value:\"164\"})},{FullMatch:\"Sam 208\",StartMatch:9,SubMatches:Table({Value:\"Sam\"},{Value:\"208\"})})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-36-float",
+      "expression": "MatchAll(\"Hello\", \"Hello\", MatchOptions.IgnoreCase)",
+      "expected": [
+        {
+          "FullMatch": "Hello",
+          "StartMatch": 1
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L36",
+        "expected_powerfx": "Table({FullMatch:\"Hello\",StartMatch:1})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-36-decimal",
+      "expression": "MatchAll(\"Hello\", \"Hello\", MatchOptions.IgnoreCase)",
+      "expected": [
+        {
+          "FullMatch": "Hello",
+          "StartMatch": 1
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L36",
+        "expected_powerfx": "Table({FullMatch:\"Hello\",StartMatch:1})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-39-float",
+      "expression": "MatchAll(\"Hi\", \"Hi\", MatchOptions.Multiline)",
+      "expected": [
+        {
+          "FullMatch": "Hi",
+          "StartMatch": 1
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L39",
+        "expected_powerfx": "Table({FullMatch:\"Hi\",StartMatch:1})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-39-decimal",
+      "expression": "MatchAll(\"Hi\", \"Hi\", MatchOptions.Multiline)",
+      "expected": [
+        {
+          "FullMatch": "Hi",
+          "StartMatch": 1
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L39",
+        "expected_powerfx": "Table({FullMatch:\"Hi\",StartMatch:1})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-42-float",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa\", \"a\\uD83D\\uDE00{2,}a\" )",
+      "expected": [
+        {
+          "FullMatch": "a😀😀a",
+          "StartMatch": 3
+        },
+        {
+          "FullMatch": "a😀😀😀a",
+          "StartMatch": 10
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L42",
+        "expected_powerfx": "Table({FullMatch:\"a😀😀a\",StartMatch:3},{FullMatch:\"a😀😀😀a\",StartMatch:10})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-42-decimal",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa\", \"a\\uD83D\\uDE00{2,}a\" )",
+      "expected": [
+        {
+          "FullMatch": "a😀😀a",
+          "StartMatch": 3
+        },
+        {
+          "FullMatch": "a😀😀😀a",
+          "StartMatch": 10
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L42",
+        "expected_powerfx": "Table({FullMatch:\"a😀😀a\",StartMatch:3},{FullMatch:\"a😀😀😀a\",StartMatch:10})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-45-float",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa\", \"a\\u{1F600}{2,}a\" )",
+      "expected": [
+        {
+          "FullMatch": "a😀😀a",
+          "StartMatch": 3
+        },
+        {
+          "FullMatch": "a😀😀😀a",
+          "StartMatch": 10
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L45",
+        "expected_powerfx": "Table({FullMatch:\"a😀😀a\",StartMatch:3},{FullMatch:\"a😀😀😀a\",StartMatch:10})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-45-decimal",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa\", \"a\\u{1F600}{2,}a\" )",
+      "expected": [
+        {
+          "FullMatch": "a😀😀a",
+          "StartMatch": 3
+        },
+        {
+          "FullMatch": "a😀😀😀a",
+          "StartMatch": 10
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L45",
+        "expected_powerfx": "Table({FullMatch:\"a😀😀a\",StartMatch:3},{FullMatch:\"a😀😀😀a\",StartMatch:10})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-48-float",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa\", \"\\u{1F600}{2,}\" )",
+      "expected": [
+        {
+          "FullMatch": "😀😀",
+          "StartMatch": 4
+        },
+        {
+          "FullMatch": "😀😀😀",
+          "StartMatch": 11
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L48",
+        "expected_powerfx": "Table({FullMatch:\"😀😀\",StartMatch:4},{FullMatch:\"😀😀😀\",StartMatch:11})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-48-decimal",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa\", \"\\u{1F600}{2,}\" )",
+      "expected": [
+        {
+          "FullMatch": "😀😀",
+          "StartMatch": 4
+        },
+        {
+          "FullMatch": "😀😀😀",
+          "StartMatch": 11
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L48",
+        "expected_powerfx": "Table({FullMatch:\"😀😀\",StartMatch:4},{FullMatch:\"😀😀😀\",StartMatch:11})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-51-float",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa😀a😀aaaaa\", \"\\u{1F600}{2,}\" )",
+      "expected": [
+        {
+          "FullMatch": "😀😀",
+          "StartMatch": 4
+        },
+        {
+          "FullMatch": "😀😀😀",
+          "StartMatch": 11
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L51",
+        "expected_powerfx": "Table({FullMatch:\"😀😀\",StartMatch:4},{FullMatch:\"😀😀😀\",StartMatch:11})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-51-decimal",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa😀a😀aaaaa\", \"\\u{1F600}{2,}\" )",
+      "expected": [
+        {
+          "FullMatch": "😀😀",
+          "StartMatch": 4
+        },
+        {
+          "FullMatch": "😀😀😀",
+          "StartMatch": 11
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L51",
+        "expected_powerfx": "Table({FullMatch:\"😀😀\",StartMatch:4},{FullMatch:\"😀😀😀\",StartMatch:11})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-54-float",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa😀a😀aaaaa\", \"\\u{1F600}{2}\" )",
+      "expected": [
+        {
+          "FullMatch": "😀😀",
+          "StartMatch": 4
+        },
+        {
+          "FullMatch": "😀😀",
+          "StartMatch": 11
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L54",
+        "expected_powerfx": "Table({FullMatch:\"😀😀\",StartMatch:4},{FullMatch:\"😀😀\",StartMatch:11})"
+      }
+    },
+    {
+      "id": "regex-MatchAll-54-decimal",
+      "expression": "MatchAll( \"aaa😀😀aaa😀😀😀aaaaa😀a😀aaaaa\", \"\\u{1F600}{2}\" )",
+      "expected": [
+        {
+          "FullMatch": "😀😀",
+          "StartMatch": 4
+        },
+        {
+          "FullMatch": "😀😀",
+          "StartMatch": 11
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/MatchAll.txt#L54",
+        "expected_powerfx": "Table({FullMatch:\"😀😀\",StartMatch:4},{FullMatch:\"😀😀\",StartMatch:11})"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-3-float",
+      "expression": "Match(\"Hello\", \"\\w\")",
+      "expected": {
+        "FullMatch": "H",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L3",
+        "expected_powerfx": "{FullMatch:\"H\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-3-decimal",
+      "expression": "Match(\"Hello\", \"\\w\")",
+      "expected": {
+        "FullMatch": "H",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L3",
+        "expected_powerfx": "{FullMatch:\"H\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-6-float",
+      "expression": "Index(Match(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches).SubMatches, 1).Value",
+      "expected": "e",
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L6",
+        "expected_powerfx": "\"e\""
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-6-decimal",
+      "expression": "Index(Match(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches).SubMatches, 1).Value",
+      "expected": "e",
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L6",
+        "expected_powerfx": "\"e\""
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-9-float",
+      "expression": "Index(Match(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches).SubMatches, 2).Value",
+      "expected": "l",
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L9",
+        "expected_powerfx": "\"l\""
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-9-decimal",
+      "expression": "Index(Match(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches).SubMatches, 2).Value",
+      "expected": "l",
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L9",
+        "expected_powerfx": "\"l\""
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-12-float",
+      "expression": "Concat(ForAll(Match(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches).SubMatches, With({x:Value}, x)), Value, \", \")",
+      "expected": "e, l",
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L12",
+        "expected_powerfx": "\"e, l\""
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-12-decimal",
+      "expression": "Concat(ForAll(Match(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches).SubMatches, With({x:Value}, x)), Value, \", \")",
+      "expected": "e, l",
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L12",
+        "expected_powerfx": "\"e, l\""
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-15-float",
+      "expression": "Match(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches).SubMatches",
+      "expected": [
+        {
+          "Value": "e"
+        },
+        {
+          "Value": "l"
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L15",
+        "expected_powerfx": "Table({Value:\"e\"},{Value:\"l\"})"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-15-decimal",
+      "expression": "Match(\"Hello\", \"(\\w)l(\\w)\", MatchOptions.NumberedSubMatches).SubMatches",
+      "expected": [
+        {
+          "Value": "e"
+        },
+        {
+          "Value": "l"
+        }
+      ],
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L15",
+        "expected_powerfx": "Table({Value:\"e\"},{Value:\"l\"})"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-18-float",
+      "expression": "Match(\"Joe 164\" & Char(10) & \"Sam 208\" & Char(10), \"(\\w+)\\s(\\d+)\", MatchOptions.Complete & MatchOptions.Multiline & MatchOptions.NumberedSubMatches)",
+      "expected": {
+        "FullMatch": "Joe 164",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "Joe"
+          },
+          {
+            "Value": "164"
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L18",
+        "expected_powerfx": "{FullMatch:\"Joe 164\",StartMatch:1,SubMatches:Table({Value:\"Joe\"},{Value:\"164\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-18-decimal",
+      "expression": "Match(\"Joe 164\" & Char(10) & \"Sam 208\" & Char(10), \"(\\w+)\\s(\\d+)\", MatchOptions.Complete & MatchOptions.Multiline & MatchOptions.NumberedSubMatches)",
+      "expected": {
+        "FullMatch": "Joe 164",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "Joe"
+          },
+          {
+            "Value": "164"
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L18",
+        "expected_powerfx": "{FullMatch:\"Joe 164\",StartMatch:1,SubMatches:Table({Value:\"Joe\"},{Value:\"164\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-21-float",
+      "expression": "Match(\"JohnDoe@microsoft.com\", Match.Email)",
+      "expected": {
+        "FullMatch": "JohnDoe@microsoft.com",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L21",
+        "expected_powerfx": "{FullMatch:\"JohnDoe@microsoft.com\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-21-decimal",
+      "expression": "Match(\"JohnDoe@microsoft.com\", Match.Email)",
+      "expected": {
+        "FullMatch": "JohnDoe@microsoft.com",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L21",
+        "expected_powerfx": "{FullMatch:\"JohnDoe@microsoft.com\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-27-float",
+      "expression": "Match(\"Hello\", \"Hello\", MatchOptions.IgnoreCase)",
+      "expected": {
+        "FullMatch": "Hello",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L27",
+        "expected_powerfx": "{FullMatch:\"Hello\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-27-decimal",
+      "expression": "Match(\"Hello\", \"Hello\", MatchOptions.IgnoreCase)",
+      "expected": {
+        "FullMatch": "Hello",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L27",
+        "expected_powerfx": "{FullMatch:\"Hello\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-30-float",
+      "expression": "Match(\"Hi\", \"Hi\", MatchOptions.Multiline)",
+      "expected": {
+        "FullMatch": "Hi",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L30",
+        "expected_powerfx": "{FullMatch:\"Hi\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-30-decimal",
+      "expression": "Match(\"Hi\", \"Hi\", MatchOptions.Multiline)",
+      "expected": {
+        "FullMatch": "Hi",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L30",
+        "expected_powerfx": "{FullMatch:\"Hi\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-35-float",
+      "expression": "Match(\"28\", \"28\", Blank())",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L35",
+        "expected_powerfx": "Errors: Error 18-25: MatchOptions must be a constant value.|Error 0-5: The function 'Match' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-35-decimal",
+      "expression": "Match(\"28\", \"28\", Blank())",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L35",
+        "expected_powerfx": "Errors: Error 18-25: MatchOptions must be a constant value.|Error 0-5: The function 'Match' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-38-float",
+      "expression": "IsMatch(\"28\", \"28\", Blank())",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L38",
+        "expected_powerfx": "Errors: Error 20-27: MatchOptions must be a constant value.|Error 0-7: The function 'IsMatch' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-38-decimal",
+      "expression": "IsMatch(\"28\", \"28\", Blank())",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L38",
+        "expected_powerfx": "Errors: Error 20-27: MatchOptions must be a constant value.|Error 0-7: The function 'IsMatch' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-41-float",
+      "expression": "MatchAll(\"28\", \"28\", Blank())",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L41",
+        "expected_powerfx": "Errors: Error 21-28: MatchOptions must be a constant value.|Error 0-8: The function 'MatchAll' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-41-decimal",
+      "expression": "MatchAll(\"28\", \"28\", Blank())",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L41",
+        "expected_powerfx": "Errors: Error 21-28: MatchOptions must be a constant value.|Error 0-8: The function 'MatchAll' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-44-float",
+      "expression": "Match(\"28\", \"28\", 28)",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L44",
+        "expected_powerfx": "Errors: Error 18-20: MatchOptions must be a constant value.|Error 0-5: The function 'Match' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-44-decimal",
+      "expression": "Match(\"28\", \"28\", 28)",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L44",
+        "expected_powerfx": "Errors: Error 18-20: MatchOptions must be a constant value.|Error 0-5: The function 'Match' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-47-float",
+      "expression": "Match(\"\"\"Hello world\"\"\", \"\\w+\", If( Sqrt(4) > 0, MatchOptions.Contains, MatchOptions.Complete))",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L47",
+        "expected_powerfx": "Errors: Error 32-94: MatchOptions must be a constant value.|Error 0-5: The function 'Match' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-47-decimal",
+      "expression": "Match(\"\"\"Hello world\"\"\", \"\\w+\", If( Sqrt(4) > 0, MatchOptions.Contains, MatchOptions.Complete))",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L47",
+        "expected_powerfx": "Errors: Error 32-94: MatchOptions must be a constant value.|Error 0-5: The function 'Match' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-50-float",
+      "expression": "MatchAll(\"\"\"Hello world\"\"\", \"\\w+\", If( Sqrt(4) > 0, MatchOptions.Contains, MatchOptions.Complete))",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L50",
+        "expected_powerfx": "Errors: Error 35-97: MatchOptions must be a constant value.|Error 0-8: The function 'MatchAll' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-50-decimal",
+      "expression": "MatchAll(\"\"\"Hello world\"\"\", \"\\w+\", If( Sqrt(4) > 0, MatchOptions.Contains, MatchOptions.Complete))",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L50",
+        "expected_powerfx": "Errors: Error 35-97: MatchOptions must be a constant value.|Error 0-8: The function 'MatchAll' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-53-float",
+      "expression": "IsMatch(\"\"\"Hello world\"\"\", \"\\w+\", If( Sqrt(4) > 0, MatchOptions.Contains, MatchOptions.Complete))",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L53",
+        "expected_powerfx": "Errors: Error 34-96: MatchOptions must be a constant value.|Error 0-7: The function 'IsMatch' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-53-decimal",
+      "expression": "IsMatch(\"\"\"Hello world\"\"\", \"\\w+\", If( Sqrt(4) > 0, MatchOptions.Contains, MatchOptions.Complete))",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L53",
+        "expected_powerfx": "Errors: Error 34-96: MatchOptions must be a constant value.|Error 0-7: The function 'IsMatch' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-56-float",
+      "expression": "Match( \"a\", \"((a)|(b))\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "a",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "a"
+          },
+          {
+            "Value": "a"
+          },
+          {
+            "Value": null
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L56",
+        "expected_powerfx": "{FullMatch:\"a\",StartMatch:1,SubMatches:Table({Value:\"a\"},{Value:\"a\"},{Value:Blank()})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-56-decimal",
+      "expression": "Match( \"a\", \"((a)|(b))\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "a",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "a"
+          },
+          {
+            "Value": "a"
+          },
+          {
+            "Value": null
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L56",
+        "expected_powerfx": "{FullMatch:\"a\",StartMatch:1,SubMatches:Table({Value:\"a\"},{Value:\"a\"},{Value:Blank()})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-59-float",
+      "expression": "Match( \"b\", \"((a)|(b))\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "b",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "b"
+          },
+          {
+            "Value": null
+          },
+          {
+            "Value": "b"
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L59",
+        "expected_powerfx": "{FullMatch:\"b\",StartMatch:1,SubMatches:Table({Value:\"b\"},{Value:Blank()},{Value:\"b\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-59-decimal",
+      "expression": "Match( \"b\", \"((a)|(b))\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "b",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "b"
+          },
+          {
+            "Value": null
+          },
+          {
+            "Value": "b"
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L59",
+        "expected_powerfx": "{FullMatch:\"b\",StartMatch:1,SubMatches:Table({Value:\"b\"},{Value:Blank()},{Value:\"b\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-62-float",
+      "expression": "Match( \"c\", \"((a)|(b))\", MatchOptions.NumberedSubMatches )",
+      "expected": null,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L62",
+        "expected_powerfx": "Blank()"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-62-decimal",
+      "expression": "Match( \"c\", \"((a)|(b))\", MatchOptions.NumberedSubMatches )",
+      "expected": null,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L62",
+        "expected_powerfx": "Blank()"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-65-float",
+      "expression": "Match( \"a\", \"(?<whole>(?<alpha>a)|(?<beta>b))\" )",
+      "expected": {
+        "FullMatch": "a",
+        "StartMatch": 1,
+        "alpha": "a",
+        "beta": null,
+        "whole": "a"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L65",
+        "expected_powerfx": "{FullMatch:\"a\",StartMatch:1,alpha:\"a\",beta:Blank(),whole:\"a\"}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-65-decimal",
+      "expression": "Match( \"a\", \"(?<whole>(?<alpha>a)|(?<beta>b))\" )",
+      "expected": {
+        "FullMatch": "a",
+        "StartMatch": 1,
+        "alpha": "a",
+        "beta": null,
+        "whole": "a"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L65",
+        "expected_powerfx": "{FullMatch:\"a\",StartMatch:1,alpha:\"a\",beta:Blank(),whole:\"a\"}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-68-float",
+      "expression": "Match( \"b\", \"(?<whole>(?<alpha>a)|(?<beta>b))\" )",
+      "expected": {
+        "FullMatch": "b",
+        "StartMatch": 1,
+        "alpha": null,
+        "beta": "b",
+        "whole": "b"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L68",
+        "expected_powerfx": "{FullMatch:\"b\",StartMatch:1,alpha:Blank(),beta:\"b\",whole:\"b\"}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-68-decimal",
+      "expression": "Match( \"b\", \"(?<whole>(?<alpha>a)|(?<beta>b))\" )",
+      "expected": {
+        "FullMatch": "b",
+        "StartMatch": 1,
+        "alpha": null,
+        "beta": "b",
+        "whole": "b"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L68",
+        "expected_powerfx": "{FullMatch:\"b\",StartMatch:1,alpha:Blank(),beta:\"b\",whole:\"b\"}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-71-float",
+      "expression": "Match( \"c\", \"(?<whole>(?<alpha>a)|(?<beta>b))\" )",
+      "expected": null,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L71",
+        "expected_powerfx": "Blank()"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-71-decimal",
+      "expression": "Match( \"c\", \"(?<whole>(?<alpha>a)|(?<beta>b))\" )",
+      "expected": null,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L71",
+        "expected_powerfx": "Blank()"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-74-float",
+      "expression": "Match( \"a\", \"(b*)*\", MatchOptions.NumberedSubMatches )",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L74",
+        "expected_powerfx": "Errors: Error 12-19: Invalid regular expression: Quantifier on a group containing another quantifier or empty alternation that could result in an ambiguous result, found at the end of \"(b*)*\".|Error 0-5: The function 'Match' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-74-decimal",
+      "expression": "Match( \"a\", \"(b*)*\", MatchOptions.NumberedSubMatches )",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L74",
+        "expected_powerfx": "Errors: Error 12-19: Invalid regular expression: Quantifier on a group containing another quantifier or empty alternation that could result in an ambiguous result, found at the end of \"(b*)*\".|Error 0-5: The function 'Match' has some invalid arguments."
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-77-float",
+      "expression": "Match( \"a\", \"(b)*\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": null
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L77",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:Blank()})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-77-decimal",
+      "expression": "Match( \"a\", \"(b)*\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": null
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L77",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:Blank()})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-80-float",
+      "expression": "Match( \"a\", \"(b*)\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": ""
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L80",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:\"\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-80-decimal",
+      "expression": "Match( \"a\", \"(b*)\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": ""
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L80",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:\"\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-83-float",
+      "expression": "Match( \"a\", \"(b)?\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": null
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L83",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:Blank()})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-83-decimal",
+      "expression": "Match( \"a\", \"(b)?\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": null
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L83",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:Blank()})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-86-float",
+      "expression": "Match( \"a\", \"(b?)\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": ""
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L86",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:\"\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-86-decimal",
+      "expression": "Match( \"a\", \"(b?)\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": ""
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L86",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:\"\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-89-float",
+      "expression": "Match( \"a\", \"(b){0,4}\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": null
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L89",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:Blank()})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-89-decimal",
+      "expression": "Match( \"a\", \"(b){0,4}\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": null
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L89",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:Blank()})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-92-float",
+      "expression": "Match( \"a\", \"(b{0,4})\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": ""
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L92",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:\"\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-92-decimal",
+      "expression": "Match( \"a\", \"(b{0,4})\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": ""
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L92",
+        "expected_powerfx": "{FullMatch:\"\",StartMatch:1,SubMatches:Table({Value:\"\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-98-float",
+      "expression": "Match( \"ab\", \"(a)*b\" , MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "ab",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "a"
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L98",
+        "expected_powerfx": "{FullMatch:\"ab\",StartMatch:1,SubMatches:Table({Value:\"a\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-98-decimal",
+      "expression": "Match( \"ab\", \"(a)*b\" , MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "ab",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "a"
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L98",
+        "expected_powerfx": "{FullMatch:\"ab\",StartMatch:1,SubMatches:Table({Value:\"a\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-104-float",
+      "expression": "Match( \"Hi\", \".\", MatchOptions.DotAll )",
+      "expected": {
+        "FullMatch": "H",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L104",
+        "expected_powerfx": "{FullMatch:\"H\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-104-decimal",
+      "expression": "Match( \"Hi\", \".\", MatchOptions.DotAll )",
+      "expected": {
+        "FullMatch": "H",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L104",
+        "expected_powerfx": "{FullMatch:\"H\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-107-float",
+      "expression": "Match( \"Hi\", \" H # a comment \" & Char(10) & \" i \", MatchOptions.FreeSpacing )",
+      "expected": {
+        "FullMatch": "Hi",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L107",
+        "expected_powerfx": "{FullMatch:\"Hi\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-107-decimal",
+      "expression": "Match( \"Hi\", \" H # a comment \" & Char(10) & \" i \", MatchOptions.FreeSpacing )",
+      "expected": {
+        "FullMatch": "Hi",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L107",
+        "expected_powerfx": "{FullMatch:\"Hi\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-110-float",
+      "expression": "Match( \"Hi\", \" H # a comment \" & Char(10) & \" I \", MatchOptions.IgnoreCase & MatchOptions.FreeSpacing )",
+      "expected": {
+        "FullMatch": "Hi",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L110",
+        "expected_powerfx": "{FullMatch:\"Hi\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-110-decimal",
+      "expression": "Match( \"Hi\", \" H # a comment \" & Char(10) & \" I \", MatchOptions.IgnoreCase & MatchOptions.FreeSpacing )",
+      "expected": {
+        "FullMatch": "Hi",
+        "StartMatch": 1
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L110",
+        "expected_powerfx": "{FullMatch:\"Hi\",StartMatch:1}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-114-float",
+      "expression": "Match( \"Hi\", \"(H)([Ii])\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "Hi",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "H"
+          },
+          {
+            "Value": "i"
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L114",
+        "expected_powerfx": "{FullMatch:\"Hi\",StartMatch:1,SubMatches:Table({Value:\"H\"},{Value:\"i\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_V1Compat-114-decimal",
+      "expression": "Match( \"Hi\", \"(H)([Ii])\", MatchOptions.NumberedSubMatches )",
+      "expected": {
+        "FullMatch": "Hi",
+        "StartMatch": 1,
+        "SubMatches": [
+          {
+            "Value": "H"
+          },
+          {
+            "Value": "i"
+          }
+        ]
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "strong",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_V1Compat.txt#L114",
+        "expected_powerfx": "{FullMatch:\"Hi\",StartMatch:1,SubMatches:Table({Value:\"H\"},{Value:\"i\"})}"
+      }
+    },
+    {
+      "id": "regex-Match_StronglyTypedEnumsDisabled-3-float",
+      "expression": "Match(\"Hello\", \"Hello\", \"\").FullMatch",
+      "expected": "Hello",
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_StronglyTypedEnumsDisabled.txt#L3",
+        "expected_powerfx": "\"Hello\""
+      }
+    },
+    {
+      "id": "regex-Match_StronglyTypedEnumsDisabled-3-decimal",
+      "expression": "Match(\"Hello\", \"Hello\", \"\").FullMatch",
+      "expected": "Hello",
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Match_StronglyTypedEnumsDisabled.txt#L3",
+        "expected_powerfx": "\"Hello\""
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-3-float",
+      "expression": "IsMatch(\"Hi\", \"H\", \"c\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L3",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-3-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", \"c\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L3",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-6-float",
+      "expression": "IsMatch(\"Hi\", \"H\", \"$c\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L6",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-6-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", \"$c\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L6",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-12-float",
+      "expression": "IsMatch(\"Hi\", \"H\", \"^c\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L12",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-12-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", \"^c\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L12",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-15-float",
+      "expression": "IsMatch(\"Hi\", \"H\", \"c^\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L15",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-15-decimal",
+      "expression": "IsMatch(\"Hi\", \"H\", \"c^\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L15",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-24-float",
+      "expression": "IsMatch(\"Hi\", \"I\", \"c$i\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L24",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-24-decimal",
+      "expression": "IsMatch(\"Hi\", \"I\", \"c$i\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L24",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-27-float",
+      "expression": "IsMatch(\"Hi\", \"Hi\", \"foo\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L27",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-27-decimal",
+      "expression": "IsMatch(\"Hi\", \"Hi\", \"foo\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L27",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-40-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` A 1234567890\", \"\\p{L}\", \"c\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L40",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-40-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` A 1234567890\", \"\\p{L}\", \"c\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L40",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-43-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~`  1234567890\", \"\\p{L}\", \"c\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L43",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-43-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~`  1234567890\", \"\\p{L}\", \"c\")",
+      "expected": false,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L43",
+        "expected_powerfx": "false"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-46-float",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` Ð 1234567890\", \"\\p{L}\", \"c\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L46",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-46-decimal",
+      "expression": "IsMatch(\"!@#$%^&*()-=_+<>,.:;\\'{}[]\\|?/~` Ð 1234567890\", \"\\p{L}\", \"c\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L46",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-49-float",
+      "expression": "IsMatch(\"Foo\", 17)",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L49",
+        "expected_powerfx": "Errors: Error 15-17: Regular expression must be a constant value."
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-49-decimal",
+      "expression": "IsMatch(\"Foo\", 17)",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L49",
+        "expected_powerfx": "Errors: Error 15-17: Regular expression must be a constant value."
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-52-float",
+      "expression": "IsMatch(\"Foo\", 1/0)",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L52",
+        "expected_powerfx": "Errors: Error 16-17: Regular expression must be a constant value."
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-52-decimal",
+      "expression": "IsMatch(\"Foo\", 1/0)",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L52",
+        "expected_powerfx": "Errors: Error 16-17: Regular expression must be a constant value."
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-55-float",
+      "expression": "IsMatch(\"28\", 28)",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L55",
+        "expected_powerfx": "Errors: Error 14-16: Regular expression must be a constant value."
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-55-decimal",
+      "expression": "IsMatch(\"28\", 28)",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L55",
+        "expected_powerfx": "Errors: Error 14-16: Regular expression must be a constant value."
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-58-float",
+      "expression": "IsMatch(\"Hello\", \"Hello\", \"\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "float"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L58",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "regex-IsMatch_StronglyTypedEnumsDisabled-58-decimal",
+      "expression": "IsMatch(\"Hello\", \"Hello\", \"\")",
+      "expected": true,
+      "environment": {
+        "regex_mode": "powerfx-v1",
+        "enum_mode": "legacy",
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_StronglyTypedEnumsDisabled.txt#L58",
+        "expected_powerfx": "true"
+      }
+    }
+  ]
+}

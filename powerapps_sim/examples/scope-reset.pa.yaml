@@ -1,0 +1,285 @@
+App:
+  Properties:
+    StartScreen: =Nested
+    OnStart: =Set(leftResult,0);Set(rightResult,0);Clear(trace);Set(saved,false);Set(__host,{__phase:"start",__count:0})
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);SelectedConfig=LookUp(Settings,ID=1);RightConfig=LookUp(Settings,ID=2);
+ComponentDefinitions:
+  Leaf:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Counter"
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,Leaf.Seed)
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      ResetCount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(resets,0)
+      Add:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+        Default: =Set(current,Leaf.Total + amount);Collect(history,{Total:current});Leaf.Changed(current)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - __total:
+              DataType: Number
+        Default: =Blank()
+      Double:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - number:
+              DataType: Number
+        Default: =number * 2
+      Config:
+        PropertyKind: Input
+        DataType: Record
+        RaiseOnReset: true
+        Default: ={ID:0,Title:"Fictional default",__sources__:10,__source_rows__:"Fictional note",__scope_alias__:false,__open__:false}
+    Properties:
+      Width: =280
+      Height: =148
+      Fill: =RGBA(245,245,245,1)
+      OnReset: =Set(current,Leaf.Config.__sources__);Set(resets,Leaf.ResetCount+1);Collect(history,{Total:current,__count:Leaf.ResetCount,__source_rows__:Leaf.Config.__source_rows__,__scope_alias__:Leaf.Config.__scope_alias__,__open__:Leaf.Config.__open__});Leaf.Changed(current)
+    Children:
+      - LeafCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =10
+            Width: =Parent.Width-24
+            Height: =40
+            Text: =Leaf.Caption & " · " & Leaf.Total & " · resets " & Leaf.ResetCount & " · flag " & Leaf.Config.__open__
+      - LeafIncrease:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =62
+            Width: =Parent.Width-24
+            Height: =32
+            Text: ="Increase " & Leaf.Caption
+            OnSelect: =Leaf.Add()
+      - LeafNote:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =12
+            Y: =102
+            Width: =Parent.Width-24
+            Height: =32
+            Default: =Leaf.Config.__source_rows__
+            AccessibleLabel: ="Note " & Leaf.Caption
+  Shell:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =10
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      FirstTotal:
+        PropertyKind: Output
+        DataType: Number
+        Default: =InnerA.Total
+      SecondTotal:
+        PropertyKind: Output
+        DataType: Number
+        Default: =InnerB.Total
+      LastChild:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,0)
+      Events:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      AddBoth:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+        Default: =InnerA.Add(amount);InnerB.Add(amount+1)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - __total:
+              DataType: Number
+        Default: =Blank()
+      Config:
+        PropertyKind: Input
+        DataType: Record
+        Default: ={ID:0,Title:"Fictional default",__sources__:10,__source_rows__:"Fictional note",__scope_alias__:false,__open__:false}
+      ResetCount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(resets,0)
+    Properties:
+      Width: =580
+      Height: =230
+      Fill: =RGBA(255,255,255,1)
+      OnReset: =Set(resets,Shell.ResetCount+1);Reset(InnerA);Reset(InnerB);Set(current,0)
+    Children:
+      - ShellCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =8
+            Y: =6
+            Width: =Parent.Width-16
+            Height: =50
+            Text: =Shell.Caption & " · first " & Shell.FirstTotal & " · second " & Shell.SecondTotal & " · last " & Shell.LastChild
+      - InnerA:
+          Control: CanvasComponent
+          Properties:
+            X: =8
+            Y: =64
+            Width: =Parent.Width/2-12
+            Height: =148
+            Seed: =Shell.Seed
+            Caption: =Shell.Caption & " first"
+            Changed: =Set(current,__total);Collect(history,{__count:__total,__phase:"InnerA"});Shell.Changed(__total)
+            Config: =Shell.Config
+          ComponentName: Leaf
+      - InnerB:
+          Control: CanvasComponent
+          Properties:
+            X: =Parent.Width/2+4
+            Y: =64
+            Width: =Parent.Width/2-12
+            Height: =148
+            Seed: =Shell.Seed+100
+            Caption: =Shell.Caption & " second"
+            Changed: =Set(current,__total);Collect(history,{__count:__total,__phase:"InnerB"});Shell.Changed(__total)
+            Config: =Patch(Shell.Config,{__sources__:Shell.Config.__sources__+100})
+          ComponentName: Leaf
+Screens:
+  Nested:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =12
+            Width: =850
+            Height: =40
+            Text: =T("Nested reset · authored record fields","Réinitialisation imbriquée · champs de données")
+      - AddLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =62
+            Width: =168
+            Height: =32
+            Text: ="Add left pair"
+            OnSelect: =LeftShell.AddBoth()
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =204
+            Y: =62
+            Width: =168
+            Height: =32
+            Text: ="Reset left pair"
+            OnSelect: =Reset(LeftShell)
+      - ChangeSeed:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =384
+            Y: =62
+            Width: =168
+            Height: =32
+            Text: =T("Change left note","Changer la note")
+            OnSelect: =Patch(Settings,SelectedConfig,{__source_rows__:"Fictional updated note"})
+      - AddRight:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =564
+            Y: =62
+            Width: =168
+            Height: =32
+            Text: ="Add right pair"
+            OnSelect: =RightShell.AddBoth(5)
+      - LeftShell:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =120
+            Width: =App.Width-48
+            Height: =230
+            Seed: =SelectedConfig.__sources__
+            Caption: ="Left"
+            Changed: =Set(leftResult,__total);Collect(trace,{Event:"LeftShell",__count:__total,__phase:"callback"});Set(__host,{__phase:"LeftShell",__count:__total})
+            Config: =SelectedConfig
+          ComponentName: Shell
+      - RightShell:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =362
+            Width: =App.Width-48
+            Height: =230
+            Seed: =RightConfig.__sources__
+            Caption: ="Right"
+            Changed: =Set(rightResult,__total);Collect(trace,{Event:"RightShell",__count:__total,__phase:"callback"});Set(__host,{__phase:"RightShell",__count:__total})
+            Config: =RightConfig
+          ComponentName: Shell
+      - HostCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =602
+            Width: =900
+            Height: =32
+            Text: ="Host callbacks · left " & leftResult & " · right " & rightResult
+      - ToggleFlag:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =744
+            Y: =62
+            Width: =160
+            Height: =32
+            Text: =T("Toggle left flag","Basculer le drapeau")
+            OnSelect: =Patch(Settings,SelectedConfig,{__open__:!SelectedConfig.__open__})
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =650
+            Width: =200
+            Height: =36
+            Text: =T("Save snapshot","Enregistrer")
+            OnSelect: =Set(saved,false);IfError(Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional scope snapshot",__count:LeftShell.FirstTotal,__source_rows__:SelectedConfig.__source_rows__,__open__:SelectedConfig.__open__}),false,Set(saved,true))
+      - ScopeSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =250
+            Y: =650
+            Width: =650
+            Height: =36
+            Text: =T("Scoped sum ","Somme ") & Sum(Settings,__sources__) & " · " & __host.__phase & " · " & __host.__count
+    Properties:
+      Fill: =RGBA(250,250,250,1)

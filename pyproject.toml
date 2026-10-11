@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "powerapps-sim"
+version = "0.1.0"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Cyril Morales"}]
+description = "Offline Python canvas-app simulator with Power Fx and SQLite"
+requires-python = ">=3.11"
+dependencies = ["Flask==3.1.3", "ruamel.yaml==0.19.1", "regex==2026.9.29", "Babel==2.18.0"]
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1", "playwright==1.63.0"]
+mcp = ["mcp==2.3.0"]
+
+[project.scripts]
+powerapps-sim = "powerapps_sim.__main__:main"
+powerapps-sim-mcp = "powerapps_sim.mcp_server:main"
+
+[tool.setuptools.package-data]
+powerapps_sim = ["static/*", "examples/*", "conformance_cases/*"]
+
+[tool.setuptools.packages.find]
+include = ["powerapps_sim*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

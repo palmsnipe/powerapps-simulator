@@ -1,0 +1,31 @@
+{
+  "Plans": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "TargetDay": {
+        "type": "string",
+        "format": "date"
+      }
+    },
+    "mapping": {
+      "TargetDay": "Target date"
+    },
+    "required": [
+      "Title",
+      "TargetDay"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional timeline",
+        "Target date": "2026-01-15"
+      }
+    ]
+  }
+}

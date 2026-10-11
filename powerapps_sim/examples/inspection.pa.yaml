@@ -1,0 +1,140 @@
+App:
+  Properties:
+    StartScreen: =InspectScreen
+    OnStart: =Set(due,Date(2026,2,3));Set(appointment,DateTime(2026,2,3,9,30,0));Set(timeOnly,Time(9,30,0));Set(amount,Value("0.1"));Set(tint,ColorValue("#0f6cbd"));Set(token,GUID("123e4567-e89b-12d3-a456-426655440000"));Set(photo,LeftPanel.Picture);Set(person,{Name:"Fictional reviewer",Contact:{Email:"reviewer@example.test",City:"Fictional North"},Groups:ForAll(Sequence(55),{ID:Value,Label:"Fictional group " & Text(Value)}),Picture:photo});Set(payload,ParseJSON("{""ready"":true,""items"":[1,2.5]}"));ClearCollect(snapshots,{ID:CountRows(snapshots)+1,Due:due,At:appointment,Tint:tint,Picture:photo,Token:token,Amount:amount,Enabled:true,Contact:person.Contact,Tags:person.Groups,ExtraA:"Fictional A",ExtraB:"Fictional B",ExtraC:"Fictional C",ExtraD:"Fictional D",ExtraE:"Fictional E",ExtraF:"Fictional F",ExtraG:"Fictional G",ExtraH:"Fictional H",ExtraI:"Fictional I",ExtraJ:"Fictional J"});Collect(snapshots,Patch(First(snapshots),{ID:2,Due:Blank(),Picture:Blank(),Tint:Blank(),Amount:Value("0.2")}));Clear(history);Set(callbacks,0);If(false,Set(uninitialized,Date(2026,9,9)));If(false,ClearCollect(emptyTable,{Title:"Fictional empty",Due:due,Picture:photo,Tint:tint}))
+ComponentDefinitions:
+  ValuePanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =0
+      Picture:
+        PropertyKind: Input
+        DataType: Image
+        Default: ="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij48cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHJ4PSIxNCIgZmlsbD0iIzBmNmNiZCIvPjxwYXRoIGQ9Ik0xNyAzM2wxMCAxMCAyMS0yNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4="
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,ValuePanel.Seed)
+      Capture:
+        PropertyKind: Action
+        ReturnType: Number
+        Default: =Set(current,ValuePanel.Total+step);Set(localDate,Date(2026,2,2));Set(localTint,Color.Blue);Set(picture,ValuePanel.Picture);ClearCollect(values,{Index:current,Stamp:Now(),Picture:picture,Tint:localTint});ValuePanel.Captured(current);current
+        Parameters:
+          - step:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+      Captured:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - total:
+              DataType: Number
+    Properties:
+      Width: =360
+      Height: =115
+      OnReset: =Set(current,Blank());Clear(values);Set(picture,Blank());Set(localDate,Blank());Set(localTint,Blank())
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =5
+            Width: =330
+            Text: =ValuePanel.Caption & " · " & ValuePanel.Total
+      - CaptureButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =50
+            Width: =190
+            Text: ="Capture " & ValuePanel.Caption
+            AccessibleLabel: ="Capture " & ValuePanel.Caption
+            OnSelect: =ValuePanel.Capture()
+      - PicturePreview:
+          Control: Image@2.2.3
+          Properties:
+            X: =255
+            Y: =46
+            Width: =48
+            Height: =48
+            Image: =ValuePanel.Picture
+            AccessibleLabel: ="Fictional badge " & ValuePanel.Caption
+Screens:
+  InspectScreen:
+    Properties:
+      OnVisible: =UpdateContext({screenDate:due,screenPicture:photo})
+    Children:
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =15
+            Width: =840
+            Height: =45
+            Text: ="Rows " & CountRows(snapshots) & " · Left " & LeftPanel.Total & " · Right " & RightPanel.Total & " · callbacks " & callbacks
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =20
+            Y: =80
+            Caption: ="Left"
+            Seed: =10
+            Captured: =Set(callbacks,callbacks+1);Collect(history,{Panel:"Left",Total:total})
+          ComponentName: ValuePanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =450
+            Y: =80
+            Caption: ="Right"
+            Seed: =100
+            Captured: =Set(callbacks,callbacks+1);Collect(history,{Panel:"Right",Total:total})
+          ComponentName: ValuePanel
+      - Snapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =225
+            Width: =180
+            Text: ="Add snapshot"
+            OnSelect: =Collect(snapshots,{ID:CountRows(snapshots)+1,Due:due,At:appointment,Tint:tint,Picture:photo,Token:token,Amount:amount,Enabled:true,Contact:person.Contact,Tags:person.Groups,ExtraA:"Fictional A",ExtraB:"Fictional B",ExtraC:"Fictional C",ExtraD:"Fictional D",ExtraE:"Fictional E",ExtraF:"Fictional F",ExtraG:"Fictional G",ExtraH:"Fictional H",ExtraI:"Fictional I",ExtraJ:"Fictional J"});Set(due,Date(2026,2,4));UpdateContext({screenDate:due})
+      - ClearValues:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =240
+            Y: =225
+            Width: =180
+            Text: ="Clear snapshots"
+            OnSelect: =Clear(snapshots);Set(photo,Blank());UpdateContext({screenPicture:Blank()})
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =460
+            Y: =225
+            Width: =180
+            Text: ="Reset left"
+            OnSelect: =Reset(LeftPanel)
+      - CaptureFailure:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =660
+            Y: =225
+            Width: =180
+            Text: ="Capture error"
+            OnSelect: =Set(failure,1/0)
+      - DateCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =300
+            Width: =840
+            Text: ="Due " & Text(due,"yyyy-mm-dd") & " · " & Text(amount)

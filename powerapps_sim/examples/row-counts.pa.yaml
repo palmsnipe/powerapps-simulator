@@ -1,0 +1,246 @@
+App:
+  Properties:
+    StartScreen: =RowCountsLab
+    OnStart: =Set(leftFault,false);Clear(matchesTrace);Clear(trace);Set(saved,false);Reset(LeftPanel);Reset(RightPanel)
+    Formulas: =T(enText:Text,frText:Text):Text=If(StartsWith(Language(),"fr"),frText,enText);Amounts:=Type([{Amount:Number}]);NumericCount(samples:Amounts):Number=Count(samples);LeftBase=ForAll(Filter(Samples,Side="Left"),{Amount:'Sample amount',Note:'Sample note'});RightRows=ForAll(Filter(Samples,Side="Right"),{Amount:'Sample amount',Note:'Sample note'});LeftRows=Table(LeftBase,If(leftFault,Table(Error({Kind:ErrorKind.Div0})),FirstN(LeftBase,0)));
+ComponentDefinitions:
+  RowCountPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Samples:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({Amount:0,Note:""})
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Samples"
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Table(RowCountPanel.Samples,extras)
+      Summary:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Numeric:Count(ShowColumns(RowCountPanel.Rows,Amount)),Present:CountA(ShowColumns(RowCountPanel.Rows,Note)),Rows:CountRows(RowCountPanel.Rows)}
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - summary:
+              DataType: Record
+              Default: ={Numeric:0,Present:0,Rows:0}
+              IsOptional: true
+        Default: =Blank()
+      NumericCount:
+        PropertyKind: Function
+        PropertyDefinition: Input
+        ReturnType: Number
+        Parameters:
+          - samples:
+              DataType: Table
+              Default: =Table({Amount:0})
+              IsOptional: true
+        Default: =Count(samples)
+      Add:
+        PropertyKind: Action
+        ReturnType: Number
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =Collect(extras,{Amount:amount,Note:""});RowCountPanel.Changed(RowCountPanel.Summary);RowCountPanel.Filtered(RowCountPanel.Matches);RowCountPanel.Summary.Numeric
+      Matches:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Numeric:CountIf(RowCountPanel.Rows,Amount),Text:CountIf(RowCountPanel.Rows,If(IsBlank(Amount),"false","true")),Large:CountIf(RowCountPanel.Rows,Amount>=Threshold.Value),Errors:CountIf(RowCountPanel.Rows,IsError(ThisRecord))}
+      RowState:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Rows:IfError(CountRows(RowCountPanel.Rows),FirstError.Kind),Errors:CountIf(RowCountPanel.Rows,IsError(ThisRecord)),Valid:CountIf(RowCountPanel.Rows,!IsError(ThisRecord))}
+      MatchingCount:
+        PropertyKind: Function
+        PropertyDefinition: Input
+        ReturnType: Number
+        Parameters:
+          - samples:
+              DataType: Table
+              Default: =Table({Amount:0})
+              IsOptional: true
+          - minimum:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =CountIf(samples,Amount>=minimum)
+      Filtered:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - summary:
+              DataType: Record
+              Default: ={Numeric:0,Text:0,Large:0,Errors:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =450
+      Height: =330
+      Fill: =RGBA(245,248,255,1)
+      OnReset: =Clear(extras);Reset(Amount)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =10
+            Width: =Parent.Width-24
+            Height: =34
+            Text: =RowCountPanel.Caption
+      - Result:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =50
+            Width: =Parent.Width-24
+            Height: =34
+            Text: =IfError("Count " & RowCountPanel.Summary.Numeric & " · CountA " & RowCountPanel.Summary.Present & " · Rows " & RowCountPanel.Summary.Rows,"Count error " & FirstError.Kind)
+      - Amount:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =12
+            Y: =140
+            Width: =210
+            Height: =40
+            Default: =6
+            Precision: =DecimalPrecision.Auto
+            AccessibleLabel: =RowCountPanel.Caption & " amount"
+      - AddSample:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =236
+            Y: =140
+            Width: =190
+            Height: =40
+            Text: ="Add sample"
+            OnSelect: =RowCountPanel.Add(Amount.Value)
+      - ResetSamples:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =236
+            Y: =228
+            Width: =190
+            Height: =40
+            Text: ="Reset"
+            OnSelect: =Reset(RowCountPanel)
+      - MatchesResult:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Width: =Parent.Width-24
+            Y: =85
+            Height: =38
+            Text: =IfError("Numeric matches " & RowCountPanel.Matches.Numeric & " · Text matches " & RowCountPanel.Matches.Text & " · Large " & RowCountPanel.Matches.Large,"Predicate error " & FirstError.Kind)
+      - ThresholdLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Width: =Parent.Width-24
+            Y: =190
+            Height: =30
+            Text: ="Minimum amount"
+      - Threshold:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =12
+            Width: =210
+            Y: =228
+            Height: =40
+            Default: =4
+            Precision: =DecimalPrecision.Auto
+            AccessibleLabel: =RowCountPanel.Caption & " minimum"
+            OnChange: =RowCountPanel.Filtered(RowCountPanel.Matches)
+      - ErrorsResult:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Width: =Parent.Width-24
+            Y: =282
+            Height: =34
+            Text: ="Rows / first error " & RowCountPanel.RowState.Rows & " · Error rows " & RowCountPanel.RowState.Errors & " · Valid rows " & RowCountPanel.RowState.Valid
+Screens:
+  RowCountsLab:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =900
+            Height: =38
+            Text: =T("Row counts · fictional samples","Comptages de lignes · exemples fictifs")
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: RowCountPanel
+          Properties:
+            X: =20
+            Y: =70
+            Samples: =LeftRows
+            Caption: =T("Left","Gauche")
+            Changed: =Collect(trace,{Panel:"LeftPanel",Numeric:summary.Numeric,Present:summary.Present,Rows:summary.Rows})
+            Filtered: =Collect(matchesTrace,{Panel:"LeftPanel",Numeric:summary.Numeric,Text:summary.Text,Large:summary.Large,Errors:summary.Errors})
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: RowCountPanel
+          Properties:
+            X: =490
+            Y: =70
+            Samples: =RightRows
+            Caption: =T("Right","Droite")
+            Changed: =Collect(trace,{Panel:"RightPanel",Numeric:summary.Numeric,Present:summary.Present,Rows:summary.Rows})
+            Filtered: =Collect(matchesTrace,{Panel:"RightPanel",Numeric:summary.Numeric,Text:summary.Text,Large:summary.Large,Errors:summary.Errors})
+      - SaveSnapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =420
+            Width: =210
+            Height: =40
+            Text: =T("Save snapshot","Enregistrer")
+            OnSelect: =Set(saved,false);IfError(Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional count snapshot",Numeric:LeftPanel.Summary.Numeric,Present:LeftPanel.Summary.Present,Rows:LeftPanel.Summary.Rows}),false,Set(saved,true))
+      - SaveStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =250
+            Y: =420
+            Width: =640
+            Height: =40
+            Text: =If(saved,T("Saved","Enregistré"),T("Unsaved","Non enregistré"))
+      - ClearAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =540
+            Width: =210
+            Height: =40
+            Text: =T("Clear first amount","Effacer le montant")
+            OnSelect: =Patch(Samples,LookUp(Samples,ID=1),{'Sample amount':Blank()})
+      - RestoreAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =250
+            Y: =540
+            Width: =210
+            Height: =40
+            Text: =T("Restore amount","Rétablir le montant")
+            OnSelect: =Patch(Samples,LookUp(Samples,ID=1),{'Sample amount':2})
+      - InjectFault:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Width: =210
+            Y: =480
+            Height: =40
+            Text: =If(leftFault,"Clear row error","Inject row error")
+            OnSelect: =Set(leftFault,!leftFault)

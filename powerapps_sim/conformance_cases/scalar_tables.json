@@ -1,0 +1,2806 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Scalar and single-column Len/Abs, scalar Lower/Upper/Trim/TrimEnds, and single-column rounding overloads. Compiler-message cases and unrelated unsupported Sqrt/Power/Error-string expressions excluded. Rounding table cases explicitly select the pinned engine length-mismatch profile; Canvas defaults use zero for missing digits. Expected JSON decoded independently from literal upstream values without evaluating formulas.",
+  "cases": [
+    {
+      "id": "scalar-tables-len-3",
+      "expression": "Len(\"foo\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L3",
+        "expected_powerfx": "3"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 3
+    },
+    {
+      "id": "scalar-tables-len-6",
+      "expression": "Len(\"foo\" & \"bar\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L6",
+        "expected_powerfx": "6"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 6
+    },
+    {
+      "id": "scalar-tables-len-9",
+      "expression": "Len(\"12345\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L9",
+        "expected_powerfx": "5"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 5
+    },
+    {
+      "id": "scalar-tables-len-12",
+      "expression": "Len(\"11111111111111111111111111111111111111111111111111111111111111111111111111111111\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L12",
+        "expected_powerfx": "80"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 80
+    },
+    {
+      "id": "scalar-tables-len-15",
+      "expression": "Len(\"This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L15",
+        "expected_powerfx": "575"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 575
+    },
+    {
+      "id": "scalar-tables-len-19",
+      "expression": "Len(12345)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L19",
+        "expected_powerfx": "5"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 5
+    },
+    {
+      "id": "scalar-tables-len-22",
+      "expression": "Len(-123.45)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L22",
+        "expected_powerfx": "7"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 7
+    },
+    {
+      "id": "scalar-tables-len-27",
+      "expression": "Len(true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L27",
+        "expected_powerfx": "4"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 4
+    },
+    {
+      "id": "scalar-tables-len-30",
+      "expression": "Len(false)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L30",
+        "expected_powerfx": "5"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 5
+    },
+    {
+      "id": "scalar-tables-len-33",
+      "expression": "Len(\"true\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L33",
+        "expected_powerfx": "4"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 4
+    },
+    {
+      "id": "scalar-tables-len-36",
+      "expression": "Len(\"false\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L36",
+        "expected_powerfx": "5"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 5
+    },
+    {
+      "id": "scalar-tables-len-41",
+      "expression": "Len(\"\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L41",
+        "expected_powerfx": "0"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 0
+    },
+    {
+      "id": "scalar-tables-len-44",
+      "expression": "Len(\" \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L44",
+        "expected_powerfx": "1"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 1
+    },
+    {
+      "id": "scalar-tables-len-47",
+      "expression": "Len(Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L47",
+        "expected_powerfx": "0"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 0
+    },
+    {
+      "id": "scalar-tables-len-51",
+      "expression": "Len(1/0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L51",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-len-56",
+      "expression": "Len(Text(12, \"#.000\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L56",
+        "expected_powerfx": "6"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 6
+    },
+    {
+      "id": "scalar-tables-len-59",
+      "expression": "Len(If(true, \"foo\", \"bar!\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L59",
+        "expected_powerfx": "3"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 3
+    },
+    {
+      "id": "scalar-tables-len-62",
+      "expression": "Len(Date(1976, 12,23))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L62",
+        "expected_powerfx": "10"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 10
+    },
+    {
+      "id": "scalar-tables-len-67",
+      "expression": "Len(\"foo\" & 67890 & false & Blank() & Text(12, \"#.000\") & Date(1976, 12,23))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Len.txt#L67",
+        "expected_powerfx": "29"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 29
+    },
+    {
+      "id": "scalar-tables-lent-3",
+      "expression": "Len([\"abc\", \"def\"])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/LenT.txt#L3",
+        "expected_powerfx": "Table({Value:3},{Value:3})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": [
+        {
+          "Value": 3
+        },
+        {
+          "Value": 3
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-lent-6",
+      "expression": "Len([123, -2344566, 0567])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/LenT.txt#L6",
+        "expected_powerfx": "Table({Value:3},{Value:8},{Value:3})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": [
+        {
+          "Value": 3
+        },
+        {
+          "Value": 8
+        },
+        {
+          "Value": 3
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-lent-9",
+      "expression": "Len(Len(Table({b: \"doubledigitlength\"}, {b:\"length\"}, {b: \"\"})))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/LenT.txt#L9",
+        "expected_powerfx": "Table({Value:2},{Value:1},{Value:1})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": [
+        {
+          "Value": 2
+        },
+        {
+          "Value": 1
+        },
+        {
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-lower-3",
+      "expression": "Lower(\"aBCd eFGhIJK \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L3",
+        "expected_powerfx": "\"abcd efghijk \""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "abcd efghijk "
+    },
+    {
+      "id": "scalar-tables-lower-6",
+      "expression": "Lower(\"Important!\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L6",
+        "expected_powerfx": "\"important!\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "important!"
+    },
+    {
+      "id": "scalar-tables-lower-9",
+      "expression": "Lower(\"HeLlO wOrLd\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L9",
+        "expected_powerfx": "\"hello world\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "hello world"
+    },
+    {
+      "id": "scalar-tables-lower-12",
+      "expression": "Lower(\"all lower\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L12",
+        "expected_powerfx": "\"all lower\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "all lower"
+    },
+    {
+      "id": "scalar-tables-lower-15",
+      "expression": "Lower(\"ALL CAPS\" & \" HelLo\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L15",
+        "expected_powerfx": "\"all caps hello\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "all caps hello"
+    },
+    {
+      "id": "scalar-tables-lower-18",
+      "expression": "Lower(\"E. E. Cummings\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L18",
+        "expected_powerfx": "\"e. e. cummings\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "e. e. cummings"
+    },
+    {
+      "id": "scalar-tables-lower-21",
+      "expression": "Lower(\"123 456\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L21",
+        "expected_powerfx": "\"123 456\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "123 456"
+    },
+    {
+      "id": "scalar-tables-lower-24",
+      "expression": "Lower(\" \\\\t \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L24",
+        "expected_powerfx": "\" \\\\t \""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": " \\\\t "
+    },
+    {
+      "id": "scalar-tables-lower-28",
+      "expression": "Lower(\"This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L28",
+        "expected_powerfx": "\"this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string this is really very long string"
+    },
+    {
+      "id": "scalar-tables-lower-33",
+      "expression": "Lower(12345)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L33",
+        "expected_powerfx": "\"12345\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12345"
+    },
+    {
+      "id": "scalar-tables-lower-36",
+      "expression": "Lower(-123.45)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L36",
+        "expected_powerfx": "\"-123.45\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "-123.45"
+    },
+    {
+      "id": "scalar-tables-lower-41",
+      "expression": "Lower(true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L41",
+        "expected_powerfx": "\"true\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "true"
+    },
+    {
+      "id": "scalar-tables-lower-44",
+      "expression": "Lower(false)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L44",
+        "expected_powerfx": "\"false\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "false"
+    },
+    {
+      "id": "scalar-tables-lower-47",
+      "expression": "Lower(\"true\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L47",
+        "expected_powerfx": "\"true\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "true"
+    },
+    {
+      "id": "scalar-tables-lower-50",
+      "expression": "Lower(\"false\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L50",
+        "expected_powerfx": "\"false\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "false"
+    },
+    {
+      "id": "scalar-tables-lower-55",
+      "expression": "Lower(\"\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L55",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-lower-58",
+      "expression": "If(Len(Lower(\" \"))=1,true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L58",
+        "expected_powerfx": "true"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": true
+    },
+    {
+      "id": "scalar-tables-lower-61",
+      "expression": "Lower(Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L61",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-lower-65",
+      "expression": "Lower(1/0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L65",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-lower-70",
+      "expression": "Lower(Text(12, \"#.000\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L70",
+        "expected_powerfx": "\"12.000\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12.000"
+    },
+    {
+      "id": "scalar-tables-lower-73",
+      "expression": "Lower(Concatenate(\"Jane\", \"Doe\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L73",
+        "expected_powerfx": "\"janedoe\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "janedoe"
+    },
+    {
+      "id": "scalar-tables-lower-76",
+      "expression": "Lower(Date(1976, 12,23))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L76",
+        "expected_powerfx": "\"12/23/1976\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12/23/1976"
+    },
+    {
+      "id": "scalar-tables-lower-81",
+      "expression": "Lower(\"Jane\" & \"Smith\" & 67890 & true & Blank() & Text(12, \"#.000\") & Date(1976, 12,23))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lower.txt#L81",
+        "expected_powerfx": "\"janesmith67890true12.00012/23/1976\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "janesmith67890true12.00012/23/1976"
+    },
+    {
+      "id": "scalar-tables-upper-3",
+      "expression": "Upper(\"aBCd  eFGhIJK \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L3",
+        "expected_powerfx": "\"ABCD  EFGHIJK \""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "ABCD  EFGHIJK "
+    },
+    {
+      "id": "scalar-tables-upper-6",
+      "expression": "Upper(\"Important!\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L6",
+        "expected_powerfx": "\"IMPORTANT!\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "IMPORTANT!"
+    },
+    {
+      "id": "scalar-tables-upper-9",
+      "expression": "Upper(\"HeLlO wOrLd\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L9",
+        "expected_powerfx": "\"HELLO WORLD\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "HELLO WORLD"
+    },
+    {
+      "id": "scalar-tables-upper-12",
+      "expression": "Upper(\"all lower\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L12",
+        "expected_powerfx": "\"ALL LOWER\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "ALL LOWER"
+    },
+    {
+      "id": "scalar-tables-upper-15",
+      "expression": "Upper(\"ALL CAPS\" & \" HelLo\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L15",
+        "expected_powerfx": "\"ALL CAPS HELLO\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "ALL CAPS HELLO"
+    },
+    {
+      "id": "scalar-tables-upper-18",
+      "expression": "Upper(\"E. E. Cummings\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L18",
+        "expected_powerfx": "\"E. E. CUMMINGS\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "E. E. CUMMINGS"
+    },
+    {
+      "id": "scalar-tables-upper-21",
+      "expression": "Upper(\"123 456\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L21",
+        "expected_powerfx": "\"123 456\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "123 456"
+    },
+    {
+      "id": "scalar-tables-upper-24",
+      "expression": "Upper(\" \\\\t \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L24",
+        "expected_powerfx": "\" \\\\T \""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": " \\\\T "
+    },
+    {
+      "id": "scalar-tables-upper-28",
+      "expression": "Upper(\"This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L28",
+        "expected_powerfx": "\"THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING THIS IS REALLY VERY LONG STRING"
+    },
+    {
+      "id": "scalar-tables-upper-33",
+      "expression": "Upper(12345)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L33",
+        "expected_powerfx": "\"12345\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12345"
+    },
+    {
+      "id": "scalar-tables-upper-36",
+      "expression": "Upper(-123.45)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L36",
+        "expected_powerfx": "\"-123.45\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "-123.45"
+    },
+    {
+      "id": "scalar-tables-upper-41",
+      "expression": "Upper(true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L41",
+        "expected_powerfx": "\"TRUE\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "TRUE"
+    },
+    {
+      "id": "scalar-tables-upper-44",
+      "expression": "Upper(false)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L44",
+        "expected_powerfx": "\"FALSE\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "FALSE"
+    },
+    {
+      "id": "scalar-tables-upper-47",
+      "expression": "Upper(\"true\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L47",
+        "expected_powerfx": "\"TRUE\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "TRUE"
+    },
+    {
+      "id": "scalar-tables-upper-50",
+      "expression": "Upper(\"false\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L50",
+        "expected_powerfx": "\"FALSE\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "FALSE"
+    },
+    {
+      "id": "scalar-tables-upper-55",
+      "expression": "Upper(\"\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L55",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-upper-58",
+      "expression": "If(Len(Upper(\" \"))=1,true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L58",
+        "expected_powerfx": "true"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": true
+    },
+    {
+      "id": "scalar-tables-upper-61",
+      "expression": "Upper(Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L61",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-upper-65",
+      "expression": "Upper(1/0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L65",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-upper-70",
+      "expression": "Upper(Text(12, \"#.000\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L70",
+        "expected_powerfx": "\"12.000\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12.000"
+    },
+    {
+      "id": "scalar-tables-upper-73",
+      "expression": "Upper(Concatenate(\"Jane\", \"Doe\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L73",
+        "expected_powerfx": "\"JANEDOE\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "JANEDOE"
+    },
+    {
+      "id": "scalar-tables-upper-76",
+      "expression": "Upper(Date(1976, 12,23))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L76",
+        "expected_powerfx": "\"12/23/1976\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12/23/1976"
+    },
+    {
+      "id": "scalar-tables-upper-81",
+      "expression": "Upper(\"Jane\" & \"Smith\" & 67890 & true & Blank() & Text(12, \"#.000\") & Date(1976, 12,23))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Upper.txt#L81",
+        "expected_powerfx": "\"JANESMITH67890TRUE12.00012/23/1976\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "JANESMITH67890TRUE12.00012/23/1976"
+    },
+    {
+      "id": "scalar-tables-trim-3",
+      "expression": "Trim(\"   Hello     World   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L3",
+        "expected_powerfx": "\"Hello World\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Hello World"
+    },
+    {
+      "id": "scalar-tables-trim-6",
+      "expression": "Trim(\"  Jane  Doe  \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L6",
+        "expected_powerfx": "\"Jane Doe\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Jane Doe"
+    },
+    {
+      "id": "scalar-tables-trim-9",
+      "expression": "Trim(\"  Jack  and   Jill       \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L9",
+        "expected_powerfx": "\"Jack and Jill\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Jack and Jill"
+    },
+    {
+      "id": "scalar-tables-trim-12",
+      "expression": "Trim(\"Already trimmed\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L12",
+        "expected_powerfx": "\"Already trimmed\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Already trimmed"
+    },
+    {
+      "id": "scalar-tables-trim-15",
+      "expression": "Trim(\"   Venus  ,  Earth ,  Mars \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L15",
+        "expected_powerfx": "\"Venus , Earth , Mars\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Venus , Earth , Mars"
+    },
+    {
+      "id": "scalar-tables-trim-18",
+      "expression": "Trim(\"Oil and Water  \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L18",
+        "expected_powerfx": "\"Oil and Water\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Oil and Water"
+    },
+    {
+      "id": "scalar-tables-trim-21",
+      "expression": "Trim(\"foo \" & \" bar   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L21",
+        "expected_powerfx": "\"foo bar\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "foo bar"
+    },
+    {
+      "id": "scalar-tables-trim-24",
+      "expression": "Trim(\" 12345    \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L24",
+        "expected_powerfx": "\"12345\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12345"
+    },
+    {
+      "id": "scalar-tables-trim-28",
+      "expression": "Trim(\"               This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long              string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really verylong string         \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L28",
+        "expected_powerfx": "\"This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really verylong string\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really verylong string"
+    },
+    {
+      "id": "scalar-tables-trim-32",
+      "expression": "Trim(  12345    )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L32",
+        "expected_powerfx": "\"12345\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12345"
+    },
+    {
+      "id": "scalar-tables-trim-35",
+      "expression": "Trim(  -123.45   )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L35",
+        "expected_powerfx": "\"-123.45\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "-123.45"
+    },
+    {
+      "id": "scalar-tables-trim-39",
+      "expression": "Trim(  true   )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L39",
+        "expected_powerfx": "\"true\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "true"
+    },
+    {
+      "id": "scalar-tables-trim-42",
+      "expression": "Trim(  false    )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L42",
+        "expected_powerfx": "\"false\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "false"
+    },
+    {
+      "id": "scalar-tables-trim-45",
+      "expression": "Trim(  \"true\"   )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L45",
+        "expected_powerfx": "\"true\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "true"
+    },
+    {
+      "id": "scalar-tables-trim-48",
+      "expression": "Trim(\"  false    \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L48",
+        "expected_powerfx": "\"false\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "false"
+    },
+    {
+      "id": "scalar-tables-trim-53",
+      "expression": "Trim(\"\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L53",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-trim-56",
+      "expression": "Trim(\"   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L56",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-trim-59",
+      "expression": "Trim(Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L59",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-trim-63",
+      "expression": "Trim(1/0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L63",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-trim-66",
+      "expression": "Trim(\"  1/0   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L66",
+        "expected_powerfx": "\"1/0\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "1/0"
+    },
+    {
+      "id": "scalar-tables-trim-71",
+      "expression": "Trim(Concatenate(\"  Jane   \",\" Doe   \"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L71",
+        "expected_powerfx": "\"Jane Doe\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Jane Doe"
+    },
+    {
+      "id": "scalar-tables-trim-76",
+      "expression": "Trim(\"   foo   \" & 67890 & \"    \" & false & Blank() & Text(12, \"#.000\") & Date(1976, 12,23) & \"   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Trim.txt#L76",
+        "expected_powerfx": "\"foo 67890 false12.00012/23/1976\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "foo 67890 false12.00012/23/1976"
+    },
+    {
+      "id": "scalar-tables-trimends-3",
+      "expression": "TrimEnds(\"   Hello     World   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L3",
+        "expected_powerfx": "\"Hello     World\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Hello     World"
+    },
+    {
+      "id": "scalar-tables-trimends-6",
+      "expression": "TrimEnds(\"  Jane  Doe  \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L6",
+        "expected_powerfx": "\"Jane  Doe\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Jane  Doe"
+    },
+    {
+      "id": "scalar-tables-trimends-9",
+      "expression": "TrimEnds(\"  Jack  and   Jill       \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L9",
+        "expected_powerfx": "\"Jack  and   Jill\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Jack  and   Jill"
+    },
+    {
+      "id": "scalar-tables-trimends-12",
+      "expression": "TrimEnds(\"Already Trimmed\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L12",
+        "expected_powerfx": "\"Already Trimmed\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Already Trimmed"
+    },
+    {
+      "id": "scalar-tables-trimends-15",
+      "expression": "TrimEnds(\"   Venus  ,  Earth ,  Mars \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L15",
+        "expected_powerfx": "\"Venus  ,  Earth ,  Mars\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Venus  ,  Earth ,  Mars"
+    },
+    {
+      "id": "scalar-tables-trimends-18",
+      "expression": "TrimEnds(\"Oil and Water  \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L18",
+        "expected_powerfx": "\"Oil and Water\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Oil and Water"
+    },
+    {
+      "id": "scalar-tables-trimends-21",
+      "expression": "TrimEnds(\"foo \" & \" bar   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L21",
+        "expected_powerfx": "\"foo  bar\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "foo  bar"
+    },
+    {
+      "id": "scalar-tables-trimends-24",
+      "expression": "TrimEnds(\" 12345    \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L24",
+        "expected_powerfx": "\"12345\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12345"
+    },
+    {
+      "id": "scalar-tables-trimends-28",
+      "expression": "TrimEnds(\"               This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long              string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really verylong string         \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L28",
+        "expected_powerfx": "\"This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long              string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really verylong string\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long              string This is really very long string This is really very long string This is really very long string This is really very long string This is really very long string This is really verylong string"
+    },
+    {
+      "id": "scalar-tables-trimends-32",
+      "expression": "TrimEnds(  12345    )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L32",
+        "expected_powerfx": "\"12345\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "12345"
+    },
+    {
+      "id": "scalar-tables-trimends-35",
+      "expression": "TrimEnds(  -123.45   )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L35",
+        "expected_powerfx": "\"-123.45\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "-123.45"
+    },
+    {
+      "id": "scalar-tables-trimends-40",
+      "expression": "TrimEnds(  true   )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L40",
+        "expected_powerfx": "\"true\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "true"
+    },
+    {
+      "id": "scalar-tables-trimends-43",
+      "expression": "TrimEnds(  false    )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L43",
+        "expected_powerfx": "\"false\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "false"
+    },
+    {
+      "id": "scalar-tables-trimends-46",
+      "expression": "TrimEnds(  \"true\"   )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L46",
+        "expected_powerfx": "\"true\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "true"
+    },
+    {
+      "id": "scalar-tables-trimends-49",
+      "expression": "TrimEnds(\"  false    \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L49",
+        "expected_powerfx": "\"false\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "false"
+    },
+    {
+      "id": "scalar-tables-trimends-54",
+      "expression": "TrimEnds(\"\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L54",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-trimends-57",
+      "expression": "TrimEnds(\"   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L57",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-trimends-60",
+      "expression": "TrimEnds(Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L60",
+        "expected_powerfx": "\"\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": ""
+    },
+    {
+      "id": "scalar-tables-trimends-64",
+      "expression": "TrimEnds(1/0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L64",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-trimends-67",
+      "expression": "TrimEnds(\"  1/0   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L67",
+        "expected_powerfx": "\"1/0\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "1/0"
+    },
+    {
+      "id": "scalar-tables-trimends-72",
+      "expression": "TrimEnds(Concatenate(\"  Jane   \",\" Doe   \"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L72",
+        "expected_powerfx": "\"Jane    Doe\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "Jane    Doe"
+    },
+    {
+      "id": "scalar-tables-trimends-77",
+      "expression": "TrimEnds(\"   foo   \" & 67890 & \"    \" & false & Blank() & Text(12, \"#.000\") & Date(1976, 12,23) & \"   \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TrimEnds.txt#L77",
+        "expected_powerfx": "\"foo   67890    false12.00012/23/1976\""
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": "foo   67890    false12.00012/23/1976"
+    },
+    {
+      "id": "scalar-tables-abs-6",
+      "expression": "Abs(0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L6",
+        "expected_powerfx": "0"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 0
+    },
+    {
+      "id": "scalar-tables-abs-9",
+      "expression": "Abs(2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L9",
+        "expected_powerfx": "2"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 2
+    },
+    {
+      "id": "scalar-tables-abs-14",
+      "expression": "Abs(-0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L14",
+        "expected_powerfx": "0"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 0
+    },
+    {
+      "id": "scalar-tables-abs-17",
+      "expression": "Abs(-2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L17",
+        "expected_powerfx": "2"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 2
+    },
+    {
+      "id": "scalar-tables-abs-21",
+      "expression": "Abs(2.2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L21",
+        "expected_powerfx": "2.2"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 2.2
+    },
+    {
+      "id": "scalar-tables-abs-24",
+      "expression": "Abs(-2.2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L24",
+        "expected_powerfx": "2.2"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 2.2
+    },
+    {
+      "id": "scalar-tables-abs-27",
+      "expression": "Abs(123456.789)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L27",
+        "expected_powerfx": "123456.789"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 123456.789
+    },
+    {
+      "id": "scalar-tables-abs-30",
+      "expression": "Abs(-123456.789)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L30",
+        "expected_powerfx": "123456.789"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 123456.789
+    },
+    {
+      "id": "scalar-tables-abs-34",
+      "expression": "Abs(1/0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L34",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-abs-38",
+      "expression": "Abs(Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L38",
+        "expected_powerfx": "0"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 0
+    },
+    {
+      "id": "scalar-tables-abs-42",
+      "expression": "Abs(Blank()) = 0",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L42",
+        "expected_powerfx": "true"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": true
+    },
+    {
+      "id": "scalar-tables-abs-45",
+      "expression": "IsBlank(Abs(Blank()))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L45",
+        "expected_powerfx": "false"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": false
+    },
+    {
+      "id": "scalar-tables-abs-50",
+      "expression": "Abs(\"sampleText\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L50",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-abs-53",
+      "expression": "Abs(\"10\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L53",
+        "expected_powerfx": "10"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 10
+    },
+    {
+      "id": "scalar-tables-abs-56",
+      "expression": "Abs(\"-10.123\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L56",
+        "expected_powerfx": "10.123"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 10.123
+    },
+    {
+      "id": "scalar-tables-abs-61",
+      "expression": "Abs(true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L61",
+        "expected_powerfx": "1"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 1
+    },
+    {
+      "id": "scalar-tables-abs-64",
+      "expression": "Abs(false)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L64",
+        "expected_powerfx": "0"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 0
+    },
+    {
+      "id": "scalar-tables-abs-67",
+      "expression": "Abs(\"true\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L67",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-abs-70",
+      "expression": "Abs(\"false\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L70",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-abs-74",
+      "expression": "Date(1976, 12,23) - Date(2000, 01, 01)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L74",
+        "expected_powerfx": "-8409"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": -8409
+    },
+    {
+      "id": "scalar-tables-abs-77",
+      "expression": "Abs(Date(1976, 12,23) - Date(2000, 01, 01))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L77",
+        "expected_powerfx": "8409"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 8409
+    },
+    {
+      "id": "scalar-tables-abs-80",
+      "expression": "Abs(Date(2022, 10, 1))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Abs.txt#L80",
+        "expected_powerfx": "44835"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": 44835
+    },
+    {
+      "id": "scalar-tables-abst-3",
+      "expression": "Abs([-1, 0, 123456.789, -123456.789])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AbsT.txt#L3",
+        "expected_powerfx": "Table({Value:1},{Value:0},{Value:123456.789},{Value:123456.789})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": [
+        {
+          "Value": 1
+        },
+        {
+          "Value": 0
+        },
+        {
+          "Value": 123456.789
+        },
+        {
+          "Value": 123456.789
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-abst-6",
+      "expression": "Abs([true, false])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AbsT.txt#L6",
+        "expected_powerfx": "Table({Value:1},{Value:0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": [
+        {
+          "Value": 1
+        },
+        {
+          "Value": 0
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-abst-9",
+      "expression": "Abs([\"10\", \"-10.123\"])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AbsT.txt#L9",
+        "expected_powerfx": "Table({Value:10},{Value:10.123})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": [
+        {
+          "Value": 10
+        },
+        {
+          "Value": 10.123
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-abst-15",
+      "expression": "Abs(If(1<0,[1]))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AbsT.txt#L15",
+        "expected_powerfx": "Blank()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": null
+    },
+    {
+      "id": "scalar-tables-abst-18",
+      "expression": "Abs(Table({a:-1},{a:0},{a:123456.789},{a:-123456.789}))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AbsT.txt#L18",
+        "expected_powerfx": "Table({Value:1},{Value:0},{Value:123456.789},{Value:123456.789})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "expected": [
+        {
+          "Value": 1
+        },
+        {
+          "Value": 0
+        },
+        {
+          "Value": 123456.789
+        },
+        {
+          "Value": 123456.789
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-7",
+      "expression": "Round([1.2, 3.4, 5.6, 7.8], 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L7",
+        "expected_powerfx": "Table({Value:1},{Value:3},{Value:6},{Value:8})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1
+        },
+        {
+          "Value": 3
+        },
+        {
+          "Value": 6
+        },
+        {
+          "Value": 8
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-10",
+      "expression": "Round(Table({a: 1.23}, {a: 4.56}, {a: 7.89}, {a: 10.12}), 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L10",
+        "expected_powerfx": "Table({Value:1.2},{Value:4.6},{Value:7.9},{Value:10.1})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1.2
+        },
+        {
+          "Value": 4.6
+        },
+        {
+          "Value": 7.9
+        },
+        {
+          "Value": 10.1
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-13",
+      "expression": "Round(Table({b: -9.8765}, {b: -8.7654}, {b: -7.6543}, {b: -6.5432}, {b: -5.4321}), 2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L13",
+        "expected_powerfx": "Table({Value:-9.88},{Value:-8.77},{Value:-7.65},{Value:-6.54},{Value:-5.43})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": -9.88
+        },
+        {
+          "Value": -8.77
+        },
+        {
+          "Value": -7.65
+        },
+        {
+          "Value": -6.54
+        },
+        {
+          "Value": -5.43
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-16",
+      "expression": "Round(Filter([1,2,3], Value > 10), 0) // Empty table",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L16",
+        "expected_powerfx": "Table()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": []
+    },
+    {
+      "id": "scalar-tables-roundt-20",
+      "expression": "Round(1234.5678, [-2, -1, 0, 1, 2])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L20",
+        "expected_powerfx": "Table({Value:1200},{Value:1230},{Value:1235},{Value:1234.6},{Value:1234.57})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1200
+        },
+        {
+          "Value": 1230
+        },
+        {
+          "Value": 1235
+        },
+        {
+          "Value": 1234.6
+        },
+        {
+          "Value": 1234.57
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-24",
+      "expression": "Round(Table({a: 123.456}, {a: 345.678}), Table({b: 1}, {b: 2}))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L24",
+        "expected_powerfx": "Table({Value:123.5},{Value:345.68})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 123.5
+        },
+        {
+          "Value": 345.68
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-28",
+      "expression": "Round( [1.2, 2.3, 3.4], [1/0] )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L28",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-31",
+      "expression": "Round( [1.23], [1, 2, 3] )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L31",
+        "expected_powerfx": "Table({Value:1.2},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1.2
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-35",
+      "expression": "Round( If(1<0,[1]), 1 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L35",
+        "expected_powerfx": "Blank()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": null
+    },
+    {
+      "id": "scalar-tables-roundt-39",
+      "expression": "Round( If(1/0<2, [1]), 1 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L39",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-roundt-42",
+      "expression": "Round( [1.2, 2.3, 3.4], 1/0 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L42",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-49",
+      "expression": "Round([\"12.34\", \"56.78\"], \"1\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L49",
+        "expected_powerfx": "Table({Value:12.3},{Value:56.8})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 12.3
+        },
+        {
+          "Value": 56.8
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-52",
+      "expression": "Round([\"12.34\", \"56.78\"], true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L52",
+        "expected_powerfx": "Table({Value:12.3},{Value:56.8})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 12.3
+        },
+        {
+          "Value": 56.8
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundt-55",
+      "expression": "Round(If(1<0,[\"12.34\", \"56.78\"]), 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L55",
+        "expected_powerfx": "Blank()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": null
+    },
+    {
+      "id": "scalar-tables-roundt-58",
+      "expression": "Round([\"12.34\", \"56.78\"], If(1<0,\"1\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundT.txt#L58",
+        "expected_powerfx": "Table({Value:12},{Value:57})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 12
+        },
+        {
+          "Value": 57
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-7",
+      "expression": "RoundDown([1.2, 3.4, 5.6, 7.8], 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L7",
+        "expected_powerfx": "Table({Value:1},{Value:3},{Value:5},{Value:7})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1
+        },
+        {
+          "Value": 3
+        },
+        {
+          "Value": 5
+        },
+        {
+          "Value": 7
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-10",
+      "expression": "RoundDown(Table({a: 1.23}, {a: 4.56}, {a: 7.89}, {a: 10.12}), 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L10",
+        "expected_powerfx": "Table({Value:1.2},{Value:4.5},{Value:7.8},{Value:10.1})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1.2
+        },
+        {
+          "Value": 4.5
+        },
+        {
+          "Value": 7.8
+        },
+        {
+          "Value": 10.1
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-13",
+      "expression": "RoundDown(Table({b: -9.8765}, {b: -8.7654}, {b: -7.6543}, {b: -6.5432}, {b: -5.4321}), 2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L13",
+        "expected_powerfx": "Table({Value:-9.87},{Value:-8.76},{Value:-7.65},{Value:-6.54},{Value:-5.43})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": -9.87
+        },
+        {
+          "Value": -8.76
+        },
+        {
+          "Value": -7.65
+        },
+        {
+          "Value": -6.54
+        },
+        {
+          "Value": -5.43
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-16",
+      "expression": "RoundDown(Filter([1,2,3], Value > 10), 0) // Empty table",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L16",
+        "expected_powerfx": "Table()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": []
+    },
+    {
+      "id": "scalar-tables-rounddownt-20",
+      "expression": "RoundDown(1234.5678, [-2, -1, 0, 1, 2])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L20",
+        "expected_powerfx": "Table({Value:1200},{Value:1230},{Value:1234},{Value:1234.5},{Value:1234.56})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1200
+        },
+        {
+          "Value": 1230
+        },
+        {
+          "Value": 1234
+        },
+        {
+          "Value": 1234.5
+        },
+        {
+          "Value": 1234.56
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-24",
+      "expression": "RoundDown(Table({a: 123.456}, {a: 345.678}), Table({b: 1}, {b: 2}))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L24",
+        "expected_powerfx": "Table({Value:123.4},{Value:345.67})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 123.4
+        },
+        {
+          "Value": 345.67
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-28",
+      "expression": "RoundDown( If(1<0,[1]), 1 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L28",
+        "expected_powerfx": "Blank()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": null
+    },
+    {
+      "id": "scalar-tables-rounddownt-32",
+      "expression": "RoundDown( If(1/0<2, [1]), 1 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L32",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-rounddownt-35",
+      "expression": "RoundDown( [1.2, 2.3, 3.4], 1/0 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L35",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-39",
+      "expression": "RoundDown( [1.2, 2.3, 3.4], [1/0] )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L39",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-42",
+      "expression": "RoundDown( [1.23], [1, 2, 3] )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L42",
+        "expected_powerfx": "Table({Value:1.2},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1.2
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-49",
+      "expression": "RoundDown([\"12.34\", \"56.78\"], \"1\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L49",
+        "expected_powerfx": "Table({Value:12.3},{Value:56.7})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 12.3
+        },
+        {
+          "Value": 56.7
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-52",
+      "expression": "RoundDown([\"12.34\", \"56.78\"], true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L52",
+        "expected_powerfx": "Table({Value:12.3},{Value:56.7})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 12.3
+        },
+        {
+          "Value": 56.7
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-rounddownt-55",
+      "expression": "RoundDown(If(1<0,[\"12.34\", \"56.78\"]), 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L55",
+        "expected_powerfx": "Blank()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": null
+    },
+    {
+      "id": "scalar-tables-rounddownt-58",
+      "expression": "RoundDown([\"12.34\", \"56.78\"], If(1<0,\"1\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundDownT.txt#L58",
+        "expected_powerfx": "Table({Value:12},{Value:56})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 12
+        },
+        {
+          "Value": 56
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-7",
+      "expression": "RoundUp([1.2, 3.4, 5.6, 7.8], 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L7",
+        "expected_powerfx": "Table({Value:2},{Value:4},{Value:6},{Value:8})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 2
+        },
+        {
+          "Value": 4
+        },
+        {
+          "Value": 6
+        },
+        {
+          "Value": 8
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-10",
+      "expression": "RoundUp(Table({a: 1.23}, {a: 4.56}, {a: 7.89}, {a: 10.12}), 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L10",
+        "expected_powerfx": "Table({Value:1.3},{Value:4.6},{Value:7.9},{Value:10.2})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1.3
+        },
+        {
+          "Value": 4.6
+        },
+        {
+          "Value": 7.9
+        },
+        {
+          "Value": 10.2
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-13",
+      "expression": "RoundUp(Table({b: -9.8765}, {b: -8.7654}, {b: -7.6543}, {b: -6.5432}, {b: -5.4321}), 2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L13",
+        "expected_powerfx": "Table({Value:-9.88},{Value:-8.77},{Value:-7.66},{Value:-6.55},{Value:-5.44})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": -9.88
+        },
+        {
+          "Value": -8.77
+        },
+        {
+          "Value": -7.66
+        },
+        {
+          "Value": -6.55
+        },
+        {
+          "Value": -5.44
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-16",
+      "expression": "RoundUp(Filter([1,2,3], Value > 10), 0) // Empty table",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L16",
+        "expected_powerfx": "Table()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": []
+    },
+    {
+      "id": "scalar-tables-roundupt-20",
+      "expression": "RoundUp(1234.5678, [-2, -1, 0, 1, 2])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L20",
+        "expected_powerfx": "Table({Value:1300},{Value:1240},{Value:1235},{Value:1234.6},{Value:1234.57})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1300
+        },
+        {
+          "Value": 1240
+        },
+        {
+          "Value": 1235
+        },
+        {
+          "Value": 1234.6
+        },
+        {
+          "Value": 1234.57
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-24",
+      "expression": "RoundUp(Table({a: 123.456}, {a: 345.678}), Table({b: 1}, {b: 2}))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L24",
+        "expected_powerfx": "Table({Value:123.5},{Value:345.68})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 123.5
+        },
+        {
+          "Value": 345.68
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-28",
+      "expression": "RoundUp( [1.2, 2.3, 3.4], [1/0] )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L28",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-31",
+      "expression": "RoundUp( [1.23], [1, 2, 3] )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L31",
+        "expected_powerfx": "Table({Value:1.3},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 1.3
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-35",
+      "expression": "RoundUp( If(1<0,[1]), 1 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L35",
+        "expected_powerfx": "Blank()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": null
+    },
+    {
+      "id": "scalar-tables-roundupt-39",
+      "expression": "RoundUp( If(1/0<2, [1]), 1 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L39",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "scalar-tables-roundupt-42",
+      "expression": "RoundUp( [1.2, 2.3, 3.4], 1/0 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L42",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-49",
+      "expression": "RoundUp([\"12.34\", \"56.78\"], \"1\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L49",
+        "expected_powerfx": "Table({Value:12.4},{Value:56.8})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 12.4
+        },
+        {
+          "Value": 56.8
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-52",
+      "expression": "RoundUp([\"12.34\", \"56.78\"], true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L52",
+        "expected_powerfx": "Table({Value:12.4},{Value:56.8})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 12.4
+        },
+        {
+          "Value": 56.8
+        }
+      ]
+    },
+    {
+      "id": "scalar-tables-roundupt-55",
+      "expression": "RoundUp(If(1<0,[\"12.34\", \"56.78\"]), 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L55",
+        "expected_powerfx": "Blank()"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": null
+    },
+    {
+      "id": "scalar-tables-roundupt-58",
+      "expression": "RoundUp([\"12.34\", \"56.78\"], If(1<0,\"1\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RoundUpT.txt#L58",
+        "expected_powerfx": "Table({Value:13},{Value:57})"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days",
+        "round_table_mode": "powerfx-errors"
+      },
+      "expected": [
+        {
+          "Value": 13
+        },
+        {
+          "Value": 57
+        }
+      ]
+    }
+  ]
+}

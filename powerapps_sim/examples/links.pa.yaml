@@ -1,0 +1,95 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Set(linkMode,"Edit");Set(subtle,false);Set(saved,false);Set(saveMessage,Blank());Clear(history);ClearCollect(appearances,{Style:LinkAppearance.Default},{Style:LinkAppearance.Subtle})
+Screens:
+  Home:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =12
+            Width: =Parent.Width-48
+            Height: =36
+            Text: =If(StartsWith(Language(),"fr"),"Liens de ressources","Resource links")
+      - Panels:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            X: =24
+            Y: =64
+            Width: =Parent.Width-48
+            Height: =If(Self.Width<544,508,242)
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutWrap: =true
+            LayoutGap: =24
+            LayoutAlignItems: =LayoutAlignItems.Start
+          Children:
+            - Left:
+                Control: CanvasComponent
+                ComponentName: LinkCard
+                Properties:
+                  Width: =400
+                  Height: =242
+                  LayoutMinWidth: =260
+                  FillPortions: =1
+                  Caption: ="Fictional left resource"
+                  Seed: =Param("destination")
+                  InteractionMode: =linkMode
+                  Subtle: =subtle
+                  Changed: =Collect(history,{Panel:"Left",URL:destination,Edits:editCount,Style:Left.Kind})
+            - Right:
+                Control: CanvasComponent
+                ComponentName: LinkCard
+                Properties:
+                  Width: =400
+                  Height: =242
+                  LayoutMinWidth: =260
+                  FillPortions: =1
+                  Caption: ="Fictional right resource"
+                  Seed: =Param("destination") & "#right"
+                  InteractionMode: =linkMode
+                  Subtle: =!subtle
+                  Changed: =Collect(history,{Panel:"Right",URL:destination,Edits:editCount,Style:Right.Kind})
+      - Mode:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =Panels.Y+Panels.Height+16
+            Width: =180
+            Text: ="Mode · " & linkMode
+            OnSelect: =Set(linkMode,Switch(linkMode,"Edit","View","View","Disabled","Edit"))
+      - Style:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =220
+            Y: =Mode.Y
+            Width: =160
+            Text: ="Switch appearance"
+            OnSelect: =Set(subtle,!subtle)
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =Mode.Y+44
+            Width: =180
+            Text: ="Reset left editor"
+            OnSelect: =Reset(Left)
+      - SaveLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =220
+            Y: =ResetLeft.Y
+            Width: =160
+            Text: ="Save left bookmark"
+            DisplayMode: =If(linkMode="Edit" && Left.Valid,DisplayMode.Edit,DisplayMode.Disabled)
+            OnSelect: =If(Left.Valid,Set(saved,false);Set(saveMessage,Blank());IfError(Patch(Bookmarks,Defaults(Bookmarks),{Title:Left.LinkTitle,URL:Left.Destination,Style:{Value:Left.Kind},Edits:Left.Edits}),Set(saveMessage,FirstError.Message),Set(saved,true)))
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =ResetLeft.Y+44
+            Width: =Parent.Width-48
+            Height: =40
+            Text: =Coalesce(saveMessage,If(saved,"Saved locally · " & CountRows(Bookmarks),"Ready"))

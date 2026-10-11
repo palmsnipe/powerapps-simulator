@@ -1,0 +1,1 @@
+{"Memos":{"fields":{"ID":{"type":"integer","readOnly":true},"Title":{"type":"string","maxLength":100},"Body":{"type":"string","maxLength":12000}},"required":["Title","Body"],"records":[{"ID":1,"Title":"Fictional river memo","Body":"<p>Initial <strong>draft</strong> &amp; scope.</p>"}]}}

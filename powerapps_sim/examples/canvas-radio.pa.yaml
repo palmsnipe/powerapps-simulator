@@ -1,0 +1,124 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Set(initialChoice,"Draft");Set(viewOnly,false);Clear(events);Set(status,"Ready");Reset(Left);Reset(Right)
+    Formulas: =DecisionChoices=ForAll(Choices(Plans.DecisionCode) As choice,{Value:Switch(choice.Value,"Draft",T("Draft","Brouillon"),"Review",T("Review","Révision"),"Approved",T("Approved","Approuvé"),choice.Value),Code:choice.Value});T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+Screens:
+  Home:
+    Properties:
+      Height: =Max(App.Height,Save.Y+70)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Fictional decision planner","Planification fictive")
+            X: =20
+            Y: =12
+            Width: =Parent.Width-40
+            Size: =24
+      - Left:
+          Control: CanvasComponent
+          ComponentName: RadioPanel
+          Properties:
+            X: =20
+            Y: =60
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Rows: =DecisionChoices
+            Defaults: =Filter(DecisionChoices,Code=initialChoice)
+            Caption: =T("Left choice","Choix gauche")
+            Horizontal: =true
+            ViewOnly: =viewOnly
+            Changed: =Collect(events,{Panel:"Left",Code:picked.Code})
+      - Right:
+          Control: CanvasComponent
+          ComponentName: RadioPanel
+          Properties:
+            X: =If(App.Width<760,20,Parent.Width/2+10)
+            Y: =If(App.Width<760,Left.Y+Left.Height+16,Left.Y)
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Rows: =DecisionChoices
+            Defaults: =Filter(DecisionChoices,Code="Review")
+            Caption: =T("Right choice","Choix droite")
+            Horizontal: =false
+            ViewOnly: =viewOnly
+            Changed: =Collect(events,{Panel:"Right",Code:picked.Code})
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            X: =20
+            Y: =Right.Y+Right.Height+12
+            Width: =140
+            OnSelect: =Reset(Left)
+      - NewDefault:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("New default","Nouvelle valeur")
+            X: =180
+            Y: =ResetLeft.Y
+            Width: =140
+            OnSelect: =Set(initialChoice,"Approved")
+      - ToggleView:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Toggle view","Mode lecture")
+            X: =If(App.Width<520,20,340)
+            Y: =If(App.Width<520,ResetLeft.Y+44,ResetLeft.Y)
+            Width: =140
+            OnSelect: =Set(viewOnly,!viewOnly)
+      - PlanForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Plans
+            Item: =First(Plans)
+            NumberOfColumns: =1
+            X: =20
+            Y: =Max(ResetLeft.Y,ToggleView.Y)+60
+            Width: =Parent.Width-40
+            Height: =200
+            OnSuccess: =Set(status,"Saved")
+            OnFailure: =Set(status,PlanForm.Error)
+          Children:
+            - DecisionCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicComboBoxEdit
+                Properties:
+                  DataField: ="DecisionCode"
+                  Default: =ThisItem.DecisionCode
+                  Update: =If(IsBlank(FormChoice.Selected),Blank(),{Value:FormChoice.Selected.Code})
+                  Required: =true
+                  Height: =185
+                Children:
+                  - Label:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Decision","Décision")
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                  - FormChoice:
+                      Control: Radio@0.0.23
+                      Properties:
+                        X: =12
+                        Y: =42
+                        Width: =Parent.Width-24
+                        Height: =120
+                        Items: =DecisionChoices
+                        DefaultSelectedItems: =Filter(DecisionChoices,Code=Parent.Default.Value)
+                        Required: =Parent.Required
+                        AccessibleLabel: ="Decision"
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save","Enregistrer")
+            X: =20
+            Y: =PlanForm.Y+PlanForm.Height+12
+            Width: =140
+            OnSelect: =SubmitForm(PlanForm)
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =180
+            Y: =Save.Y
+            Width: =Parent.Width-200
+            Text: =status & If(PlanForm.Unsaved," · edited","")

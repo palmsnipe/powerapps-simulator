@@ -1,0 +1,35 @@
+{
+  "Notes": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "State": {
+        "type": "object",
+        "properties": {
+          "Value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "records": [],
+    "mapping": {
+      "Title": "Note title",
+      "State": "Note state"
+    },
+    "choices": {
+      "State": [
+        "Draft",
+        "Saved"
+      ]
+    },
+    "required": [
+      "Title"
+    ]
+  }
+}

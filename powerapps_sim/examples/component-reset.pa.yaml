@@ -1,0 +1,266 @@
+App:
+  Properties:
+    StartScreen: =ResetLab
+    OnStart: =Set(mode,"ready");Set(stage,"host");Clear(trace);Clear(failures);Reset(LeftPanel);Reset(RightPanel)
+    OnError: =Collect(failures,{Kind:FirstError.Kind,Message:FirstError.Message,Source:FirstError.Source,Observed:FirstError.Observed,BatchCount:CountRows(AllErrors)})
+    Formulas: T(enText:Text,frText:Text):Text=If(StartsWith(Language(),"fr"),frText,enText);
+ComponentDefinitions:
+  ResetPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        RaiseOnReset: true
+        Default: =10
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,ResetPanel.Seed,0)
+      ResetCount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(resets, 0)
+      Title:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Current"
+      ResetGate:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Format:
+        PropertyKind: Function
+        PropertyDefinition: Input
+        ReturnType: Text
+        Parameters:
+          - label:
+              DataType: Text
+          - value:
+              DataType: Number
+        Default: =label & " · " & Text(value)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - stage:
+              DataType: Text
+          - total:
+              DataType: Number
+        Default: =Blank()
+      Increase:
+        PropertyKind: Action
+        ReturnType: Number
+        Parameters:
+          - delta:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+        Default: =Set(current,ResetPanel.Total+delta);ResetPanel.Changed("change",current);current
+    Properties:
+      Width: =300
+      Height: =220
+      Fill: =RGBA(245,248,255,1)
+      OnReset: =Set(current,ResetPanel.Seed);Set(resets,ResetPanel.ResetCount+1);Reset(Note);ResetPanel.Changed("reset",ResetPanel.Total)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =12
+            Width: =Parent.Width - 24
+            Height: =52
+            Text: =ResetPanel.Format(ResetPanel.Title,ResetPanel.Total) & " · resets " & ResetPanel.ResetCount
+            Wrap: =true
+      - Note:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =12
+            Y: =76
+            Width: =Parent.Width - 24
+            Default: =Text(ResetPanel.Total)
+            AccessibleLabel: ="Component note"
+            Reset: =ResetPanel.ResetGate
+      - Increase:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =128
+            Width: =100
+            Text: ="+1"
+            OnSelect: =ResetPanel.Increase()
+      - InputStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =172
+            Width: =Parent.Width-24
+            Height: =30
+            Text: =IfError("Seed " & Text(ResetPanel.Seed),"Seed error")
+Screens:
+  ResetLab:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =Parent.Width-40
+            Height: =40
+            Size: =22
+            Text: =T("Component resets","Réinitialisation des composants")
+      - Toolbar:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            X: =20
+            Y: =60
+            Width: =Parent.Width-40
+            Height: =96
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutWrap: =true
+            LayoutGap: =8
+          Children:
+            - SelectSecond:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =T("Draft 2","Brouillon 2")
+                  OnSelect: =Select(DraftQueue,2)
+                  Width: =138
+                  Height: =36
+                  LayoutMinWidth: =138
+                  LayoutMinHeight: =36
+            - ResetLeft:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =T("Reset left","Réinitialiser")
+                  OnSelect: =Reset(LeftPanel)
+                  Width: =138
+                  Height: =36
+                  LayoutMinWidth: =138
+                  LayoutMinHeight: =36
+            - FailInput:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =T("Fail seed","Erreur entrée")
+                  OnSelect: =Set(mode,"input-failure")
+                  Width: =138
+                  Height: =36
+                  LayoutMinWidth: =138
+                  LayoutMinHeight: =36
+            - Recover:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =T("Recover","Rétablir")
+                  OnSelect: =Set(mode,"ready")
+                  Width: =138
+                  Height: =36
+                  LayoutMinWidth: =138
+                  LayoutMinHeight: =36
+            - BlankSeed:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =T("Blank seed","Entrée vide")
+                  OnSelect: =Set(mode,"blank")
+                  Width: =138
+                  Height: =36
+                  LayoutMinWidth: =138
+                  LayoutMinHeight: =36
+            - FailReset:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =T("Fail reset","Erreur reset")
+                  OnSelect: =Set(mode,"reset-failure")
+                  Width: =138
+                  Height: =36
+                  LayoutMinWidth: =138
+                  LayoutMinHeight: =36
+            - Save:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =T("Save left","Enregistrer")
+                  OnSelect: =Patch(Drafts,DraftQueue.Selected,{Amount:LeftPanel.Total})
+                  Width: =138
+                  Height: =36
+                  LayoutMinWidth: =138
+                  LayoutMinHeight: =36
+                  DisplayMode: =If(mode="input-failure",DisplayMode.Disabled,DisplayMode.Edit)
+      - Panels:
+          Control: GroupContainer@1.5.0
+          Properties:
+            X: =20
+            Y: =168
+            Width: =Parent.Width - 40
+            Height: =232
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =12
+            PaddingLeft: =12
+            PaddingRight: =12
+            PaddingTop: =12
+            PaddingBottom: =12
+            Fill: =RGBA(232,237,247,1)
+          Variant: AutoLayout
+          Children:
+            - LeftPanel:
+                Control: CanvasComponent
+                Properties:
+                  Seed: =If(mode="input-failure",1/0,If(mode="blank",Blank(),DraftQueue.Selected.Amount))
+                  FillPortions: =1
+                  LayoutMinWidth: =180
+                  LayoutMinHeight: =160
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Title: =T("Current","Actuel")
+                  Format: =label & " · " & Text(value)
+                  Changed: '=Collect(trace,{Instance:Self.Name,Stage:stage,Total:total,Snapshot:Self.Total,HostStage:"host",Peer: RightPanel.Total,ResetCount:Self.ResetCount})'
+                  ResetGate: =If(mode="reset-failure",1/0=0,false)
+                ComponentName: ResetPanel
+            - RightPanel:
+                Control: CanvasComponent
+                Properties:
+                  Seed: =100
+                  FillPortions: =1
+                  LayoutMinWidth: =180
+                  LayoutMinHeight: =160
+                  AlignInContainer: =AlignInContainer.Stretch
+                  Title: =T("Current","Actuel")
+                  Format: =label & " · " & Text(value)
+                  Changed: '=Collect(trace,{Instance:Self.Name,Stage:stage,Total:total,Snapshot:Self.Total,HostStage:"host",Peer: LeftPanel.Total,ResetCount:Self.ResetCount})'
+                  ResetGate: =false
+                ComponentName: ResetPanel
+      - DraftQueue:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            X: =20
+            Y: =416
+            Width: =280
+            Height: =190
+            TemplateSize: =48
+            Items: =Drafts
+          Children:
+            - Pick:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =ThisItem.Title & " · " & ThisItem.Amount
+                  Width: =Parent.TemplateWidth-12
+                  Height: =38
+                  OnSelect: =Select(Parent)
+      - Trace:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =320
+            Y: =416
+            Width: =Parent.Width-340
+            Height: =190
+            VerticalAlign: =VerticalAlign.Top
+            Text: =Concat(LastN(trace,7),Instance & " · " & Stage & " · " & Total,Char(10))
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =624
+            Width: =Parent.Width-40
+            Height: =54
+            Wrap: =true
+            Text: '=T("Errors","Erreurs") & ": " & CountRows(failures) & If(CountRows(failures)>0," · " & Last(failures).Source & " → " & Last(failures).Observed,"")'

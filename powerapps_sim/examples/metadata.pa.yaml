@@ -1,0 +1,70 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Set(saved,false);Set(saveMessage,Blank());Clear(history)
+Screens:
+  Home:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =12
+            Width: =900
+            Height: =40
+            Text: =If(StartsWith(Language(),"fr"),"Validation avant enregistrement","Validate before saving")
+      - Left:
+          Control: CanvasComponent
+          ComponentName: ScoreEditor
+          Properties:
+            X: =24
+            Y: =70
+            Caption: ="Left · " & DataSourceInfo(Scores,DataSourceInfo.DisplayName,Percentage) & If(DataSourceInfo(Scores,DataSourceInfo.Required,Percentage)," *","")
+            Seed: =10
+            Message: =Validate(Scores,Percentage,Left.Candidate)
+            Changed: =Collect(history,{Panel:"Left",Percentage:percentage,Message:Validate(Scores,Percentage,percentage)})
+            SaveRequested: =Set(saved,false);Set(saveMessage,Validate(Scores,Defaults(Scores),{Title:"Fictional left score",Percentage:percentage}));If(IsBlank(saveMessage),IfError(Patch(Scores,Defaults(Scores),{Title:"Fictional left score",Percentage:percentage}),Set(saveMessage,FirstError.Message),Set(saved,true)))
+      - Right:
+          Control: CanvasComponent
+          ComponentName: ScoreEditor
+          Properties:
+            X: =494
+            Y: =70
+            Caption: ="Right · " & DataSourceInfo(Scores,DataSourceInfo.DisplayName,Percentage) & If(DataSourceInfo(Scores,DataSourceInfo.Required,Percentage)," *","")
+            Seed: =80
+            Message: =Validate(Scores,'Completion percent',Right.Candidate)
+            Changed: =Collect(history,{Panel:"Right",Percentage:percentage,Message:Validate(Scores,'Completion percent',percentage)})
+            SaveRequested: =Set(saved,false);Set(saveMessage,Validate(Scores,Defaults(Scores),{Title:"Fictional right score",Percentage:percentage}));If(IsBlank(saveMessage),IfError(Patch(Scores,Defaults(Scores),{Title:"Fictional right score",Percentage:percentage}),Set(saveMessage,FirstError.Message),Set(saved,true)))
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =296
+            Width: =180
+            Height: =36
+            Text: ="Reset left editor"
+            OnSelect: =Reset(Left)
+      - SaveStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =220
+            Y: =292
+            Width: =724
+            Height: =48
+            Text: =Coalesce(saveMessage,If(saved,"Saved locally","Ready"))
+      - Limits:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =352
+            Width: =900
+            Height: =36
+            Text: ="Allowed range · " & DataSourceInfo(Scores,DataSourceInfo.MinValue,Percentage) & "–" & DataSourceInfo(Scores,DataSourceInfo.MaxValue,Percentage) & " · saved scores " & CountRows(Scores)
+      - Metadata:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =400
+            Width: =900
+            Height: =48
+            Text: ="Title limit · " & DataSourceInfo(Scores,DataSourceInfo.MaxLength,Title) & " characters · local editing " & If(DataSourceInfo(Scores,DataSourceInfo.EditPermission),"available","read-only") & " · collection limit " & Coalesce(Text(DataSourceInfo(history,DataSourceInfo.MaxValue,Percentage)),"unspecified")

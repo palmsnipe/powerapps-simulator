@@ -1,0 +1,177 @@
+{
+  "coercion.workflow.json": {
+    "format_version": 1,
+    "name": "Typed coercions, isolated component callbacks and list writes",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "result.Title",
+        "expect": "100"
+      },
+      {
+        "op": "assert",
+        "formula": "result.Amount",
+        "expect": 12.5
+      },
+      {
+        "op": "assert",
+        "formula": "result.Enabled",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(AsEntries({Amount:\"3\"}))",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Amount",
+        "event": "OnChange",
+        "value": "25.5"
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Enabled",
+        "event": "OnChange",
+        "value": "false"
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Convert",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "result.Amount",
+        "expect": 25.5
+      },
+      {
+        "op": "assert",
+        "formula": "result.Enabled",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).Amount",
+        "expect": 25.5
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).Enabled",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Left/AmountInput",
+        "event": "OnChange",
+        "value": "8"
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Left/Pick",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "result.Amount",
+        "expect": 8
+      },
+      {
+        "op": "assert",
+        "formula": "result.Enabled",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Right.TextValue",
+        "expect": "7"
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Right/Pick",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "result.Amount",
+        "expect": 7
+      },
+      {
+        "op": "assert",
+        "formula": "result.Enabled",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "Left.TextValue",
+        "expect": "8"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Projects)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Amount",
+        "event": "OnChange",
+        "value": "wrong"
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Convert",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "IsError(AsNumber(Amount.Text))",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "result.Amount",
+        "expect": 7
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Amount",
+        "event": "OnChange",
+        "value": "30"
+      },
+      {
+        "op": "event",
+        "path": "CoercionScreen/Convert",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Converted"
+      },
+      {
+        "op": "assert",
+        "formula": "result.Amount",
+        "expect": 30
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

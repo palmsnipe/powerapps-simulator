@@ -1,0 +1,106 @@
+{
+  "locales.workflow.json": {
+    "format_version": 1,
+    "name": "Localized values · components and mapped saves",
+    "records": {
+      "Amounts": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Valid && Left.Amount=123.456 && Right.Amount=123456 && Left.Caption=\"jueves marzo 7\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/NumberInput",
+        "event": "OnChange",
+        "value": "1.234,56"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Amount=1234.56 && Right.Amount=123456 && CountRows(history)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Amounts)=1 && First(Amounts).Amount=1234.56 && First(Amounts).Language=\"es-ES\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/German",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Caption=\"Donnerstag März 7\" && Left.Amount=1234.56 && Right.Amount=123456",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/NumberInput",
+        "event": "OnChange",
+        "value": "invalid"
+      },
+      {
+        "op": "assert",
+        "formula": "!Left.Valid && IsBlank(Left.Amount) && CountRows(history)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Amounts)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/NumberInput",
+        "event": "OnChange",
+        "value": "12,5%"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Valid && Left.Amount=0.125 && CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Japanese",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/NumberInput",
+        "event": "OnChange",
+        "value": "1,234.56"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Caption=\"木曜日 3月 7\" && Left.Amount=1234.56 && Right.Amount=123456",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Amounts)=2 && Last(Amounts).Language=\"ja-JP\" && Last(Amounts).Amount=1234.56",
+        "expect": true
+      }
+    ]
+  }
+}

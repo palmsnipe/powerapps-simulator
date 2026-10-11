@@ -1,0 +1,284 @@
+{
+  "calendar-tables.workflow.json": {
+    "format_version": 1,
+    "name": "Calendar table outputs, typed component functions, error cells and nested saves",
+    "environment": {
+      "enum_mode": "strong"
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.Weeks)",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "Last(LeftPanel.Weeks).Value",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(RightPanel.Weeks).Value",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.WeeksFor([{D:Date(2021,1,1)}])).Value",
+        "expect": 53
+      },
+      {
+        "op": "assert",
+        "formula": "ISOAtNewYear",
+        "expect": 53
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.ISO",
+        "expect": 53
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Week",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Weekday",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.ISO",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Week",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.WeekFor(Date(2021,1,1))",
+        "expect": 53
+      },
+      {
+        "op": "event",
+        "path": "CalendarTables/LeftPanel/Day",
+        "event": "OnChange",
+        "value": "2021-01-03"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.ISO",
+        "expect": 53
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Week",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Weekday",
+        "expect": 7
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Zero",
+        "expect": 6
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.ISO",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "CalendarTables/Build",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 14
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).ISO",
+        "expect": 52
+      },
+      {
+        "op": "assert",
+        "formula": "Last(results).ISO",
+        "expect": 1
+      },
+      {
+        "op": "failure",
+        "list": "CalendarSnapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "CalendarTables/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(CalendarSnapshots,ID=1).Weekday",
+        "expect": 5
+      },
+      {
+        "op": "failure",
+        "list": "CalendarSnapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "CalendarTables/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(CalendarSnapshots,ID=1).Weekday",
+        "expect": 7
+      },
+      {
+        "op": "event",
+        "path": "CalendarTables/LeftPanel/Day",
+        "event": "OnChange",
+        "value": "2021-01-04"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.ISO",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Week",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "CalendarTables/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.ISO",
+        "expect": 53
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.ISO",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(CalendarSnapshots,ID=1).Weekday",
+        "expect": 7
+      },
+      {
+        "op": "event",
+        "path": "CalendarTables/Errors",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(errors)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(First(errors).Value,FirstError.Kind)",
+        "expect": 25
+      },
+      {
+        "op": "assert",
+        "formula": "Index(errors,2).Value",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(Last(errors).Value,FirstError.Kind)",
+        "expect": 13
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LookUp(CalendarSnapshots,ID=1).Weeks)",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "First(LookUp(CalendarSnapshots,ID=1).Weeks).Value",
+        "expect": 53
+      },
+      {
+        "op": "assert",
+        "formula": "Index(LookUp(CalendarSnapshots,ID=1).Weeks,2).Value",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Weeks).Value",
+        "expect": 53
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.WeeksFor(FirstN([{D:Date(2021,1,1)}],0)))",
+        "expect": 0
+      }
+    ],
+    "records": {
+      "CalendarSnapshots": [
+        {
+          "ID": 1,
+          "Day": "2021-01-01",
+          "Weekday": 5,
+          "Week": 1,
+          "ISO": 53,
+          "Zero": 4,
+          "Weeks": [
+            {
+              "Value": 53
+            },
+            {
+              "Value": 53
+            },
+            {
+              "Value": 53
+            },
+            {
+              "Value": 1
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

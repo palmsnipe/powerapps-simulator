@@ -1,0 +1,156 @@
+{
+  "links.workflow.json": {
+    "format_version": 1,
+    "name": "Resource links \u00b7 component isolation, appearance, modes and bookmark saves",
+    "records": {
+      "Bookmarks": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Valid && Right.Valid && Left.Edits=0 && Right.Edits=0 && Left.Kind=\"Default\" && Right.Kind=\"Subtle\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(appearances)=2 && Text(First(appearances).Style)=\"Default\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/TitleInput",
+        "event": "OnChange",
+        "value": "A long fictional resource label for the left link"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Edits=1 && Right.Edits=0 && Left.LinkTitle=\"A long fictional resource label for the left link\" && CountRows(history)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/Address",
+        "event": "OnChange",
+        "value": "https://example.test/left"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Destination=\"https://example.test/left\" && Left.Valid && Left.Edits=2 && Right.Edits=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Style",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Kind=\"Subtle\" && Right.Kind=\"Default\" && Left.Edits=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Mode",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "linkMode=\"View\" && Left.Valid && Right.Valid",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/Address",
+        "event": "OnChange",
+        "value": "https://example.test/blocked",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Destination=\"https://example.test/left\" && Left.Edits=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Mode",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "linkMode=\"Disabled\" && Right.Edits=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Mode",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Bookmarks)=1 && First(Bookmarks).URL=\"https://example.test/left\" && First(Bookmarks).Style.Value=\"Subtle\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Right/Address",
+        "event": "OnChange",
+        "value": "https://example.test/right"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Edits=1 && Left.Edits=2 && CountRows(history)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Edits=0 && Right.Edits=1 && Left.Destination=Param(\"destination\")",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Bookmarks",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Home/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && !IsBlank(saveMessage) && CountRows(Bookmarks)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Bookmarks",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Home/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Bookmarks)=2 && Last(Bookmarks).URL=Param(\"destination\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Valid && Right.Valid && Right.Destination=\"https://example.test/right\"",
+        "expect": true
+      }
+    ]
+  }
+}

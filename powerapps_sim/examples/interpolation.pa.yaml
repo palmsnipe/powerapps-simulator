@@ -1,0 +1,197 @@
+App:
+  Properties:
+    StartScreen: =InterpolationLab
+    OnStart: =Clear(history);Clear(results);Set(status,"Ready");Reset(LeftPanel);Reset(RightPanel)
+    Formulas: |-
+      =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);Format(label:Text,n:Number):Text=$"{label}: {Text(n,"0.00",Language())}";Summary=$"Callbacks {CountRows(history)} · {status}";
+ComponentDefinitions:
+  InterpolationPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1
+      TitleValue:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Title.Text
+      Quantity:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Value(Amount.Text)
+      Preview:
+        PropertyKind: Output
+        DataType: Text
+        Default: =$"{InterpolationPanel.Caption} → {InterpolationPanel.Compose(Title.Text,Value(Amount.Text))}"
+      Compose:
+        PropertyKind: Function
+        PropertyDefinition: Output
+        ReturnType: Text
+        Parameters:
+          - label:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+          - quantity:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =$"{label} · {Text(quantity,"0.00",Language())} · {{draft}}"
+      Capture:
+        PropertyKind: Action
+        ReturnType: Text
+        Default: =Set(draft,{Title:Title.Text,Quantity:Value(Amount.Text),Text:InterpolationPanel.Compose(Title.Text,Value(Amount.Text))});Collect(captured,draft);InterpolationPanel.Changed({Title:draft.Title,Quantity:draft.Quantity,Text:draft.Text,Count:CountRows(captured)});draft.Text
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Title:"",Quantity:0,Text:"",Count:0}
+              IsOptional: true
+        Default: =Blank()
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =captured
+    Properties:
+      Width: =430
+      Height: =350
+      OnReset: =Clear(captured);Set(draft,{Title:"",Quantity:0,Text:""});Reset(Title);Reset(Amount)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =InterpolationPanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =32
+      - Title:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: =$"Fictional {InterpolationPanel.Caption}"
+            X: =12
+            Y: =40
+            Width: =400
+            AccessibleLabel: =$"{InterpolationPanel.Caption} title"
+            TriggerOutput: =TriggerOutput.Keypress
+      - Amount:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: =Text(InterpolationPanel.Seed)
+            X: =12
+            Y: =90
+            Width: =128
+            AccessibleLabel: =$"{InterpolationPanel.Caption} quantity"
+            TriggerOutput: =TriggerOutput.Keypress
+      - LivePreview:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =InterpolationPanel.Preview
+            X: =12
+            Y: =138
+            Width: =400
+            Height: =56
+      - CaptureButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =If(StartsWith(Language(),"fr"),"Capturer","Capture")
+            X: =12
+            Y: =202
+            Width: =144
+            OnSelect: =InterpolationPanel.Capture()
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"{CountRows(captured)} {If(StartsWith(Language(),"fr"),"captures","snapshots")}"
+            X: =170
+            Y: =202
+            Width: =242
+            Height: =32
+      - CaptureGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =captured
+            X: =12
+            Y: =246
+            Width: =400
+            Height: =100
+            TemplateSize: =36
+          Children:
+            - Text:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =$"{ThisItem.Title} · {ThisItem.Quantity}"
+                  Width: =380
+                  Height: =36
+Screens:
+  InterpolationLab:
+    Properties:
+      Width: =940
+      Height: =508
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Live string interpolation","Interpolation en direct")
+            X: =16
+            Y: =14
+            Width: =900
+            Height: =32
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Summary
+            X: =16
+            Y: =48
+            Width: =900
+            Height: =30
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: InterpolationPanel
+          Properties:
+            X: =16
+            Y: =82
+            Caption: ="LeftPanel"
+            Seed: =1
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,$"{Self.Name} · {value.Count}")
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: InterpolationPanel
+          Properties:
+            X: =470
+            Y: =82
+            Caption: ="RightPanel"
+            Seed: =10
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,$"{Self.Name} · {value.Count}")
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            X: =16
+            Y: =458
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Build table","Créer une table")
+            X: =160
+            Y: =458
+            Width: =136
+            OnSelect: |-
+              =ClearCollect(results,ForAll(Sequence(8),{Id:Value,Label:Format("Row",Value),NestedText:$"{{{$"{Value}"}}}",Preview:$"{LeftPanel.TitleValue} · {Value}",Flag:MatchOptions.IgnoreCase,N01:Value,N02:Value+1,N03:Value+2,N04:Value+3,N05:Value+4,N06:Value+5,N07:Value+6,N08:Value+7,N09:Value+8,N10:Value+9,N11:Value+10,N12:Value+11,N13:Value+12,N14:Value+13,Nested:{Label:$"{LeftPanel.TitleValue}: {Value}"}}));Set(status,T("Table ready","Table prête"))
+      - SaveLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save left","Enregistrer")
+            X: =304
+            Y: =458
+            Width: =136
+            OnSelect: =IfError(Patch(Snapshots,Defaults(Snapshots),{Title:LeftPanel.TitleValue,Quantity:LeftPanel.Quantity,Preview:LeftPanel.Preview,Payload:JSON({Title:LeftPanel.TitleValue,Quantity:LeftPanel.Quantity},JSONFormat.Compact)});Set(status,T("Saved","Enregistré")),Set(status,T("Save failed","Échec")))

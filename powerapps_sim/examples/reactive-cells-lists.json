@@ -1,0 +1,39 @@
+{
+  "Cards": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number",
+        "default": 0
+      }
+    },
+    "mapping": {
+      "Title": "Card title",
+      "Amount": "Budget"
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional forest",
+        "Amount": 10
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional river",
+        "Amount": 20
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional meadow",
+        "Amount": 30
+      }
+    ]
+  }
+}

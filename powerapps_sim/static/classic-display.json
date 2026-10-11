@@ -1,0 +1,845 @@
+{
+  "evidence": [
+    {
+      "family": "Label",
+      "version": "2.3.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/Chess_for_Power_Apps_v1.03.msapp",
+      "archive_sha256": "0a91f88305be7de9db6c72e2ea72546c4c103caeda79228e0c17baac88beb52e"
+    },
+    {
+      "family": "Rectangle",
+      "version": "2.0.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/Chess_for_Power_Apps_v1.03.msapp",
+      "archive_sha256": "0a91f88305be7de9db6c72e2ea72546c4c103caeda79228e0c17baac88beb52e"
+    },
+    {
+      "family": "Label",
+      "version": "2.3.2",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/TestStudio_Test.msapp",
+      "archive_sha256": "1128b39478c9f694c795f198870321fa0fb0f02c43d3d020c007454e5fd4b156"
+    },
+    {
+      "family": "Label",
+      "version": "2.5.1",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/AnimationControlIdIsGuid.msapp",
+      "archive_sha256": "d4933b818774263ba0069e3b2dd34f3e58a5fa9492fc06d67432b520decd62e3"
+    },
+    {
+      "family": "Circle",
+      "version": "2.3.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/AnimationControlIdIsGuid.msapp",
+      "archive_sha256": "d4933b818774263ba0069e3b2dd34f3e58a5fa9492fc06d67432b520decd62e3"
+    },
+    {
+      "family": "Rectangle",
+      "version": "2.3.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/AnimationControlIdIsGuid.msapp",
+      "archive_sha256": "d4933b818774263ba0069e3b2dd34f3e58a5fa9492fc06d67432b520decd62e3"
+    },
+    {
+      "family": "Label",
+      "version": "2.3.1",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/GroupControlTest.msapp",
+      "archive_sha256": "bf90bc2ec871c6929e3377696fbf8f6de33ac381f360b9576304dd7a88ce0cc6"
+    },
+    {
+      "family": "Label",
+      "version": "2.3.2",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/ComponentTest.msapp",
+      "archive_sha256": "991c32446ef839895ae4dc21a7699868098412a97f1d7a02dc9a9ff886396c51"
+    },
+    {
+      "family": "Rectangle",
+      "version": "2.1.2",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/ComponentTest.msapp",
+      "archive_sha256": "991c32446ef839895ae4dc21a7699868098412a97f1d7a02dc9a9ff886396c51"
+    },
+    {
+      "family": "Circle",
+      "version": "2.1.2",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/ComponentTest.msapp",
+      "archive_sha256": "991c32446ef839895ae4dc21a7699868098412a97f1d7a02dc9a9ff886396c51"
+    },
+    {
+      "family": "Rectangle",
+      "version": "2.1.1",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/autolayouttest.msapp",
+      "archive_sha256": "438f68a09212e779d0ab7cd8a870f626930bcd2b5b9e43c62a9e99d0f3ccaa4d"
+    },
+    {
+      "family": "Label",
+      "version": "2.3.1",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/autolayouttest.msapp",
+      "archive_sha256": "438f68a09212e779d0ab7cd8a870f626930bcd2b5b9e43c62a9e99d0f3ccaa4d"
+    },
+    {
+      "family": "Label",
+      "version": "2.3.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/Marc2PowerPlatformDevOpsAlm.msapp",
+      "archive_sha256": "3bec6a79f53438c9a9c61862845cfafccebc4d2c871ab3d8aaab01db60fc3c72"
+    },
+    {
+      "family": "Rectangle",
+      "version": "2.1.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/Marc2PowerPlatformDevOpsAlm.msapp",
+      "archive_sha256": "3bec6a79f53438c9a9c61862845cfafccebc4d2c871ab3d8aaab01db60fc3c72"
+    },
+    {
+      "family": "Rectangle",
+      "version": "2.0.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/AccountPlanReviewerMaster.msapp",
+      "archive_sha256": "1c93e0ff7e1eef209886475d625ead0de5c6b079b93219c767520d9ae5eafc59"
+    },
+    {
+      "family": "Label",
+      "version": "2.3.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/AccountPlanReviewerMaster.msapp",
+      "archive_sha256": "1c93e0ff7e1eef209886475d625ead0de5c6b079b93219c767520d9ae5eafc59"
+    },
+    {
+      "family": "Star",
+      "version": "2.0.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/AccountPlanReviewerMaster.msapp",
+      "archive_sha256": "1c93e0ff7e1eef209886475d625ead0de5c6b079b93219c767520d9ae5eafc59"
+    },
+    {
+      "family": "Circle",
+      "version": "2.0.0",
+      "source": "https://github.com/microsoft/PowerApps-Tooling/blob/630e6973e5c81ddc196283cde26dd696d619d6c7/src/PAModelTests/Apps/AccountPlanReviewerMaster.msapp",
+      "archive_sha256": "1c93e0ff7e1eef209886475d625ead0de5c6b079b93219c767520d9ae5eafc59"
+    }
+  ],
+  "families": {
+    "Label": {
+      "2.3.0": {
+        "defaults": {
+          "Color": "=RGBA(71, 69, 64, 1)",
+          "DisabledColor": "=RGBA(186, 186, 186, 1)",
+          "PressedColor": "=Self.Color",
+          "HoverColor": "=Self.Color",
+          "DisabledBorderColor": "=RGBA(56, 56, 56, 1)",
+          "PressedBorderColor": "=Self.BorderColor",
+          "HoverBorderColor": "=Self.BorderColor",
+          "BorderThickness": "=0",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "FocusedBorderThickness": "=0",
+          "DisabledFill": "=RGBA(0, 0, 0, 0)",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "Size": "=14",
+          "PaddingTop": "=5",
+          "PaddingRight": "=5",
+          "PaddingBottom": "=5",
+          "PaddingLeft": "=5",
+          "VerticalAlign": "=VerticalAlign.Middle",
+          "Width": "=150",
+          "Height": "=40",
+          "TabIndex": "=-1",
+          "Live": "=Live.Off",
+          "LineHeight": "=1.2",
+          "Overflow": "=Overflow.Hidden",
+          "AutoHeight": "=false",
+          "Wrap": "=true",
+          "IsErrorMessage": "=false"
+        },
+        "variants": {
+          "phone": {
+            "Size": "=24",
+            "Width": "=560",
+            "Height": "=70"
+          },
+          "web": {
+            "Width": "=260",
+            "Height": "=40"
+          }
+        },
+        "properties": [
+          "Align",
+          "AutoHeight",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "Color",
+          "DisabledBorderColor",
+          "DisabledColor",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Font",
+          "FontWeight",
+          "Height",
+          "HoverBorderColor",
+          "HoverColor",
+          "HoverFill",
+          "IsErrorMessage",
+          "Italic",
+          "LineHeight",
+          "Live",
+          "OnSelect",
+          "Overflow",
+          "PaddingBottom",
+          "PaddingLeft",
+          "PaddingRight",
+          "PaddingTop",
+          "PressedBorderColor",
+          "PressedColor",
+          "PressedFill",
+          "Role",
+          "Size",
+          "Strikethrough",
+          "TabIndex",
+          "Text",
+          "Tooltip",
+          "Underline",
+          "VerticalAlign",
+          "Visible",
+          "Width",
+          "Wrap",
+          "X",
+          "Y"
+        ]
+      },
+      "2.3.2": {
+        "defaults": {
+          "Color": "=RGBA(71, 69, 64, 1)",
+          "DisabledColor": "=RGBA(186, 186, 186, 1)",
+          "PressedColor": "=Self.Color",
+          "HoverColor": "=Self.Color",
+          "DisabledBorderColor": "=RGBA(56, 56, 56, 1)",
+          "PressedBorderColor": "=Self.BorderColor",
+          "HoverBorderColor": "=Self.BorderColor",
+          "BorderThickness": "=0",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "FocusedBorderThickness": "=0",
+          "DisabledFill": "=RGBA(0, 0, 0, 0)",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "Size": "=14",
+          "PaddingTop": "=5",
+          "PaddingRight": "=5",
+          "PaddingBottom": "=5",
+          "PaddingLeft": "=5",
+          "VerticalAlign": "=VerticalAlign.Middle",
+          "Width": "=150",
+          "Height": "=40",
+          "TabIndex": "=-1",
+          "Live": "=Live.Off",
+          "LineHeight": "=1.2",
+          "Overflow": "=Overflow.Hidden",
+          "AutoHeight": "=false",
+          "Wrap": "=true",
+          "IsErrorMessage": "=false"
+        },
+        "variants": {
+          "phone": {
+            "Size": "=24",
+            "Width": "=560",
+            "Height": "=70"
+          },
+          "web": {
+            "Width": "=260",
+            "Height": "=40"
+          }
+        },
+        "properties": [
+          "Align",
+          "AutoHeight",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "Color",
+          "DisabledBorderColor",
+          "DisabledColor",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Font",
+          "FontWeight",
+          "Height",
+          "HoverBorderColor",
+          "HoverColor",
+          "HoverFill",
+          "IsErrorMessage",
+          "Italic",
+          "LineHeight",
+          "Live",
+          "OnSelect",
+          "Overflow",
+          "PaddingBottom",
+          "PaddingLeft",
+          "PaddingRight",
+          "PaddingTop",
+          "PressedBorderColor",
+          "PressedColor",
+          "PressedFill",
+          "Role",
+          "Size",
+          "Strikethrough",
+          "TabIndex",
+          "Text",
+          "Tooltip",
+          "Underline",
+          "VerticalAlign",
+          "Visible",
+          "Width",
+          "Wrap",
+          "X",
+          "Y"
+        ]
+      },
+      "2.5.1": {
+        "defaults": {
+          "Color": "=RGBA(71, 69, 64, 1)",
+          "DisabledColor": "=RGBA(186, 186, 186, 1)",
+          "PressedColor": "=Self.Color",
+          "HoverColor": "=Self.Color",
+          "DisabledBorderColor": "=RGBA(56, 56, 56, 1)",
+          "PressedBorderColor": "=Self.BorderColor",
+          "HoverBorderColor": "=Self.BorderColor",
+          "BorderThickness": "=0",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "FocusedBorderThickness": "=0",
+          "DisabledFill": "=RGBA(0, 0, 0, 0)",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "Size": "=14",
+          "PaddingTop": "=5",
+          "PaddingRight": "=5",
+          "PaddingBottom": "=5",
+          "PaddingLeft": "=5",
+          "VerticalAlign": "=VerticalAlign.Middle",
+          "Width": "=150",
+          "Height": "=40",
+          "TabIndex": "=-1",
+          "Live": "=Live.Off",
+          "LineHeight": "=1.2",
+          "Overflow": "=Overflow.Hidden",
+          "AutoHeight": "=false",
+          "Wrap": "=true",
+          "IsErrorMessage": "=false"
+        },
+        "variants": {
+          "phone": {
+            "Size": "=24",
+            "Width": "=560",
+            "Height": "=70"
+          },
+          "web": {
+            "Width": "=260",
+            "Height": "=40"
+          }
+        },
+        "properties": [
+          "Align",
+          "AutoHeight",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "Color",
+          "ContentLanguage",
+          "DisabledBorderColor",
+          "DisabledColor",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Font",
+          "FontWeight",
+          "Height",
+          "HoverBorderColor",
+          "HoverColor",
+          "HoverFill",
+          "IsErrorMessage",
+          "Italic",
+          "LineHeight",
+          "Live",
+          "OnSelect",
+          "Overflow",
+          "PaddingBottom",
+          "PaddingLeft",
+          "PaddingRight",
+          "PaddingTop",
+          "PressedBorderColor",
+          "PressedColor",
+          "PressedFill",
+          "Role",
+          "Size",
+          "Strikethrough",
+          "TabIndex",
+          "Text",
+          "Tooltip",
+          "Underline",
+          "VerticalAlign",
+          "Visible",
+          "Width",
+          "Wrap",
+          "X",
+          "Y"
+        ]
+      },
+      "2.3.1": {
+        "defaults": {
+          "Color": "=RGBA(71, 69, 64, 1)",
+          "DisabledColor": "=RGBA(186, 186, 186, 1)",
+          "PressedColor": "=Self.Color",
+          "HoverColor": "=Self.Color",
+          "DisabledBorderColor": "=RGBA(56, 56, 56, 1)",
+          "PressedBorderColor": "=Self.BorderColor",
+          "HoverBorderColor": "=Self.BorderColor",
+          "BorderThickness": "=0",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "FocusedBorderThickness": "=0",
+          "DisabledFill": "=RGBA(0, 0, 0, 0)",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "Size": "=14",
+          "PaddingTop": "=5",
+          "PaddingRight": "=5",
+          "PaddingBottom": "=5",
+          "PaddingLeft": "=5",
+          "VerticalAlign": "=VerticalAlign.Middle",
+          "Width": "=150",
+          "Height": "=40",
+          "TabIndex": "=-1",
+          "Live": "=Live.Off",
+          "LineHeight": "=1.2",
+          "Overflow": "=Overflow.Hidden",
+          "AutoHeight": "=false",
+          "Wrap": "=true",
+          "IsErrorMessage": "=false"
+        },
+        "variants": {
+          "phone": {
+            "Size": "=24",
+            "Width": "=560",
+            "Height": "=70"
+          },
+          "web": {
+            "Width": "=260",
+            "Height": "=40"
+          }
+        },
+        "properties": [
+          "Align",
+          "AutoHeight",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "Color",
+          "DisabledBorderColor",
+          "DisabledColor",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Font",
+          "FontWeight",
+          "Height",
+          "HoverBorderColor",
+          "HoverColor",
+          "HoverFill",
+          "IsErrorMessage",
+          "Italic",
+          "LineHeight",
+          "Live",
+          "OnSelect",
+          "Overflow",
+          "PaddingBottom",
+          "PaddingLeft",
+          "PaddingRight",
+          "PaddingTop",
+          "PressedBorderColor",
+          "PressedColor",
+          "PressedFill",
+          "Role",
+          "Size",
+          "Strikethrough",
+          "TabIndex",
+          "Text",
+          "Tooltip",
+          "Underline",
+          "VerticalAlign",
+          "Visible",
+          "Width",
+          "Wrap",
+          "X",
+          "Y"
+        ]
+      }
+    },
+    "Rectangle": {
+      "2.0.0": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=150",
+          "Height": "=100",
+          "PreserveAspectRatio": "=false"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      },
+      "2.3.0": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=150",
+          "Height": "=100",
+          "PreserveAspectRatio": "=false"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "ContentLanguage",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      },
+      "2.1.2": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=150",
+          "Height": "=100",
+          "PreserveAspectRatio": "=false"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      },
+      "2.1.1": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=150",
+          "Height": "=100",
+          "PreserveAspectRatio": "=false"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      },
+      "2.1.0": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=150",
+          "Height": "=100",
+          "PreserveAspectRatio": "=false"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      }
+    },
+    "Circle": {
+      "2.3.0": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=100",
+          "Height": "=100",
+          "PreserveAspectRatio": "=true"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "ContentLanguage",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      },
+      "2.1.2": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=100",
+          "Height": "=100",
+          "PreserveAspectRatio": "=true"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      },
+      "2.0.0": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=100",
+          "Height": "=100",
+          "PreserveAspectRatio": "=true"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      }
+    },
+    "Star": {
+      "2.0.0": {
+        "defaults": {
+          "Fill": "=RGBA(0, 176, 240, 1)",
+          "DisabledFill": "=Self.Fill",
+          "PressedFill": "=Self.Fill",
+          "HoverFill": "=Self.Fill",
+          "BorderColor": "=RGBA(0, 0, 255, 1)",
+          "FocusedBorderColor": "=Self.BorderColor",
+          "TabIndex": "=-1",
+          "Width": "=100",
+          "Height": "=100",
+          "PreserveAspectRatio": "=false"
+        },
+        "variants": {
+          "phone": {},
+          "web": {}
+        },
+        "properties": [
+          "AccessibleLabel",
+          "BorderColor",
+          "BorderStyle",
+          "BorderThickness",
+          "DisabledFill",
+          "DisplayMode",
+          "Fill",
+          "FocusedBorderColor",
+          "FocusedBorderThickness",
+          "Height",
+          "HoverFill",
+          "OnSelect",
+          "PreserveAspectRatio",
+          "PressedFill",
+          "TabIndex",
+          "Tooltip",
+          "Visible",
+          "Width",
+          "X",
+          "Y"
+        ]
+      }
+    }
+  }
+}

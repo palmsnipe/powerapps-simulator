@@ -1,0 +1,150 @@
+{
+  "scope-reset.workflow.json": {
+    "format_version": 1,
+    "name": "Authored fields, nested input resets and ordered callbacks",
+    "records": {
+      "Settings": [
+        {
+          "ID": 1,
+          "Title": "Fictional left",
+          "__sources__": 10,
+          "__source_rows__": "Fictional left note",
+          "__scope_alias__": false,
+          "__open__": false
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional right",
+          "__sources__": 1000,
+          "__source_rows__": "Fictional right note",
+          "__scope_alias__": false,
+          "__open__": false
+        }
+      ],
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftShell.FirstTotal=10 && LeftShell.SecondTotal=110 && RightShell.FirstTotal=1000 && LeftShell.ResetCount=0 && CountRows(trace)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(Settings,__sources__)=1010 && CountRows(Filter(Settings,!__open__ && !__scope_alias__))=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Nested/AddLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.FirstTotal=11 && LeftShell.SecondTotal=112 && __host.__count=112 && Last(trace).__phase=\"callback\" && LeftShell.ResetCount=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Nested/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.FirstTotal=10 && LeftShell.SecondTotal=110 && LeftShell.ResetCount=0 && CountRows(trace)=4 && LeftShell.LastChild=110 && RightShell.FirstTotal=1000",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(LeftShell.Events).__count=110 && Last(LeftShell.Events).__phase=\"InnerB\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Nested/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Nested/ToggleFlag",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "SelectedConfig.__open__ && LeftShell.FirstTotal=10 && CountRows(trace)=6 && LeftShell.ResetCount=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Nested/LeftShell/InnerA/LeafNote",
+        "event": "OnChange",
+        "value": "Fictional local edit"
+      },
+      {
+        "op": "event",
+        "path": "Nested/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.ResetCount=1 && CountRows(trace)=8 && LeftShell.LastChild=0 && RightShell.ResetCount=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Nested/AddRight",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightShell.FirstTotal=1005 && RightShell.SecondTotal=1106 && rightResult=1106 && LeftShell.FirstTotal=10",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Nested/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && First(Snapshots).__count=10 && First(Snapshots).__open__ && First(Snapshots).__source_rows__=\"Fictional updated note\"",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Nested/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Nested/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=2",
+        "expect": true
+      }
+    ]
+  }
+}

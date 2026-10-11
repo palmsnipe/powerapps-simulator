@@ -1,0 +1,278 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Set(varLanguage, "en"); Set(varSelectedProject, Blank())
+    Formulas: |-
+      =Argument := Type({Value: Text});
+      Arguments := Type([Argument]);
+      Arg(value: Text): Argument = {Value: value};
+      Translation = Table({Key: "title", en: "Project workspace", fr: "Espace projets"}, {Key: "new", en: "New project", fr: "Nouveau projet"});
+      T(key: Text, args: Arguments): Text = With({row: LookUp(Translation, Key = key)}, If(varLanguage = "fr", row.fr, row.en));
+      ProjectRows = SortByColumns(Filter(Projects As project, StartsWith(project.Title, Search.Text)), "Title", SortOrder.Ascending);
+      TotalAmount = Sum(ProjectRows, Amount);
+ComponentDefinitions:
+  Header:
+    DefinitionType: CanvasComponent
+    CustomProperties:
+      Title:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Projects"
+      OnHome:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+    Properties:
+      Width: =1100
+      Height: =64
+    Children:
+      - HeaderTitle:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Header.Title
+            Size: =24
+            FontWeight: =FontWeight.Semibold
+            Width: =Parent.Width - 140
+            Height: =42
+            Y: =8
+      - HomeButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Home"
+            X: =Parent.Width - 120
+            Y: =8
+            OnSelect: =Header.OnHome()
+Screens:
+  Home:
+    Properties:
+      Fill: =RGBA(247, 249, 252, 1)
+    Children:
+      - Page:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            X: =32
+            Y: =24
+            Width: =Parent.Width - 64
+            Height: =Parent.Height - 48
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+          Children:
+            - HomeHeader:
+                Control: CanvasComponent
+                ComponentName: Header
+                Properties:
+                  Title: =T("title", [])
+                  Width: =Parent.Width
+                  OnHome: =Notify("You are already Home", NotificationType.Information)
+            - Help:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: ="A fictional SQLite list. Filter projects, edit a record, or create a draft. Your formulas run in Python."
+                  Width: =Parent.Width
+                  Height: =32
+                  Color: =RGBA(97, 97, 97, 1)
+            - Toolbar:
+                Control: GroupContainer@1.5.0
+                Variant: AutoLayout
+                Properties:
+                  Height: =44
+                  Width: =Parent.Width
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =12
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                Children:
+                  - Search:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Width: =360
+                        AccessibleLabel: ="Search projects"
+                        Placeholder: ="Search projects…"
+                  - NewProject:
+                      Control: ModernButton@1.0.0
+                      Properties:
+                        Width: =180
+                        Text: =T("new", [])
+                        OnSelect: =NewForm(ProjectForm); Navigate(Edit, ScreenTransition.None)
+                  - SwitchLanguage:
+                      Control: ModernButton@1.0.0
+                      Properties:
+                        Text: =If(varLanguage = "en", "Français", "English")
+                        Appearance: =ButtonAppearance.Secondary
+                        OnSelect: =Set(varLanguage, If(varLanguage = "en", "fr", "en"))
+            - Total:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =Text(CountRows(ProjectRows)) & " projects · " & Text(TotalAmount, "$#,##0.00", "en-US")
+                  Width: =Parent.Width
+                  Height: =30
+                  FontWeight: =FontWeight.Semibold
+            - ProjectGallery:
+                Control: Gallery@2.15.0
+                Variant: Vertical
+                Properties:
+                  Items: =ProjectRows
+                  Width: =Parent.Width
+                  Height: =480
+                  TemplateSize: =96
+                  TemplatePadding: =8
+                Children:
+                  - ProjectTitle:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =ThisItem.Title
+                        X: =16
+                        Y: =12
+                        Width: =Parent.TemplateWidth - 260
+                        Height: =32
+                        FontWeight: =FontWeight.Semibold
+                  - ProjectMeta:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =ThisItem.Status.Value & " · " & Text(ThisItem.Amount, "$#,##0.00")
+                        X: =16
+                        Y: =48
+                        Width: =Parent.TemplateWidth - 260
+                        Height: =28
+                  - EditProject:
+                      Control: ModernButton@1.0.0
+                      Properties:
+                        Text: ="Edit"
+                        AccessibleLabel: ="Edit " & ThisItem.Title
+                        X: =Parent.TemplateWidth - 140
+                        Y: =24
+                        OnSelect: =Set(varSelectedProject, ThisItem); EditForm(ProjectForm); Navigate(Edit, ScreenTransition.None)
+  Edit:
+    Properties:
+      Fill: =RGBA(247, 249, 252, 1)
+    Children:
+      - EditHeader:
+          Control: CanvasComponent
+          ComponentName: Header
+          Properties:
+            X: =32
+            Y: =24
+            Width: =Parent.Width - 64
+            Title: =If(ProjectForm.Mode = FormMode.New, "Create a draft", "Edit project")
+            OnHome: =ResetForm(ProjectForm); Navigate(Home, ScreenTransition.None)
+      - ProjectForm:
+          Control: Form@2.4.4
+          Variant: Modern
+          Properties:
+            DataSource: =Projects
+            Item: =varSelectedProject
+            X: =32
+            Y: =112
+            Width: =Parent.Width - 64
+            Height: =440
+            NumberOfColumns: =2
+            OnSuccess: =Set(varSelectedProject, Self.LastSubmit); Notify("Project saved", NotificationType.Success); Navigate(Home, ScreenTransition.None)
+            OnFailure: =Notify(Self.Error, NotificationType.Error)
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ModernTextualEdit
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  Required: =true
+                  Height: =112
+                  Width: =Parent.Width / 2
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Project name *"
+                        X: =16
+                        Y: =8
+                        Width: =Parent.Width - 32
+                  - TitleInput:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Project name"
+                        MaxLength: =DataSourceInfo(Projects, DataSourceInfo.MaxLength, Title)
+                        X: =16
+                        Y: =44
+                        Width: =Parent.Width - 32
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ModernNumberEdit
+                Properties:
+                  DataField: ="Amount"
+                  Default: =ThisItem.Amount
+                  Update: =AmountInput.Value
+                  Height: =112
+                  Width: =Parent.Width / 2
+                Children:
+                  - AmountLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Requested amount"
+                        X: =16
+                        Y: =8
+                        Width: =Parent.Width - 32
+                  - AmountInput:
+                      Control: ModernNumberInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Requested amount"
+                        Min: =0
+                        X: =16
+                        Y: =44
+                        Width: =Parent.Width - 32
+            - StatusCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ModernComboBoxEdit
+                Properties:
+                  DataField: ="Status"
+                  Default: =ThisItem.Status
+                  Update: =StatusInput.Selected
+                  Required: =true
+                  Height: =112
+                  Width: =Parent.Width / 2
+                Children:
+                  - StatusLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Status *"
+                        X: =16
+                        Y: =8
+                        Width: =Parent.Width - 32
+                  - StatusInput:
+                      Control: ModernCombobox@1.1.2
+                      Properties:
+                        Items: =Choices(Projects.Status)
+                        DefaultSelectedItems: =Filter(Choices(Projects.Status), Value = Coalesce(Parent.Default.Value, "Draft"))
+                        SelectMultiple: =false
+                        ItemDisplayText: =ThisItem.Value
+                        AccessibleLabel: ="Status"
+                        X: =16
+                        Y: =44
+                        Width: =Parent.Width - 32
+      - SaveProject:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save project"
+            X: =48
+            Y: =580
+            Width: =160
+            OnSelect: =SubmitForm(ProjectForm)
+      - CancelProject:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Cancel"
+            Appearance: =ButtonAppearance.Secondary
+            X: =224
+            Y: =580
+            OnSelect: =ResetForm(ProjectForm); Navigate(Home, ScreenTransition.None)
+      - FormError:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =ProjectForm.Error
+            Color: =RGBA(177,14,28,1)
+            Width: =Parent.Width - 64
+            X: =32
+            Y: =640

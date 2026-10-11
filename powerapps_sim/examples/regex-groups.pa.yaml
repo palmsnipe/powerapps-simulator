@@ -1,0 +1,171 @@
+App:
+  Properties:
+    StartScreen: =RegexLab
+    OnStart: =Clear(history);Clear(results);Set(status,"Ready");Reset(LeftPanel);Reset(RightPanel)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);CallbackCount=CountRows(history);
+ComponentDefinitions:
+  RegexPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Email:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Address.Text
+      Valid:
+        PropertyKind: Output
+        DataType: Boolean
+        Default: =IsMatch(Address.Text,Match.Email,MatchOptions.Complete)
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =matches
+      Extract:
+        PropertyKind: Action
+        ReturnType: Number
+        Default: =ClearCollect(matches,MatchAll(Tokens.Text,"(?<![A-Za-z])(?<Word>[A-Za-z]+)\s+\k<Word>\s+(?<Number>\d+)(?![0-9])"));RegexPanel.Changed({Email:Address.Text,Valid:RegexPanel.Valid,Count:CountRows(matches)});CountRows(matches)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Email:"",Valid:false,Count:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =350
+      OnReset: =Clear(matches);Reset(Address);Reset(Tokens)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =RegexPanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =32
+      - Address:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: ="alex@example.test"
+            X: =12
+            Y: =40
+            Width: =400
+            AccessibleLabel: =RegexPanel.Caption & " email"
+            TriggerOutput: =TriggerOutput.Keypress
+      - Validation:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =If(RegexPanel.Valid,If(StartsWith(Language(),"fr"),"Adresse valide","Valid email"),If(StartsWith(Language(),"fr"),"Adresse invalide","Invalid email"))
+            X: =12
+            Y: =86
+            Width: =400
+            Height: =32
+      - Tokens:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: ="Alpha Alpha 12 Beta Beta 34"
+            X: =12
+            Y: =126
+            Width: =400
+            AccessibleLabel: =RegexPanel.Caption & " tokens"
+            TriggerOutput: =TriggerOutput.Keypress
+      - ExtractButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =If(StartsWith(Language(),"fr"),"Extraire","Extract")
+            X: =12
+            Y: =176
+            Width: =144
+            OnSelect: =RegexPanel.Extract()
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(CountRows(matches)) & If(StartsWith(Language(),"fr")," correspondances"," matches")
+            X: =170
+            Y: =176
+            Width: =242
+            Height: =32
+      - MatchGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =matches
+            X: =12
+            Y: =220
+            Width: =400
+            Height: =126
+            TemplateSize: =36
+          Children:
+            - Token:
+                Control: Label@2.5.1
+                Properties:
+                  Text: =ThisItem.Word & " · " & ThisItem.Number & " · " & Text(ThisItem.StartMatch)
+                  Width: =380
+                  Height: =36
+Screens:
+  RegexLab:
+    Properties:
+      Width: =940
+      Height: =508
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Capture scopes and backreferences","Captures et références arrière")
+            X: =16
+            Y: =14
+            Width: =900
+            Height: =32
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status
+            X: =16
+            Y: =48
+            Width: =900
+            Height: =30
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: RegexPanel
+          Properties:
+            X: =16
+            Y: =82
+            Caption: ="LeftPanel"
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " · " & Text(value.Count))
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: RegexPanel
+          Properties:
+            X: =470
+            Y: =82
+            Caption: ="RightPanel"
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " · " & Text(value.Count))
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            X: =16
+            Y: =458
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Build table","Créer une table")
+            X: =160
+            Y: =458
+            Width: =136
+            OnSelect: =ClearCollect(results,ForAll(LeftPanel.Rows,{Word:Word,Number:Number,FullMatch:FullMatch,Start:StartMatch,Captures:Table({Value:Word},{Value:Number}),Pattern:Match.Email,Options:MatchOptions.IgnoreCase,N01:Value(Number),N02:Value(Number)+1,N03:Value(Number)+2,N04:Value(Number)+3,N05:Value(Number)+4,N06:Value(Number)+5,N07:Value(Number)+6,N08:Value(Number)+7,N09:Value(Number)+8,N10:Value(Number)+9,N11:Value(Number)+10,N12:Value(Number)+11,Nested:{Words:Table({Value:Word},{Value:Number}),Option:MatchOptions.Contains}}));Set(status,T("Table ready","Table prête"))
+      - SaveLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save left","Enregistrer")
+            X: =304
+            Y: =458
+            Width: =136
+            OnSelect: =If(LeftPanel.Valid,IfError(Patch(Contacts,Defaults(Contacts),{Title:LeftPanel.Email,TokenCount:CountRows(LeftPanel.Rows),Payload:JSON(LeftPanel.Rows,JSONFormat.Compact)});Set(status,T("Saved","Enregistré")),Set(status,T("Save failed","Échec"))),Set(status,T("Invalid email","Adresse invalide")))

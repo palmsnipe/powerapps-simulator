@@ -1,0 +1,238 @@
+App:
+  Properties:
+    StartScreen: =StatisticsLab
+    OnStart: =Set(includeLeft,true);Clear(trace);Clear(failures);Reset(LeftStats);Reset(RightStats)
+    OnError: =Collect(failures,{Kind:FirstError.Kind,Source:FirstError.Source,Observed:FirstError.Observed,Message:FirstError.Message})
+    Formulas: =T(enText:Text,frText:Text):Text=If(StartsWith(Language(),"fr"),frText,enText);LeftRows=ForAll(Filter(Drafts,Category="Left"),{Amount:'Sample amount'});RightRows=ForAll(Filter(Drafts,Category="Right"),{Amount:'Sample amount'});
+ComponentDefinitions:
+  StatsPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Samples:
+        PropertyKind: Input
+        DataType: Table
+        RaiseOnReset: true
+        Default: =Table({Amount:0})
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Samples"
+      EmptyCaption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="No samples"
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Table(StatsPanel.Samples,localSamples)
+      Summary:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Count:CountRows(StatsPanel.Rows),Mean:Average(StatsPanel.Rows,Amount),Variance:VarP(StatsPanel.Rows,Amount),Deviation:StdevP(StatsPanel.Rows,Amount)}
+      ResetCount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(resets,0)
+      Describe:
+        PropertyKind: Function
+        PropertyDefinition: Input
+        ReturnType: Text
+        Parameters:
+          - samples:
+              DataType: Table
+              Default: =Table({Amount:0})
+              IsOptional: true
+        Default: ="σ " & Text(StdevP(samples,Amount),"0.00") & " · variance " & Text(VarP(samples,Amount),"0.00")
+      Add:
+        PropertyKind: Action
+        ReturnType: Number
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =Collect(localSamples,{Amount:amount});StatsPanel.Changed(StatsPanel.Summary);CountRows(StatsPanel.Rows)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - summary:
+              DataType: Record
+              Default: ={Count:0,Mean:0,Variance:0,Deviation:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =500
+      Height: =230
+      Fill: =RGBA(245,248,255,1)
+      OnReset: =Clear(localSamples);Set(resets,StatsPanel.ResetCount+1);Reset(Amount)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =10
+            Width: =Parent.Width-24
+            Height: =34
+            Text: =StatsPanel.Caption & " · " & CountRows(StatsPanel.Rows)
+      - Result:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =48
+            Width: =Parent.Width-24
+            Height: =34
+            Text: =If(CountRows(StatsPanel.Rows)=0,StatsPanel.EmptyCaption,StatsPanel.Describe(StatsPanel.Rows))
+      - Amount:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =12
+            Y: =100
+            Width: =Parent.Width-170
+            Default: =6
+            Min: =-1000000
+            Max: =1000000
+            Precision: =DecimalPrecision.Auto
+            AccessibleLabel: =StatsPanel.Caption & " amount"
+      - AddSample:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="+"
+            OnSelect: =StatsPanel.Add(Amount.Value)
+            X: =Parent.Width-146
+            Y: =100
+            Width: =130
+      - ResetSamples:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset"
+            OnSelect: =Reset(StatsPanel)
+            X: =12
+            Y: =148
+            Width: =130
+      - Values:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =188
+            Width: =Parent.Width-24
+            Height: =32
+            Text: =Concat(StatsPanel.Rows,Text(Amount),", ")
+Screens:
+  StatisticsLab:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =Parent.Width-40
+            Height: =38
+            Size: =22
+            Text: =T("Population statistics","Statistiques de population")
+      - ToggleSamples:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Toggle left data","Données de gauche")
+            OnSelect: =Set(includeLeft,!includeLeft)
+            X: =20
+            Y: =60
+            Width: =180
+      - Panels:
+          Control: GroupContainer@1.5.0
+          Properties:
+            X: =20
+            Y: =112
+            Width: =Parent.Width-40
+            Height: =254
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =12
+            PaddingLeft: =12
+            PaddingRight: =12
+            PaddingTop: =12
+            PaddingBottom: =12
+            Fill: =RGBA(232,237,247,1)
+          Variant: AutoLayout
+          Children:
+            - LeftStats:
+                Control: CanvasComponent
+                Properties:
+                  Samples: =If(includeLeft,LeftRows,FirstN(LeftRows,0))
+                  Caption: =T("Left","Gauche")
+                  EmptyCaption: =T("No samples","Aucune valeur")
+                  FillPortions: =1
+                  LayoutMinWidth: =240
+                  LayoutMinHeight: =230
+                  Changed: =Collect(trace,{Panel:Self.Name,Count:summary.Count,Mean:summary.Mean,Variance:summary.Variance,Deviation:summary.Deviation,ResetCount:Self.ResetCount,SelectedDraft:DraftQueue.Selected.Title,Stamp:Now()})
+                ComponentName: StatsPanel
+            - RightStats:
+                Control: CanvasComponent
+                Properties:
+                  Samples: =RightRows
+                  Caption: =T("Right","Droite")
+                  EmptyCaption: =T("No samples","Aucune valeur")
+                  FillPortions: =1
+                  LayoutMinWidth: =240
+                  LayoutMinHeight: =230
+                  Changed: =Collect(trace,{Panel:Self.Name,Count:summary.Count,Mean:summary.Mean,Variance:summary.Variance,Deviation:summary.Deviation,ResetCount:Self.ResetCount,SelectedDraft:DraftQueue.Selected.Title,Stamp:Now()})
+                ComponentName: StatsPanel
+      - DraftQueue:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =390
+            Width: =320
+            Height: =220
+            Items: =Drafts
+            TemplateSize: =48
+          Variant: Vertical
+          Children:
+            - Pick:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Width: =Parent.TemplateWidth-12
+                  Height: =36
+                  Text: =ThisItem.Title & " · " & ThisItem.'Sample amount'
+                  OnSelect: =Select(Parent)
+      - EditHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =364
+            Y: =390
+            Width: =Parent.Width-384
+            Height: =34
+            Text: =DraftQueue.Selected.Title
+      - EditAmount:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =364
+            Y: =436
+            Width: =240
+            Default: =DraftQueue.Selected.'Sample amount'
+            AccessibleLabel: =T("Draft amount","Montant du brouillon")
+      - SaveDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save draft","Enregistrer")
+            OnSelect: =Patch(Drafts,DraftQueue.Selected,{'Sample amount':EditAmount.Value})
+            X: =616
+            Y: =436
+            Width: =150
+      - Trace:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =364
+            Y: =490
+            Width: =Parent.Width-384
+            Height: =120
+            VerticalAlign: =VerticalAlign.Top
+            Text: =Concat(LastN(trace,4),Panel & " · " & Count & " · σ " & Text(Deviation,"0.00"),Char(10))
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =630
+            Width: =Parent.Width-40
+            Height: =38
+            Text: '=T("Errors","Erreurs") & ": " & CountRows(failures)'

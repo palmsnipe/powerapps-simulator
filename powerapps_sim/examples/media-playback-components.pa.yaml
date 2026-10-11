@@ -1,0 +1,115 @@
+ComponentDefinitions:
+  MediaPanel:
+    DefinitionType: CanvasComponent
+    CustomProperties:
+      Clip:
+        PropertyKind: Input
+        DataType: VideoOrAudio
+        Default: =Blank()
+      PauseAway:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =true
+      Elapsed:
+        PropertyKind: Output
+        DataType: Number
+      Paused:
+        PropertyKind: Output
+        DataType: Boolean
+      Duration:
+        PropertyKind: Output
+        DataType: Number
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - phase:
+              DataType: Text
+          - seconds:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =450
+      Height: =230
+      OnReset: =Set(go,false);Set(repeat,false);Set(seek,0);Reset(Player)
+      Elapsed: =Player.Time
+      Paused: =Player.Paused
+      Duration: =Player.Duration
+    Children:
+      - Player:
+          Control: Audio@2.1.0
+          Properties:
+            Media: =MediaPanel.Clip
+            Start: =Coalesce(go,false)
+            Loop: =Coalesce(repeat,false)
+            StartTime: =Coalesce(seek,0)
+            AutoPause: =MediaPanel.PauseAway
+            OnPause: =MediaPanel.Changed("pause",Self.Time)
+            OnEnd: =MediaPanel.Changed("end",Self.Time)
+            AccessibleLabel: ="Audio clip"
+            X: =12
+            Y: =12
+            Width: =420
+            Height: =54
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(Player.Time,"0.0") & " / " & Text(Player.Duration,"0.0") & " seconds · " & If(Player.Paused,"Paused","Playing")
+            X: =12
+            Y: =74
+            Width: =420
+            Height: =28
+      - Play:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Play audio"
+            OnSelect: =Set(go,true)
+            X: =12
+            Y: =110
+            Width: =120
+            Height: =36
+      - Pause:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Pause audio"
+            OnSelect: =Set(go,false)
+            X: =144
+            Y: =110
+            Width: =120
+            Height: =36
+      - Repeat:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Toggle loop"
+            OnSelect: =Set(repeat,!Coalesce(repeat,false))
+            X: =276
+            Y: =110
+            Width: =150
+            Height: =36
+      - Seek:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            Default: ="0"
+            AccessibleLabel: ="Start time in seconds"
+            X: =12
+            Y: =160
+            Width: =110
+            Height: =36
+      - ApplySeek:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Set start time"
+            OnSelect: =Set(seek,Value(Seek.Text))
+            X: =134
+            Y: =160
+            Width: =150
+            Height: =36
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset audio"
+            OnSelect: =Reset(MediaPanel)
+            X: =296
+            Y: =160
+            Width: =130
+            Height: =36

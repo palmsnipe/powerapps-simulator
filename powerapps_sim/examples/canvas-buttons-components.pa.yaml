@@ -1,0 +1,90 @@
+ComponentDefinitions:
+  CounterPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        RaiseOnReset: true
+        Default: =0
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Counter"
+      ViewOnly:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Rotation:
+        PropertyKind: Input
+        DataType: Number
+        Default: =0
+      Current:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(localCount,CounterPanel.Seed)
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - count:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =440
+      Height: =145
+      OnReset: =Set(localCount,CounterPanel.Seed);Clear(history)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =CounterPanel.Caption
+            X: =12
+            Y: =8
+            Width: =Parent.Width-24
+            Size: =18
+      - Increase:
+          Control: Button@0.0.43
+          Properties:
+            Text: ="+1"
+            OnSelect: =Set(localCount,CounterPanel.Current+1);Collect(history,{Action:"add",Count:localCount});CounterPanel.Changed(localCount)
+            X: =12
+            Y: =48
+            Width: =150
+            Height: =36
+            Icon: ="Add"
+            Layout: =ButtonCanvas.Layout.IconBefore
+            IconStyle: =ButtonCanvas.IconStyle.Filled
+            IconRotation: =CounterPanel.Rotation
+            DisplayMode: =If(CounterPanel.ViewOnly,DisplayMode.View,DisplayMode.Edit)
+            AccessibleLabel: =CounterPanel.Caption & " +1"
+            BorderRadius: =8
+            BorderRadiusTopLeft: =12
+            FontSize: =16
+      - Decrease:
+          Control: Button@0.0.44
+          Properties:
+            Text: ="−1"
+            OnSelect: =Set(localCount,CounterPanel.Current-1);Collect(history,{Action:"subtract",Count:localCount});CounterPanel.Changed(localCount)
+            X: =176
+            Y: =48
+            Width: =150
+            Height: =36
+            Icon: ="Subtract"
+            Layout: =ButtonCanvas.Layout.IconAfter
+            Appearance: =ButtonCanvas.Appearance.Secondary
+            DisplayMode: =If(CounterPanel.ViewOnly,DisplayMode.View,DisplayMode.Edit)
+            AccessibleLabel: =CounterPanel.Caption & " -1"
+            FontItalic: =true
+            FontSize: =16
+      - CurrentLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(CounterPanel.Current) & " · " & CountRows(history)
+            X: =12
+            Y: =100
+            Width: =Parent.Width-24

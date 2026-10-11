@@ -1,0 +1,184 @@
+{
+  "casing.workflow.json": {
+    "format_version": 1,
+    "name": "Casing functions, typed components, mapped titles and persistent snapshots",
+    "records": {
+      "Titles": [
+        {
+          "ID": 1,
+          "Title": "DEMO BUSINESS PLAN",
+          "Side": "Left"
+        },
+        {
+          "ID": 2,
+          "Title": "ÉTUDE RIVIÈRE",
+          "Side": "Right"
+        },
+        {
+          "ID": 3,
+          "Title": "DON'T STOP",
+          "Side": "Left"
+        },
+        {
+          "ID": 4,
+          "Title": "RSVP",
+          "Side": "Right"
+        }
+      ],
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Propered=\"Demo Business Plan\" && RightPanel.Current.Propered=\"Étude Rivière\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.Rows)=2 && Last(LeftPanel.Rows).Value=\"Don't Stop\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(errorRows).Value=\"Healthy Title\" && IsError(Last(errorRows).Value)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/LeftPanel/Input",
+        "event": "OnInput",
+        "value": "hELLO O'NEILL"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Propered=\"Hello O'neill\" && LeftPanel.Current.Uppered=\"HELLO O'NEILL\" && CountRows(history)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/LeftPanel/Input",
+        "event": "OnChange",
+        "value": "hELLO O'NEILL"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=1 && Last(history).Side=\"Left\" && Last(history).Propered=\"Hello O'neill\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Raw=\"ÉTUDE RIVIÈRE\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(Names.AllItems,1).Name",
+        "event": "OnSelect",
+        "scope": "CasingLab/LeftPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "leftPicked=\"Demo Business Plan\" && rightPicked=\"\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=1 && First(Snapshots).Raw=\"hELLO O'NEILL\" && First(Snapshots).Propered=\"Hello O'neill\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/WriteSource",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Titles,ID=1).Title=\"hELLO O'NEILL\" && First(LeftPanel.Rows).Value=\"Hello O'neill\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/LeftPanel/Input",
+        "event": "OnInput",
+        "value": "TEMPORARY"
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Raw=\"hELLO O'NEILL\" && RightPanel.Current.Raw=\"ÉTUDE RIVIÈRE\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/RightPanel/Input",
+        "event": "OnInput",
+        "value": "éCOLE DE LA RIVIÈRE"
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/RightPanel/Input",
+        "event": "OnChange",
+        "value": "éCOLE DE LA RIVIÈRE"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Propered=\"École De La Rivière\" && CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=2",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && CountRows(Snapshots)=2",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "CasingLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.FormatRows(Table({Raw:\"RSVP\"}))).Value=\"Rsvp\"",
+        "expect": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,202 @@
+App:
+  Properties:
+    StartScreen: =QueriesLab
+    OnStart: =Set(leftFault,false);Set(saved,false);Set(selected,Blank());Clear(trace);Clear(picks);Reset(LeftPanel);Reset(RightPanel)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);Amounts:=Type([{Amount:Number}]);FindAmount(samples:Amounts,minimum:Number):Number=LookUp(samples As sample,sample.Amount>=minimum,sample.Amount);LeftBase=ForAll(Filter(Samples,Side="Left"),{ID:ID,Amount:'Sample amount',Note:'Sample note'});LeftRows=Table(LeftBase,If(leftFault,Table(Error({Kind:ErrorKind.Div0})),FirstN(LeftBase,0)));RightRows=ForAll(Filter(Samples,Side="Right"),{ID:ID,Amount:'Sample amount',Note:'Sample note'});
+ComponentDefinitions:
+  QueryPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Samples:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:0,Amount:0,Note:""})
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Queries"
+      Matched:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Filter(QueryPanel.Samples,!IsError(ThisRecord),Amount>=Minimum.Value)
+      Failures:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Filter(QueryPanel.Samples,IsError(ThisRecord))
+      Info:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Rows:CountRows(QueryPanel.Matched),First:LookUp(QueryPanel.Matched As sample,true,sample.Amount),Errors:CountIf(QueryPanel.Failures,true)}
+      Selection:
+        PropertyKind: Output
+        DataType: Record
+        Default: =Results.Selected
+      Find:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - samples:
+              DataType: Table
+              Default: =Table({Amount:0})
+              IsOptional: true
+          - minimum:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =LookUp(samples As entry,entry.Amount>=minimum,entry.Amount)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - summary:
+              DataType: Record
+              Default: ={Rows:0,First:0,Errors:0}
+              IsOptional: true
+        Default: =Blank()
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - pick:
+              DataType: Record
+              Default: ={ID:0,Amount:0,Note:""}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =450
+      Height: =450
+      Fill: =RGBA(245,248,255,1)
+      OnReset: =Reset(Minimum);Reset(Results)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =10
+            Width: =Parent.Width-24
+            Height: =32
+            Text: =QueryPanel.Caption
+      - Minimum:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =12
+            Y: =48
+            Width: =190
+            Height: =40
+            Default: =0
+            Precision: =DecimalPrecision.Auto
+            AccessibleLabel: =QueryPanel.Caption & " minimum"
+            OnChange: =QueryPanel.Changed(QueryPanel.Info)
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =98
+            Width: =Parent.Width-24
+            Height: =40
+            Text: ="Rows " & QueryPanel.Info.Rows & " · First " & Coalesce(Text(QueryPanel.Info.First),"Blank") & " · Error rows " & QueryPanel.Info.Errors
+      - Results:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =12
+            Y: =150
+            Width: =Parent.Width-24
+            Height: =260
+            Items: =QueryPanel.Matched
+            TemplateSize: =70
+            OnSelect: =QueryPanel.Picked(Results.Selected)
+          Children:
+            - RowText:
+                Control: ModernText@1.0.0
+                Properties:
+                  X: =8
+                  Y: =8
+                  Width: =Parent.TemplateWidth-16
+                  Height: =54
+                  Text: ="#" & ThisItem.ID & " · " & ThisItem.Note & " · " & ThisItem.Amount
+                  OnSelect: =Select(Parent)
+      - ResetPanel:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =220
+            Y: =48
+            Width: =218
+            Height: =40
+            Text: ="Reset"
+            OnSelect: =Reset(QueryPanel)
+Screens:
+  QueriesLab:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =900
+            Height: =38
+            Text: =T("Filter / LookUp · fictional samples","Filter / LookUp · exemples fictifs")
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =20
+            Y: =70
+            Samples: =LeftRows
+            Caption: =T("Left","Gauche")
+            Changed: =Collect(trace,{Panel:"LeftPanel",Rows:summary.Rows,First:summary.First,Errors:summary.Errors})
+            Picked: =Set(selected,{Panel:"LeftPanel",ID:pick.ID,Amount:pick.Amount,Note:pick.Note});Collect(picks,selected)
+          ComponentName: QueryPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =490
+            Y: =70
+            Samples: =RightRows
+            Caption: =T("Right","Droite")
+            Changed: =Collect(trace,{Panel:"RightPanel",Rows:summary.Rows,First:summary.First,Errors:summary.Errors})
+            Picked: =Set(selected,{Panel:"RightPanel",ID:pick.ID,Amount:pick.Amount,Note:pick.Note});Collect(picks,selected)
+          ComponentName: QueryPanel
+      - InjectFault:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =540
+            Width: =210
+            Height: =40
+            Text: =If(leftFault,"Clear row error","Inject row error")
+            OnSelect: =Set(leftFault,!leftFault)
+      - SaveSnapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =250
+            Y: =540
+            Width: =210
+            Height: =40
+            Text: =T("Save snapshot","Enregistrer")
+            OnSelect: =Set(saved,false);IfError(Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional query snapshot",Numeric:Coalesce(LeftPanel.Info.First,0),Present:LeftPanel.Info.Errors,Rows:LeftPanel.Info.Rows}),false,Set(saved,true))
+      - SaveStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =490
+            Y: =540
+            Width: =400
+            Height: =40
+            Text: =If(saved,T("Saved","Enregistré"),T("Unsaved","Non enregistré"))
+      - Selection:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =595
+            Width: =900
+            Height: =38
+            Text: =Coalesce(selected.Panel,"Blank") & " · " & selected.Note & " · " & selected.Amount
+      - UpdateAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =650
+            Width: =210
+            Height: =40
+            Text: =T("Set first amount to 7","Premier montant à 7")
+            OnSelect: =Patch(Samples,LookUp(Samples,ID=1),{'Sample amount':7})

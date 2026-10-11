@@ -1,0 +1,77 @@
+{
+  "Samples": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Side": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number"
+      },
+      "Note": {
+        "type": "string"
+      }
+    },
+    "mapping": {
+      "Amount": "Sample amount",
+      "Note": "Sample note",
+      "Title": "Sample title"
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional left amount",
+        "Side": "Left",
+        "Amount": 2,
+        "Note": "Fictional Alpha"
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional left blank",
+        "Side": "Left",
+        "Amount": null,
+        "Note": "Exemple \u00e9t\u00e9"
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional right amount",
+        "Side": "Right",
+        "Amount": 8,
+        "Note": "Fictional Beta"
+      }
+    ]
+  },
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Numeric": {
+        "type": "number",
+        "required": true
+      },
+      "Present": {
+        "type": "number",
+        "required": true
+      },
+      "Rows": {
+        "type": "number",
+        "required": true
+      }
+    },
+    "records": []
+  }
+}

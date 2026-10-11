@@ -1,0 +1,275 @@
+App:
+  Properties:
+    StartScreen: =Math
+    OnStart: =Clear(history);Clear(results);Clear(errorCells);ClearCollect(samples,{N:4},{N:-1},{N:0},{N:9});Set(status,"Ready")
+    Formulas: =Roots=AddColumns(samples,Root,Sqrt(N),SafeRoot,IfError(Sqrt(N),Blank()),ErrorCode,IfError(Sqrt(N),FirstError.Kind,0),Whole,Int(N),Truncated,Trunc(N));RootTotal=Sum(Roots,SafeRoot);
+ComponentDefinitions:
+  MathPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      AreaSeed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =16
+      RateSeed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =2
+      AngleSeed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =30
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Area:Area.Value,Radius:Round(Sqrt(Area.Value/Pi()),4),Angle:Angle.Value,X:Round(Cos(Radians(Angle.Value))*50,4),Y:Round(Sin(Radians(Angle.Value))*50,4),Estimate:MathPanel.Estimate(Area.Value,Rate.Value),Forecast:Round(Power(1+Rate.Value/100,3),4),LogBase:Log(100),Whole:Int(Area.Value),Truncated:Trunc(Area.Value)}
+      Estimate:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+          - rate:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =Trunc(Sqrt(amount)*rate)
+      Capture:
+        PropertyKind: Action
+        ReturnType: Record
+        Parameters:
+          - kind:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+        Default: =Collect(captured,Patch(MathPanel.Current,{Kind:kind}));MathPanel.Changed(MathPanel.Current);MathPanel.Current
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Area:0,Radius:0,Angle:0,X:0,Y:0,Estimate:0,Forecast:0,LogBase:0,Whole:0,Truncated:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =420
+      Height: =325
+      OnReset: =Clear(captured)
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =MathPanel.Caption
+            X: =12
+            Y: =0
+            Width: =380
+            Height: =32
+      - AreaLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Area"
+            X: =12
+            Y: =36
+            Width: =150
+            Height: =32
+      - RateLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Rate"
+            X: =212
+            Y: =36
+            Width: =150
+            Height: =32
+      - Area:
+          Control: ModernNumberInput@1.1.2
+          Properties:
+            X: =12
+            Y: =72
+            Width: =175
+            Default: =MathPanel.AreaSeed
+            Min: =0
+            Max: =10000
+            Precision: =DecimalPrecision.Auto
+            AccessibleLabel: =MathPanel.Caption & " area"
+            OnChange: =MathPanel.Capture("area")
+      - Rate:
+          Control: ModernNumberInput@1.1.2
+          Properties:
+            X: =212
+            Y: =72
+            Width: =175
+            Default: =MathPanel.RateSeed
+            Min: =0
+            Max: =100
+            Step: =0.25
+            Precision: =2
+            AccessibleLabel: =MathPanel.Caption & " rate"
+            OnChange: =MathPanel.Capture("rate")
+      - AngleLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Angle " & Angle.Value & "°"
+            X: =12
+            Y: =112
+            Width: =380
+            Height: =32
+      - Angle:
+          Control: Classic/Slider@2.1.0
+          Properties:
+            X: =12
+            Y: =146
+            Width: =375
+            Min: =-180
+            Max: =180
+            Default: =MathPanel.AngleSeed
+            AccessibleLabel: =MathPanel.Caption & " angle"
+            OnChange: =MathPanel.Capture("angle")
+      - Result:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Radius " & MathPanel.Current.Radius & " · estimate " & MathPanel.Current.Estimate
+            X: =12
+            Y: =192
+            Width: =380
+            Height: =32
+      - Coordinates:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="X " & MathPanel.Current.X & " · Y " & MathPanel.Current.Y
+            X: =12
+            Y: =228
+            Width: =380
+            Height: =32
+      - Marker:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =210+MathPanel.Current.X
+            Y: =270-MathPanel.Current.Y
+            Width: =12
+            Height: =12
+            Fill: =Color.DodgerBlue
+Screens:
+  Math:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Power Fx math"
+            X: =16
+            Y: =8
+            Width: =900
+            Height: =32
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Callbacks " & CountRows(history) & " · " & status
+            X: =16
+            Y: =44
+            Width: =900
+            Height: =32
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =16
+            Y: =88
+            Caption: ="LeftPanel"
+            AreaSeed: =16
+            RateSeed: =2
+            AngleSeed: =30
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: MathPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =470
+            Y: =88
+            Caption: ="RightPanel"
+            AreaSeed: =25
+            RateSeed: =3
+            AngleSeed: =90
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: MathPanel
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =16
+            Y: =430
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Build table"
+            X: =172
+            Y: =430
+            Width: =136
+            OnSelect: =ClearCollect(results,AddColumns(Sequence(13,0,30),Angle,Value,Radians,Radians(Value),Sin,Sin(Radians(Value)),Cos,Cos(Radians(Value)),Tan,Tan(Radians(Value)),Cot,IfError(Cot(Radians(Value)),Blank()),Asin,Asin(Sin(Radians(Value))),Acos,Acos(Cos(Radians(Value))),Atan,Atan(Tan(Radians(Value))),Acot,Acot(Value),X,Round(Cos(Radians(Value))*50,4),Y,Round(Sin(Radians(Value))*50,4),Root,Sqrt(Value),NaturalLog,IfError(Ln(Value),Blank()),LogBase10,IfError(Log(Value),Blank()),Exponential,Exp(Value/100),PowerOfTwo,Power(2,Value/30),Whole,Int(Value+0.5),Truncated,Trunc(Value+0.5)));Set(status,"Table ready")
+      - CaptureErrors:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Error cells"
+            X: =328
+            Y: =430
+            Width: =136
+            OnSelect: =ClearCollect(errorCells,Roots);Set(status,"Error cells ready")
+      - SaveLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save left"
+            X: =484
+            Y: =430
+            Width: =136
+            OnSelect: =Set(saved,IfError(Patch(Measurements,LookUp(Measurements,ID=1),{Area:LeftPanel.Current.Area,Angle:LeftPanel.Current.Angle,Estimate:LeftPanel.Current.Estimate}),Set(status,"Save failed");Blank()));If(!IsBlank(saved),Set(status,"Saved"))
+      - RootsGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =16
+            Y: =492
+            Width: =420
+            Height: =200
+            Items: =Roots
+            TemplateSize: =44
+            TemplatePadding: =2
+          Children:
+            - Row:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: ="N " & ThisItem.N & " → " & IfError(Text(ThisItem.Root),"Numeric error") & " · kind " & ThisItem.ErrorCode
+                  X: =8
+                  Y: =0
+                  Width: =400
+                  Height: =40
+      - Saved:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Saved area " & LookUp(Measurements,ID=1).Area & " · angle " & LookUp(Measurements,ID=1).Angle & " · estimate " & LookUp(Measurements,ID=1).Estimate
+            X: =470
+            Y: =492
+            Width: =440
+            Height: =80
+      - TableStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Projection rows " & CountRows(results) & " · error rows " & CountRows(errorCells)
+            X: =470
+            Y: =594
+            Width: =440
+            Height: =32
+      - Totals:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Root total " & RootTotal
+            X: =470
+            Y: =640
+            Width: =440
+            Height: =32

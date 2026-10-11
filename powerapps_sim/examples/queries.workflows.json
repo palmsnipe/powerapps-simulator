@@ -1,0 +1,195 @@
+{
+  "queries.workflow.json": {
+    "format_version": 1,
+    "name": "Scoped queries, inspectable error rows and persistent component snapshots",
+    "records": {
+      "Snapshots": [],
+      "Samples": [
+        {
+          "ID": 1,
+          "Title": "Fictional left amount",
+          "Side": "Left",
+          "Amount": 2,
+          "Note": "Present"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional left blank",
+          "Side": "Left",
+          "Amount": null,
+          "Note": null
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional right amount",
+          "Side": "Right",
+          "Amount": 8,
+          "Note": "Present"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Rows=2 && LeftPanel.Info.First=2 && RightPanel.Info.Rows=1 && RightPanel.Info.First=8",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "FindAmount(ShowColumns(LeftRows,Amount),1)=2 && LeftPanel.Find(ShowColumns(LeftRows,Amount),1)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Filter(If(false,LeftRows),true)) && IsBlank(LookUp(If(false,LeftRows),true,Amount))",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/LeftPanel/Minimum",
+        "event": "OnChange",
+        "value": 4
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Rows=0 && IsBlank(LeftPanel.Info.First) && RightPanel.Info.Rows=1 && Last(trace).Rows=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/LeftPanel/Minimum",
+        "event": "OnChange",
+        "value": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Rows=1 && First(LeftPanel.Matched).ID=1 && RightPanel.Info.First=8",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/LeftPanel/Results",
+        "event": "OnSelect",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "selected.ID=1 && selected.Amount=2 && selected.Panel=\"LeftPanel\" && CountRows(picks)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/InjectFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Errors=1 && LeftPanel.Info.Rows=1 && LeftPanel.Info.First=2 && RightPanel.Info.Errors=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountIf(Filter(LeftRows,IsError(ThisRecord)),true)=1 && IfError(LookUp(LeftRows,IsError(ThisRecord)).Amount,FirstError.Kind)=13",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(LeftRows,!IsError(ThisRecord) && Amount>=1,Amount)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=1 && First(Snapshots).Rows=1 && First(Snapshots).Present=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/UpdateAmount",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.First=7 && RightPanel.Info.First=8 && LeftPanel.Info.Errors=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && CountRows(Snapshots)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=2 && Last(Snapshots).Numeric=7",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/InjectFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Errors=0 && LeftPanel.Info.First=7",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/RightPanel/Minimum",
+        "event": "OnChange",
+        "value": 9
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Info.Rows=0 && IsBlank(RightPanel.Info.First) && LeftPanel.Info.Rows=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/LeftPanel/ResetPanel",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Rows=2 && LeftPanel.Info.First=7 && RightPanel.Info.Rows=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "QueriesLab/RightPanel/ResetPanel",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Info.Rows=1 && RightPanel.Info.First=8",
+        "expect": true
+      }
+    ]
+  }
+}

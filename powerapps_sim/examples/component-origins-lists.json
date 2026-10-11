@@ -1,0 +1,27 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Total": {
+        "type": "number"
+      },
+      "Resets": {
+        "type": "number"
+      },
+      "Caption": {
+        "type": "string"
+      }
+    },
+    "mapping": {
+      "Total": "Captured total"
+    },
+    "records": []
+  }
+}

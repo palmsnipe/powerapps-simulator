@@ -1,0 +1,161 @@
+{
+  "classic-icons.workflow.json": {
+    "format_version": 1,
+    "name": "Classic icon identities, keyboard/pointer actions, isolated callbacks and snapshots",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 100
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/LeftPanel/IncreaseIcon",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/LeftPanel/IncreaseIcon",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/RightPanel/IncreaseIcon",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 12
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/Pointer",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "angle",
+        "expect": 45
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Pointer rotated"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/KeyboardBlank",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Pointer rotated"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/Disabled",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/ReadOnly",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Pointer rotated"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/IconGallery",
+        "event": "OnSelect",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "IconGallery.Selected.Name",
+        "expect": "ArrowDown"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).Left",
+        "expect": 12
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).Right",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).Selected",
+        "expect": "ArrowDown"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScreen/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(IconGallery.Items)",
+        "expect": 181
+      },
+      {
+        "op": "assert",
+        "formula": "Icon.EmojiSmile=Icon.EmojiNeutral",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "If(true,Icon.BookmarkFilled,Icon.Bookmark)=Icon.BookmarkFilled",
+        "expect": true
+      }
+    ]
+  }
+}

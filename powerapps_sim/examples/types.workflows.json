@@ -1,0 +1,115 @@
+{
+  "types.workflow.json": {
+    "format_version": 1,
+    "name": "RecordOf, partial records, projected lists and component tables",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Total(Projected)",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "SumAmounts([1,2,3])",
+        "expect": 6
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 30
+      },
+      {
+        "op": "event",
+        "path": "Types/FilterLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Left.Rows)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 30
+      },
+      {
+        "op": "event",
+        "path": "Types/MakePartial",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "partial",
+        "expect": {
+          "Title": "Fictional partial",
+          "Amount": 1
+        }
+      },
+      {
+        "op": "event",
+        "path": "Types/Left/RowsGallery",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "selection.Title",
+        "expect": "Fictional Beta"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "Types/IncreaseSelected",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "selection.Amount",
+        "expect": 21
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects,ID=2).Amount",
+        "expect": 21
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 21
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 31
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Score(Projected)",
+        "expect": 31
+      },
+      {
+        "op": "assert",
+        "formula": "AmountOf({Title:\"missing\"})",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "AmountOf({Title:\"bad\",Extra:1})",
+        "error_kind": "Type"
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

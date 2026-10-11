@@ -1,0 +1,68 @@
+{
+  "Settings": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "__sources__": {
+        "type": "number",
+        "required": true
+      },
+      "__source_rows__": {
+        "type": "string"
+      },
+      "__scope_alias__": {
+        "type": "boolean"
+      },
+      "__open__": {
+        "type": "boolean"
+      }
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional left",
+        "__sources__": 10,
+        "__source_rows__": "Fictional left note",
+        "__scope_alias__": false,
+        "__open__": false
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional right",
+        "__sources__": 1000,
+        "__source_rows__": "Fictional right note",
+        "__scope_alias__": false,
+        "__open__": false
+      }
+    ]
+  },
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "__count": {
+        "type": "number",
+        "required": true
+      },
+      "__source_rows__": {
+        "type": "string"
+      },
+      "__open__": {
+        "type": "boolean"
+      }
+    },
+    "records": []
+  }
+}

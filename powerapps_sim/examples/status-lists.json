@@ -1,0 +1,1 @@
+{"Snapshots":{"fields":{"ID":{"type":"integer"},"Title":{"type":"string","maxLength":80},"LeftCount":{"type":"number"},"RightCount":{"type":"number"}},"required":["Title"],"records":[]}}

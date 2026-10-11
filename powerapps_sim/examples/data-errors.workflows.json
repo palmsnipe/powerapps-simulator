@@ -1,0 +1,378 @@
+{
+  "data-errors.workflow.json": {
+    "format_version": 1,
+    "name": "Error records, columns, scoped callbacks, form validation and recovery",
+    "records": {
+      "Projects": [
+        {
+          "ID": 1,
+          "Title": "Fictional project 1",
+          "Cost": 10,
+          "Enabled": true,
+          "Status": {
+            "Value": "Draft"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional project 2",
+          "Cost": 20,
+          "Enabled": true,
+          "Status": {
+            "Value": "Draft"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional project 3",
+          "Cost": 30,
+          "Enabled": true,
+          "Status": {
+            "Value": "Done"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 60
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/BadCreate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Errors(Projects,Blank()))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Column",
+        "expect": "Title"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Error",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/BadEdit",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Record.ID",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Errors(Projects,Blank()))",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Right/Fail",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(events).Kind",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Left/Fail",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/BadBatch",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Record.ID",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Last(Errors(Projects)).Record.ID",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 139
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Missing",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Record.ID",
+        "expect": 999
+      },
+      {
+        "op": "assert",
+        "formula": "Last(Errors(Projects)).Record.ID",
+        "expect": 888
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Retry",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).Title",
+        "expect": "Fictional retry"
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Retry",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Error",
+        "expect": 23
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Record.ID",
+        "expect": 1
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Reload",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/ProjectForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": ""
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Column",
+        "expect": "Title"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Errors(Projects)).Record.ID",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(captured)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/ProjectForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional form retry"
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.LastSubmit.ID",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "First(captured).Error",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/New",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Errors(Projects,Blank()))",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/ProjectForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional created after failure"
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/ProjectForm/CostCard/AmountInput",
+        "event": "OnChange",
+        "value": 7
+      },
+      {
+        "op": "event",
+        "path": "ErrorsScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ErrorCount",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.LastSubmit.ID",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 146
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(captured)",
+        "expect": 1
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

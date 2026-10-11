@@ -1,0 +1,416 @@
+{
+  "timers.workflow.json": {
+    "format_version": 1,
+    "name": "Timers, scoped callbacks, screen lifecycle and write retry",
+    "environment": {
+      "enum_mode": "strong",
+      "clock": "2026-01-01T12:00:00+00:00"
+    },
+    "records": {
+      "Ticks": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Elapsed=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Elapsed=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.FormatMs(1000)=If(StartsWith(Language(),\"fr\"),\"1,0 s\",\"1.0 s\")",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/LeftPulse/ActionButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 400
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Elapsed=400",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Elapsed=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Starts=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/LeftPulse/ActionButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 600
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Elapsed=400",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/LeftPulse/ActionButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 600
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Elapsed=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Cycles=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Starts=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Ticks)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/RightPulse/ActionButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 1000
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Cycles=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Elapsed=1000",
+        "expect": true
+      },
+      {
+        "op": "advance",
+        "milliseconds": 500
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Elapsed=500",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Cycles=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(history).Panel",
+        "expect": "RightPulse"
+      },
+      {
+        "op": "failure",
+        "list": "Ticks",
+        "mode": "write"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 500
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Save failed\",\"Échec\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Cycles=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Ticks)=2",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Ticks",
+        "mode": null
+      },
+      {
+        "op": "advance",
+        "milliseconds": 1000
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Cycles=4",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Cycles=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Ticks)=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(Ticks).Cycle=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Elapsed=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Cycles=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Starts=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPulse.History)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Cycles=2",
+        "expect": true
+      },
+      {
+        "op": "advance",
+        "milliseconds": 250
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Elapsed=250",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Elapsed=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/Background",
+        "event": "OnSelect"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 500
+      },
+      {
+        "op": "assert",
+        "formula": "BgTimer.Value=500",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "FgTimer.Value=500",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/ReviewButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "App.ActiveScreen.Name",
+        "expect": "Review"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 1500
+      },
+      {
+        "op": "assert",
+        "formula": "bgEnds=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "fgEnds=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "reviews=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "ReviewTimer.Value=750",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Elapsed=750",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Review/Return",
+        "event": "OnSelect"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 750
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Cycles=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "FgTimer.Value=1250",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "BgTimer.Value=750",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/Background",
+        "event": "OnSelect"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 750
+      },
+      {
+        "op": "assert",
+        "formula": "FgTimer.Value=1250",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "BgTimer.Value=750",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Elapsed=750",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)=8",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Nested.Right=750",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Elapsed=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/RightPulse/ActionButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "TimerLab/LeftPulse/ActionButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "advance",
+        "milliseconds": 1000
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPulse.Cycles=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Ticks)=4",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(Ticks).Cycle=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(Ticks).At",
+        "expect": "2026-01-01 12:00:09"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPulse.Elapsed=750",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

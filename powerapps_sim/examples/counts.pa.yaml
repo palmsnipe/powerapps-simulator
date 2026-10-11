@@ -1,0 +1,169 @@
+App:
+  Properties:
+    StartScreen: =CountsLab
+    OnStart: =Clear(trace);Set(saved,false);Reset(LeftPanel);Reset(RightPanel)
+    Formulas: =T(enText:Text,frText:Text):Text=If(StartsWith(Language(),"fr"),frText,enText);Amounts:=Type([{Amount:Number}]);NumericCount(samples:Amounts):Number=Count(samples);LeftRows=ForAll(Filter(Samples,Side="Left"),{Amount:'Sample amount',Note:'Sample note'});RightRows=ForAll(Filter(Samples,Side="Right"),{Amount:'Sample amount',Note:'Sample note'});
+ComponentDefinitions:
+  CountPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Samples:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({Amount:0,Note:""})
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Samples"
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Table(CountPanel.Samples,extras)
+      Summary:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Numeric:Count(ShowColumns(CountPanel.Rows,Amount)),Present:CountA(ShowColumns(CountPanel.Rows,Note)),Rows:CountRows(CountPanel.Rows)}
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - summary:
+              DataType: Record
+              Default: ={Numeric:0,Present:0,Rows:0}
+              IsOptional: true
+        Default: =Blank()
+      NumericCount:
+        PropertyKind: Function
+        PropertyDefinition: Input
+        ReturnType: Number
+        Parameters:
+          - samples:
+              DataType: Table
+              Default: =Table({Amount:0})
+              IsOptional: true
+        Default: =Count(samples)
+      Add:
+        PropertyKind: Action
+        ReturnType: Number
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =Collect(extras,{Amount:amount,Note:""});CountPanel.Changed(CountPanel.Summary);CountPanel.Summary.Numeric
+    Properties:
+      Width: =450
+      Height: =250
+      Fill: =RGBA(245,248,255,1)
+      OnReset: =Clear(extras);Reset(Amount)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =10
+            Width: =Parent.Width-24
+            Height: =34
+            Text: =CountPanel.Caption
+      - Result:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =50
+            Width: =Parent.Width-24
+            Height: =62
+            Text: ="Count " & CountPanel.Summary.Numeric & " · CountA " & CountPanel.Summary.Present & " · Rows " & CountPanel.Summary.Rows
+      - Amount:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =12
+            Y: =125
+            Width: =210
+            Height: =40
+            Default: =6
+            Precision: =DecimalPrecision.Auto
+            AccessibleLabel: =CountPanel.Caption & " amount"
+      - AddSample:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =236
+            Y: =125
+            Width: =190
+            Height: =40
+            Text: ="Add sample"
+            OnSelect: =CountPanel.Add(Amount.Value)
+      - ResetSamples:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =184
+            Width: =190
+            Height: =40
+            Text: ="Reset"
+            OnSelect: =Reset(CountPanel)
+Screens:
+  CountsLab:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =900
+            Height: =38
+            Text: =T("Counts · fictional samples","Comptages · exemples fictifs")
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: CountPanel
+          Properties:
+            X: =20
+            Y: =70
+            Samples: =LeftRows
+            Caption: =T("Left","Gauche")
+            Changed: =Collect(trace,{Panel:"LeftPanel",Numeric:summary.Numeric,Present:summary.Present,Rows:summary.Rows})
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: CountPanel
+          Properties:
+            X: =490
+            Y: =70
+            Samples: =RightRows
+            Caption: =T("Right","Droite")
+            Changed: =Collect(trace,{Panel:"RightPanel",Numeric:summary.Numeric,Present:summary.Present,Rows:summary.Rows})
+      - SaveSnapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =340
+            Width: =210
+            Height: =40
+            Text: =T("Save snapshot","Enregistrer")
+            OnSelect: =Set(saved,false);IfError(Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional count snapshot",Numeric:LeftPanel.Summary.Numeric,Present:LeftPanel.Summary.Present,Rows:LeftPanel.Summary.Rows}),false,Set(saved,true))
+      - SaveStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =250
+            Y: =340
+            Width: =640
+            Height: =40
+            Text: =If(saved,T("Saved","Enregistré"),T("Unsaved","Non enregistré"))
+      - ClearAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =410
+            Width: =210
+            Height: =40
+            Text: =T("Clear first amount","Effacer le montant")
+            OnSelect: =Patch(Samples,LookUp(Samples,ID=1),{'Sample amount':Blank()})
+      - RestoreAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =250
+            Y: =410
+            Width: =210
+            Height: =40
+            Text: =T("Restore amount","Rétablir le montant")
+            OnSelect: =Patch(Samples,LookUp(Samples,ID=1),{'Sample amount':2})

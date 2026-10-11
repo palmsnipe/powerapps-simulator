@@ -1,0 +1,2146 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "All Search.txt and Search_SupportColumnNamesAsIdentifiersDisabled.txt expressions in Float/Decimal modes. Modern identifier and retained legacy literal-column syntax; independently decoded literal/table/record/error expected values. No exclusions.",
+  "cases": [
+    {
+      "id": "search-search-5-float",
+      "expression": "Search(If(1<0,Table({Name:\"Maria\",Age:30},{Name:\"Lina\",Age:40})),\"\",Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L5",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "search-search-5-decimal",
+      "expression": "Search(If(1<0,Table({Name:\"Maria\",Age:30},{Name:\"Lina\",Age:40})),\"\",Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L5",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "search-search-10-float",
+      "expression": "Search(If(1/0<2,[\"ABC\", \"DEF\", \"GHI\"]), \"ABC\", Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L10",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-10-decimal",
+      "expression": "Search(If(1/0<2,[\"ABC\", \"DEF\", \"GHI\"]), \"ABC\", Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L10",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-14-float",
+      "expression": "Search(Table({Name:\"ABC\"}, {Name:\"DEF\"}, {Name:Error({Kind: 11})}),\"ABC\", Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L14",
+        "expected_powerfx": "Error({Kind:ErrorKind.Validation})"
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-14-decimal",
+      "expression": "Search(Table({Name:\"ABC\"}, {Name:\"DEF\"}, {Name:Error({Kind: 11})}),\"ABC\", Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L14",
+        "expected_powerfx": "Error({Kind:ErrorKind.Validation})"
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-17-float",
+      "expression": "Search(Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Left(\"three\",-1),b:\"thirty\"}), \"t\", a)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L17",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-17-decimal",
+      "expression": "Search(Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Left(\"three\",-1),b:\"thirty\"}), \"t\", a)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L17",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-20-float",
+      "expression": "Search(Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Left(\"three\",-1),b:\"thirty\"}), \"t\", b)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L20",
+        "expected_powerfx": "Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Error({Kind:ErrorKind.InvalidArgument}),b:\"thirty\"})"
+      },
+      "expected": [
+        {
+          "a": "one",
+          "b": "ten"
+        },
+        {
+          "a": "two",
+          "b": "twenty"
+        },
+        {
+          "a": {
+            "$error": {
+              "Kind": 25
+            }
+          },
+          "b": "thirty"
+        }
+      ]
+    },
+    {
+      "id": "search-search-20-decimal",
+      "expression": "Search(Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Left(\"three\",-1),b:\"thirty\"}), \"t\", b)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L20",
+        "expected_powerfx": "Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Error({Kind:ErrorKind.InvalidArgument}),b:\"thirty\"})"
+      },
+      "expected": [
+        {
+          "a": "one",
+          "b": "ten"
+        },
+        {
+          "a": "two",
+          "b": "twenty"
+        },
+        {
+          "a": {
+            "$error": {
+              "Kind": 25
+            }
+          },
+          "b": "thirty"
+        }
+      ]
+    },
+    {
+      "id": "search-search-25-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),If(1<0, \"result is blank\"),Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L25",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"\",Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 2.0,
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "",
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 30.0,
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": 39.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-25-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),If(1<0, \"result is blank\"),Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L25",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"\",Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "2"
+          },
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "",
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "30"
+          },
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "39"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-38-float",
+      "expression": "Search(Table(\n  { Name: Blank(), Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Name: Blank(), Employer: \"Microsoft\" }),If(1<0, \"result is blank\"),Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L38",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:Blank(),Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 2.0,
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": null,
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 30.0,
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": 39.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-38-decimal",
+      "expression": "Search(Table(\n  { Name: Blank(), Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Name: Blank(), Employer: \"Microsoft\" }),If(1<0, \"result is blank\"),Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L38",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:Blank(),Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "2"
+          },
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": null,
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "30"
+          },
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "39"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-50-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"\",Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L50",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"\",Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 2.0,
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "",
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 30.0,
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": 39.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-50-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"\",Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L50",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"\",Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "2"
+          },
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "",
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "30"
+          },
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "39"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-63-float",
+      "expression": "Search(Table(\n  { Name: \"   \", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"   \",Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L63",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"   \",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 2.0,
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "   ",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-63-decimal",
+      "expression": "Search(Table(\n  { Name: \"   \", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"   \",Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L63",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"   \",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "2"
+          },
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "   ",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-76-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"Mill\",Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L76",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-76-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"Mill\",Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L76",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-89-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"miller\",Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L89",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-89-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"miller\",Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L89",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-102-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"adam\",Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L102",
+        "expected_powerfx": "Table({Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 30.0,
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": 39.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-102-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"adam\",Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L102",
+        "expected_powerfx": "Table({Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "30"
+          },
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "39"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-115-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"microsoft\",Employer)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L115",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-115-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"microsoft\",Employer)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L115",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-128-float",
+      "expression": "Search(Table(\n   {'F\\Name': \"Adams\"},\n   {'L\\Name': \"Scott\" }), \"adam\", 'F\\Name')",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L128",
+        "expected_powerfx": "Table({'F\\Name':\"Adams\",'L\\Name':Blank()})"
+      },
+      "expected": [
+        {
+          "F\\Name": "Adams",
+          "L\\Name": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-128-decimal",
+      "expression": "Search(Table(\n   {'F\\Name': \"Adams\"},\n   {'L\\Name': \"Scott\" }), \"adam\", 'F\\Name')",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L128",
+        "expected_powerfx": "Table({'F\\Name':\"Adams\",'L\\Name':Blank()})"
+      },
+      "expected": [
+        {
+          "F\\Name": "Adams",
+          "L\\Name": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-136-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"mi\",Employer)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L136",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-136-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"mi\",Employer)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L136",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search-149-float",
+      "expression": "Search(Table(\n  { Name: \"Xander Cage\", Age: 33, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"John Doe\", Age: 34, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Jane Roe\", Age: 35, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Jim Poe\", Age: 36, Vaccinated: true, HasDog: true, Employer: \"XYZ Corp\" },\n  { Name: \"Drexler Jones\", Age: 36, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" }),\"X\",Name,Employer)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L149",
+        "expected_powerfx": "Table({Age:33,Employer:\"Microsoft\",HasDog:true,Name:\"Xander Cage\",Vaccinated:true},{Age:36,Employer:\"XYZ Corp\",HasDog:true,Name:\"Jim Poe\",Vaccinated:true},{Age:36,Employer:\"Microsoft\",HasDog:true,Name:\"Drexler Jones\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 33.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Xander Cage",
+          "Vaccinated": true
+        },
+        {
+          "Age": 36.0,
+          "Employer": "XYZ Corp",
+          "HasDog": true,
+          "Name": "Jim Poe",
+          "Vaccinated": true
+        },
+        {
+          "Age": 36.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Drexler Jones",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-149-decimal",
+      "expression": "Search(Table(\n  { Name: \"Xander Cage\", Age: 33, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"John Doe\", Age: 34, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Jane Roe\", Age: 35, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Jim Poe\", Age: 36, Vaccinated: true, HasDog: true, Employer: \"XYZ Corp\" },\n  { Name: \"Drexler Jones\", Age: 36, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" }),\"X\",Name,Employer)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L149",
+        "expected_powerfx": "Table({Age:33,Employer:\"Microsoft\",HasDog:true,Name:\"Xander Cage\",Vaccinated:true},{Age:36,Employer:\"XYZ Corp\",HasDog:true,Name:\"Jim Poe\",Vaccinated:true},{Age:36,Employer:\"Microsoft\",HasDog:true,Name:\"Drexler Jones\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "33"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Xander Cage",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "36"
+          },
+          "Employer": "XYZ Corp",
+          "HasDog": true,
+          "Name": "Jim Poe",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "36"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Drexler Jones",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search-158-float",
+      "expression": "Search(Table({Name:\"test\"}, {Name: 1/0}), \"t\", Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L158",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-158-decimal",
+      "expression": "Search(Table({Name:\"test\"}, {Name: 1/0}), \"t\", Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L158",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-161-float",
+      "expression": "Search(Table({Name:\"test\"}, {Name: \"test2\"}), $\"t {1/0}\", Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L161",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search-161-decimal",
+      "expression": "Search(Table({Name:\"test\"}, {Name: \"test2\"}), $\"t {1/0}\", Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search.txt#L161",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-5-float",
+      "expression": "Search(If(1<0,Table({Name:\"Maria\",Age:30},{Name:\"Lina\",Age:40})),\"\",\"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L5",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-5-decimal",
+      "expression": "Search(If(1<0,Table({Name:\"Maria\",Age:30},{Name:\"Lina\",Age:40})),\"\",\"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L5",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-10-float",
+      "expression": "Search(If(1/0<2,[\"ABC\", \"DEF\", \"GHI\"]), \"ABC\", \"Value\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L10",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-10-decimal",
+      "expression": "Search(If(1/0<2,[\"ABC\", \"DEF\", \"GHI\"]), \"ABC\", \"Value\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L10",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-14-float",
+      "expression": "Search(Table({Name:\"ABC\"}, {Name:\"DEF\"}, {Name:Error({Kind: 11})}),\"ABC\", \"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L14",
+        "expected_powerfx": "Error({Kind:ErrorKind.Validation})"
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-14-decimal",
+      "expression": "Search(Table({Name:\"ABC\"}, {Name:\"DEF\"}, {Name:Error({Kind: 11})}),\"ABC\", \"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L14",
+        "expected_powerfx": "Error({Kind:ErrorKind.Validation})"
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-17-float",
+      "expression": "Search(Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Left(\"three\",-1),b:\"thirty\"}), \"t\", \"a\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L17",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-17-decimal",
+      "expression": "Search(Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Left(\"three\",-1),b:\"thirty\"}), \"t\", \"a\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L17",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-20-float",
+      "expression": "Search(Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Left(\"three\",-1),b:\"thirty\"}), \"t\", \"b\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L20",
+        "expected_powerfx": "Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Error({Kind:ErrorKind.InvalidArgument}),b:\"thirty\"})"
+      },
+      "expected": [
+        {
+          "a": "one",
+          "b": "ten"
+        },
+        {
+          "a": "two",
+          "b": "twenty"
+        },
+        {
+          "a": {
+            "$error": {
+              "Kind": 25
+            }
+          },
+          "b": "thirty"
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-20-decimal",
+      "expression": "Search(Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Left(\"three\",-1),b:\"thirty\"}), \"t\", \"b\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L20",
+        "expected_powerfx": "Table({a:\"one\",b:\"ten\"},{a:\"two\",b:\"twenty\"},{a:Error({Kind:ErrorKind.InvalidArgument}),b:\"thirty\"})"
+      },
+      "expected": [
+        {
+          "a": "one",
+          "b": "ten"
+        },
+        {
+          "a": "two",
+          "b": "twenty"
+        },
+        {
+          "a": {
+            "$error": {
+              "Kind": 25
+            }
+          },
+          "b": "thirty"
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-25-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),If(1<0, \"result is blank\"),\"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L25",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"\",Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 2.0,
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "",
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 30.0,
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": 39.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-25-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),If(1<0, \"result is blank\"),\"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L25",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"\",Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "2"
+          },
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "",
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "30"
+          },
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "39"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-38-float",
+      "expression": "Search(Table(\n  { Name: Blank(), Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Name: Blank(), Employer: \"Microsoft\" }),If(1<0, \"result is blank\"),\"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L38",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:Blank(),Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 2.0,
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": null,
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 30.0,
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": 39.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-38-decimal",
+      "expression": "Search(Table(\n  { Name: Blank(), Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Name: Blank(), Employer: \"Microsoft\" }),If(1<0, \"result is blank\"),\"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L38",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:Blank(),Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "2"
+          },
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": null,
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "30"
+          },
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "39"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-50-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"\",\"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L50",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"\",Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 2.0,
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "",
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 30.0,
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": 39.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-50-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"\",\"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L50",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"\",Vaccinated:true},Blank(),{Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true},{Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "2"
+          },
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "",
+          "Vaccinated": true
+        },
+        null,
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "30"
+          },
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "39"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-63-float",
+      "expression": "Search(Table(\n  { Name: \"   \", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"   \",\"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L63",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"   \",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 2.0,
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "   ",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-63-decimal",
+      "expression": "Search(Table(\n  { Name: \"   \", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"   \",\"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L63",
+        "expected_powerfx": "Table({Age:2,Employer:\"NA\",HasDog:true,Name:\"   \",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "2"
+          },
+          "Employer": "NA",
+          "HasDog": true,
+          "Name": "   ",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-76-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"Mill\",\"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L76",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-76-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"Mill\",\"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L76",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-89-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"miller\",\"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L89",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": 21.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-89-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"miller\",\"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L89",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:21,Employer:Blank(),HasDog:true,Name:\"Andrew Miller\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "21"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Andrew Miller",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-102-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"adam\",\"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L102",
+        "expected_powerfx": "Table({Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 30.0,
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": 39.0,
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-102-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"adam\",\"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L102",
+        "expected_powerfx": "Table({Age:30,Employer:\"Facebook\",HasDog:true,Name:\"James Adams\",Vaccinated:true},{Age:39,Employer:Blank(),HasDog:true,Name:\"Samuel Adams\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "30"
+          },
+          "Employer": "Facebook",
+          "HasDog": true,
+          "Name": "James Adams",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "39"
+          },
+          "Employer": null,
+          "HasDog": true,
+          "Name": "Samuel Adams",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-115-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"microsoft\",\"Employer\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L115",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-115-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"microsoft\",\"Employer\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L115",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-128-float",
+      "expression": "Search(Table(\n   {'F\\Name': \"Adams\"},\n   {'L\\Name': \"Scott\" }), \"adam\", \"F\\Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L128",
+        "expected_powerfx": "Table({'F\\Name':\"Adams\",'L\\Name':Blank()})"
+      },
+      "expected": [
+        {
+          "F\\Name": "Adams",
+          "L\\Name": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-128-decimal",
+      "expression": "Search(Table(\n   {'F\\Name': \"Adams\"},\n   {'L\\Name': \"Scott\" }), \"adam\", \"F\\Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L128",
+        "expected_powerfx": "Table({'F\\Name':\"Adams\",'L\\Name':Blank()})"
+      },
+      "expected": [
+        {
+          "F\\Name": "Adams",
+          "L\\Name": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-136-float",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"mi\",\"Employer\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L136",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": 27.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-136-decimal",
+      "expression": "Search(Table(\n  { Name: \"\", Age: 2, Vaccinated: true, HasDog: true, Employer: \"NA\" },\n  Blank(),\n  { Name: \"Christina Miller\", Age: 27, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Andrew Miller\", Age: 21, Vaccinated: true, HasDog: true, Employer: Blank() },\n  { Name: \"James Adams\", Age: 30, Vaccinated: true, HasDog: true, Employer: \"Facebook\" },\n  { Name: \"Samuel Adams\", Age: 39, Vaccinated: true, HasDog: true },\n  { Employer: \"Microsoft\" }),\"mi\",\"Employer\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L136",
+        "expected_powerfx": "Table({Age:27,Employer:\"Microsoft\",HasDog:true,Name:\"Christina Miller\",Vaccinated:true},{Age:Blank(),Employer:\"Microsoft\",HasDog:Blank(),Name:Blank(),Vaccinated:Blank()})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "27"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Christina Miller",
+          "Vaccinated": true
+        },
+        {
+          "Age": null,
+          "Employer": "Microsoft",
+          "HasDog": null,
+          "Name": null,
+          "Vaccinated": null
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-149-float",
+      "expression": "Search(Table(\n  { Name: \"Xander Cage\", Age: 33, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"John Doe\", Age: 34, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Jane Roe\", Age: 35, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Jim Poe\", Age: 36, Vaccinated: true, HasDog: true, Employer: \"XYZ Corp\" },\n  { Name: \"Drexler Jones\", Age: 36, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" }),\"X\",\"Name\",\"Employer\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L149",
+        "expected_powerfx": "Table({Age:33,Employer:\"Microsoft\",HasDog:true,Name:\"Xander Cage\",Vaccinated:true},{Age:36,Employer:\"XYZ Corp\",HasDog:true,Name:\"Jim Poe\",Vaccinated:true},{Age:36,Employer:\"Microsoft\",HasDog:true,Name:\"Drexler Jones\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": 33.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Xander Cage",
+          "Vaccinated": true
+        },
+        {
+          "Age": 36.0,
+          "Employer": "XYZ Corp",
+          "HasDog": true,
+          "Name": "Jim Poe",
+          "Vaccinated": true
+        },
+        {
+          "Age": 36.0,
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Drexler Jones",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-149-decimal",
+      "expression": "Search(Table(\n  { Name: \"Xander Cage\", Age: 33, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"John Doe\", Age: 34, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Jane Roe\", Age: 35, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" },\n  { Name: \"Jim Poe\", Age: 36, Vaccinated: true, HasDog: true, Employer: \"XYZ Corp\" },\n  { Name: \"Drexler Jones\", Age: 36, Vaccinated: true, HasDog: true, Employer: \"Microsoft\" }),\"X\",\"Name\",\"Employer\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L149",
+        "expected_powerfx": "Table({Age:33,Employer:\"Microsoft\",HasDog:true,Name:\"Xander Cage\",Vaccinated:true},{Age:36,Employer:\"XYZ Corp\",HasDog:true,Name:\"Jim Poe\",Vaccinated:true},{Age:36,Employer:\"Microsoft\",HasDog:true,Name:\"Drexler Jones\",Vaccinated:true})"
+      },
+      "expected": [
+        {
+          "Age": {
+            "$decimal": "33"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Xander Cage",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "36"
+          },
+          "Employer": "XYZ Corp",
+          "HasDog": true,
+          "Name": "Jim Poe",
+          "Vaccinated": true
+        },
+        {
+          "Age": {
+            "$decimal": "36"
+          },
+          "Employer": "Microsoft",
+          "HasDog": true,
+          "Name": "Drexler Jones",
+          "Vaccinated": true
+        }
+      ]
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-158-float",
+      "expression": "Search(Table({Name:\"test\"}, {Name: 1/0}), \"t\", \"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L158",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-158-decimal",
+      "expression": "Search(Table({Name:\"test\"}, {Name: 1/0}), \"t\", \"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L158",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-161-float",
+      "expression": "Search(Table({Name:\"test\"}, {Name: \"test2\"}), $\"t {1/0}\", \"Name\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L161",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "search-search_supportcolumnnamesasidentifiersdisabled-161-decimal",
+      "expression": "Search(Table({Name:\"test\"}, {Name: \"test2\"}), $\"t {1/0}\", \"Name\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Search_SupportColumnNamesAsIdentifiersDisabled.txt#L161",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    }
+  ]
+}

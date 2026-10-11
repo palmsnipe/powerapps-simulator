@@ -1,0 +1,87 @@
+{
+  "search.workflow.json": {
+    "format_version": 1,
+    "name": "Search, nested groups and isolated components",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(Multi.SelectedItems)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "SearchScreen/Multi",
+        "event": "OnSearch",
+        "value": "beta"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Multi.Items)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Multi.Selected.ID",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "SearchScreen/LeftSearch/Picker",
+        "event": "OnSearch",
+        "value": "gamma"
+      },
+      {
+        "op": "event",
+        "path": "SearchScreen/LeftSearch/Picker",
+        "event": "OnChange",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftSearch.Current).ID",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "RightSearch.Query",
+        "expect": ""
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(Teams,Total)",
+        "expect": 100
+      },
+      {
+        "op": "event",
+        "path": "SearchScreen/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Multi.SearchText",
+        "expect": ""
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Multi.SelectedItems)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

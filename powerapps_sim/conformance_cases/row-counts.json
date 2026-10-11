@@ -1,0 +1,1518 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Every expression from pinned CountRows.txt and CountIf.txt in Float and Decimal modes, with independently decoded literal/error oracles. No exclusions. TableSyntaxDoesntWrapRecords matches the existing table-literal policy.",
+  "cases": [
+    {
+      "id": "row-counts-countrows-3-float",
+      "expression": "CountRows([])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L3",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "row-counts-countrows-3-decimal",
+      "expression": "CountRows([])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L3",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "row-counts-countrows-6-float",
+      "expression": "CountRows([0])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L6",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countrows-6-decimal",
+      "expression": "CountRows([0])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L6",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countrows-9-float",
+      "expression": "CountRows([1])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L9",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countrows-9-decimal",
+      "expression": "CountRows([1])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L9",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countrows-14-float",
+      "expression": "CountRows([1, 2, 3, 4, 5])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L14",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "row-counts-countrows-14-decimal",
+      "expression": "CountRows([1, 2, 3, 4, 5])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L14",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "row-counts-countrows-17-float",
+      "expression": "CountRows(Table({a:1},{a:2},{a:3}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L17",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "row-counts-countrows-17-decimal",
+      "expression": "CountRows(Table({a:1},{a:2},{a:3}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L17",
+        "expected_powerfx": "3"
+      },
+      "expected": {
+        "$decimal": "3"
+      }
+    },
+    {
+      "id": "row-counts-countrows-22-float",
+      "expression": "CountRows([\"1\", \"one\", \"two\", \"three\", \"four\"])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L22",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "row-counts-countrows-22-decimal",
+      "expression": "CountRows([\"1\", \"one\", \"two\", \"three\", \"four\"])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L22",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "row-counts-countrows-25-float",
+      "expression": "CountRows(Table({a:\"1\"},{a:\"two\"},{a:\"three\"},{a:\"four\"},{a:\"five\"}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L25",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "row-counts-countrows-25-decimal",
+      "expression": "CountRows(Table({a:\"1\"},{a:\"two\"},{a:\"three\"},{a:\"four\"},{a:\"five\"}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L25",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "row-counts-countrows-30-float",
+      "expression": "CountRows([true, false])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L30",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-30-decimal",
+      "expression": "CountRows([true, false])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L30",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countrows-33-float",
+      "expression": "CountRows(Table({a:true},{a:false}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L33",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-33-decimal",
+      "expression": "CountRows(Table({a:true},{a:false}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L33",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countrows-38-float",
+      "expression": "CountRows([Date(2022,12,12), Date(2014,10,1)])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L38",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-38-decimal",
+      "expression": "CountRows([Date(2022,12,12), Date(2014,10,1)])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L38",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countrows-41-float",
+      "expression": "CountRows(Table({a:Date(2022,12,12)},{a:Date(2014,10,1)}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L41",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-41-decimal",
+      "expression": "CountRows(Table({a:Date(2022,12,12)},{a:Date(2014,10,1)}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L41",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countrows-44-float",
+      "expression": "CountRows([DateTime(2022,5,12,18,30,30), DateTime(2022,5,19,0,0,0)])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L44",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-44-decimal",
+      "expression": "CountRows([DateTime(2022,5,12,18,30,30), DateTime(2022,5,19,0,0,0)])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L44",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countrows-47-float",
+      "expression": "CountRows(Table({a:DateTime(2022,5,12,18,30,30)},{a:DateTime(2022,5,19,0,0,0)}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L47",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-47-decimal",
+      "expression": "CountRows(Table({a:DateTime(2022,5,12,18,30,30)},{a:DateTime(2022,5,19,0,0,0)}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L47",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countrows-52-float",
+      "expression": "CountRows(Table({a:1, b:\"two\", c:true, d:Date(2022,12,12), e:Time(6,30,30), f:DateTime(2022,5,12,18,30,30)}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L52",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countrows-52-decimal",
+      "expression": "CountRows(Table({a:1, b:\"two\", c:true, d:Date(2022,12,12), e:Time(6,30,30), f:DateTime(2022,5,12,18,30,30)}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L52",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countrows-57-float",
+      "expression": "CountRows([0,\"\"])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L57",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-57-decimal",
+      "expression": "CountRows([0,\"\"])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L57",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countrows-60-float",
+      "expression": "CountRows([1,2,3,4,Blank()])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L60",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "row-counts-countrows-60-decimal",
+      "expression": "CountRows([1,2,3,4,Blank()])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L60",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "row-counts-countrows-63-float",
+      "expression": "CountRows([1, \"2\", true, false, Blank(), \"\", \" \", Date(2022,12,12),Time(6,30,30),DateTimeValue(\"5/12/2022 6:30:30 PM\")])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L63",
+        "expected_powerfx": "10"
+      },
+      "expected": 10
+    },
+    {
+      "id": "row-counts-countrows-63-decimal",
+      "expression": "CountRows([1, \"2\", true, false, Blank(), \"\", \" \", Date(2022,12,12),Time(6,30,30),DateTimeValue(\"5/12/2022 6:30:30 PM\")])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L63",
+        "expected_powerfx": "10"
+      },
+      "expected": {
+        "$decimal": "10"
+      }
+    },
+    {
+      "id": "row-counts-countrows-66-float",
+      "expression": "CountRows([1,\"2\", true, Blank(),Blank(),Blank()])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L66",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "row-counts-countrows-66-decimal",
+      "expression": "CountRows([1,\"2\", true, Blank(),Blank(),Blank()])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L66",
+        "expected_powerfx": "6"
+      },
+      "expected": {
+        "$decimal": "6"
+      }
+    },
+    {
+      "id": "row-counts-countrows-69-float",
+      "expression": "CountRows([1,Date(2022,12,12),\"3\",If(1<0,4),Blank()])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L69",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "row-counts-countrows-69-decimal",
+      "expression": "CountRows([1,Date(2022,12,12),\"3\",If(1<0,4),Blank()])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L69",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "row-counts-countrows-72-float",
+      "expression": "CountRows(Table({a:false},Blank(),{a:true},Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L72",
+        "expected_powerfx": "4"
+      },
+      "expected": 4
+    },
+    {
+      "id": "row-counts-countrows-72-decimal",
+      "expression": "CountRows(Table({a:false},Blank(),{a:true},Blank()))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L72",
+        "expected_powerfx": "4"
+      },
+      "expected": {
+        "$decimal": "4"
+      }
+    },
+    {
+      "id": "row-counts-countrows-75-float",
+      "expression": "CountRows(Table({a:\"1\"},{a:\"2\"},If(1<0,{a:\"3\"}),If(1>0,{a:\"4\"}),{a:\"5\"}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L75",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "row-counts-countrows-75-decimal",
+      "expression": "CountRows(Table({a:\"1\"},{a:\"2\"},If(1<0,{a:\"3\"}),If(1>0,{a:\"4\"}),{a:\"5\"}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L75",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "row-counts-countrows-78-float",
+      "expression": "CountRows(LastN([1,2,3,4], Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L78",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "row-counts-countrows-78-decimal",
+      "expression": "CountRows(LastN([1,2,3,4], Blank()))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L78",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "row-counts-countrows-81-float",
+      "expression": "CountRows(Table({a:Blank()},Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L81",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-81-decimal",
+      "expression": "CountRows(Table({a:Blank()},Blank()))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L81",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countrows-85-float",
+      "expression": "CountRows([Blank()])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L85",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countrows-85-decimal",
+      "expression": "CountRows([Blank()])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L85",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countrows-89-float",
+      "expression": "CountRows([Blank(),Blank(),Blank(),Blank(),Blank()])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L89",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "row-counts-countrows-89-decimal",
+      "expression": "CountRows([Blank(),Blank(),Blank(),Blank(),Blank()])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L89",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "row-counts-countrows-92-float",
+      "expression": "CountRows([\"\",\"\",\" \",Blank(),Blank()])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L92",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "row-counts-countrows-92-decimal",
+      "expression": "CountRows([\"\",\"\",\" \",Blank(),Blank()])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L92",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "row-counts-countrows-95-float",
+      "expression": "CountRows(Table({a:\"\"},{a:\" \"},{a:Blank()}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L95",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "row-counts-countrows-95-decimal",
+      "expression": "CountRows(Table({a:\"\"},{a:\" \"},{a:Blank()}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L95",
+        "expected_powerfx": "3"
+      },
+      "expected": {
+        "$decimal": "3"
+      }
+    },
+    {
+      "id": "row-counts-countrows-100-float",
+      "expression": "CountRows(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L100",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "row-counts-countrows-100-decimal",
+      "expression": "CountRows(Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L100",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "row-counts-countrows-103-float",
+      "expression": "CountRows(If(1<0,[1]))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L103",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "row-counts-countrows-103-decimal",
+      "expression": "CountRows(If(1<0,[1]))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L103",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "row-counts-countrows-106-float",
+      "expression": "CountRows(Sort([\"-2\",\"-1\",\"0\",1,2],1/Value))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L106",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countrows-106-decimal",
+      "expression": "CountRows(Sort([\"-2\",\"-1\",\"0\",1,2],1/Value))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L106",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countrows-112-float",
+      "expression": "CountRows([1, \"2\", 1/0, true, false, Blank(), \"\", \" \", Date(2022,12,12),Time(6,30,30),DateTimeValue(\"5/12/2022 6:30:30 PM\")])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L112",
+        "expected_powerfx": "11"
+      },
+      "expected": 11
+    },
+    {
+      "id": "row-counts-countrows-112-decimal",
+      "expression": "CountRows([1, \"2\", 1/0, true, false, Blank(), \"\", \" \", Date(2022,12,12),Time(6,30,30),DateTimeValue(\"5/12/2022 6:30:30 PM\")])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L112",
+        "expected_powerfx": "11"
+      },
+      "expected": {
+        "$decimal": "11"
+      }
+    },
+    {
+      "id": "row-counts-countrows-116-float",
+      "expression": "CountRows(Table({a:1},{a:2},If(Sqrt(-1)<1,{a:3}),{a:4}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L116",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countrows-116-decimal",
+      "expression": "CountRows(Table({a:1},{a:2},If(Sqrt(-1)<1,{a:3}),{a:4}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L116",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countrows-119-float",
+      "expression": "CountRows(Filter([-2, -1, 0, 1, 2], 1 / Value < 3))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L119",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countrows-119-decimal",
+      "expression": "CountRows(Filter([-2, -1, 0, 1, 2], 1 / Value < 3))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L119",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countrows-123-float",
+      "expression": "CountRows([1/0])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L123",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countrows-123-decimal",
+      "expression": "CountRows([1/0])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L123",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countrows-126-float",
+      "expression": "CountRows(Table({a:1/0},{a:Sqrt(-1)}))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L126",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countrows-126-decimal",
+      "expression": "CountRows(Table({a:1/0},{a:Sqrt(-1)}))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountRows.txt#L126",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countif-1-float",
+      "expression": "CountIf([1, 2, 3, 4, 5], Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L1",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "row-counts-countif-1-decimal",
+      "expression": "CountIf([1, 2, 3, 4, 5], Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L1",
+        "expected_powerfx": "3"
+      },
+      "expected": {
+        "$decimal": "3"
+      }
+    },
+    {
+      "id": "row-counts-countif-5-float",
+      "expression": "CountIf(LastN([1,2,3,4], Blank()), Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L5",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "row-counts-countif-5-decimal",
+      "expression": "CountIf(LastN([1,2,3,4], Blank()), Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L5",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "row-counts-countif-9-float",
+      "expression": "CountIf(If(1<0,[1,2,3,4]), Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L9",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "row-counts-countif-9-decimal",
+      "expression": "CountIf(If(1<0,[1,2,3,4]), Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L9",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "row-counts-countif-12-float",
+      "expression": "CountIf(Sort([-2, -1, 0, 1, 2], 1 / Value), Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L12",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countif-12-decimal",
+      "expression": "CountIf(Sort([-2, -1, 0, 1, 2], 1 / Value), Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L12",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countif-15-float",
+      "expression": "CountIf([1, 2, 0, 4, 5], 1/Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L15",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countif-15-decimal",
+      "expression": "CountIf([1, 2, 0, 4, 5], 1/Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L15",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countif-19-float",
+      "expression": "CountIf(Filter([-2, -1, 0, 1, 2], Sqrt(1/Value) > 0), Value > 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L19",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countif-19-decimal",
+      "expression": "CountIf(Filter([-2, -1, 0, 1, 2], Sqrt(1/Value) > 0), Value > 0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L19",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "row-counts-countif-23-float",
+      "expression": "CountIf(Filter([-2, -1, 0, 1, 2], Sqrt(1/Value) > 0), IsError(ThisRecord))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L23",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "row-counts-countif-23-decimal",
+      "expression": "CountIf(Filter([-2, -1, 0, 1, 2], Sqrt(1/Value) > 0), IsError(ThisRecord))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L23",
+        "expected_powerfx": "3"
+      },
+      "expected": {
+        "$decimal": "3"
+      }
+    },
+    {
+      "id": "row-counts-countif-27-float",
+      "expression": "CountIf([1, 2, 3, 4, 5], If(Mod(Value, 2) = 0, Value > 2))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L27",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countif-27-decimal",
+      "expression": "CountIf([1, 2, 3, 4, 5], If(Mod(Value, 2) = 0, Value > 2))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L27",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countif-31-float",
+      "expression": "CountIf(Sequence(12), Mod(Value,2)=0, Mod(Value,3)=0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L31",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countif-31-decimal",
+      "expression": "CountIf(Sequence(12), Mod(Value,2)=0, Mod(Value,3)=0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L31",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "row-counts-countif-35-float",
+      "expression": "CountIf(Sequence(240), Mod(Value,2)=0, Mod(Value,3)=0, Mod(Value,4)=0, Mod(Value,5)=0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L35",
+        "expected_powerfx": "4"
+      },
+      "expected": 4
+    },
+    {
+      "id": "row-counts-countif-35-decimal",
+      "expression": "CountIf(Sequence(240), Mod(Value,2)=0, Mod(Value,3)=0, Mod(Value,4)=0, Mod(Value,5)=0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L35",
+        "expected_powerfx": "4"
+      },
+      "expected": {
+        "$decimal": "4"
+      }
+    },
+    {
+      "id": "row-counts-countif-39-float",
+      "expression": "CountIf(Table({a:1,b:\"true\"},{a:0,b:\"true\"},{a:1,b:\"false\"},{a:0,b:\"false\"}), a > 0, b = \"true\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L39",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countif-39-decimal",
+      "expression": "CountIf(Table({a:1,b:\"true\"},{a:0,b:\"true\"},{a:1,b:\"false\"},{a:0,b:\"false\"}), a > 0, b = \"true\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L39",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countif-43-float",
+      "expression": "CountIf([-1, 0, 1, 0, -1, 0, 1], Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L43",
+        "expected_powerfx": "4"
+      },
+      "expected": 4
+    },
+    {
+      "id": "row-counts-countif-43-decimal",
+      "expression": "CountIf([-1, 0, 1, 0, -1, 0, 1], Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L43",
+        "expected_powerfx": "4"
+      },
+      "expected": {
+        "$decimal": "4"
+      }
+    },
+    {
+      "id": "row-counts-countif-47-float",
+      "expression": "CountIf([\"true\", \"false\", \"TRUE\", \"FALSE\", \"True\", \"False\"], Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L47",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "row-counts-countif-47-decimal",
+      "expression": "CountIf([\"true\", \"false\", \"TRUE\", \"FALSE\", \"True\", \"False\"], Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L47",
+        "expected_powerfx": "3"
+      },
+      "expected": {
+        "$decimal": "3"
+      }
+    },
+    {
+      "id": "row-counts-countif-51-float",
+      "expression": "CountIf(Table({a:1,b:\"true\"},{a:0,b:\"true\"},{a:1,b:\"false\"},{a:0,b:\"false\"}), a, b)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L51",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countif-51-decimal",
+      "expression": "CountIf(Table({a:1,b:\"true\"},{a:0,b:\"true\"},{a:1,b:\"false\"},{a:0,b:\"false\"}), a, b)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L51",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countif-54-float",
+      "expression": "CountIf([1, 2, 3, 4], Today())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L54",
+        "expected_powerfx": "Errors: Error 22-29: Invalid argument type (Date). Expecting a Boolean value instead.|Error 0-7: The function 'CountIf' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "row-counts-countif-54-decimal",
+      "expression": "CountIf([1, 2, 3, 4], Today())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L54",
+        "expected_powerfx": "Errors: Error 22-29: Invalid argument type (Date). Expecting a Boolean value instead.|Error 0-7: The function 'CountIf' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "row-counts-countif-57-float",
+      "expression": "CountIf(Table({a:1},Blank(),{a:3}), IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L57",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "row-counts-countif-57-decimal",
+      "expression": "CountIf(Table({a:1},Blank(),{a:3}), IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L57",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "row-counts-countif-60-float",
+      "expression": "CountIf([1,Blank(),3], IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L60",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "row-counts-countif-60-decimal",
+      "expression": "CountIf([1,Blank(),3], IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L60",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "row-counts-countif-63-float",
+      "expression": "CountIf(Table({a:1},Blank(),{a:3}, If(1<0,{a:4})), IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L63",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "row-counts-countif-63-decimal",
+      "expression": "CountIf(Table({a:1},Blank(),{a:3}, If(1<0,{a:4})), IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CountIf.txt#L63",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    }
+  ]
+}

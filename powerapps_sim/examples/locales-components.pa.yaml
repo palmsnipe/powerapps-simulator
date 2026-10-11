@@ -1,0 +1,63 @@
+ComponentDefinitions:
+  LocaleCard:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Locale:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="es-ES"
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="123,456"
+      Amount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =IfError(Value(NumberInput.Text,LocaleCard.Locale),Blank())
+      Valid:
+        PropertyKind: Output
+        DataType: Boolean
+        Default: =!IsError(Value(NumberInput.Text,LocaleCard.Locale)) && !IsBlank(NumberInput.Text)
+      Caption:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Text(Date(2024,3,7),"dddd mmmm d",LocaleCard.Locale)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+          - localeTag:
+              DataType: Text
+        Default: =Blank()
+    Properties:
+      Width: =400
+      Height: =170
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =8
+            Width: =Parent.Width-24
+            Height: =32
+            Text: =LocaleCard.Locale & " · " & LocaleCard.Caption
+      - NumberInput:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =12
+            Y: =52
+            Width: =Parent.Width-24
+            Default: =LocaleCard.Seed
+            AccessibleLabel: ="Amount " & LocaleCard.Locale
+            OnChange: =If(LocaleCard.Valid,LocaleCard.Changed(LocaleCard.Amount,LocaleCard.Locale))
+      - Feedback:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =102
+            Width: =Parent.Width-24
+            Height: =50
+            Text: =IfError(Text(Value(NumberInput.Text,LocaleCard.Locale),"[$-en-US]#,##0.00",LocaleCard.Locale),FirstError.Message)

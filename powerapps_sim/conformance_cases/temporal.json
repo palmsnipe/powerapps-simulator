@@ -1,0 +1,2361 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "cases": [
+    {
+      "id": "temporal-time-1",
+      "expression": "Time(1, 2, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L1",
+        "expected_powerfx": "Time(1,2,3,0)"
+      },
+      "expected": "01:02:03",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-4",
+      "expression": "Time(12, 23, 34, 456)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L4",
+        "expected_powerfx": "Time(12,23,34,456)"
+      },
+      "expected": "12:23:34.456000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-8",
+      "expression": "Time(30, 0, 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L8",
+        "expected_powerfx": "Time(6,0,0,0)"
+      },
+      "expected": "06:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-11",
+      "expression": "Hour(Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L11",
+        "expected_powerfx": "1"
+      },
+      "expected": 1,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-14",
+      "expression": "Minute(Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L14",
+        "expected_powerfx": "2"
+      },
+      "expected": 2,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-17",
+      "expression": "Second(Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L17",
+        "expected_powerfx": "3"
+      },
+      "expected": 3,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-20",
+      "expression": "Time(1/0, 2, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L20",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-23",
+      "expression": "Time(8,1,15) < Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L23",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-26",
+      "expression": "Time(8,1,15) < Time(8,1,15)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L26",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-29",
+      "expression": "Time(8,1,15) <= Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L29",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-32",
+      "expression": "Time(8,1,15) <= Time(8,1,15)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L32",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-35",
+      "expression": "Time(8,1,30) < Time(8,1,15)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L35",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-38",
+      "expression": "Time(8,1,30) <= Time(8,1,15)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L38",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-41",
+      "expression": "Time(8,1,15) > Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L41",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-44",
+      "expression": "Time(8,1,15) > Time(8,1,15)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L44",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-47",
+      "expression": "Time(8,1,15) >= Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L47",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-50",
+      "expression": "Time(8,1,15) >= Time(8,1,15)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L50",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-53",
+      "expression": "Time(8,1,30) > Time(8,1,15)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L53",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-56",
+      "expression": "Time(8,1,30) >= Time(8,1,15)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L56",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-59",
+      "expression": "Time(Blank(), 2, 3) < Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L59",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-62",
+      "expression": "Time(Blank(), 2, 3) <= Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L62",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-65",
+      "expression": "Time(Blank(), 2, 3) > Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L65",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-68",
+      "expression": "Time(Blank(), 2, 3) >= Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L68",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-71",
+      "expression": "Time(1/0, 2, 3) < Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L71",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-77",
+      "expression": "Date( 2019, 5, 16 ) > Time( 11, 23, 45 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L77",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-80",
+      "expression": "Time( 11, 23, 45 ) > Date( 2019, 5, 16 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L80",
+        "expected_powerfx": "false"
+      },
+      "expected": false,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-83",
+      "expression": "Date(1899, 12, 30) < Time(12,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L83",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      },
+      "known_gap": "The canvas year rule maps 1899 to 3799; this pinned engine comparison uses absolute year 1899."
+    },
+    {
+      "id": "temporal-time-86",
+      "expression": "Time(1/0, 2, 3) <= Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L86",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-89",
+      "expression": "Time(1/0, 2, 3) > Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L89",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-92",
+      "expression": "Time(1/0, 2, 3) >= Time(8,1,30)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L92",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-95",
+      "expression": "Text(Time(10, 70, 360), \"HH:mm:ss\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L95",
+        "expected_powerfx": "\"11:16:00\""
+      },
+      "expected": "11:16:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-98",
+      "expression": "Text(Time(10, -30, 360), \"HH:mm:ss\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L98",
+        "expected_powerfx": "\"09:36:00\""
+      },
+      "expected": "09:36:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-101",
+      "expression": "Text(Time(10, 30, -360), \"HH:mm:ss\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L101",
+        "expected_powerfx": "\"10:24:00\""
+      },
+      "expected": "10:24:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-104",
+      "expression": "Text(Time(10, -30, -360), \"HH:mm:ss\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L104",
+        "expected_powerfx": "\"09:24:00\""
+      },
+      "expected": "09:24:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-110",
+      "expression": "Date(2011, 2, 3) + Time(1, 2, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L110",
+        "expected_powerfx": "DateTime(2011,2,3,1,2,3,0)"
+      },
+      "expected": "2011-02-03T01:02:03+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-113",
+      "expression": "Time(1, 2, 3) + Date(2011, 2, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L113",
+        "expected_powerfx": "DateTime(2011,2,3,1,2,3,0)"
+      },
+      "expected": "2011-02-03T01:02:03+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-116",
+      "expression": "Year(Date(2011, 2, 3) + Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L116",
+        "expected_powerfx": "2011"
+      },
+      "expected": 2011,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-119",
+      "expression": "Month(Date(2011, 2, 3) + Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L119",
+        "expected_powerfx": "2"
+      },
+      "expected": 2,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-122",
+      "expression": "Day(Date(2011, 2, 3) + Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L122",
+        "expected_powerfx": "3"
+      },
+      "expected": 3,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-125",
+      "expression": "Hour(Date(2011, 2, 3) + Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L125",
+        "expected_powerfx": "1"
+      },
+      "expected": 1,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-128",
+      "expression": "Minute(Date(2011, 2, 3) + Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L128",
+        "expected_powerfx": "2"
+      },
+      "expected": 2,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-131",
+      "expression": "Second(Date(2011, 2, 3) + Time(1, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L131",
+        "expected_powerfx": "3"
+      },
+      "expected": 3,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-134",
+      "expression": "Year(Time(1, 2, 3) + Date(2011, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L134",
+        "expected_powerfx": "2011"
+      },
+      "expected": 2011,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-137",
+      "expression": "Month(Time(1, 2, 3) + Date(2011, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L137",
+        "expected_powerfx": "2"
+      },
+      "expected": 2,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-140",
+      "expression": "Day(Time(1, 2, 3) + Date(2011, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L140",
+        "expected_powerfx": "3"
+      },
+      "expected": 3,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-143",
+      "expression": "Hour(Time(1, 2, 3) + Date(2011, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L143",
+        "expected_powerfx": "1"
+      },
+      "expected": 1,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-146",
+      "expression": "Minute(Time(1, 2, 3) + Date(2011, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L146",
+        "expected_powerfx": "2"
+      },
+      "expected": 2,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-149",
+      "expression": "Second(Time(1, 2, 3) + Date(2011, 2, 3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L149",
+        "expected_powerfx": "3"
+      },
+      "expected": 3,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-154",
+      "expression": "Time(2,0,0) + Time(2,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L154",
+        "expected_powerfx": "Time(4,0,0,0)"
+      },
+      "expected": "04:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-157",
+      "expression": "Time(12,50,45,950) + Time(6,15,35,750)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L157",
+        "expected_powerfx": "Time(19,6,21,700)"
+      },
+      "expected": "19:06:21.700000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-160",
+      "expression": "If(1<0,Time(2,0,0)) + Time(3,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L160",
+        "expected_powerfx": "Time(3,0,0,0)"
+      },
+      "expected": "03:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-163",
+      "expression": "Time(2,0,0) + If(1<0,Time(3,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L163",
+        "expected_powerfx": "Time(2,0,0,0)"
+      },
+      "expected": "02:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-166",
+      "expression": "Time(2,0,0) + 0.5",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L166",
+        "expected_powerfx": "Time(14,0,0,0)"
+      },
+      "expected": "14:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-169",
+      "expression": "Time(18,0,0) + 0.5",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L169",
+        "expected_powerfx": "Time(6,0,0,0)"
+      },
+      "expected": "06:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-172",
+      "expression": "Time(18,0,0) - 0.5",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L172",
+        "expected_powerfx": "Time(6,0,0,0)"
+      },
+      "expected": "06:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-175",
+      "expression": "Time(18,0,0) - 0.25",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L175",
+        "expected_powerfx": "Time(12,0,0,0)"
+      },
+      "expected": "12:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-178",
+      "expression": "0.25 + Time(2,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L178",
+        "expected_powerfx": "Time(8,0,0,0)"
+      },
+      "expected": "08:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-181",
+      "expression": "Time(18,30,0) - Time(6,30,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L181",
+        "expected_powerfx": "0.5"
+      },
+      "expected": 0.5,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-184",
+      "expression": "Time(18,0,0) - If(1<0,Time(6,30,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L184",
+        "expected_powerfx": "0.75"
+      },
+      "expected": 0.75,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-187",
+      "expression": "If(1<0,Time(18,0,0)) - Time(12,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L187",
+        "expected_powerfx": "-0.5"
+      },
+      "expected": -0.5,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-190",
+      "expression": "Date(2022, 9, 8) + Time(12, 34, 56)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L190",
+        "expected_powerfx": "DateTime(2022,9,8,12,34,56,0)"
+      },
+      "expected": "2022-09-08T12:34:56+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-193",
+      "expression": "Time(12, 34, 56) + Date(2022, 9, 8)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L193",
+        "expected_powerfx": "DateTime(2022,9,8,12,34,56,0)"
+      },
+      "expected": "2022-09-08T12:34:56+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-196",
+      "expression": "DateTime(2022, 9, 8, 1, 1, 1, 1) + Time(12, 34, 56)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L196",
+        "expected_powerfx": "DateTime(2022,9,8,13,35,57,1)"
+      },
+      "expected": "2022-09-08T13:35:57.001000+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-199",
+      "expression": "Time(12, 34, 56) + DateTime(2022, 9, 8, 1, 1, 1, 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L199",
+        "expected_powerfx": "DateTime(2022,9,8,13,35,57,1)"
+      },
+      "expected": "2022-09-08T13:35:57.001000+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-202",
+      "expression": "Date(2022,1,1) + 2.5",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L202",
+        "expected_powerfx": "Date(2022,1,3)"
+      },
+      "expected": "2022-01-03",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-205",
+      "expression": "Date(2022,1,1) + 2.5 + 0.5",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L205",
+        "expected_powerfx": "Date(2022,1,4)"
+      },
+      "expected": "2022-01-04",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-208",
+      "expression": "2.5 + Date(2022,1,1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L208",
+        "expected_powerfx": "Date(2022,1,3)"
+      },
+      "expected": "2022-01-03",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-211",
+      "expression": "2.5 + Date(2022,1,1) + 1.75",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L211",
+        "expected_powerfx": "Date(2022,1,5)"
+      },
+      "expected": "2022-01-05",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-214",
+      "expression": "Time(12,0,0) - Date(2022,10,10)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L214",
+        "expected_powerfx": "Errors: Error 13-14: This operation isn't valid on these types: Time, Date."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-217",
+      "expression": "Time(12,0,0) - DateTime(2022,10,10,0,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L217",
+        "expected_powerfx": "Errors: Error 13-14: This operation isn't valid on these types: Time, DateTime."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-220",
+      "expression": "0 - Time(2,30,45)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L220",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotSupported})"
+      },
+      "expected_error": {
+        "kind": "NotSupported",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-224",
+      "expression": "Hour(Time(26,90,90))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L224",
+        "expected_powerfx": "3"
+      },
+      "expected": 3,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-227",
+      "expression": "Minute(Time(26,90,90))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L227",
+        "expected_powerfx": "31"
+      },
+      "expected": 31,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-230",
+      "expression": "Second(Time(26,90,90,5500))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L230",
+        "expected_powerfx": "35"
+      },
+      "expected": 35,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-233",
+      "expression": "Hour(DateTime(2000,15,40,26,90,90))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L233",
+        "expected_powerfx": "3"
+      },
+      "expected": 3,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-236",
+      "expression": "Minute(DateTime(2000,15,40,26,90,90))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L236",
+        "expected_powerfx": "31"
+      },
+      "expected": 31,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-239",
+      "expression": "Second(DateTime(2000,15,40,26,90,90,5500))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L239",
+        "expected_powerfx": "35"
+      },
+      "expected": 35,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-242",
+      "expression": "Hour(Time(12,50,45,950) + Time(6,15,35,750))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L242",
+        "expected_powerfx": "19"
+      },
+      "expected": 19,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-245",
+      "expression": "Minute(Time(12,50,45,950) + Time(6,15,35,750))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L245",
+        "expected_powerfx": "6"
+      },
+      "expected": 6,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-248",
+      "expression": "Second(Time(12,50,45,950) + Time(6,15,35,750))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L248",
+        "expected_powerfx": "21"
+      },
+      "expected": 21,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-252",
+      "expression": "Hour(Time(4,-90,-90))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L252",
+        "expected_powerfx": "2"
+      },
+      "expected": 2,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-255",
+      "expression": "Minute(Time(4,-90,-90))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L255",
+        "expected_powerfx": "28"
+      },
+      "expected": 28,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-258",
+      "expression": "Second(Time(4,-90,-90))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L258",
+        "expected_powerfx": "30"
+      },
+      "expected": 30,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-261",
+      "expression": "Hour(DateTime(2000,15,10,-4,-300,-300,-30000))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L261",
+        "expected_powerfx": "14"
+      },
+      "expected": 14,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-264",
+      "expression": "Minute(DateTime(2000,15,10,-4,-300,-300,-30000))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L264",
+        "expected_powerfx": "54"
+      },
+      "expected": 54,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-267",
+      "expression": "Second(DateTime(2000,15,10,-4,-300,-300,-30000))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L267",
+        "expected_powerfx": "30"
+      },
+      "expected": 30,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-271",
+      "expression": "Time(Blank(), 34, 56)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L271",
+        "expected_powerfx": "Time(0,34,56,0)"
+      },
+      "expected": "00:34:56",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-274",
+      "expression": "Time(12, Blank(), 56)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L274",
+        "expected_powerfx": "Time(12,0,56,0)"
+      },
+      "expected": "12:00:56",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-277",
+      "expression": "Time(12, 34, Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L277",
+        "expected_powerfx": "Time(12,34,0,0)"
+      },
+      "expected": "12:34:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-280",
+      "expression": "Time(12, 34, 56, Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L280",
+        "expected_powerfx": "Time(12,34,56,0)"
+      },
+      "expected": "12:34:56",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-283",
+      "expression": "Hour(If(1<0,Time(1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L283",
+        "expected_powerfx": "0"
+      },
+      "expected": 0,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-286",
+      "expression": "Hour(If(1<0,DateTime(2000,1,1,1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L286",
+        "expected_powerfx": "0"
+      },
+      "expected": 0,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-289",
+      "expression": "Minute(If(1<0,Time(1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L289",
+        "expected_powerfx": "0"
+      },
+      "expected": 0,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-292",
+      "expression": "Minute(If(1<0,DateTime(2000,1,1,1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L292",
+        "expected_powerfx": "0"
+      },
+      "expected": 0,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-295",
+      "expression": "Second(If(1<0,Time(1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L295",
+        "expected_powerfx": "0"
+      },
+      "expected": 0,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-298",
+      "expression": "Second(If(1<0,DateTime(2000,1,1,1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L298",
+        "expected_powerfx": "0"
+      },
+      "expected": 0,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-301",
+      "expression": "Time(1/0, 34, 56)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L301",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-307",
+      "expression": "Time(12, 34, 2/0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L307",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-316",
+      "expression": "Hour(If(1/0<2,Time(1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L316",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-325",
+      "expression": "Minute(If(1/0>2,DateTime(2000,1,1,1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L325",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-328",
+      "expression": "Second(If(10/0>0,Time(1,1,1)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L328",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-337",
+      "expression": "Time(\"22\", \"11\", \"45\",\"3\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L337",
+        "expected_powerfx": "Time(22,11,45,3)"
+      },
+      "expected": "22:11:45.003000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-341",
+      "expression": "Time(false, true, false, true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L341",
+        "expected_powerfx": "Time(0,1,0,1)"
+      },
+      "expected": "00:01:00.001000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-345",
+      "expression": "Hour(\"12:34:56\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L345",
+        "expected_powerfx": "12"
+      },
+      "expected": 12,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-349",
+      "expression": "Minute(\"12:34:56\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L349",
+        "expected_powerfx": "34"
+      },
+      "expected": 34,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-353",
+      "expression": "Second(\"12:34:56\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L353",
+        "expected_powerfx": "56"
+      },
+      "expected": 56,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-357",
+      "expression": "Hour(12345.5)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L357",
+        "expected_powerfx": "12"
+      },
+      "expected": 12,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-361",
+      "expression": "Minute(12345.0625)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L361",
+        "expected_powerfx": "30"
+      },
+      "expected": 30,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-365",
+      "expression": "Second(12345.77)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L365",
+        "expected_powerfx": "48"
+      },
+      "expected": 48,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-369",
+      "expression": "Hour(true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L369",
+        "expected_powerfx": "Errors: Error 5-9: Invalid argument type (Boolean). Expecting a DateTime value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-372",
+      "expression": "Minute(true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L372",
+        "expected_powerfx": "Errors: Error 7-11: Invalid argument type (Boolean). Expecting a DateTime value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-375",
+      "expression": "Second(true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L375",
+        "expected_powerfx": "Errors: Error 7-11: Invalid argument type (Boolean). Expecting a DateTime value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-378",
+      "expression": "TimeValue(\"11:12:00.000\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L378",
+        "expected_powerfx": "Time(11,12,0,0)"
+      },
+      "expected": "11:12:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-381",
+      "expression": "TimeValue(\"11:12:00\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L381",
+        "expected_powerfx": "Time(11,12,0,0)"
+      },
+      "expected": "11:12:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-384",
+      "expression": "TimeValue(\"11:12:00.1234567\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L384",
+        "expected_powerfx": "Time(11,12,0,123)"
+      },
+      "expected": "11:12:00.123000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-387",
+      "expression": "Time(1e28, 23, 34, 456)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L387",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-390",
+      "expression": "Time(12, 1e28, 34, 456)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L390",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-393",
+      "expression": "Time(12, 23, 1e28, 456)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L393",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-396",
+      "expression": "Time(12, 23, 34, 1e28)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L396",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-399",
+      "expression": "Time(32767, 32767, 32767, 32767)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L399",
+        "expected_powerfx": "Time(10,13,39,767)"
+      },
+      "expected": "10:13:39.767000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-402",
+      "expression": "Value(Time(18,0,0) + Time(18,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L402",
+        "expected_powerfx": "1.5"
+      },
+      "expected": 1.5,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-405",
+      "expression": "Value(Time(6,0,0) - Time(18,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L405",
+        "expected_powerfx": "-0.5"
+      },
+      "expected": -0.5,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-408",
+      "expression": "Value(If(1<0, Time(12,0,0), DateTime(1900,1,1,12,0,0)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L408",
+        "expected_powerfx": "2.5"
+      },
+      "expected": 2.5,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-411",
+      "expression": "Time(6,0,0) - 0.5",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L411",
+        "expected_powerfx": "Time(18,0,0,0)"
+      },
+      "expected": "18:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-414",
+      "expression": "Value(Time(6,0,0) - 0.5)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L414",
+        "expected_powerfx": "-0.25"
+      },
+      "expected": -0.25,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-417",
+      "expression": "Time(6,0,0) - 2.5",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L417",
+        "expected_powerfx": "Time(18,0,0,0)"
+      },
+      "expected": "18:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-420",
+      "expression": "Value(Time(6,0,0) - 2.5)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L420",
+        "expected_powerfx": "-2.25"
+      },
+      "expected": -2.25,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-423",
+      "expression": "Time(30,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L423",
+        "expected_powerfx": "Time(6,0,0,0)"
+      },
+      "expected": "06:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-426",
+      "expression": "Value(Time(30,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L426",
+        "expected_powerfx": "1.25"
+      },
+      "expected": 1.25,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-429",
+      "expression": "Time(-6,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L429",
+        "expected_powerfx": "Time(18,0,0,0)"
+      },
+      "expected": "18:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-432",
+      "expression": "Value(Time(-6,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L432",
+        "expected_powerfx": "-0.25"
+      },
+      "expected": -0.25,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-435",
+      "expression": "Time(1e28,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L435",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-438",
+      "expression": "-Time(6,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L438",
+        "expected_powerfx": "Time(18,0,0,0)"
+      },
+      "expected": "18:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-time-441",
+      "expression": "Value(-Time(6,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Time.txt#L441",
+        "expected_powerfx": "-0.25"
+      },
+      "expected": -0.25,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-1",
+      "expression": "TimeValue(\"12:00:00\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L1",
+        "expected_powerfx": "Time(12,0,0,0)"
+      },
+      "expected": "12:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-4",
+      "expression": "TimeValue(\"27:00:00\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L4",
+        "expected_powerfx": "Time(3,0,0,0)"
+      },
+      "expected": "03:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-8",
+      "expression": "Value(TimeValue(\"27:00:00\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L8",
+        "expected_powerfx": "0.125"
+      },
+      "expected": 0.125,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-11",
+      "expression": "TimeValue(\"6:00\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L11",
+        "expected_powerfx": "Time(6,0,0,0)"
+      },
+      "expected": "06:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-14",
+      "expression": "TimeValue(\"6:00 PM\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L14",
+        "expected_powerfx": "Time(18,0,0,0)"
+      },
+      "expected": "18:00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-18",
+      "expression": "Value(TimeValue(\"10/12/2024 6:00:00 AM\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L18",
+        "expected_powerfx": "0.25"
+      },
+      "expected": 0.25,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-21",
+      "expression": "TimeValue(\"29 Feb 2008 9:21:33 AM\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L21",
+        "expected_powerfx": "Time(9,21,33,0)"
+      },
+      "expected": "09:21:33",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-24",
+      "expression": "TimeValue(\"12:34:56.7\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L24",
+        "expected_powerfx": "Time(12,34,56,700)"
+      },
+      "expected": "12:34:56.700000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-27",
+      "expression": "TimeValue(\"12:34:56.78\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L27",
+        "expected_powerfx": "Time(12,34,56,780)"
+      },
+      "expected": "12:34:56.780000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-30",
+      "expression": "TimeValue(\"12:34:56.789\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L30",
+        "expected_powerfx": "Time(12,34,56,789)"
+      },
+      "expected": "12:34:56.789000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-34",
+      "expression": "TimeValue(\"11:22:33.4449999\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L34",
+        "expected_powerfx": "Time(11,22,33,444)"
+      },
+      "expected": "11:22:33.444000",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-37",
+      "expression": "TimeValue(\"6:01:02\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L37",
+        "expected_powerfx": "Time(6,1,2,0)"
+      },
+      "expected": "06:01:02",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-40",
+      "expression": "TimeValue(\"14:18\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L40",
+        "expected_powerfx": "Time(14,18,0,0)"
+      },
+      "expected": "14:18:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-43",
+      "expression": "TimeValue(\"24:11:11\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L43",
+        "expected_powerfx": "Time(0,11,11,0)"
+      },
+      "expected": "00:11:11",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-46",
+      "expression": "TimeValue(\"Not a time\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L46",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-49",
+      "expression": "TimeValue(\"One PM\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L49",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-52",
+      "expression": "TimeValue(\"1234\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L52",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-timevalue-55",
+      "expression": "TimeValue(\"20241106073000\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/TimeValue.txt#L55",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-1",
+      "expression": "(Date(2011, 2, 3) + Time(1, 2, 3)) = DateTime(2011, 2, 3, 1, 2, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L1",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-4",
+      "expression": "DateTime(2011, 2, 3, 1, 2, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L4",
+        "expected_powerfx": "DateTime(2011,2,3,1,2,3,0)"
+      },
+      "expected": "2011-02-03T01:02:03+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-7",
+      "expression": "DateTime(2011, 2, 3, 1, 2, 3, 4)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L7",
+        "expected_powerfx": "DateTime(2011,2,3,1,2,3,4)"
+      },
+      "expected": "2011-02-03T01:02:03.004000+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-11",
+      "expression": "DateTime(2021, 13, 14, 0, 0, 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L11",
+        "expected_powerfx": "DateTime(2022,1,14,0,0,0,0)"
+      },
+      "expected": "2022-01-14T00:00:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-15",
+      "expression": "DateTime(2021, 0, 15, 0, 0, 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L15",
+        "expected_powerfx": "DateTime(2020,12,15,0,0,0,0)"
+      },
+      "expected": "2020-12-15T00:00:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-19",
+      "expression": "DateTime(2022,2,29,12,34,56,789)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L19",
+        "expected_powerfx": "DateTime(2022,3,1,12,34,56,789)"
+      },
+      "expected": "2022-03-01T12:34:56.789000+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-23",
+      "expression": "DateTime(2020,3,0,1,2,3,4)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L23",
+        "expected_powerfx": "DateTime(2020,2,29,1,2,3,4)"
+      },
+      "expected": "2020-02-29T01:02:03.004000+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-27",
+      "expression": "DateTime(1987, 12, 16, 24, 0, 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L27",
+        "expected_powerfx": "DateTime(1987,12,17,0,0,0,0)"
+      },
+      "expected": "1987-12-17T00:00:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-31",
+      "expression": "DateTime(1988, 1, 2, -1, 0, 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L31",
+        "expected_powerfx": "DateTime(1988,1,1,23,0,0,0)"
+      },
+      "expected": "1988-01-01T23:00:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-35",
+      "expression": "DateTime(2000, 3, 6, 12, 185, 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L35",
+        "expected_powerfx": "DateTime(2000,3,6,15,5,0,0)"
+      },
+      "expected": "2000-03-06T15:05:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-39",
+      "expression": "DateTime(2001, 1, 2, 2, -1, 59, 999)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L39",
+        "expected_powerfx": "DateTime(2001,1,2,1,59,59,999)"
+      },
+      "expected": "2001-01-02T01:59:59.999000+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-43",
+      "expression": "DateTime(2022, 3, 26, 0, 0, 4000)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L43",
+        "expected_powerfx": "DateTime(2022,3,26,1,6,40,0)"
+      },
+      "expected": "2022-03-26T01:06:40+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-47",
+      "expression": "DateTime(2022, 3, 26, 0, 0, -1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L47",
+        "expected_powerfx": "DateTime(2022,3,25,23,59,59,0)"
+      },
+      "expected": "2022-03-25T23:59:59+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-51",
+      "expression": "DateTime(2022, 3, 6, 0, 0, 0, 1000)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L51",
+        "expected_powerfx": "DateTime(2022,3,6,0,0,1,0)"
+      },
+      "expected": "2022-03-06T00:00:01+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-55",
+      "expression": "DateTime(2022, 3, 15, 12, 34, 56, -1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L55",
+        "expected_powerfx": "DateTime(2022,3,15,12,34,55,999)"
+      },
+      "expected": "2022-03-15T12:34:55.999000+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-59",
+      "expression": "DateTime(2021, 12, 31, 23, 59, 59, 1001)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L59",
+        "expected_powerfx": "DateTime(2022,1,1,0,0,0,1)"
+      },
+      "expected": "2022-01-01T00:00:00.001000+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-63",
+      "expression": "DateTime(2021, 1, 1, 0, 0, -1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L63",
+        "expected_powerfx": "DateTime(2020,12,31,23,59,59,0)"
+      },
+      "expected": "2020-12-31T23:59:59+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-67",
+      "expression": "DateTime(2020, Blank(), 1, 0, 0, 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L67",
+        "expected_powerfx": "DateTime(2019,12,1,0,0,0,0)"
+      },
+      "expected": "2019-12-01T00:00:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-71",
+      "expression": "DateTime(2020, 3, Blank(), 0, 0, 0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L71",
+        "expected_powerfx": "DateTime(2020,2,29,0,0,0,0)"
+      },
+      "expected": "2020-02-29T00:00:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-75",
+      "expression": "DateTime(2020, 3, 3, Blank(), 12, 34)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L75",
+        "expected_powerfx": "DateTime(2020,3,3,0,12,34,0)"
+      },
+      "expected": "2020-03-03T00:12:34+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-79",
+      "expression": "DateTime(2020, 3, 3, 12, Blank(), 34)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L79",
+        "expected_powerfx": "DateTime(2020,3,3,12,0,34,0)"
+      },
+      "expected": "2020-03-03T12:00:34+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-83",
+      "expression": "DateTime(2020, 3, 3, 12, 34, Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L83",
+        "expected_powerfx": "DateTime(2020,3,3,12,34,0,0)"
+      },
+      "expected": "2020-03-03T12:34:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-87",
+      "expression": "DateTime(2020, 3, 3, 12, 34, 56, Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L87",
+        "expected_powerfx": "DateTime(2020,3,3,12,34,56,0)"
+      },
+      "expected": "2020-03-03T12:34:56+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-91",
+      "expression": "DateTime(\"2022\", true, 3, 12, Blank(), false)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L91",
+        "expected_powerfx": "DateTime(2022,1,3,12,0,0,0)"
+      },
+      "expected": "2022-01-03T12:00:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-99",
+      "expression": "-DateTime(1900,1,1,3,0,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L99",
+        "expected_powerfx": "DateTime(1899,12,27,21,0,0,0)"
+      },
+      "expected": "1899-12-27T21:00:00+00:00",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-102",
+      "expression": "Value(-DateTime(1900,1,1,3,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L102",
+        "expected_powerfx": "-2.125"
+      },
+      "expected": -2.125,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-datetime-106",
+      "expression": "With({n:Now()}, Abs(Value(n) + Value(-n)) < 0.000001)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateTime.txt#L106",
+        "expected_powerfx": "true"
+      },
+      "expected": true,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-value-479",
+      "expression": "Value(Date(2022,11,21))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L479",
+        "expected_powerfx": "44886"
+      },
+      "expected": 44886,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-value-482",
+      "expression": "Value(DateTime(2022,11,21,6,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L482",
+        "expected_powerfx": "44886.25"
+      },
+      "expected": 44886.25,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-value-485",
+      "expression": "Value(Time(12,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L485",
+        "expected_powerfx": "0.5"
+      },
+      "expected": 0.5,
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-text-164",
+      "expression": "Text(DateTimeValue(\"01/04/2003\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L164",
+        "expected_powerfx": "\"1/4/2003 12:00 AM\""
+      },
+      "expected": "1/4/2003 12:00 AM",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-text-168",
+      "expression": "Text(DateTime(2023,2,5,0,0,0))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L168",
+        "expected_powerfx": "\"2/5/2023 12:00 AM\""
+      },
+      "expected": "2/5/2023 12:00 AM",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-text-171",
+      "expression": "Text(Date(2023,2,5))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L171",
+        "expected_powerfx": "\"2/5/2023\""
+      },
+      "expected": "2/5/2023",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-text-174",
+      "expression": "Text(Time(2,4,5))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L174",
+        "expected_powerfx": "\"2:04 AM\""
+      },
+      "expected": "2:04 AM",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-text-177",
+      "expression": "Text(Time(17,2,3))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L177",
+        "expected_powerfx": "\"5:02 PM\""
+      },
+      "expected": "5:02 PM",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-text-180",
+      "expression": "Text(DateValue(\"02/05/2023\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L180",
+        "expected_powerfx": "\"2/5/2023\""
+      },
+      "expected": "2/5/2023",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-text-183",
+      "expression": "Text(DateTimeValue(\"02/05/2023\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L183",
+        "expected_powerfx": "\"2/5/2023 12:00 AM\""
+      },
+      "expected": "2/5/2023 12:00 AM",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    },
+    {
+      "id": "temporal-text-186",
+      "expression": "Text(TimeValue(\"15:06\"))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L186",
+        "expected_powerfx": "\"3:06 PM\""
+      },
+      "expected": "3:06 PM",
+      "environment": {
+        "date_numeric_mode": "powerfx-days"
+      }
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "contracts.workflow.json": {
+    "format_version": 1,
+    "name": "Component schemas, defaults, conversions, isolated callbacks and saves",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Seed",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Enabled",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Meta.Amount",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Describe().Amount",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "Left.SumAmounts({Amount:\"2\",Extra:1})",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Left/AmountInput",
+        "event": "OnChange",
+        "value": "8"
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Left/AddInput",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 18
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 100
+      },
+      {
+        "op": "assert",
+        "formula": "leftChanged",
+        "expect": 18
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Right/AddDefault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 103
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 18
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Sample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "sample.Amount",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "sample.Enabled",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "tableTotal",
+        "expect": 6
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).Amount",
+        "expect": 18
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).Enabled",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Left/AmountInput",
+        "event": "OnChange",
+        "value": "bad"
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Left/AddInput",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "StartsWith(status,\"Cannot parse number\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 18
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 103
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Left/AmountInput",
+        "event": "OnChange",
+        "value": "2"
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Left/AddInput",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 22
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "ContractsScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Projects)",
+        "expect": 2
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

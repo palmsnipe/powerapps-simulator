@@ -1,0 +1,2772 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Complete active EDateEOMonth.txt. All literal Date, text, number and error oracles independently decoded; serial-date inputs/Value outputs opt into the pinned engine day profile. No native .NET execution or Canvas Studio acceptance is implied.",
+  "cases": [
+    {
+      "id": "month-shifts-4",
+      "expression": "EDate(Date(1981,1,1),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L4",
+        "expected_powerfx": "Date(1981,2,1)"
+      },
+      "expected": "1981-02-01"
+    },
+    {
+      "id": "month-shifts-7",
+      "expression": "EDate(Date(1981,1,15),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L7",
+        "expected_powerfx": "Date(1981,2,15)"
+      },
+      "expected": "1981-02-15"
+    },
+    {
+      "id": "month-shifts-10",
+      "expression": "EDate(Date(1981,1,27),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L10",
+        "expected_powerfx": "Date(1981,2,27)"
+      },
+      "expected": "1981-02-27"
+    },
+    {
+      "id": "month-shifts-13",
+      "expression": "EDate(Date(1981,1,28),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L13",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-16",
+      "expression": "EDate(Date(1981,1,29),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L16",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-19",
+      "expression": "EDate(Date(1981,1,30),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L19",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-22",
+      "expression": "EDate(Date(1981,1,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L22",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-25",
+      "expression": "EDate(Date(1981,2,1),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L25",
+        "expected_powerfx": "Date(1981,3,1)"
+      },
+      "expected": "1981-03-01"
+    },
+    {
+      "id": "month-shifts-28",
+      "expression": "EDate(Date(1981,2,28),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L28",
+        "expected_powerfx": "Date(1981,3,28)"
+      },
+      "expected": "1981-03-28"
+    },
+    {
+      "id": "month-shifts-31",
+      "expression": "EDate(Date(1981,2,1),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L31",
+        "expected_powerfx": "Date(1981,2,1)"
+      },
+      "expected": "1981-02-01"
+    },
+    {
+      "id": "month-shifts-34",
+      "expression": "EDate(Date(1981,2,28),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L34",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-37",
+      "expression": "EDate(Date(1981,3,30),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L37",
+        "expected_powerfx": "Date(1981,4,30)"
+      },
+      "expected": "1981-04-30"
+    },
+    {
+      "id": "month-shifts-40",
+      "expression": "EDate(Date(1981,3,1),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L40",
+        "expected_powerfx": "Date(1981,3,1)"
+      },
+      "expected": "1981-03-01"
+    },
+    {
+      "id": "month-shifts-43",
+      "expression": "EDate(Date(1981,3,30),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L43",
+        "expected_powerfx": "Date(1981,3,30)"
+      },
+      "expected": "1981-03-30"
+    },
+    {
+      "id": "month-shifts-46",
+      "expression": "EDate(Date(1981,12,1),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L46",
+        "expected_powerfx": "Date(1982,1,1)"
+      },
+      "expected": "1982-01-01"
+    },
+    {
+      "id": "month-shifts-49",
+      "expression": "EDate(Date(1981,12,15),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L49",
+        "expected_powerfx": "Date(1982,1,15)"
+      },
+      "expected": "1982-01-15"
+    },
+    {
+      "id": "month-shifts-52",
+      "expression": "EDate(Date(1981,12,30),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L52",
+        "expected_powerfx": "Date(1982,1,30)"
+      },
+      "expected": "1982-01-30"
+    },
+    {
+      "id": "month-shifts-55",
+      "expression": "EDate(Date(1981,12,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L55",
+        "expected_powerfx": "Date(1982,1,31)"
+      },
+      "expected": "1982-01-31"
+    },
+    {
+      "id": "month-shifts-58",
+      "expression": "EDate(Date(1981,12,1),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L58",
+        "expected_powerfx": "Date(1982,2,1)"
+      },
+      "expected": "1982-02-01"
+    },
+    {
+      "id": "month-shifts-61",
+      "expression": "EDate(Date(1981,12,15),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L61",
+        "expected_powerfx": "Date(1982,2,15)"
+      },
+      "expected": "1982-02-15"
+    },
+    {
+      "id": "month-shifts-64",
+      "expression": "EDate(Date(1981,12,30),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L64",
+        "expected_powerfx": "Date(1982,2,28)"
+      },
+      "expected": "1982-02-28"
+    },
+    {
+      "id": "month-shifts-67",
+      "expression": "EDate(Date(1981,12,31),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L67",
+        "expected_powerfx": "Date(1982,2,28)"
+      },
+      "expected": "1982-02-28"
+    },
+    {
+      "id": "month-shifts-72",
+      "expression": "EOMonth(Date(1981,1,1),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L72",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-75",
+      "expression": "EOMonth(Date(1981,1,15),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L75",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-78",
+      "expression": "EOMonth(Date(1981,1,28),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L78",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-81",
+      "expression": "EOMonth(Date(1981,1,29),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L81",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-84",
+      "expression": "EOMonth(Date(1981,1,30),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L84",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-87",
+      "expression": "EOMonth(Date(1981,1,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L87",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-90",
+      "expression": "EOMonth(Date(1981,2,1),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L90",
+        "expected_powerfx": "Date(1981,3,31)"
+      },
+      "expected": "1981-03-31"
+    },
+    {
+      "id": "month-shifts-93",
+      "expression": "EOMonth(Date(1981,2,28),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L93",
+        "expected_powerfx": "Date(1981,3,31)"
+      },
+      "expected": "1981-03-31"
+    },
+    {
+      "id": "month-shifts-96",
+      "expression": "EOMonth(Date(1981,2,1),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L96",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-99",
+      "expression": "EOMonth(Date(1981,2,28),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L99",
+        "expected_powerfx": "Date(1981,2,28)"
+      },
+      "expected": "1981-02-28"
+    },
+    {
+      "id": "month-shifts-102",
+      "expression": "EOMonth(Date(1981,3,30),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L102",
+        "expected_powerfx": "Date(1981,4,30)"
+      },
+      "expected": "1981-04-30"
+    },
+    {
+      "id": "month-shifts-105",
+      "expression": "EOMonth(Date(1981,3,1),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L105",
+        "expected_powerfx": "Date(1981,3,31)"
+      },
+      "expected": "1981-03-31"
+    },
+    {
+      "id": "month-shifts-108",
+      "expression": "EOMonth(Date(1981,3,30),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L108",
+        "expected_powerfx": "Date(1981,3,31)"
+      },
+      "expected": "1981-03-31"
+    },
+    {
+      "id": "month-shifts-111",
+      "expression": "EOMonth(Date(1981,12,1),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L111",
+        "expected_powerfx": "Date(1982,1,31)"
+      },
+      "expected": "1982-01-31"
+    },
+    {
+      "id": "month-shifts-114",
+      "expression": "EOMonth(Date(1981,12,15),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L114",
+        "expected_powerfx": "Date(1982,1,31)"
+      },
+      "expected": "1982-01-31"
+    },
+    {
+      "id": "month-shifts-117",
+      "expression": "EOMonth(Date(1981,12,30),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L117",
+        "expected_powerfx": "Date(1982,1,31)"
+      },
+      "expected": "1982-01-31"
+    },
+    {
+      "id": "month-shifts-120",
+      "expression": "EOMonth(Date(1981,12,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L120",
+        "expected_powerfx": "Date(1982,1,31)"
+      },
+      "expected": "1982-01-31"
+    },
+    {
+      "id": "month-shifts-123",
+      "expression": "EOMonth(Date(1981,12,1),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L123",
+        "expected_powerfx": "Date(1982,2,28)"
+      },
+      "expected": "1982-02-28"
+    },
+    {
+      "id": "month-shifts-126",
+      "expression": "EOMonth(Date(1981,12,15),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L126",
+        "expected_powerfx": "Date(1982,2,28)"
+      },
+      "expected": "1982-02-28"
+    },
+    {
+      "id": "month-shifts-129",
+      "expression": "EOMonth(Date(1981,12,30),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L129",
+        "expected_powerfx": "Date(1982,2,28)"
+      },
+      "expected": "1982-02-28"
+    },
+    {
+      "id": "month-shifts-132",
+      "expression": "EOMonth(Date(1981,12,31),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L132",
+        "expected_powerfx": "Date(1982,2,28)"
+      },
+      "expected": "1982-02-28"
+    },
+    {
+      "id": "month-shifts-137",
+      "expression": "EDate(Date(2016,1,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L137",
+        "expected_powerfx": "Date(2016,2,29)"
+      },
+      "expected": "2016-02-29"
+    },
+    {
+      "id": "month-shifts-140",
+      "expression": "EOMonth(Date(2016,1,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L140",
+        "expected_powerfx": "Date(2016,2,29)"
+      },
+      "expected": "2016-02-29"
+    },
+    {
+      "id": "month-shifts-143",
+      "expression": "EDate(Date(2016,1,15),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L143",
+        "expected_powerfx": "Date(2016,2,15)"
+      },
+      "expected": "2016-02-15"
+    },
+    {
+      "id": "month-shifts-146",
+      "expression": "EOMonth(Date(2016,1,15),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L146",
+        "expected_powerfx": "Date(2016,2,29)"
+      },
+      "expected": "2016-02-29"
+    },
+    {
+      "id": "month-shifts-149",
+      "expression": "EDate(Date(2016,1,15),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L149",
+        "expected_powerfx": "Date(2016,3,15)"
+      },
+      "expected": "2016-03-15"
+    },
+    {
+      "id": "month-shifts-152",
+      "expression": "EOMonth(Date(2016,1,15),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L152",
+        "expected_powerfx": "Date(2016,3,31)"
+      },
+      "expected": "2016-03-31"
+    },
+    {
+      "id": "month-shifts-157",
+      "expression": "EDate(Date(2012,1,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L157",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-160",
+      "expression": "EDate(Date(2012,1,31),1.1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L160",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-163",
+      "expression": "EDate(Date(2012,1,31),1.5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L163",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-166",
+      "expression": "EDate(Date(2012,1,31),1.9)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L166",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-169",
+      "expression": "EDate(Date(2012,1,31),1.9999999)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L169",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-172",
+      "expression": "EDate(Date(2012,1,31),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L172",
+        "expected_powerfx": "Date(2012,3,31)"
+      },
+      "expected": "2012-03-31"
+    },
+    {
+      "id": "month-shifts-175",
+      "expression": "EDate(Date(2012,1,31),-1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L175",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-178",
+      "expression": "EDate(Date(2012,1,31),-1.1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L178",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-181",
+      "expression": "EDate(Date(2012,1,31),-1.5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L181",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-184",
+      "expression": "EDate(Date(2012,1,31),-1.9)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L184",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-187",
+      "expression": "EDate(Date(2012,1,31),-1.9999999)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L187",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-190",
+      "expression": "EDate(Date(2012,1,31),-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L190",
+        "expected_powerfx": "Date(2011,11,30)"
+      },
+      "expected": "2011-11-30"
+    },
+    {
+      "id": "month-shifts-193",
+      "expression": "EOMonth(Date(2012,1,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L193",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-196",
+      "expression": "EOMonth(Date(2012,1,31),1.1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L196",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-199",
+      "expression": "EOMonth(Date(2012,1,31),1.5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L199",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-202",
+      "expression": "EOMonth(Date(2012,1,31),1.9)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L202",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-205",
+      "expression": "EOMonth(Date(2012,1,31),1.9999999)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L205",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "month-shifts-208",
+      "expression": "EOMonth(Date(2012,1,31),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L208",
+        "expected_powerfx": "Date(2012,3,31)"
+      },
+      "expected": "2012-03-31"
+    },
+    {
+      "id": "month-shifts-211",
+      "expression": "EOMonth(Date(2012,1,31),-1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L211",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-214",
+      "expression": "EOMonth(Date(2012,1,31),-1.1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L214",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-217",
+      "expression": "EOMonth(Date(2012,1,31),-1.5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L217",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-220",
+      "expression": "EOMonth(Date(2012,1,31),-1.9)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L220",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-223",
+      "expression": "EOMonth(Date(2012,1,31),-1.9999999)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L223",
+        "expected_powerfx": "Date(2011,12,31)"
+      },
+      "expected": "2011-12-31"
+    },
+    {
+      "id": "month-shifts-226",
+      "expression": "EOMonth(Date(2012,1,31),-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L226",
+        "expected_powerfx": "Date(2011,11,30)"
+      },
+      "expected": "2011-11-30"
+    },
+    {
+      "id": "month-shifts-232",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L232",
+        "expected_powerfx": "Date(2023,1,31)"
+      },
+      "expected": "2023-01-31"
+    },
+    {
+      "id": "month-shifts-235",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L235",
+        "expected_powerfx": "Date(2022,12,31)"
+      },
+      "expected": "2022-12-31"
+    },
+    {
+      "id": "month-shifts-238",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L238",
+        "expected_powerfx": "Date(2022,11,30)"
+      },
+      "expected": "2022-11-30"
+    },
+    {
+      "id": "month-shifts-241",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-6)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L241",
+        "expected_powerfx": "Date(2022,7,31)"
+      },
+      "expected": "2022-07-31"
+    },
+    {
+      "id": "month-shifts-244",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-7)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L244",
+        "expected_powerfx": "Date(2022,6,30)"
+      },
+      "expected": "2022-06-30"
+    },
+    {
+      "id": "month-shifts-247",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-1000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L247",
+        "expected_powerfx": "Date(1939,9,30)"
+      },
+      "expected": "1939-09-30"
+    },
+    {
+      "id": "month-shifts-250",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-10000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L250",
+        "expected_powerfx": "Date(1189,9,30)"
+      },
+      "expected": "1189-09-30"
+    },
+    {
+      "id": "month-shifts-253",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-100000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L253",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-256",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-20000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L256",
+        "expected_powerfx": "Date(356,5,31)"
+      },
+      "expected": "0356-05-31"
+    },
+    {
+      "id": "month-shifts-259",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-24264)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L259",
+        "expected_powerfx": "Date(1,1,31)"
+      },
+      "expected": "0001-01-31"
+    },
+    {
+      "id": "month-shifts-262",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-24265)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L262",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-265",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),-24250)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L265",
+        "expected_powerfx": "Date(2,3,31)"
+      },
+      "expected": "0002-03-31"
+    },
+    {
+      "id": "month-shifts-268",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L268",
+        "expected_powerfx": "Date(2023,2,28)"
+      },
+      "expected": "2023-02-28"
+    },
+    {
+      "id": "month-shifts-271",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L271",
+        "expected_powerfx": "Date(2023,3,31)"
+      },
+      "expected": "2023-03-31"
+    },
+    {
+      "id": "month-shifts-274",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L274",
+        "expected_powerfx": "Date(2023,6,30)"
+      },
+      "expected": "2023-06-30"
+    },
+    {
+      "id": "month-shifts-277",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),6)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L277",
+        "expected_powerfx": "Date(2023,7,31)"
+      },
+      "expected": "2023-07-31"
+    },
+    {
+      "id": "month-shifts-280",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),10000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L280",
+        "expected_powerfx": "Date(2856,5,31)"
+      },
+      "expected": "2856-05-31"
+    },
+    {
+      "id": "month-shifts-283",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),20000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L283",
+        "expected_powerfx": "Date(3689,9,30)"
+      },
+      "expected": "3689-09-30"
+    },
+    {
+      "id": "month-shifts-286",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),95722)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L286",
+        "expected_powerfx": "Date(9999,11,30)"
+      },
+      "expected": "9999-11-30"
+    },
+    {
+      "id": "month-shifts-289",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),95723)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L289",
+        "expected_powerfx": "Date(9999,12,31)"
+      },
+      "expected": "9999-12-31"
+    },
+    {
+      "id": "month-shifts-292",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),95724)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L292",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-297",
+      "expression": "EDate(Blank(),95724)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L297",
+        "expected_powerfx": "Date(9876,12,30)"
+      },
+      "expected": "9876-12-30"
+    },
+    {
+      "id": "month-shifts-300",
+      "expression": "EDate(DateTime(2023,1,31,12,32,45,234),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L300",
+        "expected_powerfx": "Date(2023,1,31)"
+      },
+      "expected": "2023-01-31"
+    },
+    {
+      "id": "month-shifts-305",
+      "expression": "EDate(Blank(),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L305",
+        "expected_powerfx": "Date(1899,12,30)"
+      },
+      "expected": "1899-12-30"
+    },
+    {
+      "id": "month-shifts-311",
+      "expression": "EDate(Date(2023,1,31),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L311",
+        "expected_powerfx": "Date(2023,1,31)"
+      },
+      "expected": "2023-01-31"
+    },
+    {
+      "id": "month-shifts-314",
+      "expression": "EDate(Date(2023,1,31),-1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L314",
+        "expected_powerfx": "Date(2022,12,31)"
+      },
+      "expected": "2022-12-31"
+    },
+    {
+      "id": "month-shifts-317",
+      "expression": "EDate(Date(2023,1,31),-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L317",
+        "expected_powerfx": "Date(2022,11,30)"
+      },
+      "expected": "2022-11-30"
+    },
+    {
+      "id": "month-shifts-320",
+      "expression": "EDate(Date(2023,1,31),-6)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L320",
+        "expected_powerfx": "Date(2022,7,31)"
+      },
+      "expected": "2022-07-31"
+    },
+    {
+      "id": "month-shifts-323",
+      "expression": "EDate(Date(2023,1,31),-7)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L323",
+        "expected_powerfx": "Date(2022,6,30)"
+      },
+      "expected": "2022-06-30"
+    },
+    {
+      "id": "month-shifts-326",
+      "expression": "EDate(Date(2023,1,31),-1000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L326",
+        "expected_powerfx": "Date(1939,9,30)"
+      },
+      "expected": "1939-09-30"
+    },
+    {
+      "id": "month-shifts-329",
+      "expression": "EDate(Date(2023,1,31),-10000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L329",
+        "expected_powerfx": "Date(1189,9,30)"
+      },
+      "expected": "1189-09-30"
+    },
+    {
+      "id": "month-shifts-332",
+      "expression": "EDate(Date(2023,1,31),-100000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L332",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-335",
+      "expression": "EDate(Date(2023,1,31),-20000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L335",
+        "expected_powerfx": "Date(356,5,31)"
+      },
+      "expected": "0356-05-31"
+    },
+    {
+      "id": "month-shifts-338",
+      "expression": "EDate(Date(2023,1,31),-24264)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L338",
+        "expected_powerfx": "Date(1,1,31)"
+      },
+      "expected": "0001-01-31"
+    },
+    {
+      "id": "month-shifts-341",
+      "expression": "EDate(Date(2023,1,31),-24265)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L341",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-344",
+      "expression": "EDate(Date(2023,1,31),-24250)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L344",
+        "expected_powerfx": "Date(2,3,31)"
+      },
+      "expected": "0002-03-31"
+    },
+    {
+      "id": "month-shifts-347",
+      "expression": "EDate(Date(2023,1,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L347",
+        "expected_powerfx": "Date(2023,2,28)"
+      },
+      "expected": "2023-02-28"
+    },
+    {
+      "id": "month-shifts-350",
+      "expression": "EDate(Date(2023,1,31),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L350",
+        "expected_powerfx": "Date(2023,3,31)"
+      },
+      "expected": "2023-03-31"
+    },
+    {
+      "id": "month-shifts-353",
+      "expression": "EDate(Date(2023,1,31),5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L353",
+        "expected_powerfx": "Date(2023,6,30)"
+      },
+      "expected": "2023-06-30"
+    },
+    {
+      "id": "month-shifts-356",
+      "expression": "EDate(Date(2023,1,31),6)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L356",
+        "expected_powerfx": "Date(2023,7,31)"
+      },
+      "expected": "2023-07-31"
+    },
+    {
+      "id": "month-shifts-359",
+      "expression": "EDate(Date(2023,1,31),10000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L359",
+        "expected_powerfx": "Date(2856,5,31)"
+      },
+      "expected": "2856-05-31"
+    },
+    {
+      "id": "month-shifts-362",
+      "expression": "EDate(Date(2023,1,31),20000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L362",
+        "expected_powerfx": "Date(3689,9,30)"
+      },
+      "expected": "3689-09-30"
+    },
+    {
+      "id": "month-shifts-365",
+      "expression": "EDate(Date(2023,1,31),95722)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L365",
+        "expected_powerfx": "Date(9999,11,30)"
+      },
+      "expected": "9999-11-30"
+    },
+    {
+      "id": "month-shifts-368",
+      "expression": "EDate(Date(2023,1,31),95723)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L368",
+        "expected_powerfx": "Date(9999,12,31)"
+      },
+      "expected": "9999-12-31"
+    },
+    {
+      "id": "month-shifts-371",
+      "expression": "EDate(Date(2023,1,31),95724)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L371",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-374",
+      "expression": "EDate(Date(2023,1,31),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L374",
+        "expected_powerfx": "Date(2023,1,31)"
+      },
+      "expected": "2023-01-31"
+    },
+    {
+      "id": "month-shifts-380",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L380",
+        "expected_powerfx": "Date(2023,1,31)"
+      },
+      "expected": "2023-01-31"
+    },
+    {
+      "id": "month-shifts-383",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L383",
+        "expected_powerfx": "Date(2022,12,31)"
+      },
+      "expected": "2022-12-31"
+    },
+    {
+      "id": "month-shifts-386",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L386",
+        "expected_powerfx": "Date(2022,11,30)"
+      },
+      "expected": "2022-11-30"
+    },
+    {
+      "id": "month-shifts-389",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-6)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L389",
+        "expected_powerfx": "Date(2022,7,31)"
+      },
+      "expected": "2022-07-31"
+    },
+    {
+      "id": "month-shifts-392",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-7)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L392",
+        "expected_powerfx": "Date(2022,6,30)"
+      },
+      "expected": "2022-06-30"
+    },
+    {
+      "id": "month-shifts-395",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-1000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L395",
+        "expected_powerfx": "Date(1939,9,30)"
+      },
+      "expected": "1939-09-30"
+    },
+    {
+      "id": "month-shifts-398",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-10000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L398",
+        "expected_powerfx": "Date(1189,9,30)"
+      },
+      "expected": "1189-09-30"
+    },
+    {
+      "id": "month-shifts-401",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-100000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L401",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-404",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-20000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L404",
+        "expected_powerfx": "Date(356,5,31)"
+      },
+      "expected": "0356-05-31"
+    },
+    {
+      "id": "month-shifts-407",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-24264)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L407",
+        "expected_powerfx": "Date(1,1,31)"
+      },
+      "expected": "0001-01-31"
+    },
+    {
+      "id": "month-shifts-410",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-24265)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L410",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-413",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),-24250)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L413",
+        "expected_powerfx": "Date(2,3,31)"
+      },
+      "expected": "0002-03-31"
+    },
+    {
+      "id": "month-shifts-416",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L416",
+        "expected_powerfx": "Date(2023,2,28)"
+      },
+      "expected": "2023-02-28"
+    },
+    {
+      "id": "month-shifts-419",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L419",
+        "expected_powerfx": "Date(2023,3,31)"
+      },
+      "expected": "2023-03-31"
+    },
+    {
+      "id": "month-shifts-422",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L422",
+        "expected_powerfx": "Date(2023,6,30)"
+      },
+      "expected": "2023-06-30"
+    },
+    {
+      "id": "month-shifts-425",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),6)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L425",
+        "expected_powerfx": "Date(2023,7,31)"
+      },
+      "expected": "2023-07-31"
+    },
+    {
+      "id": "month-shifts-428",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),10000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L428",
+        "expected_powerfx": "Date(2856,5,31)"
+      },
+      "expected": "2856-05-31"
+    },
+    {
+      "id": "month-shifts-431",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),20000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L431",
+        "expected_powerfx": "Date(3689,9,30)"
+      },
+      "expected": "3689-09-30"
+    },
+    {
+      "id": "month-shifts-434",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),95722)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L434",
+        "expected_powerfx": "Date(9999,11,30)"
+      },
+      "expected": "9999-11-30"
+    },
+    {
+      "id": "month-shifts-437",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),95723)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L437",
+        "expected_powerfx": "Date(9999,12,31)"
+      },
+      "expected": "9999-12-31"
+    },
+    {
+      "id": "month-shifts-440",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),95724)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L440",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-445",
+      "expression": "EOMonth(Blank(),95724)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L445",
+        "expected_powerfx": "Date(9876,12,31)"
+      },
+      "expected": "9876-12-31"
+    },
+    {
+      "id": "month-shifts-448",
+      "expression": "EOMonth(DateTime(2023,1,31,12,32,45,234),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L448",
+        "expected_powerfx": "Date(2023,1,31)"
+      },
+      "expected": "2023-01-31"
+    },
+    {
+      "id": "month-shifts-453",
+      "expression": "EOMonth(Blank(),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L453",
+        "expected_powerfx": "Date(1899,12,31)"
+      },
+      "expected": "1899-12-31"
+    },
+    {
+      "id": "month-shifts-459",
+      "expression": "EOMonth(Date(2023,1,31),0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L459",
+        "expected_powerfx": "Date(2023,1,31)"
+      },
+      "expected": "2023-01-31"
+    },
+    {
+      "id": "month-shifts-462",
+      "expression": "EOMonth(Date(2023,1,31),-1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L462",
+        "expected_powerfx": "Date(2022,12,31)"
+      },
+      "expected": "2022-12-31"
+    },
+    {
+      "id": "month-shifts-465",
+      "expression": "EOMonth(Date(2023,1,31),-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L465",
+        "expected_powerfx": "Date(2022,11,30)"
+      },
+      "expected": "2022-11-30"
+    },
+    {
+      "id": "month-shifts-468",
+      "expression": "EOMonth(Date(2023,1,31),-6)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L468",
+        "expected_powerfx": "Date(2022,7,31)"
+      },
+      "expected": "2022-07-31"
+    },
+    {
+      "id": "month-shifts-471",
+      "expression": "EOMonth(Date(2023,1,31),-7)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L471",
+        "expected_powerfx": "Date(2022,6,30)"
+      },
+      "expected": "2022-06-30"
+    },
+    {
+      "id": "month-shifts-474",
+      "expression": "EOMonth(Date(2023,1,31),-1000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L474",
+        "expected_powerfx": "Date(1939,9,30)"
+      },
+      "expected": "1939-09-30"
+    },
+    {
+      "id": "month-shifts-477",
+      "expression": "EOMonth(Date(2023,1,31),-10000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L477",
+        "expected_powerfx": "Date(1189,9,30)"
+      },
+      "expected": "1189-09-30"
+    },
+    {
+      "id": "month-shifts-480",
+      "expression": "EOMonth(Date(2023,1,31),-100000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L480",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-483",
+      "expression": "EOMonth(Date(2023,1,31),-20000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L483",
+        "expected_powerfx": "Date(356,5,31)"
+      },
+      "expected": "0356-05-31"
+    },
+    {
+      "id": "month-shifts-486",
+      "expression": "EOMonth(Date(2023,1,31),-24264)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L486",
+        "expected_powerfx": "Date(1,1,31)"
+      },
+      "expected": "0001-01-31"
+    },
+    {
+      "id": "month-shifts-489",
+      "expression": "EOMonth(Date(2023,1,31),-24265)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L489",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-492",
+      "expression": "EOMonth(Date(2023,1,31),-24250)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L492",
+        "expected_powerfx": "Date(2,3,31)"
+      },
+      "expected": "0002-03-31"
+    },
+    {
+      "id": "month-shifts-495",
+      "expression": "EOMonth(Date(2023,1,31),1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L495",
+        "expected_powerfx": "Date(2023,2,28)"
+      },
+      "expected": "2023-02-28"
+    },
+    {
+      "id": "month-shifts-498",
+      "expression": "EOMonth(Date(2023,1,31),2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L498",
+        "expected_powerfx": "Date(2023,3,31)"
+      },
+      "expected": "2023-03-31"
+    },
+    {
+      "id": "month-shifts-501",
+      "expression": "EOMonth(Date(2023,1,31),5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L501",
+        "expected_powerfx": "Date(2023,6,30)"
+      },
+      "expected": "2023-06-30"
+    },
+    {
+      "id": "month-shifts-504",
+      "expression": "EOMonth(Date(2023,1,31),6)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L504",
+        "expected_powerfx": "Date(2023,7,31)"
+      },
+      "expected": "2023-07-31"
+    },
+    {
+      "id": "month-shifts-507",
+      "expression": "EOMonth(Date(2023,1,31),10000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L507",
+        "expected_powerfx": "Date(2856,5,31)"
+      },
+      "expected": "2856-05-31"
+    },
+    {
+      "id": "month-shifts-510",
+      "expression": "EOMonth(Date(2023,1,31),20000)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L510",
+        "expected_powerfx": "Date(3689,9,30)"
+      },
+      "expected": "3689-09-30"
+    },
+    {
+      "id": "month-shifts-513",
+      "expression": "EOMonth(Date(2023,1,31),95722)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L513",
+        "expected_powerfx": "Date(9999,11,30)"
+      },
+      "expected": "9999-11-30"
+    },
+    {
+      "id": "month-shifts-516",
+      "expression": "EOMonth(Date(2023,1,31),95723)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L516",
+        "expected_powerfx": "Date(9999,12,31)"
+      },
+      "expected": "9999-12-31"
+    },
+    {
+      "id": "month-shifts-519",
+      "expression": "EOMonth(Date(2023,1,31),95724)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L519",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "month-shifts-522",
+      "expression": "EOMonth(Date(2023,1,31),Blank())",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L522",
+        "expected_powerfx": "Date(2023,1,31)"
+      },
+      "expected": "2023-01-31"
+    },
+    {
+      "id": "month-shifts-528",
+      "expression": "EDate(7336,0)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L528",
+        "expected_powerfx": "Date(1920,1,31)"
+      },
+      "expected": "1920-01-31"
+    },
+    {
+      "id": "month-shifts-531",
+      "expression": "EDate(7336,1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L531",
+        "expected_powerfx": "Date(1920,2,29)"
+      },
+      "expected": "1920-02-29"
+    },
+    {
+      "id": "month-shifts-534",
+      "expression": "EDate(7336,5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L534",
+        "expected_powerfx": "Date(1920,6,30)"
+      },
+      "expected": "1920-06-30"
+    },
+    {
+      "id": "month-shifts-537",
+      "expression": "EDate(7336,-1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L537",
+        "expected_powerfx": "Date(1919,12,31)"
+      },
+      "expected": "1919-12-31"
+    },
+    {
+      "id": "month-shifts-540",
+      "expression": "EDate(7336,-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L540",
+        "expected_powerfx": "Date(1919,11,30)"
+      },
+      "expected": "1919-11-30"
+    },
+    {
+      "id": "month-shifts-543",
+      "expression": "EOMonth(7336,1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L543",
+        "expected_powerfx": "Date(1920,2,29)"
+      },
+      "expected": "1920-02-29"
+    },
+    {
+      "id": "month-shifts-546",
+      "expression": "EOMonth(7336,5)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L546",
+        "expected_powerfx": "Date(1920,6,30)"
+      },
+      "expected": "1920-06-30"
+    },
+    {
+      "id": "month-shifts-549",
+      "expression": "EOMonth(7336,-1)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L549",
+        "expected_powerfx": "Date(1919,12,31)"
+      },
+      "expected": "1919-12-31"
+    },
+    {
+      "id": "month-shifts-552",
+      "expression": "EOMonth(7336,-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L552",
+        "expected_powerfx": "Date(1919,11,30)"
+      },
+      "expected": "1919-11-30"
+    },
+    {
+      "id": "month-shifts-556",
+      "expression": "EDate(10273,-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L556",
+        "expected_powerfx": "Date(1927,12,15)"
+      },
+      "expected": "1927-12-15"
+    },
+    {
+      "id": "month-shifts-559",
+      "expression": "EDate(10273,2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L559",
+        "expected_powerfx": "Date(1928,4,15)"
+      },
+      "expected": "1928-04-15"
+    },
+    {
+      "id": "month-shifts-562",
+      "expression": "EOMonth(10273,-2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L562",
+        "expected_powerfx": "Date(1927,12,31)"
+      },
+      "expected": "1927-12-31"
+    },
+    {
+      "id": "month-shifts-565",
+      "expression": "EOMonth(10273,2)",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L565",
+        "expected_powerfx": "Date(1928,4,30)"
+      },
+      "expected": "1928-04-30"
+    },
+    {
+      "id": "month-shifts-570",
+      "expression": "Text(EOMonth(DateTime(2023,1,15,12,34,56),0),\"yyyy-mm-dd hh:mm:ss\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L570",
+        "expected_powerfx": "\"2023-01-31 00:00:00\""
+      },
+      "expected": "2023-01-31 00:00:00"
+    },
+    {
+      "id": "month-shifts-573",
+      "expression": "Text(EDate(DateTime(2023,1,15,12,34,56),0),\"yyyy-mm-dd hh:mm:ss\")",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L573",
+        "expected_powerfx": "\"2023-01-15 00:00:00\""
+      },
+      "expected": "2023-01-15 00:00:00"
+    },
+    {
+      "id": "month-shifts-576",
+      "expression": "Value(EOMonth(DateTime(2023,1,15,12,34,56),0))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L576",
+        "expected_powerfx": "44957"
+      },
+      "expected": 44957
+    },
+    {
+      "id": "month-shifts-579",
+      "expression": "Value(EDate(DateTime(2023,1,15,12,34,56),0))",
+      "environment": {
+        "language": "en-US",
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days",
+        "enum_mode": "legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EDateEOMonth.txt#L579",
+        "expected_powerfx": "44941"
+      },
+      "expected": 44941
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 40
+      },
+      "Stage": {
+        "type": "string"
+      }
+    },
+    "mapping": {
+      "Title": "Project Title",
+      "Stage": "Project Stage"
+    },
+    "required": [
+      "Title"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Project Title": "Fictional draft",
+        "Project Stage": "Draft"
+      }
+    ]
+  }
+}

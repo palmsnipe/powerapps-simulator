@@ -1,0 +1,82 @@
+{
+  "Bookmarks": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 255
+      },
+      "URL": {
+        "type": "string",
+        "maxLength": 2048
+      },
+      "Style": {
+        "type": "object",
+        "properties": {
+          "Value": {
+            "type": "string"
+          }
+        }
+      },
+      "Edits": {
+        "type": "number",
+        "minimum": 0
+      },
+      "Created": {
+        "type": "string",
+        "format": "date-time",
+        "x-ms-permission": "read-only"
+      },
+      "Modified": {
+        "type": "string",
+        "format": "date-time",
+        "x-ms-permission": "read-only"
+      },
+      "Reviewer": {
+        "type": "string",
+        "default": "Fictional reviewer"
+      },
+      "Department": {
+        "type": "string",
+        "default": "Fictional department"
+      },
+      "Region": {
+        "type": "string",
+        "default": "Fictional region"
+      },
+      "Category": {
+        "type": "string",
+        "default": "Fictional category"
+      },
+      "Notes": {
+        "type": "string",
+        "default": "Fictional notes"
+      },
+      "Decision": {
+        "type": "string",
+        "default": "Fictional decision"
+      }
+    },
+    "required": [
+      "Title",
+      "URL",
+      "Style"
+    ],
+    "mapping": {
+      "Title": "Bookmark title",
+      "URL": "Web address",
+      "Style": "Link style",
+      "Edits": "Edit count"
+    },
+    "choices": {
+      "Style": [
+        "Default",
+        "Subtle"
+      ]
+    },
+    "records": []
+  }
+}

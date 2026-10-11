@@ -1,0 +1,367 @@
+{
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "Amount": {
+        "type": "number"
+      },
+      "Status": {
+        "type": "object",
+        "properties": {
+          "Value": {
+            "type": "string"
+          }
+        },
+        "x-ms-sp-type": "Choice"
+      },
+      "Detail1": {
+        "type": "string"
+      },
+      "Detail2": {
+        "type": "string"
+      },
+      "Detail3": {
+        "type": "string"
+      },
+      "Detail4": {
+        "type": "string"
+      },
+      "Detail5": {
+        "type": "string"
+      },
+      "Detail6": {
+        "type": "string"
+      },
+      "Detail7": {
+        "type": "string"
+      },
+      "Detail8": {
+        "type": "string"
+      },
+      "Detail9": {
+        "type": "string"
+      },
+      "Detail10": {
+        "type": "string"
+      },
+      "Detail11": {
+        "type": "string"
+      },
+      "Detail12": {
+        "type": "string"
+      },
+      "Detail13": {
+        "type": "string"
+      },
+      "Detail14": {
+        "type": "string"
+      },
+      "Detail15": {
+        "type": "string"
+      },
+      "Detail16": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "Title"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional draft 1",
+        "Amount": 10,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 1.1",
+        "Detail2": "Fictional detail 1.2",
+        "Detail3": "Fictional detail 1.3",
+        "Detail4": "Fictional detail 1.4",
+        "Detail5": "Fictional detail 1.5",
+        "Detail6": "Fictional detail 1.6",
+        "Detail7": "Fictional detail 1.7",
+        "Detail8": "Fictional detail 1.8",
+        "Detail9": "Fictional detail 1.9",
+        "Detail10": "Fictional detail 1.10",
+        "Detail11": "Fictional detail 1.11",
+        "Detail12": "Fictional detail 1.12",
+        "Detail13": "Fictional detail 1.13",
+        "Detail14": "Fictional detail 1.14",
+        "Detail15": "Fictional detail 1.15",
+        "Detail16": "Fictional detail 1.16"
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional draft 2",
+        "Amount": 20,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 2.1",
+        "Detail2": "Fictional detail 2.2",
+        "Detail3": "Fictional detail 2.3",
+        "Detail4": "Fictional detail 2.4",
+        "Detail5": "Fictional detail 2.5",
+        "Detail6": "Fictional detail 2.6",
+        "Detail7": "Fictional detail 2.7",
+        "Detail8": "Fictional detail 2.8",
+        "Detail9": "Fictional detail 2.9",
+        "Detail10": "Fictional detail 2.10",
+        "Detail11": "Fictional detail 2.11",
+        "Detail12": "Fictional detail 2.12",
+        "Detail13": "Fictional detail 2.13",
+        "Detail14": "Fictional detail 2.14",
+        "Detail15": "Fictional detail 2.15",
+        "Detail16": "Fictional detail 2.16"
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional draft 3",
+        "Amount": 30,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 3.1",
+        "Detail2": "Fictional detail 3.2",
+        "Detail3": "Fictional detail 3.3",
+        "Detail4": "Fictional detail 3.4",
+        "Detail5": "Fictional detail 3.5",
+        "Detail6": "Fictional detail 3.6",
+        "Detail7": "Fictional detail 3.7",
+        "Detail8": "Fictional detail 3.8",
+        "Detail9": "Fictional detail 3.9",
+        "Detail10": "Fictional detail 3.10",
+        "Detail11": "Fictional detail 3.11",
+        "Detail12": "Fictional detail 3.12",
+        "Detail13": "Fictional detail 3.13",
+        "Detail14": "Fictional detail 3.14",
+        "Detail15": "Fictional detail 3.15",
+        "Detail16": "Fictional detail 3.16"
+      },
+      {
+        "ID": 4,
+        "Title": "Fictional draft 4",
+        "Amount": 40,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 4.1",
+        "Detail2": "Fictional detail 4.2",
+        "Detail3": "Fictional detail 4.3",
+        "Detail4": "Fictional detail 4.4",
+        "Detail5": "Fictional detail 4.5",
+        "Detail6": "Fictional detail 4.6",
+        "Detail7": "Fictional detail 4.7",
+        "Detail8": "Fictional detail 4.8",
+        "Detail9": "Fictional detail 4.9",
+        "Detail10": "Fictional detail 4.10",
+        "Detail11": "Fictional detail 4.11",
+        "Detail12": "Fictional detail 4.12",
+        "Detail13": "Fictional detail 4.13",
+        "Detail14": "Fictional detail 4.14",
+        "Detail15": "Fictional detail 4.15",
+        "Detail16": "Fictional detail 4.16"
+      },
+      {
+        "ID": 5,
+        "Title": "Fictional draft 5",
+        "Amount": 50,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 5.1",
+        "Detail2": "Fictional detail 5.2",
+        "Detail3": "Fictional detail 5.3",
+        "Detail4": "Fictional detail 5.4",
+        "Detail5": "Fictional detail 5.5",
+        "Detail6": "Fictional detail 5.6",
+        "Detail7": "Fictional detail 5.7",
+        "Detail8": "Fictional detail 5.8",
+        "Detail9": "Fictional detail 5.9",
+        "Detail10": "Fictional detail 5.10",
+        "Detail11": "Fictional detail 5.11",
+        "Detail12": "Fictional detail 5.12",
+        "Detail13": "Fictional detail 5.13",
+        "Detail14": "Fictional detail 5.14",
+        "Detail15": "Fictional detail 5.15",
+        "Detail16": "Fictional detail 5.16"
+      },
+      {
+        "ID": 6,
+        "Title": "Fictional draft 6",
+        "Amount": 60,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 6.1",
+        "Detail2": "Fictional detail 6.2",
+        "Detail3": "Fictional detail 6.3",
+        "Detail4": "Fictional detail 6.4",
+        "Detail5": "Fictional detail 6.5",
+        "Detail6": "Fictional detail 6.6",
+        "Detail7": "Fictional detail 6.7",
+        "Detail8": "Fictional detail 6.8",
+        "Detail9": "Fictional detail 6.9",
+        "Detail10": "Fictional detail 6.10",
+        "Detail11": "Fictional detail 6.11",
+        "Detail12": "Fictional detail 6.12",
+        "Detail13": "Fictional detail 6.13",
+        "Detail14": "Fictional detail 6.14",
+        "Detail15": "Fictional detail 6.15",
+        "Detail16": "Fictional detail 6.16"
+      },
+      {
+        "ID": 7,
+        "Title": "Fictional draft 7",
+        "Amount": 70,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 7.1",
+        "Detail2": "Fictional detail 7.2",
+        "Detail3": "Fictional detail 7.3",
+        "Detail4": "Fictional detail 7.4",
+        "Detail5": "Fictional detail 7.5",
+        "Detail6": "Fictional detail 7.6",
+        "Detail7": "Fictional detail 7.7",
+        "Detail8": "Fictional detail 7.8",
+        "Detail9": "Fictional detail 7.9",
+        "Detail10": "Fictional detail 7.10",
+        "Detail11": "Fictional detail 7.11",
+        "Detail12": "Fictional detail 7.12",
+        "Detail13": "Fictional detail 7.13",
+        "Detail14": "Fictional detail 7.14",
+        "Detail15": "Fictional detail 7.15",
+        "Detail16": "Fictional detail 7.16"
+      },
+      {
+        "ID": 8,
+        "Title": "Fictional draft 8",
+        "Amount": 80,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 8.1",
+        "Detail2": "Fictional detail 8.2",
+        "Detail3": "Fictional detail 8.3",
+        "Detail4": "Fictional detail 8.4",
+        "Detail5": "Fictional detail 8.5",
+        "Detail6": "Fictional detail 8.6",
+        "Detail7": "Fictional detail 8.7",
+        "Detail8": "Fictional detail 8.8",
+        "Detail9": "Fictional detail 8.9",
+        "Detail10": "Fictional detail 8.10",
+        "Detail11": "Fictional detail 8.11",
+        "Detail12": "Fictional detail 8.12",
+        "Detail13": "Fictional detail 8.13",
+        "Detail14": "Fictional detail 8.14",
+        "Detail15": "Fictional detail 8.15",
+        "Detail16": "Fictional detail 8.16"
+      },
+      {
+        "ID": 9,
+        "Title": "Fictional draft 9",
+        "Amount": 90,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 9.1",
+        "Detail2": "Fictional detail 9.2",
+        "Detail3": "Fictional detail 9.3",
+        "Detail4": "Fictional detail 9.4",
+        "Detail5": "Fictional detail 9.5",
+        "Detail6": "Fictional detail 9.6",
+        "Detail7": "Fictional detail 9.7",
+        "Detail8": "Fictional detail 9.8",
+        "Detail9": "Fictional detail 9.9",
+        "Detail10": "Fictional detail 9.10",
+        "Detail11": "Fictional detail 9.11",
+        "Detail12": "Fictional detail 9.12",
+        "Detail13": "Fictional detail 9.13",
+        "Detail14": "Fictional detail 9.14",
+        "Detail15": "Fictional detail 9.15",
+        "Detail16": "Fictional detail 9.16"
+      },
+      {
+        "ID": 10,
+        "Title": "Fictional draft 10",
+        "Amount": 100,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 10.1",
+        "Detail2": "Fictional detail 10.2",
+        "Detail3": "Fictional detail 10.3",
+        "Detail4": "Fictional detail 10.4",
+        "Detail5": "Fictional detail 10.5",
+        "Detail6": "Fictional detail 10.6",
+        "Detail7": "Fictional detail 10.7",
+        "Detail8": "Fictional detail 10.8",
+        "Detail9": "Fictional detail 10.9",
+        "Detail10": "Fictional detail 10.10",
+        "Detail11": "Fictional detail 10.11",
+        "Detail12": "Fictional detail 10.12",
+        "Detail13": "Fictional detail 10.13",
+        "Detail14": "Fictional detail 10.14",
+        "Detail15": "Fictional detail 10.15",
+        "Detail16": "Fictional detail 10.16"
+      },
+      {
+        "ID": 11,
+        "Title": "Fictional draft 11",
+        "Amount": 110,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 11.1",
+        "Detail2": "Fictional detail 11.2",
+        "Detail3": "Fictional detail 11.3",
+        "Detail4": "Fictional detail 11.4",
+        "Detail5": "Fictional detail 11.5",
+        "Detail6": "Fictional detail 11.6",
+        "Detail7": "Fictional detail 11.7",
+        "Detail8": "Fictional detail 11.8",
+        "Detail9": "Fictional detail 11.9",
+        "Detail10": "Fictional detail 11.10",
+        "Detail11": "Fictional detail 11.11",
+        "Detail12": "Fictional detail 11.12",
+        "Detail13": "Fictional detail 11.13",
+        "Detail14": "Fictional detail 11.14",
+        "Detail15": "Fictional detail 11.15",
+        "Detail16": "Fictional detail 11.16"
+      },
+      {
+        "ID": 12,
+        "Title": "Fictional draft 12",
+        "Amount": 120,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Detail1": "Fictional detail 12.1",
+        "Detail2": "Fictional detail 12.2",
+        "Detail3": "Fictional detail 12.3",
+        "Detail4": "Fictional detail 12.4",
+        "Detail5": "Fictional detail 12.5",
+        "Detail6": "Fictional detail 12.6",
+        "Detail7": "Fictional detail 12.7",
+        "Detail8": "Fictional detail 12.8",
+        "Detail9": "Fictional detail 12.9",
+        "Detail10": "Fictional detail 12.10",
+        "Detail11": "Fictional detail 12.11",
+        "Detail12": "Fictional detail 12.12",
+        "Detail13": "Fictional detail 12.13",
+        "Detail14": "Fictional detail 12.14",
+        "Detail15": "Fictional detail 12.15",
+        "Detail16": "Fictional detail 12.16"
+      }
+    ]
+  }
+}

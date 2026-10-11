@@ -1,0 +1,203 @@
+App:
+  Properties:
+    Formulas: =Total=Sum(Projects,Cost);
+    OnStart: =ClearCollect(local,{Title:"Fictional Alpha",Amount:10,Enabled:true,Status:{Value:"Draft"}},{Title:"Fictional Alpha",Amount:10,Enabled:true,Status:{Value:"Draft"}},{Title:"Fictional Beta",Amount:30,Enabled:false,Status:{Value:"Done"}});Clear(events);Set(snapshot,local);Set(status,"Ready");Reset(Left);Reset(Right)
+ComponentDefinitions:
+  UpdatePanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =10
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Sum(local,Amount)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: =Blank()
+      Increase:
+        PropertyKind: Action
+        ReturnType: None
+        Default: =UpdateIf(local,true,{Amount:Amount+1});UpdatePanel.Changed(UpdatePanel.Total)
+    Properties:
+      Width: =390
+      Height: =115
+      Fill: =RGBA(245,245,245,1)
+      OnReset: =ClearCollect(local,{Title:"Fictional local",Amount:UpdatePanel.Seed,Enabled:true},{Title:"Fictional local",Amount:UpdatePanel.Seed,Enabled:true})
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Component total "&Text(UpdatePanel.Total)
+            X: =12
+            Y: =12
+            Width: =370
+            Height: =32
+      - Increase:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase local rows"
+            X: =12
+            Y: =55
+            Width: =250
+            OnSelect: =UpdatePanel.Increase()
+Screens:
+  UpdateScreen:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Update · collections and local lists"
+            X: =24
+            Y: =16
+            Width: =820
+            Height: =32
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status&" · list total "&Text(Total)&" · callbacks "&Text(CountRows(events))
+            X: =24
+            Y: =52
+            Width: =820
+            Height: =32
+      - Step:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            Default: =5
+            Min: =0
+            Max: =100
+            Step: =1
+            AccessibleLabel: ="Increase amount"
+            X: =24
+            Y: =100
+            Width: =160
+      - BumpCollection:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase enabled rows"
+            X: =200
+            Y: =100
+            Width: =240
+            OnSelect: =Set(snapshot,UpdateIf(local,Enabled,{Amount:Amount+Step.Value}));Set(status,"Collection updated")
+      - ReplaceCollection:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Replace all duplicates"
+            X: =456
+            Y: =100
+            Width: =240
+            OnSelect: =Set(snapshot,Update(local,First(local),{Title:"Fictional replaced",Amount:Step.Value,Enabled:false},RemoveFlags.All));Set(status,"Duplicates replaced")
+      - LocalSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Collection total "&Text(Sum(local,Amount))&" · rows "&Text(CountRows(local))
+            X: =24
+            Y: =145
+            Width: =820
+            Height: =32
+      - LocalGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =local
+            X: =24
+            Y: =185
+            Width: =390
+            Height: =150
+            TemplateSize: =42
+          Children:
+            - LocalRow:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title&" · "&Text(ThisItem.Amount)&" · "&Text(ThisItem.Enabled)
+                  X: =8
+                  Y: =0
+                  Width: =370
+                  Height: =36
+      - ListGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =Projects
+            X: =456
+            Y: =185
+            Width: =390
+            Height: =150
+            TemplateSize: =42
+          Children:
+            - ListRow:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title&" · "&Text(ThisItem.Cost)&" · "&Coalesce(ThisItem.Status.Value,"blank")
+                  X: =8
+                  Y: =0
+                  Width: =370
+                  Height: =36
+      - BumpList:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase draft projects"
+            X: =24
+            Y: =360
+            Width: =240
+            OnSelect: =IfError(UpdateIf(Projects,Status.Value="Draft",{Cost:Cost+Step.Value});Set(status,"Drafts updated"),Set(status,FirstError.Message))
+      - ReplaceList:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Replace first project"
+            X: =280
+            Y: =360
+            Width: =240
+            OnSelect: =IfError(Update(Projects,First(Projects),{ID:1,Title:"Fictional replacement",Cost:Step.Value,Enabled:false});Set(status,"List replacement"),Set(status,FirstError.Message))
+      - BadSave:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try invalid title"
+            X: =536
+            Y: =360
+            Width: =240
+            OnSelect: =IfError(UpdateIf(Projects,ID=2,{Title:Blank()});Set(status,"Unexpected"),Set(status,FirstError.Message))
+      - Left:
+          Control: CanvasComponent
+          ComponentName: UpdatePanel
+          Properties:
+            X: =24
+            Y: =425
+            Seed: =10
+            Changed: =Collect(events,{Title:"Left",Amount:amount});Set(status,"Left callback")
+      - Right:
+          Control: CanvasComponent
+          ComponentName: UpdatePanel
+          Properties:
+            X: =456
+            Y: =425
+            Seed: =100
+            Changed: =Collect(events,{Title:"Right",Amount:amount});Set(status,"Right callback")
+      - ComponentSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Left "&Text(Left.Total)&" · right "&Text(Right.Total)&" · app collection "&Text(Sum(local,Amount))
+            X: =24
+            Y: =560
+            Width: =820
+            Height: =32
+      - ResetCollection:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Restore collection"
+            X: =24
+            Y: =610
+            Width: =240
+            OnSelect: =ClearCollect(local,{Title:"Fictional Alpha",Amount:10,Enabled:true,Status:{Value:"Draft"}},{Title:"Fictional Alpha",Amount:10,Enabled:true,Status:{Value:"Draft"}},{Title:"Fictional Beta",Amount:30,Enabled:false,Status:{Value:"Done"}});Set(status,"Collection restored")
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left component"
+            X: =280
+            Y: =610
+            Width: =240
+            OnSelect: =Reset(Left);Set(status,"Left reset")

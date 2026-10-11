@@ -1,0 +1,356 @@
+{
+  "rich-text.workflow.json": {
+    "format_version": 1,
+    "name": "Rich formatting, component callbacks, required cards and save retry",
+    "environment": {
+      "enum_mode": "strong"
+    },
+    "records": {
+      "Memos": [
+        {
+          "ID": 1,
+          "Title": "Fictional river memo",
+          "Body": "<p>Initial <strong>draft</strong> &amp; scope.</p>"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Plain",
+        "expect": "Fictional river memo"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Plain",
+        "expect": "Fictional forest memo"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Wrap(\"<draft> & local\")",
+        "expect": "<p><strong>&lt;draft&gt; &amp; local</strong></p>"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/LeftPanel/Body",
+        "event": "OnChange",
+        "value": "<p>Fictional <b>river</b> &amp; forest</p>"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Html",
+        "expect": "<p>Fictional <b>river</b> &amp; forest</p>"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Plain",
+        "expect": "Fictional river & forest"
+      },
+      {
+        "op": "assert",
+        "formula": "First(history).Panel",
+        "expect": "LeftPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "First(history).Count=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Changes=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RichLab/LeftPanel/Body",
+        "event": "OnChange",
+        "value": "<p>Fictional <b>river</b> &amp; forest</p>"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RichLab/LeftPanel/CaptureButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.History)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.History).Html=LeftPanel.Html",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RichLab/LockRight",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/RightPanel/Body",
+        "event": "OnChange",
+        "value": "<p>Should stay blocked</p>",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Plain",
+        "expect": "Fictional forest memo"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/LockRight",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/RightPanel/Body",
+        "event": "OnChange",
+        "value": "<ul><li>Fictional <em>forest</em></li><li><u>Review</u></li></ul>"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Changes=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(history).Panel",
+        "expect": "RightPanel"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Plain",
+        "expect": "Fictional river memo"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Changes=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.History)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Changes=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RichLab/MemoForm/TitleCard/DraftTitle",
+        "event": "OnChange",
+        "value": "Fictional edited memo"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/MemoForm/BodyCard/DraftBody",
+        "event": "OnChange",
+        "value": "<p>Saved <span style=\"color:#0f6cbd\">rich</span> body</p>"
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Updates.Body",
+        "expect": "<p>Saved <span style=\"color:#0f6cbd\">rich</span> body</p>"
+      },
+      {
+        "op": "failure",
+        "list": "Memos",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Save failed\",\"Échec\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Memos).Title",
+        "expect": "Fictional river memo"
+      },
+      {
+        "op": "failure",
+        "list": "Memos",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "RichLab/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Saved\",\"Enregistré\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.LastSubmit.Body",
+        "expect": "<p>Saved <span style=\"color:#0f6cbd\">rich</span> body</p>"
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "First(Memos).Title",
+        "expect": "Fictional edited memo"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/ViewDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/MemoForm/BodyCard/DraftBody",
+        "event": "OnChange",
+        "value": "<p>View must stay unchanged</p>",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Updates.Body",
+        "expect": "<p>Saved <span style=\"color:#0f6cbd\">rich</span> body</p>"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/EditDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/NewDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Valid",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "RichLab/MemoForm/TitleCard/DraftTitle",
+        "event": "OnChange",
+        "value": "Fictional new rich draft"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/MemoForm/BodyCard/DraftBody",
+        "event": "OnChange",
+        "value": "<p><br></p>"
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Valid",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "RichLab/MemoForm/BodyCard/DraftBody",
+        "event": "OnChange",
+        "value": "<p><strong>Required body</strong></p>"
+      },
+      {
+        "op": "assert",
+        "formula": "MemoForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RichLab/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Memos)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(Memos).Body",
+        "expect": "<p><strong>Required body</strong></p>"
+      },
+      {
+        "op": "event",
+        "path": "RichLab/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)=8",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Html=LeftPanel.Html",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Nested.Plain=RightPanel.Plain",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

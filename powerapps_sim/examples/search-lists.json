@@ -1,0 +1,41 @@
+{
+  "Projects": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "Team": {
+        "type": "object",
+        "properties": {
+          "Value": {
+            "type": "string"
+          }
+        },
+        "required": true
+      }
+    },
+    "choices": {
+      "Team": [
+        "North",
+        "South"
+      ]
+    },
+    "required": [
+      "Title",
+      "Team"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional planning draft",
+        "Team": {
+          "Value": "North"
+        }
+      }
+    ]
+  }
+}

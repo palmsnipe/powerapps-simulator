@@ -1,0 +1,117 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Clear(history);Clear(captured);Set(videoRun,false)
+Screens:
+  Home:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Audio and video"
+            X: =24
+            Y: =12
+            Width: =800
+            Height: =36
+      - Left:
+          Control: CanvasComponent
+          ComponentName: MediaPanel
+          Properties:
+            X: =24
+            Y: =56
+            Clip: =Tone
+            Changed: =Collect(history,{Panel:"Left",Phase:phase,Seconds:seconds,Paused:Left.Paused})
+      - Right:
+          Control: CanvasComponent
+          ComponentName: MediaPanel
+          Properties:
+            X: =510
+            Y: =56
+            Clip: =Tone
+            PauseAway: =false
+            Changed: =Collect(history,{Panel:"Right",Phase:phase,Seconds:seconds,Paused:Right.Paused})
+      - Movie:
+          Control: Video
+          Properties:
+            Media: =MovieClip
+            Start: =videoRun
+            ClosedCaptionsUrl: =Text(Captions)
+            OnPause: =Collect(history,{Panel:"Video",Phase:"pause",Seconds:Self.Time,Paused:Self.Paused})
+            OnEnd: =Collect(history,{Panel:"Video",Phase:"end",Seconds:Self.Time,Paused:Self.Paused})
+            AccessibleLabel: ="Fictional sample video"
+            X: =24
+            Y: =306
+            Width: =420
+            Height: =236
+      - PlayVideo:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Play video"
+            OnSelect: =Set(videoRun,true)
+            X: =510
+            Y: =306
+            Width: =160
+            Height: =36
+      - PauseVideo:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Pause video"
+            OnSelect: =Set(videoRun,false)
+            X: =686
+            Y: =306
+            Width: =160
+            Height: =36
+      - Capture:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Capture values"
+            OnSelect: =ClearCollect(captured,{Panel:"Left",Seconds:Left.Elapsed,Duration:Left.Duration,Paused:Left.Paused},{Panel:"Right",Seconds:Right.Elapsed,Duration:Right.Duration,Paused:Right.Paused},{Panel:"Video",Seconds:Movie.Time,Duration:Movie.Duration,Paused:Movie.Paused})
+            X: =510
+            Y: =358
+            Width: =160
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save list snapshot"
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional playback",Seconds:Left.Elapsed,Duration:Left.Duration,Paused:Left.Paused,Callbacks:CountRows(history)})
+            X: =686
+            Y: =358
+            Width: =160
+            Height: =36
+      - OpenAway:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Other screen"
+            OnSelect: =Navigate(Away)
+            X: =510
+            Y: =410
+            Width: =160
+            Height: =36
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Callbacks: " & Text(CountRows(history))'
+            X: =510
+            Y: =470
+            Width: =400
+            Height: =36
+  Away:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Background audio"
+            X: =24
+            Y: =24
+            Width: =800
+            Height: =36
+      - Back:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Back"
+            OnSelect: =Back()
+            X: =24
+            Y: =90
+            Width: =160
+            Height: =36

@@ -1,0 +1,83 @@
+ComponentDefinitions:
+  SelectorPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Defaults:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Picked:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Picker.SelectedItems
+      Query:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Picker.SearchText
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - picked:
+              DataType: Table
+        Default: =Blank()
+    Properties:
+      Width: =440
+      Height: =140
+      OnReset: =Clear(history);Reset(Picker)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =SelectorPanel.Caption
+            X: =0
+            Y: =0
+            Width: =Parent.Width
+            Size: =18
+      - Picker:
+          Control: ComboBox@0.0.49
+          Properties:
+            Y: =40
+            Width: =Parent.Width
+            Items: =SelectorPanel.Rows
+            DefaultSelectedItems: =SelectorPanel.Defaults
+            SelectMultiple: =true
+            AccessibleLabel: =SelectorPanel.Caption
+            OnChange: =Collect(history,{Count:CountRows(Self.SelectedItems)});SelectorPanel.Changed(Self.SelectedItems)
+          Children:
+            - TitleColumn:
+                Control: ComboBoxDataField@1.5.0
+                Properties:
+                  FieldName: ="Title"
+                  FieldDisplayName: ="Title"
+                  FieldType: ="s"
+                  Order: =1
+                Variant: textualColumn
+            - GroupColumn:
+                Control: ComboBoxDataField@1.5.0
+                Properties:
+                  FieldName: ="Group"
+                  FieldDisplayName: ="Group"
+                  FieldType: ="s"
+                  Order: =2
+                Variant: textualColumn
+      - Current:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(CountRows(SelectorPanel.Picked))&" · "&SelectorPanel.Query
+            X: =0
+            Y: =90
+            Width: =Parent.Width
+            Size: =15

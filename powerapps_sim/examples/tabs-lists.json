@@ -1,0 +1,1 @@
+{"Snapshots":{"fields":{"ID":{"type":"integer"},"Title":{"type":"string","maxLength":80},"Section":{"type":"string","maxLength":20},"Clicks":{"type":"number"},"Changes":{"type":"number"}},"required":["Title","Section"],"mapping":{"Section":"Selected section"},"records":[]}}

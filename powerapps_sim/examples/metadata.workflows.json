@@ -1,0 +1,165 @@
+{
+  "metadata.workflow.json": {
+    "format_version": 1,
+    "name": "Local list metadata \u00b7 mapped columns, defaults and isolated component editors",
+    "records": {
+      "Scores": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Candidate=10 && Right.Candidate=80 && IsBlank(Left.Message) && IsBlank(Right.Message)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Validate(Scores,Percentage,10)) && !IsBlank(Validate(Scores,Percentage,120))",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Amount",
+        "event": "OnChange",
+        "value": 120
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Candidate=120 && Right.Candidate=80 && Left.Edits=1 && Right.Edits=0 && !IsBlank(Left.Message)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "scope": "Home/Left/Save",
+        "formula": "Self.DisplayMode=DisplayMode.Disabled",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DataSourceInfo(Scores,DataSourceInfo.MinValue,Percentage)=0 && DataSourceInfo(Scores,DataSourceInfo.MaxValue,Percentage)=100",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Scores)=0 && !saved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Amount",
+        "event": "OnChange",
+        "value": 50
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Right.Message) && Right.Edits=1 && Left.Edits=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Scores)=1 && First(Scores).Percentage=50",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Candidate=10 && Left.Edits=0 && Right.Candidate=50 && Right.Edits=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Amount",
+        "event": "OnChange",
+        "value": 100
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Left.Message)",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Scores",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && !IsBlank(saveMessage) && CountRows(Scores)=1 && !IsEmpty(Errors(Scores))",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Validate(Scores,Percentage,100)) && !IsEmpty(Errors(Scores))",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Scores",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && IsBlank(saveMessage) && CountRows(Scores)=2 && Last(Scores).Percentage=100",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Validate(Scores,First(Scores),{Percentage:0})) && !IsBlank(Validate(Scores,First(Scores),{Title:Blank()}))",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=3 && First(history).Panel=\"Left\" && Last(history).Percentage=100",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DataSourceInfo(Scores,DataSourceInfo.DisplayName,Percentage)=\"Completion percent\" && DataSourceInfo(Scores,DataSourceInfo.DisplayName,'Completion percent')=\"Completion percent\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DataSourceInfo(Scores,DataSourceInfo.MaxLength,Title)=40 && IsBlank(DataSourceInfo(Scores,DataSourceInfo.MaxLength,Percentage))",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DataSourceInfo(Scores,DataSourceInfo.Required,Title) && DataSourceInfo(Scores,DataSourceInfo.Required,Percentage) && !DataSourceInfo(Scores,DataSourceInfo.Required,Notes)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DataSourceInfo(history,DataSourceInfo.DisplayName,Percentage)=\"Percentage\" && !DataSourceInfo(history,DataSourceInfo.Required,Percentage) && IsBlank(DataSourceInfo(history,DataSourceInfo.MaxValue,Percentage))",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DataSourceInfo(Scores,DataSourceInfo.EditPermission) && DataSourceInfo(history,DataSourceInfo.CreatePermission)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(DataSourceInfo(Scores,DataSourceInfo.AllowedValues)) && IsBlank(DataSourceInfo(history,DataSourceInfo.AllowedValues))",
+        "expect": true
+      }
+    ]
+  }
+}

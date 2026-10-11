@@ -1,0 +1,242 @@
+App:
+  Properties:
+    StartScreen: =Nested
+    OnStart: =Set(leftResult,0);Set(rightResult,0);Set(seed,10);ClearCollect(trace,{Event:"start",Total:0})
+ComponentDefinitions:
+  Leaf:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Counter"
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,Leaf.Seed)
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      ResetCount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(resets,0)
+      Add:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+        Default: =Set(current,Leaf.Total + amount);Collect(history,{Total:current});Leaf.Changed(current)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - total:
+              DataType: Number
+        Default: =Blank()
+      Double:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - number:
+              DataType: Number
+        Default: =number * 2
+    Properties:
+      Width: =280
+      Height: =148
+      Fill: =RGBA(245,245,245,1)
+      OnReset: =Set(current,Leaf.Seed);Set(resets,Leaf.ResetCount+1);Clear(history)
+    Children:
+      - LeafCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =10
+            Width: =Parent.Width-24
+            Height: =40
+            Text: =Leaf.Caption & " · " & Leaf.Total & " · resets " & Leaf.ResetCount
+      - LeafIncrease:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =62
+            Width: =Parent.Width-24
+            Height: =32
+            Text: ="Increase " & Leaf.Caption
+            OnSelect: =Leaf.Add()
+      - LeafNote:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =12
+            Y: =102
+            Width: =Parent.Width-24
+            Height: =32
+            Default: ="note " & Leaf.Caption
+            AccessibleLabel: ="Note " & Leaf.Caption
+  Shell:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =10
+        RaiseOnReset: true
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      FirstTotal:
+        PropertyKind: Output
+        DataType: Number
+        Default: =InnerA.Total
+      SecondTotal:
+        PropertyKind: Output
+        DataType: Number
+        Default: =InnerB.Total
+      LastChild:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,0)
+      Events:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      AddBoth:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+        Default: =InnerA.Add(amount);InnerB.Add(amount+1)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - total:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =580
+      Height: =230
+      Fill: =RGBA(255,255,255,1)
+      OnReset: =Reset(InnerA);Reset(InnerB);Set(current,0);Clear(history)
+    Children:
+      - ShellCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =8
+            Y: =6
+            Width: =Parent.Width-16
+            Height: =50
+            Text: =Shell.Caption & " · first " & Shell.FirstTotal & " · second " & Shell.SecondTotal & " · last " & Shell.LastChild
+      - InnerA:
+          Control: CanvasComponent
+          Properties:
+            X: =8
+            Y: =64
+            Width: =Parent.Width/2-12
+            Height: =148
+            Seed: =Shell.Seed
+            Caption: =Shell.Caption & " first"
+            Changed: =Set(current,total);Collect(history,{Total:total});Shell.Changed(total)
+          ComponentName: Leaf
+      - InnerB:
+          Control: CanvasComponent
+          Properties:
+            X: =Parent.Width/2+4
+            Y: =64
+            Width: =Parent.Width/2-12
+            Height: =148
+            Seed: =Shell.Seed+100
+            Caption: =Shell.Caption & " second"
+            Changed: =Set(current,total);Collect(history,{Total:total});Shell.Changed(total)
+          ComponentName: Leaf
+Screens:
+  Nested:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =12
+            Width: =850
+            Height: =40
+            Text: ="Nested actions and callbacks"
+      - AddLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =62
+            Width: =168
+            Height: =32
+            Text: ="Add left pair"
+            OnSelect: =LeftShell.AddBoth()
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =204
+            Y: =62
+            Width: =168
+            Height: =32
+            Text: ="Reset left pair"
+            OnSelect: =Reset(LeftShell)
+      - ChangeSeed:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =384
+            Y: =62
+            Width: =168
+            Height: =32
+            Text: ="Change left seed"
+            OnSelect: =Set(seed,seed+10)
+      - AddRight:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =564
+            Y: =62
+            Width: =168
+            Height: =32
+            Text: ="Add right pair"
+            OnSelect: =RightShell.AddBoth(5)
+      - LeftShell:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =120
+            Width: =App.Width-48
+            Height: =230
+            Seed: =seed
+            Caption: ="Left"
+            Changed: =Set(leftResult,total);Collect(trace,{Event:"left callback",Total:total})
+          ComponentName: Shell
+      - RightShell:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =362
+            Width: =App.Width-48
+            Height: =230
+            Seed: =1000
+            Caption: ="Right"
+            Changed: =Set(rightResult,total);Collect(trace,{Event:"right callback",Total:total})
+          ComponentName: Shell
+      - HostCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =602
+            Width: =900
+            Height: =32
+            Text: ="Host callbacks · left " & leftResult & " · right " & rightResult
+    Properties:
+      Fill: =RGBA(250,250,250,1)

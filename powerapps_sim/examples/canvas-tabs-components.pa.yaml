@@ -1,0 +1,83 @@
+ComponentDefinitions:
+  TabPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Defaults:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Choice"
+      Horizontal:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      ViewOnly:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Picked:
+        PropertyKind: Output
+        DataType: Record
+        Default: =Picker.Selected
+      PickedItems:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Picker.SelectedItems
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - picked:
+              DataType: Record
+        Default: =Blank()
+      Clicks:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(clicks,0)
+    Properties:
+      Width: =440
+      Height: =205
+      OnReset: =Clear(history);Reset(Picker);Set(clicks,0)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =TabPanel.Caption
+            X: =12
+            Y: =8
+            Width: =Parent.Width-24
+            Size: =18
+      - Picker:
+          Control: TabList@2.2.29
+          Properties:
+            X: =12
+            Y: =45
+            Width: =Parent.Width-24
+            Height: =110
+            Items: =TabPanel.Rows
+            DefaultSelectedItems: =TabPanel.Defaults
+            DisplayMode: =If(TabPanel.ViewOnly,DisplayMode.View,DisplayMode.Edit)
+            AccessibleLabel: =TabPanel.Caption
+            OnChange: =Collect(history,{Code:Self.Selected.Code});TabPanel.Changed(Self.Selected)
+            Alignment: =If(TabPanel.Horizontal,TabList.Alignment.Horizontal,TabList.Alignment.Vertical)
+            Size: =TabList.Size.Medium
+            FontSize: =14
+            OnSelect: =Set(clicks,TabPanel.Clicks+1)
+      - Current:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =165
+            Width: =Parent.Width-24
+            Text: =Coalesce(TabPanel.Picked.Value,"—") & " · " & TabPanel.Clicks & " / " & CountRows(history)

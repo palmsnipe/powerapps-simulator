@@ -1,0 +1,156 @@
+{
+  "canvas-dates.workflow.json": {
+    "format_version": 1,
+    "name": "Archived date bindings, component callbacks and persistent save retry",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Day=Date(2026,1,15) && Right.Day=Date(2026,7,15) && CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "value": {
+          "value": "2026-02-03",
+          "source": "calendar"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Day=Date(2026,2,3) && CountRows(Left.History)=1 && CountRows(Right.History)=0 && Last(events).Day=Left.Day",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "value": {
+          "value": "2026-02-03",
+          "source": "calendar"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Picker",
+        "event": "OnChange",
+        "value": {
+          "value": "2026-07-20",
+          "source": "calendar"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Day=Date(2026,7,20) && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Day=Date(2026,1,15) && Right.Day=Date(2026,7,20) && CountRows(Left.History)=0 && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/NewDefault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Day=Date(2026,3,4) && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "value": {
+          "value": null,
+          "source": "calendar"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Left.Day) && IsBlank(Last(events).Day)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Day=Date(2026,3,4)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/PlanForm/DayCard/FormDay",
+        "event": "OnChange",
+        "value": {
+          "value": "2026-02-28",
+          "source": "calendar"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "PlanForm.Unsaved && PlanForm.Valid && PlanForm.Updates.TargetDay=Date(2026,2,28)",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Plans",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "PlanForm.Unsaved && First(Plans).TargetDay=Date(2026,1,15)",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Plans",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!PlanForm.Unsaved && First(Plans).TargetDay=Date(2026,2,28) && status=\"Saved\"",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ],
+    "records": {
+      "Plans": [
+        {
+          "ID": 1,
+          "Title": "Fictional timeline",
+          "Target date": "2026-01-15"
+        }
+      ]
+    }
+  }
+}

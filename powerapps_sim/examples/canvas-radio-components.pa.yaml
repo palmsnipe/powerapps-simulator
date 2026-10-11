@@ -1,0 +1,76 @@
+ComponentDefinitions:
+  RadioPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Defaults:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Choice"
+      Horizontal:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      ViewOnly:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Picked:
+        PropertyKind: Output
+        DataType: Record
+        Default: =Picker.Selected
+      PickedItems:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Picker.SelectedItems
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - picked:
+              DataType: Record
+        Default: =Blank()
+    Properties:
+      Width: =440
+      Height: =205
+      OnReset: =Clear(history);Reset(Picker)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =RadioPanel.Caption
+            X: =12
+            Y: =8
+            Width: =Parent.Width-24
+            Size: =18
+      - Picker:
+          Control: Radio@0.0.24
+          Properties:
+            X: =12
+            Y: =45
+            Width: =Parent.Width-24
+            Height: =110
+            Items: =RadioPanel.Rows
+            DefaultSelectedItems: =RadioPanel.Defaults
+            Layout: =If(RadioPanel.Horizontal,RadioGroupCanvas.Layout.HorizontalStacked,RadioGroupCanvas.Layout.Vertical)
+            DisplayMode: =If(RadioPanel.ViewOnly,DisplayMode.View,DisplayMode.Edit)
+            AccessibleLabel: =RadioPanel.Caption
+            OnChange: =Collect(history,{Code:Self.Selected.Code});RadioPanel.Changed(Self.Selected)
+      - Current:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =165
+            Width: =Parent.Width-24
+            Text: =Coalesce(RadioPanel.Picked.Value,"—") & " · " & CountRows(history)

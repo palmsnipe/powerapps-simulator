@@ -1,0 +1,236 @@
+App:
+  Properties:
+    StartScreen: =ContractsScreen
+    OnStart: =Set(seed,"10");Set(status,"Ready");Set(leftChanged,0);Set(rightChanged,0);Set(sample,Blank());Set(tableTotal,0);ClearCollect(events,FirstN(Table({Title:"",Amount:0}),0))
+ComponentDefinitions:
+  AmountPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =10
+      Enabled:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: ="true"
+      Meta:
+        PropertyKind: Input
+        DataType: Record
+        Default: ={Title:"",Amount:0}
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(total,AmountPanel.Seed)
+      Snapshot:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Title:AmountPanel.Meta.Title,Amount:AmountPanel.Total,Enabled:AmountPanel.Enabled}
+      Caption:
+        PropertyKind: InputFunction
+        ReturnType: Text
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: =amount
+      Describe:
+        PropertyKind: Function
+        ReturnType: Record
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: ="5"
+              IsOptional: true
+          - enabled:
+              DataType: Boolean
+              Default: ="true"
+              IsOptional: true
+        Default: ={Amount:amount,Enabled:enabled}
+      SumAmounts:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - rows:
+              DataType: Table
+              Default: =Table({Amount:0})
+              IsOptional: true
+        Default: =Sum(rows,Amount)
+      Add:
+        PropertyKind: Action
+        ReturnType: Number
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: ="3"
+              IsOptional: true
+        Default: =Set(total,AmountPanel.Total+amount);AmountPanel.Changed(total);total
+      Changed:
+        PropertyKind: Event
+        ReturnType: Boolean
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: =true
+      Failed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - message:
+              DataType: Text
+        Default: =Blank()
+    Properties:
+      Width: =412
+      Height: =240
+      Fill: =RGBA(245,245,245,1)
+      OnReset: =Set(total,AmountPanel.Seed)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =AmountPanel.Caption(AmountPanel.Total)
+            X: =16
+            Y: =14
+            Width: =380
+            Height: =36
+            Size: =18
+      - AmountInput:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            Default: ="3"
+            AccessibleLabel: =AmountPanel.Meta.Title & " amount"
+            X: =16
+            Y: =64
+            Width: =180
+            Height: =36
+      - AddInput:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Add amount"
+            OnSelect: =IfError(AmountPanel.Add(AmountInput.Text),AmountPanel.Failed(FirstError.Message))
+            X: =212
+            Y: =64
+            Width: =180
+            Height: =36
+      - AddDefault:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Add default"
+            OnSelect: =AmountPanel.Add()
+            X: =16
+            Y: =118
+            Width: =180
+            Height: =36
+      - SnapshotLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =AmountPanel.Snapshot.Title & " · " & AmountPanel.Snapshot.Amount & " · " & AmountPanel.Snapshot.Enabled
+            X: =16
+            Y: =176
+            Width: =380
+            Height: =42
+Screens:
+  ContractsScreen:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Component contracts · defaults and conversions"
+            X: =24
+            Y: =16
+            Width: =852
+            Height: =42
+            Size: =24
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status & " · callbacks " & CountRows(events) & " · saved " & CountRows(Projects)
+            X: =24
+            Y: =68
+            Width: =852
+            Height: =40
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            Seed: =seed
+            Enabled: ="true"
+            Meta: ={Title:"Fictional left",Amount:"10",Extra:"retained"}
+            Caption: ="Left total " & amount
+            Changed: =Set(leftChanged,amount);Collect(events,{Title:"Left",Amount:amount});Set(status,"Left changed");"true"
+            Failed: =Set(status,message)
+            X: =24
+            Y: =124
+          ComponentName: AmountPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            Seed: ="100"
+            Enabled: ="false"
+            Meta: ={Title:"Fictional right",Amount:"100",Extra:"retained"}
+            Caption: ="Right total " & amount
+            Changed: =Set(rightChanged,amount);Collect(events,{Title:"Right",Amount:amount});Set(status,"Right changed");"true"
+            Failed: =Set(status,message)
+            X: =464
+            Y: =124
+          ComponentName: AmountPanel
+      - Sample:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Convert record & table"
+            OnSelect: =Set(sample,Left.Describe("4","true"));Set(tableTotal,Left.SumAmounts({Amount:"6",Extra:"allowed"}));Set(status,"Converted record and table")
+            X: =24
+            Y: =396
+            Width: =252
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save left snapshot"
+            OnSelect: =IfError(Patch(Projects,Defaults(Projects),Left.Snapshot),Set(status,FirstError.Message),Set(status,"Saved left snapshot"))
+            X: =296
+            Y: =396
+            Width: =252
+            Height: =36
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            OnSelect: =Reset(Left);Set(status,"Reset left")
+            X: =568
+            Y: =396
+            Width: =144
+            Height: =36
+      - ChangeSeed:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Seed to 20"
+            OnSelect: =Set(seed,"20");Set(status,"Seed changed")
+            X: =732
+            Y: =396
+            Width: =144
+            Height: =36
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Record amount " & Coalesce(sample.Amount,0) & " · enabled " & Coalesce(sample.Enabled,false) & " · table total " & tableTotal & " · stored total " & Sum(Projects,Amount)
+            X: =24
+            Y: =450
+            Width: =852
+            Height: =40
+      - History:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =events
+            X: =24
+            Y: =514
+            Width: =852
+            Height: =140
+            TemplateSize: =44
+          Children:
+            - HistoryLabel:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title & " callback · " & ThisItem.Amount
+                  X: =8
+                  Y: =5
+                  Width: =830
+                  Height: =34

@@ -1,0 +1,32 @@
+{
+  "Plans": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "AmountValue": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      }
+    },
+    "mapping": {
+      "AmountValue": "Amount"
+    },
+    "required": [
+      "Title",
+      "AmountValue"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional button budget",
+        "Amount": 25
+      }
+    ]
+  }
+}

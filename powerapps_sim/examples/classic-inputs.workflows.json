@@ -1,0 +1,246 @@
+{
+  "classic-inputs.workflow.json": {
+    "format_version": 1,
+    "name": "Classic text/dropdown output, isolated components and mapped form saves",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Project Title": "Fictional draft",
+          "Project Stage": "Draft"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Title",
+        "expect": "Alpha"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Stage",
+        "expect": "Review"
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Optional.Selected)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/LeftPanel/Inner",
+        "event": "OnInput",
+        "value": "Edited Alpha"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Title",
+        "expect": "Edited Alpha"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/LeftPanel/Inner",
+        "event": "OnChange",
+        "value": "Edited Alpha"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/RightPanel/Stage",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Stage",
+        "expect": "Done"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Stage",
+        "expect": "Draft"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/Immediate",
+        "event": "OnInput",
+        "value": "Typed"
+      },
+      {
+        "op": "assert",
+        "formula": "Immediate.Text",
+        "expect": "Typed"
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Immediate.Text",
+        "expect": "hello+"
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/Optional",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Optional.SelectedText.Value",
+        "expect": "In review"
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/Optional",
+        "event": "OnChange",
+        "selection": []
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Optional.Selected)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/FocusText",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional saved edit"
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/DraftForm/StageCard/StageInput",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Updates.'Project Stage'",
+        "expect": "Review"
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.LastSubmit.'Project Title'",
+        "expect": "Fictional saved edit"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).'Project Stage'",
+        "expect": "Review"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": ""
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).'Project Title'",
+        "expect": "Fictional saved edit"
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/ResetForm",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "TitleInput.Text",
+        "expect": "Fictional saved edit"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicInputs/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Title",
+        "expect": "Alpha"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Stage",
+        "expect": "Done"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "Amount": {
+        "type": "number"
+      },
+      "Day": {
+        "type": "string"
+      },
+      "Media": {
+        "type": "string"
+      },
+      "Callbacks": {
+        "type": "integer"
+      }
+    },
+    "mapping": {
+      "Amount": "Saved amount"
+    },
+    "records": []
+  }
+}

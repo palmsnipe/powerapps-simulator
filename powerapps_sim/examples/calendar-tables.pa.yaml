@@ -1,0 +1,189 @@
+App:
+  Properties:
+    StartScreen: =CalendarTables
+    OnStart: =Clear(history);Clear(results);Clear(days);Clear(isoWeeks);Clear(mondayWeeks);Clear(errors);Set(status,"Ready")
+    Formulas: =ISOAtNewYear=ISOWeekNum(Date(2021,1,1));
+ComponentDefinitions:
+  CalendarPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Date
+        Default: =Date(2021,1,1)
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Day:Day.SelectedDate,Weekday:Weekday(Day.SelectedDate,StartOfWeek.Monday),Week:WeekNum(Day.SelectedDate,StartOfWeek.Monday),ISO:ISOWeekNum(Day.SelectedDate),Zero:Weekday(Day.SelectedDate,StartOfWeek.MondayZero),Weeks:CalendarPanel.Weeks}
+      WeekFor:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - day:
+              DataType: Date
+              Default: =Date(2021,1,1)
+              IsOptional: true
+        Default: =ISOWeekNum(day)
+      Capture:
+        PropertyKind: Action
+        ReturnType: Record
+        Default: =Collect(captured,CalendarPanel.Current);CalendarPanel.Changed(CalendarPanel.Current);CalendarPanel.Current
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Day:Date(2021,1,1),Weekday:0,Week:0,ISO:0,Zero:0,Weeks:[{Value:0}]}
+              IsOptional: true
+        Default: =Blank()
+      Days:
+        PropertyKind: Output
+        DataType: Table
+        Default: =ForAll(Sequence(4,0),{D:DateAdd(Day.SelectedDate,Value,TimeUnit.Days)})
+      Weeks:
+        PropertyKind: Output
+        DataType: Table
+        Default: =ISOWeekNum(CalendarPanel.Days)
+      WeeksFor:
+        PropertyKind: Function
+        ReturnType: Table
+        Parameters:
+          - dates:
+              DataType: Table
+              Default: =[{D:Date(2021,1,1)}]
+              IsOptional: true
+        Default: =ISOWeekNum(dates)
+    Properties:
+      Width: =430
+      Height: =230
+      OnReset: =Clear(captured)
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =CalendarPanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =30
+      - Day:
+          Control: ModernDatePicker@1.0.2
+          Properties:
+            DefaultDate: =CalendarPanel.Seed
+            StartOfWeek: =StartOfWeek.Monday
+            IsEditable: =true
+            Format: ="yyyy-mm-dd"
+            AccessibleLabel: =CalendarPanel.Caption & " date"
+            OnChange: =CalendarPanel.Capture()
+            X: =12
+            Y: =40
+            Width: =400
+            Height: =36
+      - WeekdayLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Weekday " & CalendarPanel.Current.Weekday & " · zero-based " & CalendarPanel.Current.Zero
+            X: =12
+            Y: =92
+            Width: =400
+            Height: =30
+      - WeekLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Calendar week " & CalendarPanel.Current.Week & " · ISO " & CalendarPanel.Current.ISO
+            X: =12
+            Y: =132
+            Width: =400
+            Height: =30
+      - FunctionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Weeks " & Concat(CalendarPanel.WeeksFor(CalendarPanel.Days),Value,", ")
+            X: =12
+            Y: =170
+            Width: =400
+            Height: =55
+Screens:
+  CalendarTables:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Calendar tables"
+            X: =16
+            Y: =8
+            Width: =900
+            Height: =32
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Callbacks " & CountRows(history) & " · " & status
+            X: =16
+            Y: =44
+            Width: =900
+            Height: =32
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            Caption: ="LeftPanel"
+            Seed: =Date(2021,1,1)
+            X: =16
+            Y: =88
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: CalendarPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            Caption: ="RightPanel"
+            Seed: =Date(2021,1,4)
+            X: =470
+            Y: =88
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: CalendarPanel
+      - Build:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Build weeks"
+            OnSelect: =ClearCollect(days,ForAll(Sequence(14,0),{D:DateAdd(Date(2020,12,25),Value,TimeUnit.Days)}));ClearCollect(isoWeeks,ISOWeekNum(days));ClearCollect(mondayWeeks,WeekNum(days,StartOfWeek.Monday));ClearCollect(results,ForAll(Sequence(14),With({day:Index(days,Value).D},{Day:day,ISO:Index(isoWeeks,Value).Value,MondayWeek:Index(mondayWeeks,Value).Value,SundayWeek:WeekNum(day),WednesdayWeek:WeekNum(day,StartOfWeek.Wednesday),TuesdayWeek:WeekNum(day,StartOfWeek.Tuesday),ThursdayWeek:WeekNum(day,StartOfWeek.Thursday),FridayWeek:WeekNum(day,StartOfWeek.Friday),SaturdayWeek:WeekNum(day,StartOfWeek.Saturday),Sunday:Weekday(day),Monday:Weekday(day,StartOfWeek.Monday),MondayZero:Weekday(day,StartOfWeek.MondayZero),Tuesday:Weekday(day,StartOfWeek.Tuesday),Wednesday:Weekday(day,StartOfWeek.Wednesday),Thursday:Weekday(day,StartOfWeek.Thursday),Friday:Weekday(day,StartOfWeek.Friday),Saturday:Weekday(day,StartOfWeek.Saturday),Year:Year(day),Month:Month(day),MonthDay:Day(day)})))
+            X: =16
+            Y: =338
+            Width: =170
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save left"
+            OnSelect: =IfError(Patch(CalendarSnapshots,LookUp(CalendarSnapshots,ID=1),LeftPanel.Current);Set(status,"Saved"),Set(status,"Save failed"))
+            X: =206
+            Y: =338
+            Width: =170
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            OnSelect: =Reset(LeftPanel)
+            X: =396
+            Y: =338
+            Width: =170
+      - Errors:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Error cells"
+            OnSelect: =ClearCollect(errors,ISOWeekNum(["bad","2021-01-04",1/0]))
+            X: =586
+            Y: =338
+            Width: =170
+      - Saved:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Saved ISO " & LookUp(CalendarSnapshots,ID=1).ISO
+            X: =16
+            Y: =395
+            Width: =900
+            Height: =32

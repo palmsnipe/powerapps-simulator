@@ -1,0 +1,193 @@
+{
+  "tabs.workflow.json": {
+    "format_version": 1,
+    "name": "Versioned tab lists, component selection and save recovery",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Picked.Key=\"review\" && RightPanel.Picked.Key=\"draft\" && ModernTabs.Selected.Value=\"Reports\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/LeftPanel/Tabs",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Clicks=1 && LeftPanel.Changes=0 && IsEmpty(LeftPanel.History)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/LeftPanel/Tabs",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Picked.Key=\"complete\" && LeftPanel.Clicks=2 && LeftPanel.Changes=1 && leftKey=\"complete\" && RightPanel.Picked.Key=\"draft\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/LeftPanel/Tabs",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Clicks=3 && LeftPanel.Changes=1 && CountRows(LeftPanel.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/RightPanel/Tabs",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Picked.Key=\"review\" && RightPanel.Clicks=1 && RightPanel.Changes=1 && rightKey=\"review\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/ToggleVertical",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "vertical && LeftPanel.Picked.Key=\"complete\" && RightPanel.Picked.Key=\"review\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/ModernTabs",
+        "event": "OnChange",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "ModernTabs.Selected.Value=\"Overview\" && CountRows(trace)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/ModernTabs",
+        "event": "OnChange",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "seed=\"complete\" && LeftPanel.Picked.Key=\"complete\" && LeftPanel.Changes=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "seed=\"review\" && LeftPanel.Picked.Key=\"review\" && LeftPanel.Clicks=3 && LeftPanel.Changes=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Picked.Key=\"review\" && LeftPanel.Clicks=0 && LeftPanel.Changes=0 && IsEmpty(LeftPanel.History) && RightPanel.Changes=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/ToggleGate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!editable && RightPanel.Picked.Key=\"review\" && RightPanel.Changes=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/ToggleGate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && First(Snapshots).'Selected section'=\"review\" && First(Snapshots).Clicks=0",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "TabsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=2",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 1
+      }
+    ]
+  }
+}

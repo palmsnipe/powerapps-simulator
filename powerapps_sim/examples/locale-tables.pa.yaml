@@ -1,0 +1,66 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Clear(history);ClearCollect(monthSnapshot,Calendar.MonthsLong())
+    Formulas: =Labels := Type([{Value:Text}]); Identity(rows:Labels):Labels=rows; MonthOptions=Identity(Calendar.MonthsLong());
+Screens:
+  Home:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =12
+            Width: =Parent.Width-48
+            Height: =36
+            Text: ="Calendar selectors"
+      - Panels:
+          Control: GroupContainer@1.5.0
+          Properties:
+            X: =24
+            Y: =64
+            Width: =Parent.Width-48
+            Height: =If(Self.Width<620,516,246)
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutWrap: =true
+            LayoutGap: =24
+            LayoutAlignItems: =LayoutAlignItems.Start
+          Variant: AutoLayout
+          Children:
+            - Left:
+                Control: CanvasComponent
+                Properties:
+                  Width: =420
+                  Height: =246
+                  LayoutMinWidth: =280
+                  FillPortions: =1
+                  Caption: ="Left"
+                  Seed: =1
+                  Changed: =Collect(history,{Panel:"Left",Month:month,Day:weekday,Language:language})
+                ComponentName: CalendarPanel
+            - Right:
+                Control: CanvasComponent
+                Properties:
+                  Width: =420
+                  Height: =246
+                  LayoutMinWidth: =280
+                  FillPortions: =1
+                  Caption: ="Right"
+                  Seed: =4
+                  Changed: =Collect(history,{Panel:"Right",Month:month,Day:weekday,Language:language})
+                ComponentName: CalendarPanel
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =Panels.Y+Panels.Height+16
+            Width: =180
+            Text: ="Save selection"
+            OnSelect: =Patch(Calendars,Defaults(Calendars),{Title:"Fictional calendar selection",Month:Left.ChosenMonth,Day:Left.ChosenDay,Language:Language(),Is24:Left.Is24})
+      - Count:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =220
+            Y: =Panels.Y+Panels.Height+16
+            Width: =170
+            Text: ="Saved locally · " & CountRows(Calendars)

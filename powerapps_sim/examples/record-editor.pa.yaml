@@ -1,0 +1,43 @@
+App:
+  Properties:
+    StartScreen: =RecordEditor
+    OnStart: =Clear(savedRows);Set(savedSettings,LookUp(Drafts,ID=1).Settings)
+Screens:
+  RecordEditor:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Nested records"
+            X: =16
+            Y: =12
+            Width: =900
+            Height: =32
+      - SavedTitle:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =LookUp(Drafts,ID=1).Title
+            X: =16
+            Y: =54
+            Width: =900
+            Height: =32
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Rows " & CountRows(LookUp(Drafts,ID=1).'Line Items') & " ·
+              quantity " & Sum(LookUp(Drafts,ID=1).'Line Items',Quantity)
+            X: =16
+            Y: =96
+            Width: =900
+            Height: =32
+      - Capture:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Capture saved rows"
+            OnSelect: =ClearCollect(savedRows,LookUp(Drafts,ID=1).'Line
+              Items');Set(savedSettings,LookUp(Drafts,ID=1).Settings)
+            X: =16
+            Y: =146
+            Width: =230

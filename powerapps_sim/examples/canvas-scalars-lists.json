@@ -1,0 +1,38 @@
+{
+  "Plans": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "AmountValue": {
+        "type": "number",
+        "default": 25
+      },
+      "EnabledValue": {
+        "type": "boolean",
+        "default": false
+      }
+    },
+    "mapping": {
+      "AmountValue": "Amount",
+      "EnabledValue": "Enabled"
+    },
+    "required": [
+      "Title",
+      "AmountValue",
+      "EnabledValue"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional budget",
+        "Amount": 25,
+        "Enabled": false
+      }
+    ]
+  }
+}

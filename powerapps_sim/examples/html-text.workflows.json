@@ -1,0 +1,231 @@
+{
+  "html-text.workflow.json": {
+    "format_version": 1,
+    "name": "Formatted HTML, isolated components, callbacks and persisted snapshots",
+    "environment": {
+      "enum_mode": "strong"
+    },
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.TitleValue",
+        "expect": "Fictional LeftPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Compose(\"<River & forest>\",2,\"Panel\")=LeftPanel.Compose(\"<River & forest>\",2,\"Panel\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "\"&lt;River &amp; forest&gt;\" in LeftPanel.Compose(\"<River & forest>\",2,\"Panel\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "\"<River\" in PlainText(LeftPanel.Compose(\"<River & forest>\",2,\"Panel\"))",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/LeftPanel/Title",
+        "event": "OnInput",
+        "value": "Fictional <river> & forest"
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/LeftPanel/Amount",
+        "event": "OnInput",
+        "value": "3"
+      },
+      {
+        "op": "assert",
+        "formula": "\"&lt;river&gt; &amp; forest\" in LeftPanel.Preview",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.TitleValue",
+        "expect": "Fictional RightPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Quantity=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Quantity=10",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/LeftPanel/LivePreview",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(history).Panel",
+        "expect": "LeftPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "First(history).Title",
+        "expect": "Fictional <river> & forest"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.History)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightPanel.History)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/RightPanel/CaptureButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightPanel.History)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).Preview=LeftPanel.Preview",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "PlainText(First(Snapshots).Preview)=PlainText(LeftPanel.Preview)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Text(ParseJSON(First(Snapshots).Payload).Title)",
+        "expect": "Fictional <river> & forest"
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "status=If(StartsWith(Language(),\"fr\"),\"\u00c9chec\",\"Save failed\")",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)=8",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Nested.Label",
+        "expect": "Fictional <river> & forest: 1"
+      },
+      {
+        "op": "event",
+        "path": "HtmlLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.History)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightPanel.History)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.TitleValue",
+        "expect": "Fictional LeftPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Quantity=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=2",
+        "expect": true
+      }
+    ]
+  }
+}

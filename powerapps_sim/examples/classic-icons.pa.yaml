@@ -1,0 +1,241 @@
+App:
+  Properties:
+    StartScreen: =ClassicScreen
+    OnStart: =Set(status,"Ready");Set(angle,0);Clear(history)
+ComponentDefinitions:
+  ClassicPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =0
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,ClassicPanel.Seed)
+      Increase:
+        PropertyKind: Action
+        ReturnType: Number
+        Parameters:
+          - step:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+        Default: =Set(current,ClassicPanel.Total+step);ClassicPanel.Changed(ClassicPanel.Total);ClassicPanel.Total
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - total:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =360
+      Height: =104
+      OnReset: =Set(current,ClassicPanel.Seed)
+    Children:
+      - CaptionText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =ClassicPanel.Caption & " · " & ClassicPanel.Total
+            X: =12
+            Y: =4
+            Width: =320
+            Height: =32
+      - IncreaseIcon:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Icon: =Icon.Add
+            X: =12
+            Y: =42
+            Width: =48
+            Height: =48
+            TabIndex: =0
+            Color: =RGBA(15,108,189,1)
+            Fill: =RGBA(235,243,252,1)
+            HoverFill: =RGBA(220,235,250,1)
+            PressedFill: =RGBA(190,218,246,1)
+            FocusedBorderColor: =Color.Orange
+            FocusedBorderThickness: =3
+            AccessibleLabel: ="Increase " & ClassicPanel.Caption
+            OnSelect: =ClassicPanel.Increase()
+      - Camera:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Icon: =Icon.Camera
+            X: =82
+            Y: =42
+            Width: =48
+            Height: =48
+            Color: =Color.DarkGreen
+            AccessibleLabel: ="Decorative camera"
+Screens:
+  ClassicScreen:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Classic icons"
+            X: =16
+            Y: =8
+            Width: =840
+            Height: =32
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Left " & LeftPanel.Total & " · Right " & RightPanel.Total & " · callbacks " & CountRows(history) & " · " & status
+            X: =16
+            Y: =44
+            Width: =840
+            Height: =32
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: ClassicPanel
+          Properties:
+            X: =16
+            Y: =90
+            Caption: ="LeftPanel"
+            Seed: =10
+            Changed: =Collect(history,{Panel:Self.Name,Total:total});Set(status,Self.Name & " captured " & total)
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: ClassicPanel
+          Properties:
+            X: =402
+            Y: =90
+            Caption: ="RightPanel"
+            Seed: =100
+            Changed: =Collect(history,{Panel:Self.Name,Total:total});Set(status,Self.Name & " captured " & total)
+      - Modes:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Pointer image · keyboard button · decorative · disabled · view"
+            X: =16
+            Y: =200
+            Width: =840
+            Height: =32
+      - Pointer:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Icon: =Icon.Reload
+            X: =16
+            Y: =238
+            Width: =72
+            Height: =48
+            AccessibleLabel: ="Rotate by pointer"
+            Rotation: =angle
+            PreserveAspectRatio: =false
+            Color: =Color.DarkBlue
+            Fill: =RGBA(240,245,255,1)
+            HoverColor: =Color.Green
+            PressedColor: =Color.Red
+            OnSelect: =Set(angle,angle+45);Set(status,"Pointer rotated")
+      - KeyboardBlank:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Icon: =Icon.Check
+            X: =108
+            Y: =238
+            Width: =48
+            Height: =48
+            TabIndex: =0
+            AccessibleLabel: ="Blank keyboard button"
+            FocusedBorderColor: =Color.Purple
+            FocusedBorderThickness: =4
+      - Decorative:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Icon: =Icon.BookmarkFilled
+            X: =198
+            Y: =238
+            Width: =48
+            Height: =48
+      - Disabled:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Icon: =Icon.Lock
+            X: =290
+            Y: =238
+            Width: =48
+            Height: =48
+            TabIndex: =0
+            AccessibleLabel: ="Disabled classic icon"
+            DisplayMode: =DisplayMode.Disabled
+            DisabledColor: =Color.Gray
+            DisabledFill: =Color.LightGray
+            OnSelect: =Set(status,"Unexpected disabled")
+      - ReadOnly:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            Icon: =Icon.View
+            X: =380
+            Y: =238
+            Width: =48
+            Height: =48
+            TabIndex: =0
+            AccessibleLabel: ="Read-only classic icon"
+            DisplayMode: =DisplayMode.View
+            OnSelect: =Set(status,"Unexpected view")
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =500
+            Y: =246
+            Width: =130
+            OnSelect: =Reset(LeftPanel)
+      - SaveSnapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save snapshot"
+            Icon: =Icon.Save
+            X: =650
+            Y: =246
+            Width: =170
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Classic snapshot",Left:LeftPanel.Total,Right:RightPanel.Total,Selected:IconGallery.Selected.Name});Set(status,"Snapshot saved")
+      - IconGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =16
+            Y: =320
+            Width: =830
+            Height: =240
+            TemplateSize: =60
+            Items:
+              =Table({Name:"Add",Symbol:Icon.Add},{Name:"ArrowDown",Symbol:Icon.ArrowDown},{Name:"ArrowLeft",Symbol:Icon.ArrowLeft},{Name:"ArrowRight",Symbol:Icon.ArrowRight},{Name:"ArrowUp",Symbol:Icon.ArrowUp},{Name:"Sort",Symbol:Icon.Sort},{Name:"NextArrow",Symbol:Icon.NextArrow},{Name:"BackArrow",Symbol:Icon.BackArrow},{Name:"Camera",Symbol:Icon.Camera},{Name:"Cancel",Symbol:Icon.Cancel},{Name:"Check",Symbol:Icon.Check},{Name:"ChevronDown",Symbol:Icon.ChevronDown},{Name:"ChevronLeft",Symbol:Icon.ChevronLeft},{Name:"ChevronRight",Symbol:Icon.ChevronRight},{Name:"Laptop",Symbol:Icon.Laptop},{Name:"Edit",Symbol:Icon.Edit},{Name:"Message",Symbol:Icon.Message},{Name:"Printing3D",Symbol:Icon.Printing3D},{Name:"Document",Symbol:Icon.Document},{Name:"DockCheckProperties",Symbol:Icon.DockCheckProperties},{Name:"Folder",Symbol:Icon.Folder},{Name:"Items",Symbol:Icon.Items},{Name:"Journal",Symbol:Icon.Journal},{Name:"LevelsLayersItems",Symbol:Icon.LevelsLayersItems},{Name:"ListWatchlistRemind",Symbol:Icon.ListWatchlistRemind},{Name:"LogJournal",Symbol:Icon.LogJournal},{Name:"Location",Symbol:Icon.Location},{Name:"Mobile",Symbol:Icon.Mobile},{Name:"Note",Symbol:Icon.Note},{Name:"People",Symbol:Icon.People},{Name:"Person",Symbol:Icon.Person},{Name:"Phone",Symbol:Icon.Phone},{Name:"PhoneHangUp",Symbol:Icon.PhoneHangUp},{Name:"PhotosPictures",Symbol:Icon.PhotosPictures},{Name:"Pin",Symbol:Icon.Pin},{Name:"Post",Symbol:Icon.Post},{Name:"RadarActivityMonitor",Symbol:Icon.RadarActivityMonitor},{Name:"Tablet",Symbol:Icon.Tablet},{Name:"Tag",Symbol:Icon.Tag},{Name:"Tools",Symbol:Icon.Tools},{Name:"ToolsWrench",Symbol:Icon.ToolsWrench},{Name:"Trending",Symbol:Icon.Trending},{Name:"TrendingHashtag",Symbol:Icon.TrendingHashtag},{Name:"TrendingUpwards",Symbol:Icon.TrendingUpwards},{Name:"ChevronUp",Symbol:Icon.ChevronUp},{Name:"Trash",Symbol:Icon.Trash},{Name:"Search",Symbol:Icon.Search},{Name:"Filter",Symbol:Icon.Filter},{Name:"Reload",Symbol:Icon.Reload},{Name:"ExpandView",Symbol:Icon.ExpandView},{Name:"Compose",Symbol:Icon.Compose},{Name:"Crop",Symbol:Icon.Crop},{Name:"AddDocument",Symbol:Icon.AddDocument},{Name:"AddLibrary",Symbol:Icon.AddLibrary},{Name:"CameraAperture",Symbol:Icon.CameraAperture},{Name:"ClearDrawing",Symbol:Icon.ClearDrawing},{Name:"Clock",Symbol:Icon.Clock},{Name:"CollapseView",Symbol:Icon.CollapseView},{Name:"ColorPicker",Symbol:Icon.ColorPicker},{Name:"ComputerDesktop",Symbol:Icon.ComputerDesktop},{Name:"Devices",Symbol:Icon.Devices},{Name:"Controller",Symbol:Icon.Controller},{Name:"DetailList",Symbol:Icon.DetailList},{Name:"DocumentWithContent",Symbol:Icon.DocumentWithContent},{Name:"Draw",Symbol:Icon.Draw},{Name:"LineWeight",Symbol:Icon.LineWeight},{Name:"Erase",Symbol:Icon.Erase},{Name:"AddToCalendar",Symbol:Icon.AddToCalendar},{Name:"CalendarBlank",Symbol:Icon.CalendarBlank},{Name:"ListScrollEmpty",Symbol:Icon.ListScrollEmpty},{Name:"ListScrollWatchlist",Symbol:Icon.ListScrollWatchlist},{Name:"Mail",Symbol:Icon.Mail},{Name:"Send",Symbol:Icon.Send},{Name:"OptionsList",Symbol:Icon.OptionsList},{Name:"Airplane",Symbol:Icon.Airplane},{Name:"PaperClip",Symbol:Icon.PaperClip},{Name:"Bell",Symbol:Icon.Bell},{Name:"Bus",Symbol:Icon.Bus},{Name:"Cars",Symbol:Icon.Cars},{Name:"Copy",Symbol:Icon.Copy},{Name:"Currency",Symbol:Icon.Currency},{Name:"Database",Symbol:Icon.Database},{Name:"DocumentPDF",Symbol:Icon.DocumentPDF},{Name:"Download",Symbol:Icon.Download},{Name:"EmojiFrown",Symbol:Icon.EmojiFrown},{Name:"EmojiNeutral",Symbol:Icon.EmojiNeutral},{Name:"EmojiSad",Symbol:Icon.EmojiSad},{Name:"EmojiSmile",Symbol:Icon.EmojiSmile},{Name:"ForkKnife",Symbol:Icon.ForkKnife},{Name:"Hamburger",Symbol:Icon.Hamburger},{Name:"Home",Symbol:Icon.Home},{Name:"Information",Symbol:Icon.Information},{Name:"LikeDislike",Symbol:Icon.LikeDislike},{Name:"Lock",Symbol:Icon.Lock},{Name:"Money",Symbol:Icon.Money},{Name:"More",Symbol:Icon.More},{Name:"MSOffice",Symbol:Icon.MSOffice},{Name:"Newspaper",Symbol:Icon.Newspaper},{Name:"OfficeBuilding",Symbol:Icon.OfficeBuilding},{Name:"Save",Symbol:Icon.Save},{Name:"Settings",Symbol:Icon.Settings},{Name:"ShoppingCart",Symbol:Icon.ShoppingCart},{Name:"Transportation",Symbol:Icon.Transportation},{Name:"Waffle",Symbol:Icon.Waffle},{Name:"Warning",Symbol:Icon.Warning},{Name:"Waypoint",Symbol:Icon.Waypoint},{Name:"Weather",Symbol:Icon.Weather},{Name:"Import",Symbol:Icon.Import},{Name:"AddUser",Symbol:Icon.AddUser},{Name:"Alarm",Symbol:Icon.Alarm},{Name:"Blocked",Symbol:Icon.Blocked},{Name:"Bookmark",Symbol:Icon.Bookmark},{Name:"Bug",Symbol:Icon.Bug},{Name:"Calculator",Symbol:Icon.Calculator},{Name:"Diamond",Symbol:Icon.Diamond},{Name:"DockLeft",Symbol:Icon.DockLeft},{Name:"DockRight",Symbol:Icon.DockRight},{Name:"Enhance",Symbol:Icon.Enhance},{Name:"Error",Symbol:Icon.Error},{Name:"Export",Symbol:Icon.Export},{Name:"Flag",Symbol:Icon.Flag},{Name:"Globe",Symbol:Icon.Globe},{Name:"GlobeNotConnected",Symbol:Icon.GlobeNotConnected},{Name:"GlobeRefresh",Symbol:Icon.GlobeRefresh},{Name:"GlobeChangesPending",Symbol:Icon.GlobeChangesPending},{Name:"GlobeWarning",Symbol:Icon.GlobeWarning},{Name:"GlobeError",Symbol:Icon.GlobeError},{Name:"HalfFilledCircle",Symbol:Icon.HalfFilledCircle},{Name:"Health",Symbol:Icon.Health},{Name:"Heart",Symbol:Icon.Heart},{Name:"Help",Symbol:Icon.Help},{Name:"Hide",Symbol:Icon.Hide},{Name:"History",Symbol:Icon.History},{Name:"HorizontalLine",Symbol:Icon.HorizontalLine},{Name:"Hospital",Symbol:Icon.Hospital},{Name:"Key",Symbol:Icon.Key},{Name:"Lightbulb",Symbol:Icon.Lightbulb},{Name:"LightningBolt",Symbol:Icon.LightningBolt},{Name:"Link",Symbol:Icon.Link},{Name:"Manufacture",Symbol:Icon.Manufacture},{Name:"Medical",Symbol:Icon.Medical},{Name:"Microphone",Symbol:Icon.Microphone},{Name:"Notebook",Symbol:Icon.Notebook},{Name:"OpenInNewWindow",Symbol:Icon.OpenInNewWindow},{Name:"Phonebook",Symbol:Icon.Phonebook},{Name:"Print",Symbol:Icon.Print},{Name:"Publish",Symbol:Icon.Publish},{Name:"QuestionMark",Symbol:Icon.QuestionMark},{Name:"Redo",Symbol:Icon.Redo},{Name:"Reset",Symbol:Icon.Reset},{Name:"Ribbon",Symbol:Icon.Ribbon},{Name:"Scan",Symbol:Icon.Scan},{Name:"Share",Symbol:Icon.Share},{Name:"Shirt",Symbol:Icon.Shirt},{Name:"Shop",Symbol:Icon.Shop},{Name:"Signal",Symbol:Icon.Signal},{Name:"Support",Symbol:Icon.Support},{Name:"Sync",Symbol:Icon.Sync},{Name:"Text",Symbol:Icon.Text},{Name:"ThumbsDown",Symbol:Icon.ThumbsDown},{Name:"ThumbsUp",Symbol:Icon.ThumbsUp},{Name:"Train",Symbol:Icon.Train},{Name:"Tray",Symbol:Icon.Tray},{Name:"Undo",Symbol:Icon.Undo},{Name:"Unlock",Symbol:Icon.Unlock},{Name:"VerticalLine",Symbol:Icon.VerticalLine},{Name:"Video",Symbol:Icon.Video},{Name:"View",Symbol:Icon.View},{Name:"ZoomIn",Symbol:Icon.ZoomIn},{Name:"ZoomOut",Symbol:Icon.ZoomOut},{Name:"BookmarkFilled",Symbol:Icon.BookmarkFilled},{Name:"CancelBadge",Symbol:Icon.CancelBadge},{Name:"CheckBadge",Symbol:Icon.CheckBadge},{Name:"Cut",Symbol:Icon.Cut},{Name:"FilterFlat",Symbol:Icon.FilterFlat},{Name:"FilterFlatFilled",Symbol:Icon.FilterFlatFilled},{Name:"Leave",Symbol:Icon.Leave},{Name:"Paste",Symbol:Icon.Paste},{Name:"ThumbsDownFilled",Symbol:Icon.ThumbsDownFilled},{Name:"ThumbsUpFilled",Symbol:Icon.ThumbsUpFilled},{Name:"EmojiHappy",Symbol:Icon.EmojiHappy})
+            OnSelect: =Set(status,"Selected " & Self.Selected.Name)
+          Children:
+            - RowIcon:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  X: =4
+                  Y: =6
+                  Width: =40
+                  Height: =40
+                  Icon: =ThisItem.Symbol
+                  TabIndex: =0
+                  AccessibleLabel: ="Select " & ThisItem.Name
+            - RowName:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Name
+                  X: =62
+                  Y: =12
+                  Width: =300
+                  Height: =32
+            - ImplicitPointer:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  X: =400
+                  Y: =6
+                  Width: =40
+                  Height: =40
+                  Icon: =ThisItem.Symbol
+                  AccessibleLabel: ="Pointer select " & ThisItem.Name

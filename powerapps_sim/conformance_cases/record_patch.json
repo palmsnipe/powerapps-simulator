@@ -1,0 +1,438 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "All 20 record-merging Patch cases from the pinned upstream file. Independent expected JSON values; Decimal profile and embedded errors are explicit. Mutable-table Patch is verified separately through local scenarios.",
+  "cases": [
+    {
+      "id": "patch-record-1",
+      "expression": "Patch({Field1:1,Field2:\"earth\",Field3:DateTime(2022,1,1,0,0,0,0),Field4:true}, {Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L7",
+        "expected_powerfx": "{Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false}"
+      },
+      "expected": {
+        "Field1": {
+          "$decimal": "2"
+        },
+        "Field2": "moon",
+        "Field3": "2022-02-01T00:00:00+00:00",
+        "Field4": false
+      }
+    },
+    {
+      "id": "patch-record-2",
+      "expression": "Patch({Field1:1,Field2:\"earth\",Field3:DateTime(2022,1,1,0,0,0,0),Field4:true}, {}, {Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L10",
+        "expected_powerfx": "{Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false}"
+      },
+      "expected": {
+        "Field1": {
+          "$decimal": "2"
+        },
+        "Field2": "moon",
+        "Field3": "2022-02-01T00:00:00+00:00",
+        "Field4": false
+      }
+    },
+    {
+      "id": "patch-record-3",
+      "expression": "Patch(Blank(), {Field1:1,Field2:\"earth\",Field3:DateTime(2022,1,1,0,0,0,0),Field4:true}, {Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L13",
+        "expected_powerfx": "{Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false}"
+      },
+      "expected": {
+        "Field1": {
+          "$decimal": "2"
+        },
+        "Field2": "moon",
+        "Field3": "2022-02-01T00:00:00+00:00",
+        "Field4": false
+      }
+    },
+    {
+      "id": "patch-record-4",
+      "expression": "Patch({Field1:1,Field2:\"earth\",Field3:DateTime(2022,1,1,0,0,0,0),Field4:true}, {Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false}, {ErrorField:1/0})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L16",
+        "expected_powerfx": "{ErrorField:Error({Kind:ErrorKind.Div0}),Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false}"
+      },
+      "expected": {
+        "Field1": {
+          "$decimal": "2"
+        },
+        "Field2": "moon",
+        "Field3": "2022-02-01T00:00:00+00:00",
+        "Field4": false,
+        "ErrorField": {
+          "$error": {
+            "Kind": 13
+          }
+        }
+      }
+    },
+    {
+      "id": "patch-record-5",
+      "expression": "Patch({Field1:1,Field2:\"earth\",Field3:DateTime(2022,1,1,0,0,0,0),Field4:true}, {Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false}, 1/0)",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L19",
+        "expected_powerfx": "Errors: Error 153-154: Cannot use a non-record value in this context: '1 / 0'.|Error 0-5: The function 'Patch' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "patch-record-6",
+      "expression": "With({ rec: { Name: \"John Doe\", Address: { Country: \"USA\", State: \"WA\", City: \"Seattle\", Street: \"85 Pike Street\" } } },Patch(DropColumns(rec, Address),rec.Address))",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L23",
+        "expected_powerfx": "{City:\"Seattle\",Country:\"USA\",Name:\"John Doe\",State:\"WA\",Street:\"85 Pike Street\"}"
+      },
+      "expected": {
+        "Name": "John Doe",
+        "Country": "USA",
+        "State": "WA",
+        "City": "Seattle",
+        "Street": "85 Pike Street"
+      }
+    },
+    {
+      "id": "patch-record-7",
+      "expression": "With({ tbl:Table({a:1,b:2}, {a:11,b:22}, {a:111,b:222}) },ForAll(Sequence(CountRows(tbl)),Patch({ Index: ThisRecord.Value },Index(tbl, ThisRecord.Value))))",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L26",
+        "expected_powerfx": "Table({Index:1,a:1,b:2},{Index:2,a:11,b:22},{Index:3,a:111,b:222})"
+      },
+      "expected": [
+        {
+          "Index": {
+            "$decimal": "1"
+          },
+          "a": {
+            "$decimal": "1"
+          },
+          "b": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "Index": {
+            "$decimal": "2"
+          },
+          "a": {
+            "$decimal": "11"
+          },
+          "b": {
+            "$decimal": "22"
+          }
+        },
+        {
+          "Index": {
+            "$decimal": "3"
+          },
+          "a": {
+            "$decimal": "111"
+          },
+          "b": {
+            "$decimal": "222"
+          }
+        }
+      ]
+    },
+    {
+      "id": "patch-record-8",
+      "expression": "Patch({a:1},If(1/0<2,{b:3}))",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L29",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "patch-record-9",
+      "expression": "Patch({a:1,b:2},{b:3})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L32",
+        "expected_powerfx": "{a:1,b:3}"
+      },
+      "expected": {
+        "a": {
+          "$decimal": "1"
+        },
+        "b": {
+          "$decimal": "3"
+        }
+      }
+    },
+    {
+      "id": "patch-record-10",
+      "expression": "Patch({a:1,b:2},{b:3},{b:4})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L35",
+        "expected_powerfx": "{a:1,b:4}"
+      },
+      "expected": {
+        "a": {
+          "$decimal": "1"
+        },
+        "b": {
+          "$decimal": "4"
+        }
+      }
+    },
+    {
+      "id": "patch-record-11",
+      "expression": "Patch({a:1,b:\"hello\",c:false}, {b:\"hello 2\"},{c:true},{d:[1,2,3]})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L38",
+        "expected_powerfx": "{a:1,b:\"hello 2\",c:true,d:Table({Value:1},{Value:2},{Value:3})}"
+      },
+      "expected": {
+        "a": {
+          "$decimal": "1"
+        },
+        "b": "hello 2",
+        "c": true,
+        "d": [
+          {
+            "Value": {
+              "$decimal": "1"
+            }
+          },
+          {
+            "Value": {
+              "$decimal": "2"
+            }
+          },
+          {
+            "Value": {
+              "$decimal": "3"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "patch-record-12",
+      "expression": "Patch({a:[1,2,3]}, {a:[4,5,6]})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L41",
+        "expected_powerfx": "{a:Table({Value:4},{Value:5},{Value:6})}"
+      },
+      "expected": {
+        "a": [
+          {
+            "Value": {
+              "$decimal": "4"
+            }
+          },
+          {
+            "Value": {
+              "$decimal": "5"
+            }
+          },
+          {
+            "Value": {
+              "$decimal": "6"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "patch-record-13",
+      "expression": "Patch({name:\"John Doe\",address:{street:\"One Main St\",city:\"Springfield\",country:\"USA\"}},{address:{street:\"Avenida Paulista\",city:\"Sao Paulo\",country:\"BRA\"}})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L44",
+        "expected_powerfx": "{address:{city:\"Sao Paulo\",country:\"BRA\",street:\"Avenida Paulista\"},name:\"John Doe\"}"
+      },
+      "expected": {
+        "name": "John Doe",
+        "address": {
+          "street": "Avenida Paulista",
+          "city": "Sao Paulo",
+          "country": "BRA"
+        }
+      }
+    },
+    {
+      "id": "patch-record-14",
+      "expression": "Patch({name:\"John Doe\",address:{street:\"One Main St\",city:\"Springfield\",country:\"USA\"}},{address:{country:\"BRA\"}})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L47",
+        "expected_powerfx": "Errors: Error 88-113: The type of this argument 'address' does not match the expected type 'Record'. Found type 'Record'.|Error 0-5: The function 'Patch' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "patch-record-15",
+      "expression": "Patch({a:Table({a:1,b:1}),b:If(false,1)},{b:1})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L50",
+        "expected_powerfx": "{a:Table({a:1,b:1}),b:1}"
+      },
+      "expected": {
+        "a": [
+          {
+            "a": {
+              "$decimal": "1"
+            },
+            "b": {
+              "$decimal": "1"
+            }
+          }
+        ],
+        "b": {
+          "$decimal": "1"
+        }
+      }
+    },
+    {
+      "id": "patch-record-16",
+      "expression": "Patch({a:Table({a:1,b:1}),b:1},{a:Table({a:0,b:0}, {a:10,b:10})})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L53",
+        "expected_powerfx": "{a:Table({a:0,b:0},{a:10,b:10}),b:1}"
+      },
+      "expected": {
+        "a": [
+          {
+            "a": {
+              "$decimal": "0"
+            },
+            "b": {
+              "$decimal": "0"
+            }
+          },
+          {
+            "a": {
+              "$decimal": "10"
+            },
+            "b": {
+              "$decimal": "10"
+            }
+          }
+        ],
+        "b": {
+          "$decimal": "1"
+        }
+      }
+    },
+    {
+      "id": "patch-record-17",
+      "expression": "Patch({a:1},{a:[2]})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L56",
+        "expected_powerfx": "Errors: Error 12-19: The type of this argument 'a' does not match the expected type 'Decimal'. Found type 'Table'.|Error 0-5: The function 'Patch' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "patch-record-18",
+      "expression": "Patch({a:1},{a:\"2\"})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L59",
+        "expected_powerfx": "Errors: Error 12-19: The type of this argument 'a' does not match the expected type 'Decimal'. Found type 'Text'.|Error 0-5: The function 'Patch' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "patch-record-19",
+      "expression": "Patch({a:\"1\"},{a:2})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L62",
+        "expected_powerfx": "Errors: Error 14-19: The type of this argument 'a' does not match the expected type 'Text'. Found type 'Decimal'.|Error 0-5: The function 'Patch' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "patch-record-20",
+      "expression": "Patch({a:Table({a:1,b:1}),b:Blank()},{b:1})",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Patch_PatchRecord.txt#L65",
+        "expected_powerfx": "Errors: Error 37-42: The type of this argument 'b' does not match the expected type 'Blank'. Found type 'Decimal'.|Error 0-5: The function 'Patch' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    }
+  ]
+}

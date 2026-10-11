@@ -1,0 +1,199 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Clear(events);Clear(checkEvents);Set(initialText,"Fictional draft");Set(initialChecked,false);Set(status,T("Ready","Prêt"));Reset(Left);Reset(Right)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+Screens:
+  Home:
+    Properties:
+      Width: =App.Width
+      Height: =Max(App.Height,EventsRows.Y+EventsRows.Height+24)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Fictional input lab","Saisie fictive")
+            X: =20
+            Y: =12
+            Width: =Parent.Width-40
+            Size: =24
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            X: =20
+            Y: =65
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            InitialText: =initialText
+            InitialChecked: =initialChecked
+            Caption: =T("Left panel","Panneau gauche")
+            Changed: =Collect(events,{Panel:"Left",Kind:"Text",Text:value,Checked:Self.CurrentChecked})
+            Toggled: =Collect(events,{Panel:"Left",Kind:"Check",Text:Self.CurrentText,Checked:checked})
+            StateChanged: =Collect(checkEvents,{Panel:"Left",Checked:checked})
+          ComponentName: InputPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            X: =If(App.Width<760,20,Parent.Width/2+10)
+            Y: =If(App.Width<760,Left.Y+Left.Height+20,Left.Y)
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            InitialText: =initialText
+            InitialChecked: =initialChecked
+            Caption: =T("Right panel","Panneau droit")
+            Changed: =Collect(events,{Panel:"Right",Kind:"Text",Text:value,Checked:Self.CurrentChecked})
+            Toggled: =Collect(events,{Panel:"Right",Kind:"Check",Text:Self.CurrentText,Checked:checked})
+            StateChanged: =Collect(checkEvents,{Panel:"Right",Checked:checked})
+          ComponentName: InputPanel
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            X: =20
+            Y: =Right.Y+Right.Height+12
+            Width: =140
+            OnSelect: =Reset(Left)
+      - ChangeDefaults:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("New defaults","Nouveaux défauts")
+            X: =If(App.Width<360,20,180)
+            Y: =If(App.Width<360,ResetLeft.Y+48,ResetLeft.Y)
+            Width: =140
+            OnSelect: =Set(initialText,"Updated default");Set(initialChecked,true);SetFocus(Delayed)
+      - Delayed:
+          Control: TextInput@0.0.51
+          Properties:
+            X: =20
+            Y: =Max(ResetLeft.Y,ChangeDefaults.Y)+50
+            Width: =Parent.Width-40
+            Value: =""
+            TriggerOutput: ="Delayed"
+            AccessibleLabel: ="Delayed input"
+            Placeholder: =T("Delayed input","Saisie différée")
+            OnChange: =Collect(events,{Panel:"Delayed",Kind:"Text",Text:Self.Value,Checked:false})
+      - Toggle26:
+          Control: CheckBox@0.0.26
+          Properties:
+            X: =20
+            Y: =Delayed.Y+45
+            Label: ="Version 0.0.26"
+            Width: =180
+            OnSelect: =Collect(events,{Panel:"26",Kind:"Check",Text:"",Checked:Self.Checked})
+      - Toggle27:
+          Control: CheckBox@0.0.27
+          Properties:
+            X: =If(App.Width<400,20,210)
+            Y: =If(App.Width<400,Toggle26.Y+40,Toggle26.Y)
+            Label: ="Version 0.0.27"
+            Width: =180
+      - NotesRows:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =Max(Toggle26.Y,Toggle27.Y)+50
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Height: =220
+            Items: =Notes As note
+            TemplateSize: =95
+          Children:
+            - RowTitle:
+                Control: TextInput@0.0.51
+                Properties:
+                  Width: =Parent.TemplateWidth-16
+                  Value: =note.Title
+                  AccessibleLabel: =note.Title
+                  TriggerOutput: ="Keypress"
+                  OnChange: =Patch(Notes,note,{Title:Self.Value})
+            - RowApproved:
+                Control: CheckBox@0.0.27
+                Properties:
+                  Y: =42
+                  Checked: =note.Approved
+                  Label: ="Row approval"
+                  OnSelect: =Patch(Notes,note,{Approved:Self.Checked})
+      - NoteForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =If(App.Width<760,20,Parent.Width/2+10)
+            Y: =If(App.Width<760,NotesRows.Y+NotesRows.Height+20,NotesRows.Y)
+            Width: =NotesRows.Width
+            Height: =180
+            DataSource: =Notes
+            Item: =First(Notes)
+            OnSuccess: =Set(status,T("Saved","Enregistré"))
+            OnFailure: =Set(status,T("Save failed","Échec"))
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  Width: =Parent.Width
+                  Height: =85
+                  DataField: ="Title"
+                  Required: =true
+                  Default: =ThisItem.Title
+                  Update: =FormTitle.Value
+                Variant: TextualEdit
+                Children:
+                  - TitleCaption:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Draft title","Titre provisoire")
+                        X: =0
+                        Y: =0
+                        Width: =Parent.Width
+                  - FormTitle:
+                      Control: TextInput@0.0.53
+                      Properties:
+                        Y: =35
+                        Width: =Parent.Width-16
+                        Value: =Parent.Default
+                        Required: =Parent.Required
+                        MaxLength: =80
+                        AccessibleLabel: ="Draft title"
+            - ApprovedCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  Width: =Parent.Width
+                  Height: =65
+                  DataField: ="Approved"
+                  Default: =ThisItem.Approved
+                  Update: =FormApproved.Checked
+                Variant: ToggleEdit
+                Children:
+                  - FormApproved:
+                      Control: CheckBox@0.0.26
+                      Properties:
+                        Width: =Parent.Width
+                        Checked: =Parent.Default
+                        Label: =T("Draft approval","Approbation provisoire")
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save draft","Enregistrer")
+            X: =NoteForm.X
+            Y: =NoteForm.Y+NoteForm.Height+12
+            Width: =140
+            OnSelect: =SubmitForm(NoteForm)
+      - SaveStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status&" · "&Text(NoteForm.Unsaved)
+            X: =Save.X
+            Y: =Save.Y+42
+            Width: =NoteForm.Width
+      - EventsRows:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =Max(NotesRows.Y+NotesRows.Height,SaveStatus.Y+SaveStatus.Height)+20
+            Width: =Parent.Width-40
+            Height: =100
+            TemplateSize: =30
+            Items: =events
+          Children:
+            - EventText:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Panel&" · "&ThisItem.Kind&" · "&ThisItem.Text&" · "&Text(ThisItem.Checked)
+                  X: =0
+                  Y: =0
+                  Width: =Parent.TemplateWidth

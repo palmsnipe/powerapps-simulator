@@ -1,0 +1,315 @@
+{
+  "unicode.workflow.json": {
+    "format_version": 1,
+    "name": "Unicode search, split rows, code errors and mapped saves",
+    "records": {
+      "Snapshots": [
+        {
+          "ID": 1,
+          "Text": "Fictional text",
+          "Symbol": "A",
+          "TokenCount": 1
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Found",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Units",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.TokenCount",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Symbol",
+        "expect": "\u03bb"
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(RightPanel.Current.Found)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/LeftPanel/Input",
+        "event": "OnInput",
+        "value": "\ud83c\udf32 Coast,,Lake,"
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(LeftPanel.Current.Found)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/LeftPanel/Input",
+        "event": "OnChange",
+        "value": "\ud83c\udf32 Coast,,Lake,"
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/LeftPanel/Needle",
+        "event": "OnChange",
+        "value": "Coast"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Found",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.FindPosition(LeftPanel.Current.Raw,\"Coast\")",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/RightPanel/Hex",
+        "event": "OnChange",
+        "value": "1F600"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Symbol",
+        "expect": "\ud83d\ude00"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Symbol",
+        "expect": "\ud83c\udf32"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(First(results).Characters)",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "Concat(First(results).Characters,Value)",
+        "expect": "\ud83c\udf32 River,,Lake,"
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Found",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "Last(results).CodeError",
+        "expect": 27
+      },
+      {
+        "op": "assert",
+        "formula": "Concat(glyphs,Value)",
+        "expect": "A\ud83c\udf32\u03bb"
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/Errors",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(codeErrors)",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(Index(codeErrors,2).Value,Text(FirstError.Kind))",
+        "expect": "27"
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(Index(codeErrors,3).Value,Text(FirstError.Kind))",
+        "expect": "25"
+      },
+      {
+        "op": "assert",
+        "formula": "Index(codeErrors,4).Value",
+        "expect": "\ud83c\udf32"
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(Index(searchErrors,2).Value,FirstError.Kind)",
+        "expect": 25
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/RightPanel/Hex",
+        "event": "OnChange",
+        "value": "D800"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Symbol",
+        "expect": "Invalid code"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.CodeError",
+        "expect": 27
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.CodeError",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/RightPanel/Hex",
+        "event": "OnChange",
+        "value": "3BB"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Symbol",
+        "expect": "\u03bb"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 5
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Project Text'",
+        "expect": "Fictional text"
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Unicode Symbol'",
+        "expect": "\ud83c\udf32"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Token Count'",
+        "expect": 4
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/LeftPanel/Hex",
+        "event": "OnChange",
+        "value": "D800"
+      },
+      {
+        "op": "assert",
+        "formula": "SaveLeft.DisplayMode",
+        "expect": "Disabled"
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/SaveLeft",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "LeftPanel captured"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Unicode Symbol'",
+        "expect": "\ud83c\udf32"
+      },
+      {
+        "op": "event",
+        "path": "UnicodeText/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Raw",
+        "expect": "\ud83c\udf32 River,,Lake,"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.CodeError",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Symbol",
+        "expect": "\u03bb"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 6
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 3
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

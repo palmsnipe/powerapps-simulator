@@ -1,0 +1,172 @@
+{
+  "canvas-tabs.workflow.json": {
+    "format_version": 1,
+    "name": "Archived tabs, typed component callbacks and mapped form save retry",
+    "records": {
+      "Plans": [
+        {
+          "ID": 1,
+          "Title": "Fictional decision",
+          "Decision": {
+            "Value": "Draft"
+          }
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Picked.Code=\"Draft\" && Right.Picked.Code=\"Review\" && CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Picked.Code=\"Review\" && CountRows(Left.PickedItems)=1 && CountRows(Left.History)=1 && CountRows(Right.History)=0 && Last(events).Code=Left.Picked.Code",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Clicks=2 && Right.Clicks=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Picker",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Picked.Code=\"Approved\" && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Picked.Code=\"Draft\" && Right.Picked.Code=\"Approved\" && CountRows(Left.History)=0 && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/NewDefault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Picked.Code=\"Approved\" && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleView",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "selection": [
+          0
+        ],
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Picked.Code=\"Approved\" && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleView",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/PlanForm/DecisionCard/FormChoice",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "PlanForm.Unsaved && PlanForm.Valid && PlanForm.Updates.DecisionCode.Value=\"Review\"",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Plans",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "PlanForm.Unsaved && First(Plans).DecisionCode.Value=\"Draft\"",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Plans",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!PlanForm.Unsaved && First(Plans).DecisionCode.Value=\"Review\" && status=\"Saved\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/PlanForm/DecisionCard/FormChoice",
+        "event": "OnChange",
+        "selection": [
+          3
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "!PlanForm.Valid && PlanForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

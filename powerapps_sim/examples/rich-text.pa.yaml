@@ -1,0 +1,283 @@
+App:
+  Properties:
+    StartScreen: =RichLab
+    OnStart: =Clear(history);Clear(results);Set(status,"Ready");Set(locked,false);Reset(LeftPanel);Reset(RightPanel)
+    Formulas: |-
+      =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);Summary=$"{CountRows(history)} callbacks · {status}";
+ComponentDefinitions:
+  RichPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      InitialHtml:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="<p>Fictional <strong>draft</strong></p>"
+      Html:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Body.HtmlText
+      Plain:
+        PropertyKind: Output
+        DataType: Text
+        Default: =PlainText(Body.HtmlText)
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =captured
+      Changes:
+        PropertyKind: Output
+        DataType: Number
+        Default: =counter
+      Wrap:
+        PropertyKind: Function
+        PropertyDefinition: Output
+        ReturnType: Text
+        Parameters:
+          - value:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+        Default: =$"<p><strong>{EncodeHTML(value)}</strong></p>"
+      Capture:
+        PropertyKind: Action
+        ReturnType: Text
+        Default: =Collect(captured,{Html:Body.HtmlText,Plain:PlainText(Body.HtmlText)});Body.HtmlText
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Html:"",Plain:"",Count:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =390
+      OnReset: =Set(counter,0);Clear(captured);Reset(Body)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =RichPanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =30
+      - Body:
+          Control: RichTextEditor@2.6.0
+          Properties:
+            Default: =RichPanel.InitialHtml
+            AccessibleLabel: =$"{RichPanel.Caption} notes"
+            X: =12
+            Y: =34
+            Width: =400
+            Height: =230
+            OnChange: =Set(counter,counter+1);RichPanel.Changed({Html:Self.HtmlText,Plain:PlainText(Self.HtmlText),Count:counter})
+      - Preview:
+          Control: HtmlViewer@2.1.0
+          Properties:
+            HtmlText: =Body.HtmlText
+            X: =12
+            Y: =272
+            Width: =400
+            Height: =60
+            Size: =14
+      - CaptureButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =If(StartsWith(Language(),"fr"),"Capturer","Capture")
+            X: =12
+            Y: =344
+            Width: =144
+            OnSelect: =RichPanel.Capture()
+      - Captures:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"{CountRows(captured)} snapshots · {counter} changes"
+            X: =170
+            Y: =344
+            Width: =240
+            Height: =32
+Screens:
+  RichLab:
+    Properties:
+      Width: =940
+      Height: =1270
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Rich text · components and forms","Texte enrichi · composants et formulaires")
+            X: =16
+            Y: =14
+            Width: =900
+            Height: =32
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Summary
+            X: =16
+            Y: =48
+            Width: =900
+            Height: =30
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: RichPanel
+          Properties:
+            X: =16
+            Y: =86
+            Caption: ="LeftPanel"
+            InitialHtml: ="<p>Fictional <strong>river</strong> memo</p>"
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,value.Plain)
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: RichPanel
+          Properties:
+            X: =470
+            Y: =86
+            Caption: ="RightPanel"
+            InitialHtml: ="<p>Fictional <em>forest</em> memo</p>"
+            DisplayMode: =If(locked,DisplayMode.Disabled,DisplayMode.Edit)
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,value.Plain)
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            X: =16
+            Y: =482
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - LockRight:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Lock / unlock right","Verrouiller / déverrouiller")
+            X: =160
+            Y: =482
+            Width: =180
+            OnSelect: =Set(locked,Not(locked))
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Build table","Créer une table")
+            X: =348
+            Y: =482
+            Width: =136
+            OnSelect: |-
+              =ClearCollect(results,ForAll(Sequence(8),{ID:Value,Html:LeftPanel.Html,Plain:LeftPanel.Plain,N01:Value,N02:Value+1,N03:Value+2,N04:Value+3,N05:Value+4,N06:Value+5,N07:Value+6,N08:Value+7,N09:Value+8,N10:Value+9,N11:Value+10,N12:Value+11,N13:Value+12,N14:Value+13,N15:Value+14,N16:Value+15,Nested:{Html:RightPanel.Html,Plain:RightPanel.Plain}}));Set(status,T("Table ready","Table prête"))
+      - FormStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"{MemoForm.Mode} · Unsaved {MemoForm.Unsaved} · Valid {MemoForm.Valid} · {MemoForm.Error}"
+            X: =16
+            Y: =526
+            Width: =900
+            Height: =32
+      - NewDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("New draft","Nouveau brouillon")
+            X: =16
+            Y: =570
+            Width: =136
+            OnSelect: =NewForm(MemoForm)
+      - EditDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Edit draft","Modifier")
+            X: =160
+            Y: =570
+            Width: =128
+            OnSelect: =EditForm(MemoForm)
+      - ViewDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("View draft","Voir")
+            X: =296
+            Y: =570
+            Width: =128
+            OnSelect: =ViewForm(MemoForm)
+      - ResetDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset form","Réinitialiser le formulaire")
+            X: =432
+            Y: =570
+            Width: =180
+            OnSelect: =ResetForm(MemoForm)
+      - SaveDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save draft","Enregistrer")
+            X: =620
+            Y: =570
+            Width: =136
+            OnSelect: =SubmitForm(MemoForm)
+      - MemoForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Memos
+            Item: =First(Memos)
+            NumberOfColumns: =1
+            X: =16
+            Y: =620
+            Width: =900
+            Height: =340
+            OnSuccess: =Set(status,T("Saved","Enregistré"))
+            OnFailure: =Set(status,T("Save failed","Échec"))
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Required: =true
+                  Update: =DraftTitle.Text
+                  Height: =64
+                Children:
+                  - DraftTitle:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Draft title"
+                        Width: =880
+                        Y: =20
+            - BodyCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Body"
+                  Default: =ThisItem.Body
+                  Required: =true
+                  Update: =DraftBody.HtmlText
+                  Height: =272
+                Children:
+                  - DraftBody:
+                      Control: RichTextEditor@2.3.0
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Draft body"
+                        Width: =880
+                        Height: =250
+                        Y: =10
+      - MemoGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =Memos
+            X: =16
+            Y: =980
+            Width: =900
+            Height: =270
+            TemplateSize: =240
+          Children:
+            - RowBody:
+                Control: RichTextEditor@2.5.0
+                Properties:
+                  Default: =ThisItem.Body
+                  AccessibleLabel: =$"Memo {ThisItem.ID} body"
+                  Width: =880
+                  Height: =220
+                  OnChange: =Patch(Memos,ThisItem,{Body:Self.HtmlText})

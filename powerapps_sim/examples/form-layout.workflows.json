@@ -1,0 +1,218 @@
+{
+  "form-layout.workflow.json": {
+    "format_version": 1,
+    "name": "Form card layout and retained edits",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional river draft",
+          "Amount": 12,
+          "Notes": "Fictional local notes",
+          "Extra": "Fictional detail"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "DraftForm.Width=900",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "TitleCard.X=0 && AmountCard.X=1 && NotesCard.Y=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrow.Value=false && RightShow.Value=true",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/LeftGrow/Switch",
+        "event": "OnChange",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrow.Value && RightShow.Value",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/RightShow/Switch",
+        "event": "OnChange",
+        "value": false
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrow.Value && !RightShow.Value",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/Narrow",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Width=540",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "ExtraCard.Visible=false",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional resized draft"
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/DraftForm/AmountCard/AmountInput",
+        "event": "OnChange",
+        "value": "42"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Updates.Amount=42",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Save failed\",\"\u00c9chec\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Amount=12",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Amount=42",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Title=\"Fictional resized draft\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "!DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": ""
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!DraftForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Len(TitleCard.Error)>0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Title=\"Fictional resized draft\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid && !DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/ResetSwitches",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrow.Value=false && RightShow.Value=true",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "CardLayout/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)=8",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Details.Extra",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

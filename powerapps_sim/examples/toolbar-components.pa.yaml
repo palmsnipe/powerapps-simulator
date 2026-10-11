@@ -1,0 +1,58 @@
+ComponentDefinitions:
+  CommandPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      ChosenKey:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Coalesce(Commands.Selected.ItemKey,"")
+      Picked:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Commands.SelectedItems
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Invoked:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - key:
+              DataType: Text
+        Default: =Blank()
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Commands"
+    Properties:
+      Width: =440
+      Height: =140
+      OnReset: =Clear(history);Reset(Commands)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =CommandPanel.Caption
+            Width: =Parent.Width
+            Height: =28
+            Size: =18
+      - Commands:
+          Control: Toolbar@2.0.4
+          Properties:
+            Width: =Parent.Width
+            Height: =65
+            Items: =CommandPanel.Rows
+            AccessibleLabel: =CommandPanel.Caption
+            OnSelect: =Collect(history,{Key:Self.Selected.ItemKey});CommandPanel.Invoked(Self.Selected.ItemKey)
+            Y: =30
+      - Choice:
+          Control: ModernText@1.0.0
+          Properties:
+            Y: =105
+            Width: =Parent.Width
+            Text: =CommandPanel.ChosenKey&" · "&Text(CountRows(history))

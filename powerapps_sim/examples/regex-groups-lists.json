@@ -1,0 +1,1 @@
+{"Contacts":{"fields":{"ID":{"type":"integer","readOnly":true},"Title":{"type":"string","maxLength":100},"TokenCount":{"type":"number"},"Payload":{"type":"string","maxLength":8000}},"required":["Title"],"records":[]}}

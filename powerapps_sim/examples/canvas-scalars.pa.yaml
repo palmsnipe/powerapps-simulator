@@ -1,0 +1,175 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Set(initialAmount,25);Set(initialEnabled,false);Set(viewOnly,false);Clear(events);Set(status,"Ready");Reset(Left);Reset(Right)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+Screens:
+  Home:
+    Properties:
+      Height: =Max(App.Height,VerticalReference.Y+180)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Fictional budget planner","Planification fictive du budget")
+            X: =20
+            Y: =12
+            Width: =Parent.Width-40
+            Size: =24
+      - Left:
+          Control: CanvasComponent
+          ComponentName: ScalarPanel
+          Properties:
+            X: =20
+            Y: =60
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Amount: =initialAmount
+            Enabled: =initialEnabled
+            Caption: =T("Left plan","Plan gauche")
+            ViewOnly: =viewOnly
+            Changed: =Collect(events,{Panel:"Left",Amount:amount,Enabled:enabled})
+      - Right:
+          Control: CanvasComponent
+          ComponentName: ScalarPanel
+          Properties:
+            X: =If(App.Width<760,20,Parent.Width/2+10)
+            Y: =If(App.Width<760,Left.Y+Left.Height+16,Left.Y)
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Amount: =initialAmount
+            Enabled: =initialEnabled
+            Caption: =T("Right plan","Plan droite")
+            ViewOnly: =viewOnly
+            Changed: =Collect(events,{Panel:"Right",Amount:amount,Enabled:enabled})
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            X: =20
+            Y: =Right.Y+Right.Height+12
+            Width: =150
+            Height: =32
+            OnSelect: =Reset(Left)
+      - NewDefault:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("New default","Nouvelle valeur")
+            X: =180
+            Y: =ResetLeft.Y
+            Width: =150
+            Height: =32
+            OnSelect: =Set(initialAmount,75);Set(initialEnabled,true)
+      - ToggleView:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Toggle view","Mode lecture")
+            X: =If(App.Width<520,20,340)
+            Y: =If(App.Width<520,ResetLeft.Y+44,ResetLeft.Y)
+            Width: =150
+            Height: =32
+            OnSelect: =Set(viewOnly,!viewOnly)
+      - PlanForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Plans
+            Item: =First(Plans)
+            NumberOfColumns: =1
+            X: =20
+            Y: =Max(ResetLeft.Y,ToggleView.Y)+60
+            Width: =Parent.Width-40
+            Height: =260
+            OnSuccess: =Set(status,"Saved")
+            OnFailure: =Set(status,PlanForm.Error)
+          Children:
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Variant: NumberEdit
+                Properties:
+                  DataField: ="AmountValue"
+                  Default: =ThisItem.AmountValue
+                  Update: =FormAmount.Value
+                  Required: =true
+                  Height: =130
+                Children:
+                  - CardLabelAmountCard:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="AmountValue"
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                  - FormAmount:
+                      Control: Slider@1.0.31
+                      Properties:
+                        Value: =Parent.Default
+                        Min: =-100
+                        Max: =1000
+                        Width: =Parent.Width-24
+                        X: =12
+                        Y: =42
+                        AccessibleLabel: ="Budget amount"
+            - EnabledCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ToggleEdit
+                Properties:
+                  DataField: ="EnabledValue"
+                  Default: =ThisItem.EnabledValue
+                  Update: =FormEnabled.Checked
+                  Required: =true
+                  Height: =130
+                Children:
+                  - CardLabelEnabledCard:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="EnabledValue"
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                  - FormEnabled:
+                      Control: Toggle@1.1.5
+                      Properties:
+                        Checked: =Parent.Default
+                        Label: =T("Enabled","Actif")
+                        LabelPosition: =Toggle.LabelPosition.Above
+                        Height: =62
+                        Width: =Parent.Width-24
+                        X: =12
+                        Y: =42
+                        AccessibleLabel: ="Budget enabled"
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save","Enregistrer")
+            X: =20
+            Y: =PlanForm.Y+PlanForm.Height+12
+            Width: =150
+            Height: =32
+            OnSelect: =SubmitForm(PlanForm)
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =180
+            Y: =Save.Y
+            Width: =Parent.Width-200
+            Text: =status & If(PlanForm.Unsaved," · edited","")
+      - ReferenceToggle:
+          Control: Toggle@1.1.4
+          Properties:
+            X: =20
+            Y: =Save.Y+56
+            Width: =Parent.Width-40
+            Checked: =false
+            Label: =T("Reference switch","Interrupteur de référence")
+            LabelPosition: =Toggle.LabelPosition.Before
+      - VerticalReference:
+          Control: Slider@1.0.31
+          Properties:
+            X: =20
+            Y: =ReferenceToggle.Y+50
+            Width: =60
+            Height: =160
+            Value: =50
+            Min: =0
+            Max: =100
+            Layout: =Slider.Layout.Vertical
+            Size: =Slider.Size.Small
+            AccessibleLabel: ="Vertical reference amount"

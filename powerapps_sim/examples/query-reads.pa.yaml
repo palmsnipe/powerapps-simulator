@@ -1,0 +1,227 @@
+App:
+  Properties:
+    StartScreen: =QueryLab
+    OnStart: =Set(counter,0);Set(renameCount,0);Set(saved,false);Set(remembered,Blank());Clear(trace)
+ComponentDefinitions:
+  QueryPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Entries:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:0,Budget:0,'Card title':""})
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: =""
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Sum(QueryPanel.Entries,Budget)+Rand()
+      Rows:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Concat(QueryPanel.Entries As row,Text(row.Budget+Rand(),"0.000000")," | ")
+      Count:
+        PropertyKind: Output
+        DataType: Number
+        Default: =CountRows(Filter(QueryPanel.Entries,Budget>0))+Rand()
+      Whole:
+        PropertyKind: Output
+        DataType: Text
+        Default: =If(IsEmpty(QueryPanel.Entries),"empty",Text(Rand(),"0.000000"))
+      Emit:
+        PropertyKind: Action
+        ReturnType: None
+        Default: =QueryPanel.Changed({Caption:QueryPanel.Caption,Total:QueryPanel.Total,Rows:QueryPanel.Rows,Count:QueryPanel.Count,Whole:QueryPanel.Whole});Blank()
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - snapshot:
+              DataType: Record
+              Default: ={Caption:"",Total:0,Rows:"",Count:0,Whole:""}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =460
+      Height: =220
+    Children:
+      - CaptionText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =QueryPanel.Caption
+            X: =12
+            Y: =0
+            Width: =430
+            Height: =30
+      - TotalText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Total: " & Text(QueryPanel.Total,"0.000000")'
+            X: =12
+            Y: =32
+            Width: =430
+            Height: =30
+      - RowText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Rows: " & QueryPanel.Rows'
+            X: =12
+            Y: =64
+            Width: =430
+            Height: =30
+      - CountText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Positive: " & Text(QueryPanel.Count,"0.000000")'
+            X: =12
+            Y: =96
+            Width: =430
+            Height: =30
+      - WholeText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Whole table: " & QueryPanel.Whole'
+            X: =12
+            Y: =128
+            Width: =430
+            Height: =30
+      - EmitButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Capture"
+            OnSelect: =QueryPanel.Emit()
+            X: =12
+            Y: =176
+            Width: =150
+            Height: =36
+Screens:
+  QueryLab:
+    Properties:
+      Width: =App.Width
+      Height: =App.Height
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Query dependencies"
+            X: =20
+            Y: =8
+            Width: =920
+            Height: =36
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            Caption: ="Left"
+            Entries: =Filter(Cards,ID<=2)
+            Changed: =Collect(trace,snapshot)
+            X: =20
+            Y: =52
+            Width: =460
+            Height: =220
+          ComponentName: QueryPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            Caption: ="Right"
+            Entries: =Filter(Cards,ID>2)
+            Changed: =Collect(trace,snapshot)
+            X: =510
+            Y: =52
+            Width: =460
+            Height: =220
+          ComponentName: QueryPanel
+      - Remember:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remember"
+            OnSelect: =Set(remembered,{L:LeftPanel.Total,R:RightPanel.Total,Rows:LeftPanel.Rows,Count:LeftPanel.Count,Whole:LeftPanel.Whole})
+            X: =20
+            Y: =290
+            Width: =182
+            Height: =36
+      - Rename:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Rename title"
+            OnSelect: =Set(renameCount,renameCount+1);Patch(Cards,First(Cards),{Title:"Fictional renamed " & Text(renameCount)})
+            X: =214
+            Y: =290
+            Width: =182
+            Height: =36
+      - Increase:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase amount"
+            OnSelect: =Patch(Cards,First(Cards),{Amount:First(Cards).Amount+1})
+            X: =408
+            Y: =290
+            Width: =182
+            Height: =36
+      - Unrelated:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Unrelated"
+            OnSelect: =Set(counter,counter+1)
+            X: =602
+            Y: =290
+            Width: =182
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save snapshot"
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional query snapshot",Total:LeftPanel.Total,Rows:LeftPanel.Rows});Set(saved,true)
+            X: =796
+            Y: =290
+            Width: =182
+            Height: =36
+      - Grid:
+          Control: ModernDataGrid@1.1.0
+          Properties:
+            Items: =Cards
+            X: =20
+            Y: =350
+            Width: =950
+            Height: =240
+          Children:
+            - TitleColumn:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Title"
+                  Text: =ThisItem.Title
+                  Width: =620
+                Variant: Textual
+            - AmountColumn:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Amount"
+                  Text: =Text(ThisItem.Amount)
+                  Width: =300
+                Variant: Textual
+      - AmountInput:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            Default: =Text(First(Cards).Amount)
+            X: =20
+            Y: =622
+            Width: =240
+            Height: =36
+      - SetAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Set amount"
+            OnSelect: =Patch(Cards,First(Cards),{Amount:Value(AmountInput.Text)})
+            X: =276
+            Y: =622
+            Width: =170
+            Height: =36
+      - CounterText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Unrelated: " & Text(counter) & " · Captures: " & Text(CountRows(trace)) & " · Saved: " & Text(CountRows(Snapshots))'
+            X: =20
+            Y: =674
+            Width: =940
+            Height: =30

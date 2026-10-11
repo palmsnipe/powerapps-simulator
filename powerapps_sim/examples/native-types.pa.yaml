@@ -1,0 +1,107 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Clear(history);Set(money,Left.Total);Set(day,Left.Day);Set(sound,Left.Clip);Set(page,Left.Page);Set(multiplied,Left.Multiply(Left.Total))
+Screens:
+  Home:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Native component types"
+            X: =24
+            Y: =12
+            Width: =600
+            Height: =36
+      - Left:
+          Control: CanvasComponent
+          ComponentName: NativeCard
+          Properties:
+            X: =24
+            Y: =56
+            Seed: =10.25
+            Destination: =Home
+            Sound: =Tone
+            Changed: =Collect(history,{Panel:"Left",Amount:amount,Day:day,Clip:clip,Page:page})
+      - Right:
+          Control: CanvasComponent
+          ComponentName: NativeCard
+          Properties:
+            X: =510
+            Y: =56
+            Seed: =100.5
+            Destination: =Target
+            Sound: =Tone
+            Changed: =Collect(history,{Panel:"Right",Amount:amount,Day:day,Clip:clip,Page:page})
+      - Capture:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Capture values"
+            OnSelect: =Set(money,Left.Total);Set(day,Left.Day);Set(sound,Left.Clip);Set(page,Left.Page);Set(multiplied,Left.Multiply(Left.Total))
+            X: =24
+            Y: =290
+            Width: =180
+            Height: =36
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            OnSelect: =Reset(Left)
+            X: =220
+            Y: =290
+            Width: =180
+            Height: =36
+      - Go:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Navigate via component"
+            OnSelect: =Set(page,Left.Go(Target))
+            X: =416
+            Y: =290
+            Width: =180
+            Height: =36
+      - Catch:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Catch invalid amount"
+            OnSelect: =Set(caught,IfError(Text(Left.Save("invalid",Left.Day,Left.Clip,Left.Page)),FirstError.Message))
+            X: =612
+            Y: =290
+            Width: =180
+            Height: =36
+      - Snapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save list snapshot"
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional native types",Amount:Left.Total,Day:Text(Left.Day,"yyyy-mm-dd"),Media:Text(Left.Clip),Callbacks:CountRows(history)})
+            X: =24
+            Y: =350
+            Width: =180
+            Height: =36
+      - Result:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Captured: " & Text(money) & " · doubled: " & Text(multiplied) & " · callbacks: " & Text(CountRows(history))'
+            X: =24
+            Y: =410
+            Width: =920
+            Height: =48
+  Target:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Typed screen navigation"
+            X: =24
+            Y: =24
+            Width: =600
+            Height: =36
+      - Back:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Back"
+            OnSelect: =Back()
+            X: =24
+            Y: =90
+            Width: =180
+            Height: =36

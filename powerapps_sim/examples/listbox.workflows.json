@@ -1,0 +1,376 @@
+{
+  "listbox.workflow.json": {
+    "format_version": 1,
+    "name": "ListBox scoped topics and draft saves",
+    "environment": {
+      "language": "en-US",
+      "enum_mode": "strong",
+      "number_mode": "float"
+    },
+    "records": {
+      "Topics": [
+        {
+          "ID": 1,
+          "Title": "Fictional Bridge"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional Parks"
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional Transit"
+        },
+        {
+          "ID": 4,
+          "Title": "Fictional Culture"
+        },
+        {
+          "ID": 5,
+          "Title": "Fictional Water"
+        },
+        {
+          "ID": 6,
+          "Title": "Fictional Housing"
+        },
+        {
+          "ID": 7,
+          "Title": "Fictional Schools"
+        },
+        {
+          "ID": 8,
+          "Title": "Fictional Health"
+        }
+      ],
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional topic draft",
+          "Topic": {
+            "ID": 1,
+            "Title": "Fictional Bridge"
+          }
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPicker.Latest.ID=8",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/LeftPicker/Pick",
+        "event": "OnChange",
+        "selection": [
+          0,
+          2,
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.Chosen)=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPicker.Chosen).ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(LeftPicker.Chosen).ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Touches=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.History)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/LeftPicker/Pick",
+        "event": "OnChange",
+        "selection": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Touches=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/RightPicker/Pick",
+        "event": "OnChange",
+        "selection": [
+          7,
+          4
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "RightPicker.Latest.ID=5",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightPicker.Chosen)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Touches=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.History)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPicker.Latest.ID=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/Single",
+        "event": "OnChange",
+        "selection": [
+          3
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Single.Selected.ID=4",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Single.SelectedText",
+        "expect": "Fictional Culture"
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/Single",
+        "event": "OnChange",
+        "selection": []
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Single.Selected)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Single.SelectedItemsText)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional updated topic draft"
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/DraftForm/TopicCard/TopicInput",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Updates.Topic.ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Save failed\",\"\u00c9chec\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Topic.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Saved\",\"Enregistr\u00e9\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Title",
+        "expect": "Fictional updated topic draft"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Topic.ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Not(DraftForm.Unsaved)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(saves)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/DraftForm/TopicCard/TopicInput",
+        "event": "OnChange",
+        "selection": []
+      },
+      {
+        "op": "assert",
+        "formula": "Not(DraftForm.Valid)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Topic.ID=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/ResetDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Updates.Topic.ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Not(DraftForm.Unsaved)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ListBoxLab/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)=8",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Details.Right",
+        "expect": "Fictional Water"
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Count=1",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

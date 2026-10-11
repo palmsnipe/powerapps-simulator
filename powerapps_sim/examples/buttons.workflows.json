@@ -1,0 +1,171 @@
+{
+  "buttons.workflow.json": {
+    "format_version": 1,
+    "name": "Modern button glyphs, layouts, callbacks and save recovery",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=0 && RightPanel.Count=0 && rotation=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Increase.IconStyle=IconStyle.Outline",
+        "expect": true,
+        "scope": "ButtonsLab/LeftPanel"
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/LeftPanel/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=1 && RightPanel.Count=0 && leftResult=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/Rotate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "rotation=45",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/ToggleStyle",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "filled",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/ToggleLayout",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "after",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/IconOnly",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=3 && CountRows(LeftPanel.History)=2 && RightPanel.Count=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/TextOnly",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Count=2 && rightResult=2 && LeftPanel.Count=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/Styled",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "styledClicks=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/ToggleGate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Gated.DisplayMode=DisplayMode.Disabled && LeftPanel.Count=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/ToggleGate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/Gated",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=13",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && First(Snapshots).Clicks=13 && First(Snapshots).'Icon rotation'=45",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ButtonsLab/LeftPanel/ResetCounter",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=0 && IsEmpty(LeftPanel.History) && RightPanel.Count=2",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 1
+      }
+    ]
+  }
+}

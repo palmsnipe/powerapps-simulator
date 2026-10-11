@@ -1,0 +1,203 @@
+{
+  "edit-save.workflow.json": {
+    "format_version": 1,
+    "name": "Edit and save a fictional draft",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(Drafts)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "Forms/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional edited draft"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Forms/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.LastSubmit.Title",
+        "expect": "Fictional edited draft"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts, ID = 1).Title",
+        "expect": "Fictional edited draft"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ],
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional bridge study",
+          "Amount": 125
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional park survey",
+          "Amount": 75
+        }
+      ]
+    },
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    }
+  },
+  "create-draft.workflow.json": {
+    "format_version": 1,
+    "name": "Create a fictional draft",
+    "steps": [
+      {
+        "op": "event",
+        "path": "Forms/NewDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Mode = FormMode.New",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Forms/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional workflow draft"
+      },
+      {
+        "op": "event",
+        "path": "Forms/DraftForm/AmountCard/AmountInput",
+        "event": "OnChange",
+        "value": 250
+      },
+      {
+        "op": "event",
+        "path": "Forms/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Drafts)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.LastSubmit.Amount",
+        "expect": 250
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.LastSubmit.Title",
+        "expect": "Fictional workflow draft"
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ],
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional bridge study",
+          "Amount": 125
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional park survey",
+          "Amount": 75
+        }
+      ]
+    },
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    }
+  },
+  "failed-save.workflow.json": {
+    "format_version": 1,
+    "name": "Failed save and retry",
+    "steps": [
+      {
+        "op": "event",
+        "path": "Forms/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional retry draft"
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Forms/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(DraftForm.LastSubmit)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(DraftForm.Error)",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts, ID = 1).Title",
+        "expect": "Fictional bridge study"
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Forms/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.LastSubmit.Title",
+        "expect": "Fictional retry draft"
+      }
+    ],
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional bridge study",
+          "Amount": 125
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional park survey",
+          "Amount": 75
+        }
+      ]
+    },
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    }
+  }
+}

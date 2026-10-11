@@ -1,0 +1,43 @@
+{
+  "Plans": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readOnly": true
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 255
+      },
+      "Start": {
+        "type": "string",
+        "format": "date"
+      },
+      "Months": {
+        "type": "number"
+      },
+      "Renewal": {
+        "type": "string",
+        "format": "date"
+      },
+      "Cutoff": {
+        "type": "string",
+        "format": "date"
+      }
+    },
+    "required": [
+      "Title",
+      "Start",
+      "Months",
+      "Renewal",
+      "Cutoff"
+    ],
+    "mapping": {
+      "Start": "Start date",
+      "Months": "Month offset",
+      "Renewal": "Renewal date",
+      "Cutoff": "Period end"
+    },
+    "records": []
+  }
+}

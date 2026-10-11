@@ -1,0 +1,267 @@
+{
+  "text-tables.workflow.json": {
+    "format_version": 1,
+    "name": "Text table overloads, component callbacks and mapped saves",
+    "records": {
+      "Titles": [
+        {
+          "ID": 1,
+          "Title": "Fictional title",
+          "Normalized": "Fictional_title",
+          "Label": "Fictional"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Prefix",
+        "expect": "App"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Suffix",
+        "expect": "\u00e8re"
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Value",
+        "expect": "App \u00b7 App_planning \u00b7 ng"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/LeftPanel/Input",
+        "event": "OnInput",
+        "value": "River survey"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Prefix",
+        "expect": "Riv"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/LeftPanel/Input",
+        "event": "OnChange",
+        "value": "River survey"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Label",
+        "expect": "LeftPanel: Riv / vey"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Raw",
+        "expect": "\u00c9tude rivi\u00e8re"
+      },
+      {
+        "op": "assert",
+        "formula": "Last(LeftPanel.Rows).Value",
+        "expect": "\ud83c\udf32  \u00b7 \ud83c\udf32_River \u00b7 er"
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/RightPanel/Needle",
+        "event": "OnChange",
+        "value": "\u00e8"
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/RightPanel/Replacement",
+        "event": "OnChange",
+        "value": "e"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Normalized",
+        "expect": "\u00c9tude riviere"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Normalized",
+        "expect": "River_survey"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(paired)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Index(paired,2).Value",
+        "expect": "Be / ft"
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).EmptyMatch",
+        "expect": "Alpha study"
+      },
+      {
+        "op": "assert",
+        "formula": "Last(results).Append",
+        "expect": "\u00c9tude rivi\u00e8re!"
+      },
+      {
+        "op": "assert",
+        "formula": "First(PreviewRows).Value",
+        "expect": "Alp / Alpha_study"
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/CaptureErrors",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(errorCells)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "IsError(Index(errorCells,2).Value)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Value(IfError(Index(errorCells,2).Value,FirstError.Kind))",
+        "expect": 25
+      },
+      {
+        "op": "failure",
+        "list": "Titles",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Titles,ID=1).'Project Title'",
+        "expect": "Fictional title"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Raw",
+        "expect": "River survey"
+      },
+      {
+        "op": "failure",
+        "list": "Titles",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Titles,ID=1).'Normalized Title'",
+        "expect": "River_survey"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Titles,ID=1).'Display Label'",
+        "expect": "LeftPanel: Riv / vey"
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/LeftPanel/Input",
+        "event": "OnChange",
+        "value": ""
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Titles,ID=1).'Project Title'",
+        "expect": "River survey"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 4
+      },
+      {
+        "op": "event",
+        "path": "TextTransforms/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Raw",
+        "expect": "App planning"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Normalized",
+        "expect": "\u00c9tude riviere"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 3
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,211 @@
+App:
+  Properties:
+    StartScreen: =GroupingLab
+    OnStart: =Set(leftFault,false);Set(saved,false);Set(selected,Blank());Clear(trace);Clear(picks);Clear(grouped);Reset(LeftPanel);Reset(RightPanel)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);SampleRows:=Type([{ID:Number,'Sample title':Text,'Sample amount':Number,'Sample note':Text,'Sample side':Text,'Sample team':Text}]);MemberRows:=Type([{ID:Number,'Sample title':Text,'Sample amount':Number,'Sample note':Text,'Sample side':Text}]);GroupRows:=Type([{'Sample team':Text,Total:Number,Members:MemberRows}]);FlatRows:=Type([{ ID:Number,'Sample title':Text,'Sample amount':Number,'Sample note':Text,'Sample side':Text,'Sample team':Text,Total:Number}]);Summaries(samples:SampleRows):GroupRows=AddColumns(GroupBy(samples,'Sample team',Members),Total,Sum(Members,'Sample amount'));Flatten(groups:GroupRows):FlatRows=Ungroup(groups,Members);ShapedSamples=RenameColumns(DropColumns(AddColumns(ShowColumns(Samples,ID,Title,Amount,Note,Side,Team),CleanNote,Trim(Note)),Note),CleanNote,'Sample note');LeftBase=Filter(ShapedSamples,Side="Left");LeftRows=Table(LeftBase,If(leftFault,Table(Error({Kind:ErrorKind.Div0})),FirstN(LeftBase,0)));RightRows=Filter(ShapedSamples,Side="Right");
+ComponentDefinitions:
+  GroupPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Samples:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:0,'Sample title':"",'Sample amount':0,'Sample note':"",'Sample side':"",'Sample team':""})
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Groups"
+      Groups:
+        PropertyKind: Output
+        DataType: Table
+        Default: =AddColumns(GroupBy(Filter(GroupPanel.Samples,!IsError(ThisRecord)),'Sample team',Members),Total,Sum(Members,'Sample amount'))
+      VisibleGroups:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Filter(GroupPanel.Groups,Total>=Minimum.Value)
+      Flat:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Ungroup(SortByColumns(GroupPanel.VisibleGroups,'Sample team',SortOrder.Descending),Members)
+      Info:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Groups:CountRows(GroupPanel.VisibleGroups),Rows:CountRows(GroupPanel.Flat),Total:Sum(GroupPanel.Flat,'Sample amount'),Errors:CountIf(GroupPanel.Samples,IsError(ThisRecord))}
+      Selection:
+        PropertyKind: Output
+        DataType: Record
+        Default: =Results.Selected
+      Flatten:
+        PropertyKind: Function
+        ReturnType: Table
+        Parameters:
+          - groups:
+              DataType: Table
+              Default: =Table({'Sample team':"",Total:0,Members:Table({ID:0,'Sample title':"",'Sample amount':0,'Sample note':"",'Sample side':""})})
+              IsOptional: true
+        Default: =Ungroup(groups,Members)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - summary:
+              DataType: Record
+              Default: ={Groups:0,Rows:0,Total:0,Errors:0}
+              IsOptional: true
+        Default: =Blank()
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - pick:
+              DataType: Record
+              Default: ={ID:0,'Sample title':"",'Sample amount':0,'Sample note':"",'Sample side':"",'Sample team':"",Total:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =450
+      Height: =450
+      Fill: =RGBA(245,248,255,1)
+      OnReset: =Reset(Minimum);Reset(Results)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =10
+            Width: =Parent.Width-24
+            Height: =32
+            Text: =GroupPanel.Caption
+      - Minimum:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =12
+            Y: =48
+            Width: =190
+            Height: =40
+            Default: =0
+            Precision: =DecimalPrecision.Auto
+            AccessibleLabel: =GroupPanel.Caption & " minimum"
+            OnChange: =GroupPanel.Changed(GroupPanel.Info)
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =98
+            Width: =Parent.Width-24
+            Height: =40
+            Text: ="Groups " & GroupPanel.Info.Groups & " · Rows " & GroupPanel.Info.Rows & " · Total " & GroupPanel.Info.Total & " · Errors " & GroupPanel.Info.Errors
+      - Results:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =12
+            Y: =150
+            Width: =Parent.Width-24
+            Height: =260
+            Items: =GroupPanel.Flat
+            TemplateSize: =65
+            OnSelect: =GroupPanel.Picked(Results.Selected)
+          Children:
+            - RowText:
+                Control: ModernText@1.0.0
+                Properties:
+                  X: =8
+                  Y: =8
+                  Width: =Parent.TemplateWidth-16
+                  Height: =54
+                  Text: ="#" & ThisItem.ID & " · " & ThisItem.'Sample team' & " · " & ThisItem.'Sample note' & " · " & ThisItem.'Sample amount'
+                  OnSelect: =Select(Parent)
+      - ResetPanel:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =220
+            Y: =48
+            Width: =218
+            Height: =40
+            Text: ="Reset"
+            OnSelect: =Reset(GroupPanel)
+Screens:
+  GroupingLab:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =900
+            Height: =38
+            Text: =T("GroupBy / Ungroup · fictional samples","GroupBy / Ungroup · exemples fictifs")
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =20
+            Y: =70
+            Samples: =LeftRows
+            Caption: =T("Left","Gauche")
+            Changed: =Collect(trace,{Panel:"LeftPanel",Groups:summary.Groups,Rows:summary.Rows,Total:summary.Total,Errors:summary.Errors})
+            Picked: =Set(selected,{Panel:"LeftPanel",ID:pick.ID,Amount:pick.'Sample amount',Team:pick.'Sample team',Total:pick.Total});Collect(picks,selected)
+          ComponentName: GroupPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =490
+            Y: =70
+            Samples: =RightRows
+            Caption: =T("Right","Droite")
+            Changed: =Collect(trace,{Panel:"RightPanel",Groups:summary.Groups,Rows:summary.Rows,Total:summary.Total,Errors:summary.Errors})
+            Picked: =Set(selected,{Panel:"RightPanel",ID:pick.ID,Amount:pick.'Sample amount',Team:pick.'Sample team',Total:pick.Total});Collect(picks,selected)
+          ComponentName: GroupPanel
+      - InjectFault:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =540
+            Width: =210
+            Height: =40
+            Text: =If(leftFault,"Clear row error","Inject row error")
+            OnSelect: =Set(leftFault,!leftFault)
+      - SaveSnapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =250
+            Y: =540
+            Width: =210
+            Height: =40
+            Text: =T("Save snapshot","Enregistrer")
+            OnSelect: =Set(saved,false);IfError(Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional grouped snapshot",Numeric:LeftPanel.Info.Total,Present:LeftPanel.Info.Errors,Rows:LeftPanel.Info.Rows}),false,Set(saved,true))
+      - SaveStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =490
+            Y: =540
+            Width: =400
+            Height: =40
+            Text: =If(saved,T("Saved","Enregistré"),T("Unsaved","Non enregistré"))
+      - Selection:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =595
+            Width: =900
+            Height: =38
+            Text: =Coalesce(selected.Panel,"Blank") & " · " & selected.Team & " · " & selected.Amount & " · Group total " & selected.Total
+      - UpdateAmount:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =650
+            Width: =210
+            Height: =40
+            Text: =T("Set first amount to 9","Premier montant à 9")
+            OnSelect: =Patch(Samples,LookUp(Samples,ID=1),{'Sample amount':9})
+      - CaptureGroups:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =250
+            Y: =650
+            Width: =230
+            Height: =40
+            Text: =T("Capture groups","Capturer les groupes")
+            OnSelect: =ClearCollect(grouped,AddColumns(GroupBy(Samples,Team,Members),Total,Sum(Members,Amount)))

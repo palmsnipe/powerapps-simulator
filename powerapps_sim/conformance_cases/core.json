@@ -1,0 +1,542 @@
+{
+  "title": "Selected Microsoft Power Fx expression cases",
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Hand-curated cases for record/table scopes, Blank, and lazy error handling. This is not the complete Microsoft suite. Expected JSON values are independently encoded from the upstream expected Power Fx expressions; known mismatches remain visible.",
+  "cases": [
+    {
+      "id": "table-1",
+      "expression": "Table([{a:0, b:false, c:\"Hello\"}], [{a:1, b:true, c:\"World\"}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L3",
+        "expected_powerfx": "Table({a:0,b:false,c:\"Hello\"},{a:1,b:true,c:\"World\"})"
+      },
+      "expected": [
+        {
+          "a": 0,
+          "b": false,
+          "c": "Hello"
+        },
+        {
+          "a": 1,
+          "b": true,
+          "c": "World"
+        }
+      ]
+    },
+    {
+      "id": "table-2",
+      "expression": "Table([{a:0}], [{a:true}], [{a:2}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L7",
+        "expected_powerfx": "Table({a:0},{a:1},{a:2})"
+      },
+      "expected": [
+        {
+          "a": 0
+        },
+        {
+          "a": 1
+        },
+        {
+          "a": 2
+        }
+      ],
+      "known_gap": "Boolean-to-number column coercion is not yet applied."
+    },
+    {
+      "id": "table-3",
+      "expression": "Table([{a:0}], [{b:true}], [{c:\"Hello\"}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L13",
+        "expected_powerfx": "Table({a:0,b:Blank(),c:Blank()},{a:Blank(),b:true,c:Blank()},{a:Blank(),b:Blank(),c:\"Hello\"})"
+      },
+      "expected": [
+        {
+          "a": 0,
+          "b": null,
+          "c": null
+        },
+        {
+          "a": null,
+          "b": true,
+          "c": null
+        },
+        {
+          "a": null,
+          "b": null,
+          "c": "Hello"
+        }
+      ]
+    },
+    {
+      "id": "table-4",
+      "expression": "CountRows(Table(If(1<0,[1,2,3],Blank())))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L20",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "table-5",
+      "expression": "CountRows(Table([{a:0, b:\"hello\"}], Blank()))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L24",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "table-6",
+      "expression": "CountRows(Table(Sequence(3000)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L27",
+        "expected_powerfx": "3000"
+      },
+      "expected": 3000
+    },
+    {
+      "id": "table-7",
+      "expression": "Table({c:\"Hello\", d: {x: \"World\"}}, [{c:\"PowerFx\", d: {x: \"Cool\"}}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L31",
+        "expected_powerfx": "Table({c:\"Hello\",d:{x:\"World\"}},{c:\"PowerFx\",d:{x:\"Cool\"}})"
+      },
+      "expected": [
+        {
+          "c": "Hello",
+          "d": {
+            "x": "World"
+          }
+        },
+        {
+          "c": "PowerFx",
+          "d": {
+            "x": "Cool"
+          }
+        }
+      ]
+    },
+    {
+      "id": "table-8",
+      "expression": "Table()",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L43",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "table-9",
+      "expression": "Table([])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L46",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "table-10",
+      "expression": "Table(Table(Table()))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L49",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "table-11",
+      "expression": "Table([{a:0, b:false, c:\"Hello\"}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L53",
+        "expected_powerfx": "Table({a:0,b:false,c:\"Hello\"})"
+      },
+      "expected": [
+        {
+          "a": 0,
+          "b": false,
+          "c": "Hello"
+        }
+      ]
+    },
+    {
+      "id": "table-12",
+      "expression": "Table(Blank(), Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L64",
+        "expected_powerfx": "Table(Blank(),Blank())"
+      },
+      "expected": [
+        null,
+        null
+      ]
+    },
+    {
+      "id": "table-13",
+      "expression": "Table([1, 2], Blank(), [4, 5], Blank(), [7, 8])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L67",
+        "expected_powerfx": "Table({Value:1},{Value:2},Blank(),{Value:4},{Value:5},Blank(),{Value:7},{Value:8})"
+      },
+      "expected": [
+        {
+          "Value": 1
+        },
+        {
+          "Value": 2
+        },
+        null,
+        {
+          "Value": 4
+        },
+        {
+          "Value": 5
+        },
+        null,
+        {
+          "Value": 7
+        },
+        {
+          "Value": 8
+        }
+      ]
+    },
+    {
+      "id": "table-14",
+      "expression": "Table([\"everything\"], [42])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L81",
+        "expected_powerfx": "Table({Value:\"everything\"},{Value:\"42\"})"
+      },
+      "expected": [
+        {
+          "Value": "everything"
+        },
+        {
+          "Value": "42"
+        }
+      ],
+      "known_gap": "Number-to-text column coercion is not yet applied."
+    },
+    {
+      "id": "table-15",
+      "expression": "Table([1, 2], If(1<0, Table({Value:{a:2}})))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L39",
+        "expected_powerfx": "Errors: Error 0-5: The function 'Table' has some invalid arguments.|Error 14-43: Incompatible type. The item you are trying to put into a table has a type that is not compatible with the table."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "known_gap": "Incompatible nested column unification is not fully validated."
+    },
+    {
+      "id": "table-16",
+      "expression": "Table([{a:1}], 1/0, {a:3}, [{a:4}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L88",
+        "expected_powerfx": "Errors: Error 0-5: The function 'Table' has some invalid arguments.|Error 16-17: Only record or table values can be used in this context."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "with-17",
+      "expression": "With(Blank(), Blank())",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L1",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "with-18",
+      "expression": "With( {y : 3} , y*y)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L4",
+        "expected_powerfx": "9"
+      },
+      "expected": 9
+    },
+    {
+      "id": "with-19",
+      "expression": "With({x : 5}, With({ x : x*2}, x))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L10",
+        "expected_powerfx": "10"
+      },
+      "expected": 10
+    },
+    {
+      "id": "with-20",
+      "expression": "With( { x : 5 }, With( ThisRecord, ThisRecord.x + 1 ) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L20",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "with-21",
+      "expression": "With( { x : 5 }, With( ThisRecord, x + 1 ) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L23",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "with-22",
+      "expression": "With( { x : 5 }, With( ThisRecord As T2, T2.x +1 ) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L26",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "with-23",
+      "expression": "With( { x : 5 }, With( ThisRecord As T2, x + 1 ) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L29",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "with-24",
+      "expression": "With( { x : 5 } As T1, With( T1 As T2, T1.x + 1 ) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L32",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "with-25",
+      "expression": "With( { x : 5 } As T1, With( T1 As ThisRecord, ThisRecord.x + 1 ) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L35",
+        "expected_powerfx": "6"
+      },
+      "expected": 6
+    },
+    {
+      "id": "with-26",
+      "expression": "With( { x : 5, y : 2}, Mod(x, y) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L38",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "with-27",
+      "expression": "With( { x : 5, y : 2}, Average(x, y) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L44",
+        "expected_powerfx": "3.5"
+      },
+      "expected": 3.5
+    },
+    {
+      "id": "with-28",
+      "expression": "With( { x : 5, y : 0}, x / y )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L47",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "with-29",
+      "expression": "With( { x : 2, y : 3}, With( { x : x * 2, y : y + 2 }, x + y))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L50",
+        "expected_powerfx": "9"
+      },
+      "expected": 9
+    },
+    {
+      "id": "with-30",
+      "expression": "With( { x : 2, y : 3}, With( { x : x * 2, y : y + 2 }, With( { x : x * 2, y : y + 2 }, x * y ) ) )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L53",
+        "expected_powerfx": "56"
+      },
+      "expected": 56
+    },
+    {
+      "id": "with-31",
+      "expression": "With ( { x : 3 , X : 5 }, x ^ X )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/With.txt#L66",
+        "expected_powerfx": "243"
+      },
+      "expected": 243
+    },
+    {
+      "id": "iferror-32",
+      "expression": "IfError(1, 2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L4",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "iferror-33",
+      "expression": "IfError(1, 2, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L7",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "iferror-34",
+      "expression": "IfError(1, 2, 3, 4)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L10",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "iferror-35",
+      "expression": "IfError( 10, 11, 20, 21, 300 )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L13",
+        "expected_powerfx": "300"
+      },
+      "expected": 300
+    },
+    {
+      "id": "iferror-36",
+      "expression": "IfError(1, \"error 1\", 2, \"error 2\", \"no error\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L16",
+        "expected_powerfx": "\"no error\""
+      },
+      "expected": "no error"
+    },
+    {
+      "id": "iferror-37",
+      "expression": "IfError({a:1, b:\"hello\"}, {a:2, b:\"good morning\"}).b",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L19",
+        "expected_powerfx": "\"hello\""
+      },
+      "expected": "hello"
+    },
+    {
+      "id": "iferror-38",
+      "expression": "IfError(1/0, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L31",
+        "expected_powerfx": "3"
+      },
+      "expected": 3
+    },
+    {
+      "id": "iferror-39",
+      "expression": "IfError(1/0, -1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L34",
+        "expected_powerfx": "-1"
+      },
+      "expected": -1
+    },
+    {
+      "id": "iferror-40",
+      "expression": "IfError(1/0, \"error 1\", 2, \"error 2\", \"no error\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L58",
+        "expected_powerfx": "\"error 1\""
+      },
+      "expected": "error 1"
+    },
+    {
+      "id": "iferror-41",
+      "expression": "IfError(Error({Kind: ErrorKind.Validation}),\"Error\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L67",
+        "expected_powerfx": "\"Error\""
+      },
+      "expected": "Error"
+    },
+    {
+      "id": "iferror-42",
+      "expression": "With({x:1},IfError(x,1000*x + FirstError.Kind))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L84",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "iferror-43",
+      "expression": "With({x:1},IfError(With({y:20}, x+y), -FirstError.Kind))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L102",
+        "expected_powerfx": "21"
+      },
+      "expected": 21
+    },
+    {
+      "id": "iferror-44",
+      "expression": "With({x:1},With({y:20},IfError(x+y, -FirstError.Kind, x+y)))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L108",
+        "expected_powerfx": "21"
+      },
+      "expected": 21
+    },
+    {
+      "id": "iferror-45",
+      "expression": "IfError(1/0, FirstError.Kind)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L37",
+        "expected_powerfx": "13"
+      },
+      "expected": 13,
+      "known_gap": "ErrorKind runtime values currently use symbolic names rather than Microsoft numeric enum values."
+    },
+    {
+      "id": "iferror-46",
+      "expression": "IfError(1/0, true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L138",
+        "expected_powerfx": "1"
+      },
+      "expected": 1,
+      "known_gap": "IfError result coercion to the first argument type is not yet applied."
+    },
+    {
+      "id": "iferror-47",
+      "expression": "IfError(1/0, false)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L141",
+        "expected_powerfx": "0"
+      },
+      "expected": 0,
+      "known_gap": "IfError result coercion to the first argument type is not yet applied."
+    },
+    {
+      "id": "iferror-48",
+      "expression": "IfError({a:1, b:\"hello\"}, {a:2, b:\"good morning\"}, {a:1/0, b:\"Error\"}).b",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IfError.txt#L61",
+        "expected_powerfx": "\"Error\""
+      },
+      "expected": "Error",
+      "known_gap": "Record and table cells containing errors currently abort record evaluation."
+    }
+  ]
+}

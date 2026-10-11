@@ -1,0 +1,157 @@
+{
+  "actions.workflow.json": {
+    "format_version": 1,
+    "name": "Behavior UDFs, typed returns, component events and failed writes",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "balance",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "spent",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "Actions/Spend3",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "balance",
+        "expect": 17
+      },
+      {
+        "op": "event",
+        "path": "Actions/SpendTwo",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "balance",
+        "expect": 13
+      },
+      {
+        "op": "assert",
+        "formula": "spent",
+        "expect": 7
+      },
+      {
+        "op": "event",
+        "path": "Actions/Add5",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "addedBalance",
+        "expect": 18
+      },
+      {
+        "op": "event",
+        "path": "Actions/TooMuch",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saveError",
+        "expect": "Insufficient balance"
+      },
+      {
+        "op": "assert",
+        "formula": "balance",
+        "expect": 18
+      },
+      {
+        "op": "event",
+        "path": "Actions/Left/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 11
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 100
+      },
+      {
+        "op": "assert",
+        "formula": "lastTotal",
+        "expect": 11
+      },
+      {
+        "op": "event",
+        "path": "Actions/Right/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 11
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 7
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Actions/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Drafts)",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(saveError)",
+        "expect": false
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Actions/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Drafts)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "lastSaved.Amount",
+        "expect": 7
+      },
+      {
+        "op": "assert",
+        "formula": "saveError",
+        "expect": ""
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

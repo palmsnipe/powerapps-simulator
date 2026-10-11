@@ -1,0 +1,136 @@
+{
+  "record-editor.workflow.json": {
+    "format_version": 1,
+    "name": "Nested connector records retain schema and Decimal values",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional nested draft",
+          "Lines": [
+            {
+              "Description": "Fictional river survey",
+              "Quantity": 2,
+              "Cost": {
+                "$decimal": "9007199254740993.123456789"
+              },
+              "Enabled": true,
+              "Due": "2026-01-15",
+              "Tags": [
+                "Fictional",
+                "Survey"
+              ],
+              "Location": {
+                "Site": "Riverbank",
+                "Code": 17,
+                "Legacy": {
+                  "Token": "fictional-location-token"
+                }
+              },
+              "Legacy": {
+                "Token": "fictional-line-token"
+              },
+              "Note01": "Fictional column 1",
+              "Note02": "Fictional column 2",
+              "Note03": "Fictional column 3",
+              "Note04": "Fictional column 4",
+              "Note05": "Fictional column 5",
+              "Note06": "Fictional column 6",
+              "Note07": "Fictional column 7",
+              "Note08": "Fictional column 8",
+              "Note09": "Fictional column 9",
+              "Note10": "Fictional column 10",
+              "Note11": "Fictional column 11",
+              "Note12": "Fictional column 12",
+              "Note13": "Fictional column 13"
+            },
+            {
+              "Description": "Fictional tree inventory",
+              "Quantity": 3,
+              "Cost": {
+                "$decimal": "12.50"
+              },
+              "Enabled": false,
+              "Due": "2026-02-10",
+              "Tags": [],
+              "Location": null,
+              "Note01": "",
+              "Note02": "",
+              "Note03": "",
+              "Note04": "",
+              "Note05": "",
+              "Note06": "",
+              "Note07": "",
+              "Note08": "",
+              "Note09": "",
+              "Note10": "",
+              "Note11": "",
+              "Note12": "",
+              "Note13": ""
+            }
+          ],
+          "Settings": {
+            "Owner": "Fictional administrator",
+            "Enabled": true,
+            "Budget": {
+              "$decimal": "12345678901234567890.1234567"
+            },
+            "Revision": 7,
+            "Labels": [
+              "Planning"
+            ],
+            "Legacy": {
+              "Flag": "fictional-settings-value"
+            }
+          },
+          "Numbers": [
+            1,
+            2,
+            null
+          ],
+          "Nullable": null,
+          "Loose": {
+            "Unknown": [
+              "fictional",
+              {
+                "Key": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(LookUp(Drafts,ID=1).'Line Items')",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "RecordEditor/Capture",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(savedRows)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "First(savedRows).Quantity",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(savedRows).Cost)",
+        "expect": "9007199254740993.123456789"
+      },
+      {
+        "op": "assert",
+        "formula": "savedSettings.Revision",
+        "expect": 7
+      }
+    ]
+  }
+}

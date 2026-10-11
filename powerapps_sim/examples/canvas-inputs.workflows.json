@@ -1,0 +1,151 @@
+{
+  "canvas-inputs.workflow.json": {
+    "format_version": 1,
+    "name": "Native inputs \u00b7 bound values, callbacks and writes",
+    "records": {
+      "Notes": [
+        {
+          "ID": 1,
+          "Title": "Fictional note 1",
+          "Approved": false
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional note 2",
+          "Approved": true
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.CurrentText=\"Fictional draft\" && !Left.CurrentChecked && CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Draft",
+        "event": "OnChange",
+        "value": "Fictional edited"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentText=\"Fictional edited\" && Right.CurrentText=\"Fictional draft\" && CountRows(Left.History)=1 && CountRows(Right.History)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Approved",
+        "event": "OnSelect",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentChecked && !Right.CurrentChecked && CountRows(events)=2 && CountRows(checkEvents)=1 && First(checkEvents).Checked",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Draft",
+        "event": "OnChange",
+        "value": "Other draft"
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentText=\"Fictional draft\" && !Left.CurrentChecked && CountRows(Left.History)=0 && Right.CurrentText=\"Other draft\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ChangeDefaults",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.CurrentText=\"Updated default\" && Right.CurrentText=\"Updated default\" && Left.CurrentChecked && Right.CurrentChecked && CountRows(checkEvents)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Delayed",
+        "event": "OnInput",
+        "value": "Fictional delayed"
+      },
+      {
+        "op": "assert",
+        "formula": "Delayed.Value=\"Fictional delayed\" && Last(events).Panel=\"Delayed\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toggle26",
+        "event": "OnSelect",
+        "value": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toggle27",
+        "event": "OnSelect",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "Toggle26.Checked && Toggle27.Checked",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/NoteForm/TitleCard/FormTitle",
+        "event": "OnChange",
+        "value": "Fictional saved note"
+      },
+      {
+        "op": "event",
+        "path": "Home/NoteForm/ApprovedCard/FormApproved",
+        "event": "OnSelect",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "NoteForm.Unsaved && NoteForm.Updates.Title=\"Fictional saved note\" && NoteForm.Updates.Approved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!NoteForm.Unsaved && NoteForm.LastSubmit.Title=\"Fictional saved note\" && First(Notes).'Note approved'",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(NotesRows.AllItems,2).RowTitle",
+        "event": "OnInput",
+        "value": "Fictional row edited"
+      },
+      {
+        "op": "event",
+        "target": "Index(NotesRows.AllItems,2).RowApproved",
+        "event": "OnSelect",
+        "value": false
+      },
+      {
+        "op": "assert",
+        "formula": "Index(Notes,2).Title=\"Fictional row edited\" && !Index(Notes,2).Approved && First(Notes).Title=\"Fictional saved note\"",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

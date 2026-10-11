@@ -1,0 +1,216 @@
+{
+  "row-counts.workflow.json": {
+    "format_version": 1,
+    "name": "Row counting, coercible predicates and recoverable component errors",
+    "records": {
+      "Snapshots": [],
+      "Samples": [
+        {
+          "ID": 1,
+          "Title": "Fictional left amount",
+          "Side": "Left",
+          "Amount": 2,
+          "Note": "Present"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional left blank",
+          "Side": "Left",
+          "Amount": null,
+          "Note": null
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional right amount",
+          "Side": "Right",
+          "Amount": 8,
+          "Note": "Present"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=1 && LeftPanel.Summary.Present=1 && LeftPanel.Summary.Rows=2 && RightPanel.Summary.Numeric=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "NumericCount(ShowColumns(LeftRows,Amount))=1 && LeftPanel.NumericCount(ShowColumns(LeftRows,Amount))=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/LeftPanel/AddSample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=2 && LeftPanel.Summary.Present=2 && LeftPanel.Summary.Rows=3 && RightPanel.Summary.Rows=1 && First(trace).Panel=\"LeftPanel\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/RightPanel/AddSample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Summary.Numeric=2 && RightPanel.Summary.Rows=2 && CountRows(trace)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/LeftPanel/ResetSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=1 && RightPanel.Summary.Numeric=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/ClearAmount",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=0 && LeftPanel.Summary.Rows=2 && LeftPanel.Summary.Present=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/RestoreAmount",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && IsEmpty(Snapshots)",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=1 && First(Snapshots).Numeric=1 && First(Snapshots).Present=1 && First(Snapshots).Rows=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/RightPanel/ResetSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Summary.Rows=1 && LeftPanel.Summary.Rows=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Matches.Numeric=1 && LeftPanel.Matches.Text=1 && LeftPanel.Matches.Large=0 && LeftPanel.RowState.Errors=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.MatchingCount(ShowColumns(LeftRows,Amount),1)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/LeftPanel/Threshold",
+        "event": "OnChange",
+        "value": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Matches.Large=1 && RightPanel.Matches.Large=1 && Last(matchesTrace).Panel=\"LeftPanel\" && Last(matchesTrace).Large=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/LeftPanel/Amount",
+        "event": "OnChange",
+        "value": 0
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/LeftPanel/AddSample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Numeric=2 && LeftPanel.Matches.Numeric=1 && LeftPanel.Matches.Text=2 && LeftPanel.Summary.Rows=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/InjectFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.RowState.Rows=13 && LeftPanel.RowState.Errors=1 && LeftPanel.RowState.Valid=3 && RightPanel.RowState.Rows=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(LeftPanel.Matches.Numeric,CountRows(AllErrors))=1 && CountIf(LeftPanel.Rows,IsError(ThisRecord))=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && CountRows(Snapshots)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/InjectFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.RowState.Rows=3 && LeftPanel.RowState.Errors=0 && LeftPanel.Matches.Numeric=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RowCountsLab/LeftPanel/ResetSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Summary.Rows=2 && LeftPanel.Matches.Text=1 && RightPanel.Summary.Rows=1",
+        "expect": true
+      }
+    ]
+  }
+}

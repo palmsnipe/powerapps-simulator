@@ -1,0 +1,147 @@
+{
+  "nested.workflow.json": {
+    "format_version": 1,
+    "name": "Nested actions, typed callbacks, reset and instance isolation",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftShell.FirstTotal",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "RightShell.FirstTotal",
+        "expect": 1000
+      },
+      {
+        "op": "event",
+        "path": "Nested/AddLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.FirstTotal",
+        "expect": 11
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.SecondTotal",
+        "expect": 112
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.LastChild",
+        "expect": 112
+      },
+      {
+        "op": "assert",
+        "formula": "leftResult",
+        "expect": 112
+      },
+      {
+        "op": "assert",
+        "formula": "RightShell.FirstTotal",
+        "expect": 1000
+      },
+      {
+        "op": "assert",
+        "formula": "InnerA.Rows",
+        "expect": [
+          {
+            "Total": 11
+          }
+        ],
+        "scope": "Nested/LeftShell"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.Events",
+        "expect": [
+          {
+            "Total": 11
+          },
+          {
+            "Total": 112
+          }
+        ]
+      },
+      {
+        "op": "event",
+        "path": "Nested/LeftShell/InnerA/LeafNote",
+        "event": "OnChange",
+        "value": "pending note"
+      },
+      {
+        "op": "event",
+        "path": "Nested/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.FirstTotal",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.LastChild",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "LeafNote.Text",
+        "expect": "note Left first",
+        "scope": "Nested/LeftShell/InnerA"
+      },
+      {
+        "op": "event",
+        "path": "Nested/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.FirstTotal",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.SecondTotal",
+        "expect": 120
+      },
+      {
+        "op": "assert",
+        "formula": "InnerA.ResetCount",
+        "expect": 2,
+        "scope": "Nested/LeftShell"
+      },
+      {
+        "op": "event",
+        "path": "Nested/AddRight",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightShell.FirstTotal",
+        "expect": 1005
+      },
+      {
+        "op": "assert",
+        "formula": "RightShell.SecondTotal",
+        "expect": 1106
+      },
+      {
+        "op": "assert",
+        "formula": "rightResult",
+        "expect": 1106
+      },
+      {
+        "op": "assert",
+        "formula": "LeftShell.FirstTotal",
+        "expect": 20
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

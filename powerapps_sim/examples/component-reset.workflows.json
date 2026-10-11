@@ -1,0 +1,219 @@
+{
+  "component-reset.workflow.json": {
+    "format_version": 1,
+    "name": "Component input defaults, reset errors, callbacks and linked draft retry",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional first draft",
+          "Amount": 10
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional second draft",
+          "Amount": 25
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional third draft",
+          "Amount": 40
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=10 && RightPanel.Total=100 && LeftPanel.ResetCount=1 && CountRows(failures)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Panels/LeftPanel/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=11 && RightPanel.Total=100 && Last(trace).Stage=\"change\" && Last(trace).Snapshot=11 && stage=\"host\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/FailInput",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=11 && LeftPanel.ResetCount=1 && CountRows(failures)=1 && Last(failures).Observed=\"ResetLab/Panels/LeftPanel.Seed\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Panels/RightPanel/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total=101 && LeftPanel.Total=11 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/Recover",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=11 && LeftPanel.ResetCount=1 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/SelectSecond",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=25 && LeftPanel.ResetCount=2 && RightPanel.Total=101 && Last(trace).Stage=\"reset\" && Last(trace).Peer=101",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Panels/LeftPanel/Note",
+        "event": "OnChange",
+        "value": "edited note"
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "scope": "ResetLab/Panels/LeftPanel",
+        "formula": "Note.Text=\"25\" && ResetPanel.ResetCount=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.ResetCount=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/BlankSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=0 && LeftPanel.ResetCount=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/Recover",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=25 && LeftPanel.ResetCount=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/FailReset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(failures)=2 && Last(failures).Source=\"ResetLab/Panels/LeftPanel.ResetGate\" && Last(failures).Observed=\"ResetLab/Panels/LeftPanel/Note.Reset\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(failures)=2 && LeftPanel.ResetCount=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/Recover",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/FailReset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(failures)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/Recover",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Panels/LeftPanel/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=2).Amount=25 && LeftPanel.Total=26 && LeftPanel.ResetCount=5 && CountRows(failures)=4 && Last(failures).Source=\"ResetLab/Toolbar/Save.OnSelect\"",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=2).Amount=26 && LeftPanel.Total=26 && LeftPanel.ResetCount=6 && RightPanel.Total=101 && CountRows(failures)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/FailInput",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(failures)=5 && LeftPanel.Total=26 && LeftPanel.ResetCount=6",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ResetLab/Toolbar/Recover",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.ResetCount=6 && stage=\"host\"",
+        "expect": true
+      }
+    ]
+  }
+}

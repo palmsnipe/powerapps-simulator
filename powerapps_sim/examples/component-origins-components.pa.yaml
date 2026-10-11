@@ -1,0 +1,149 @@
+ComponentDefinitions:
+  Panel:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        RaiseOnReset: true
+        Default: =5
+      Record:
+        PropertyKind: Input
+        DataType: Record
+        RaiseOnReset: true
+        Default: ={N:0,Label:""}
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(local,Panel.Seed)
+      Resets:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(resets,0)
+      Caption:
+        PropertyKind: InputFunction
+        ReturnType: Text
+        Parameters:
+          - n:
+              DataType: Number
+              Default: =2
+              IsOptional: true
+        Default: ="Definition " & Text(n)
+      RowsTotal:
+        PropertyKind: OutputFunction
+        ReturnType: Number
+        Parameters:
+          - rows:
+              DataType: Table
+              Default: =Table({ID:1,N:2},{ID:2,N:3})
+              IsOptional: true
+        Default: =Sum(rows,N+Rand())
+      BadDefault:
+        PropertyKind: OutputFunction
+        ReturnType: Number
+        Parameters:
+          - n:
+              DataType: Number
+              Default: =1/0
+              IsOptional: true
+        Default: =n
+      BadDefaultAgain:
+        PropertyKind: OutputFunction
+        ReturnType: Number
+        Parameters:
+          - n:
+              DataType: Number
+              Default: =1/0
+              IsOptional: true
+        Default: =n
+      BadCast:
+        PropertyKind: OutputFunction
+        ReturnType: Number
+        Parameters:
+          - n:
+              DataType: Number
+              Default: ="bad"
+              IsOptional: true
+        Default: =n
+      BadReturn:
+        PropertyKind: OutputFunction
+        ReturnType: Number
+        Parameters: []
+        Default: ="bad"
+      Change:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - n:
+              DataType: Number
+              Default: =3
+              IsOptional: true
+        Default: =Set(local,n);Panel.Changed(n);Blank()
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - n:
+              DataType: Number
+              Default: =4
+              IsOptional: true
+        Default: =Blank()
+      DraftText:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Draft.Text
+    Properties:
+      OnReset: =Set(resets,Coalesce(resets,0)+1);Set(local,Panel.Seed)
+      Width: =460
+      Height: =260
+    Children:
+      - Draft:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            Default: =Text(Panel.Total)
+            X: =12
+            Y: =108
+            Width: =426
+            Height: =36
+      - CaptionText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Panel.Caption()
+            X: =12
+            Y: =0
+            Width: =426
+            Height: =30
+      - TotalText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Total: " & Text(Panel.Total)'
+            X: =12
+            Y: =36
+            Width: =426
+            Height: =30
+      - ResetText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Resets: " & Text(Panel.Resets)'
+            X: =12
+            Y: =72
+            Width: =426
+            Height: =30
+      - RowsText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Pure rows: " & Text(Panel.RowsTotal(),"0.000000")'
+            X: =12
+            Y: =154
+            Width: =426
+            Height: =30
+      - Emit:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Change with default"
+            OnSelect: =Panel.Change()
+            X: =12
+            Y: =198
+            Width: =216
+            Height: =36

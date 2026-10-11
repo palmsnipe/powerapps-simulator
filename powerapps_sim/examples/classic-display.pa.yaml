@@ -1,0 +1,135 @@
+App:
+  Properties:
+    StartScreen: =Home
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+    OnStart: =Clear(history);Clear(captured);Set(enabled,true);Set(shown,true);Set(caption,"Short caption");Reset(Left);Reset(Right)
+Screens:
+  Home:
+    Children:
+      - Heading:
+          Control: Label@2.5.1
+          Properties:
+            X: =24
+            Y: =12
+            Width: =940
+            Height: =38
+            Text: =T("Classic labels and shapes","Étiquettes et formes classiques")
+            Role: =TextRole.Heading1
+            Size: =24
+            FontWeight: =FontWeight.Semibold
+      - ToggleEnabled:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =62
+            Width: =174
+            Height: =36
+            Text: ="Enable / disable"
+            OnSelect: =Set(enabled,!enabled)
+      - ToggleVisible:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =212
+            Y: =62
+            Width: =174
+            Height: =36
+            Text: ="Show / hide text"
+            OnSelect: =Set(shown,!shown)
+      - ChangeCaption:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =400
+            Y: =62
+            Width: =174
+            Height: =36
+            Text: ="Change text"
+            OnSelect: =Set(caption,If(Len(caption)<40,"An expanded fictional caption that wraps across several lines and exercises AutoHeight while hidden.","Short caption"))
+      - FocusLink:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =588
+            Y: =62
+            Width: =174
+            Height: =36
+            Text: ="Focus text label"
+            OnSelect: =SetFocus(Growing)
+      - ResetPanels:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =776
+            Y: =62
+            Width: =174
+            Height: =36
+            Text: ="Reset panels"
+            OnSelect: =Reset(Left);Reset(Right)
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =116
+            Width: =450
+            Height: =205
+            Caption: =T("Left","Gauche")
+            Enabled: =enabled
+            Changed: =Collect(history,{Panel:"Left",Count:count,Kind:kind})
+          ComponentName: DisplayPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            X: =524
+            Y: =116
+            Width: =450
+            Height: =205
+            Caption: =T("Right","Droite")
+            Enabled: =enabled
+            Changed: =Collect(history,{Panel:"Right",Count:count,Kind:kind})
+          ComponentName: DisplayPanel
+      - Growing:
+          Control: Label@2.5.1
+          Properties:
+            X: =24
+            Y: =346
+            Width: =440
+            Height: =40
+            Text: =caption
+            AutoHeight: =true
+            LineHeight: =1.5
+            Visible: =shown
+            Size: =16
+            Fill: =ColorValue("#eff6fc")
+            Role: =TextRole.Heading3
+            Live: =Live.Assertive
+            FocusedBorderColor: =ColorValue("#c239b3")
+            FocusedBorderThickness: =3
+      - Scrolling:
+          Control: Label@2.5.1
+          Properties:
+            X: =524
+            Y: =346
+            Width: =450
+            Height: =110
+            Text: =Concat(Sequence(18),"Fictional line " & Value & Char(10))
+            Wrap: =true
+            Overflow: =Overflow.Scroll
+            LineHeight: =1.5
+            Size: =16
+            Fill: =ColorValue("#fff4ce")
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =490
+            Width: =184
+            Height: =36
+            Text: ="Save snapshot"
+            OnSelect: =Collect(captured,{LabelHeight:Growing.Height,LineHeight:Growing.LineHeight,ShapeFill:Left.ShapeFill,LeftCount:Left.Count,RightCount:Right.Count,Visible:shown});Patch(Snapshots,Defaults(Snapshots),{Title:"Display snapshot",Total:Left.Count+Right.Count,MeasuredHeight:Growing.Height,Callbacks:CountRows(history)})
+      - Status:
+          Control: Label@2.3.0
+          Properties:
+            X: =230
+            Y: =484
+            Width: =744
+            Height: =50
+            Text: '="Left: " & Left.Count & " · Right: " & Right.Count & " · Text height: " & Growing.Height'
+            Live: =Live.Polite
+            Size: =16

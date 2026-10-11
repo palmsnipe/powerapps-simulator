@@ -1,0 +1,40 @@
+{
+  "Titles": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "Normalized": {
+        "type": "string",
+        "maxLength": 200
+      },
+      "Label": {
+        "type": "string",
+        "maxLength": 250
+      }
+    },
+    "mapping": {
+      "Title": "Project Title",
+      "Normalized": "Normalized Title",
+      "Label": "Display Label"
+    },
+    "required": [
+      "Title",
+      "Normalized",
+      "Label"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional title",
+        "Normalized": "Fictional_title",
+        "Label": "Fictional"
+      }
+    ]
+  }
+}

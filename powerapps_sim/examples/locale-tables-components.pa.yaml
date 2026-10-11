@@ -1,0 +1,99 @@
+ComponentDefinitions:
+  CalendarPanel:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Calendar"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1
+      Months:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Calendar.MonthsLong()
+      Days:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Calendar.WeekdaysLong()
+      Periods:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Clock.AmPm()
+      Is24:
+        PropertyKind: Output
+        DataType: Boolean
+        Default: =Clock.IsClock24()
+      ChosenMonth:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Month.Selected.Value
+      ChosenDay:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Day.Selected.Value
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - month:
+              DataType: Text
+          - weekday:
+              DataType: Text
+          - language:
+              DataType: Text
+    Properties:
+      Width: =420
+      Height: =246
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =8
+            Width: =Parent.Width-24
+            Height: =32
+            Text: =CalendarPanel.Caption & " · " & Language()
+      - Month:
+          Control: Classic/DropDown@2.3.1
+          Properties:
+            X: =12
+            Y: =48
+            Width: =Parent.Width-24
+            Height: =40
+            Items: =CalendarPanel.Months
+            Value: ="Value"
+            Default: =Index(CalendarPanel.Months,CalendarPanel.Seed).Value
+            AccessibleLabel: =CalendarPanel.Caption & " month"
+            OnChange: =CalendarPanel.Changed(CalendarPanel.ChosenMonth,CalendarPanel.ChosenDay,Language())
+      - Day:
+          Control: ModernDropdown@1.0.0
+          Properties:
+            X: =12
+            Y: =104
+            Width: =Parent.Width-24
+            Height: =40
+            Items: =CalendarPanel.Days
+            Default: =First(CalendarPanel.Days)
+            AccessibleLabel: =CalendarPanel.Caption & " weekday"
+            OnChange: =CalendarPanel.Changed(CalendarPanel.ChosenMonth,CalendarPanel.ChosenDay,Language())
+      - ClockInfo:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =156
+            Width: =Parent.Width-24
+            Height: =32
+            Text: =If(CalendarPanel.Is24,"24h",Concat(CalendarPanel.Periods,Value," / "))
+      - ResetButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =198
+            Width: =120
+            Text: ="Reset " & CalendarPanel.Caption
+            OnSelect: =Reset(Month);Reset(Day)

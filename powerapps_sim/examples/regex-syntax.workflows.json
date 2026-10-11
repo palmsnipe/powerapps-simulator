@@ -1,0 +1,405 @@
+{
+  "regex-syntax.workflow.json": {
+    "format_version": 1,
+    "name": "Inline flags, class unions, typed component functions and saved captures",
+    "environment": {
+      "enum_mode": "strong",
+      "regex_mode": "powerfx-v1"
+    },
+    "records": {
+      "Contacts": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Valid",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CallbackCount)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/ExtractButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.Rows))",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Word",
+        "expect": "Alpha"
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Number",
+        "expect": "12"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(First(LeftPanel.Rows).StartMatch)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).FullMatch",
+        "expect": "Alpha ALPHA 12"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CallbackCount)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/RightPanel/Tokens",
+        "event": "OnInput",
+        "value": "Gamma Gamma 56"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/RightPanel/ExtractButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(RightPanel.Rows).Word",
+        "expect": "Gamma"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.Rows))",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Last(history).Panel",
+        "expect": "RightPanel"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/Address",
+        "event": "OnInput",
+        "value": "invalid"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Valid",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Valid",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Contacts))",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/Address",
+        "event": "OnInput",
+        "value": "sam@example.test"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Valid",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Contacts))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(Contacts).Title",
+        "expect": "sam@example.test"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(First(Contacts).TokenCount)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(ParseJSON(First(Contacts).Payload)).Word)",
+        "expect": "Alpha"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(results))",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(First(results).Captures))",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(results).Options)",
+        "expect": "i"
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(results).Nested.Option)",
+        "expect": "c"
+      },
+      {
+        "op": "failure",
+        "list": "Contacts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Contacts))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "status=If(StartsWith(Language(),\"fr\"),\"Échec\",\"Save failed\")",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Contacts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Contacts))",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Email",
+        "expect": "alex@example.test"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.Rows))",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(RightPanel.Rows))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(RightPanel.Rows).Word",
+        "expect": "Gamma"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/Tokens",
+        "event": "OnInput",
+        "value": "Alpha Beta 12 Delta Delta 78"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/ExtractButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.Rows))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Word",
+        "expect": "Delta"
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Number",
+        "expect": "78"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(First(LeftPanel.Rows).StartMatch)",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "First(RightPanel.Rows).Word",
+        "expect": "Gamma"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/Tokens",
+        "event": "OnInput",
+        "value": "😀 Epsilon Epsilon 90"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/ExtractButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.Rows))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Word",
+        "expect": "Epsilon"
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Number",
+        "expect": "90"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(First(LeftPanel.Rows).StartMatch)",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "First(RightPanel.Rows).Word",
+        "expect": "Gamma"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/Tokens",
+        "event": "OnInput",
+        "value": "Sigma/sIGMA#42 Tau/tAU#81"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/LeftPanel/ExtractButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.Rows))",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Word",
+        "expect": "Sigma"
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).FullMatch",
+        "expect": "Sigma/sIGMA#42"
+      },
+      {
+        "op": "assert",
+        "formula": "First(LeftPanel.Rows).Number",
+        "expect": "42"
+      },
+      {
+        "op": "assert",
+        "formula": "First(RightPanel.Rows).Word",
+        "expect": "Gamma"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Separators(\" /# \")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Separators(\"_\")",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Separators(\"abc\")",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.IsNumber(\"١٢\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.IsNumber(\"1a\")",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "IsMatch(\"ſ\",\"(?i)[^s]\",MatchOptions.Complete)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Contacts))",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(ParseJSON(Last(Contacts).Payload)).FullMatch)",
+        "expect": "Sigma/sIGMA#42"
+      },
+      {
+        "op": "event",
+        "path": "RegexLab/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(results))",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).FullMatch",
+        "expect": "Sigma/sIGMA#42"
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

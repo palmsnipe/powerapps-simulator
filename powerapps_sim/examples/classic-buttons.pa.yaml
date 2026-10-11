@@ -1,0 +1,172 @@
+App:
+  Properties:
+    StartScreen: =Home
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+    OnStart: =Clear(history);Clear(captured);Set(enabled,true);Set(auto,true);Set(legacyClicks,0);Reset(Left);Reset(Right)
+Screens:
+  Home:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Classic buttons · states and component events","Boutons classiques · états et événements")
+            X: =24
+            Y: =12
+            Width: =950
+            Height: =36
+            Size: =24
+      - ToggleEnabled:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Enable / disable"
+            X: =24
+            Y: =60
+            Width: =170
+            Height: =36
+            OnSelect: =Set(enabled,!enabled)
+      - ToggleAuto:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Auto-disable on select"
+            X: =206
+            Y: =60
+            Width: =170
+            Height: =36
+            OnSelect: =Set(auto,!auto)
+      - FocusStyled:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Focus styled button"
+            X: =388
+            Y: =60
+            Width: =170
+            Height: =36
+            OnSelect: =SetFocus(Styled)
+      - Flags:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Enabled: " & If(enabled,"true","false") & " · Auto-disable: " & If(auto,"true","false")'
+            X: =580
+            Y: =60
+            Width: =390
+            Height: =36
+            Size: =14
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =116
+            Width: =450
+            Height: =170
+            Caption: =T("Left","Gauche")
+            Enabled: =enabled
+            AutoDisable: =auto
+            Changed: =Collect(history,{Panel:"Left",Count:count,Pressed:pressed})
+          ComponentName: CounterCard
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            X: =504
+            Y: =116
+            Width: =450
+            Height: =170
+            Caption: =T("Right","Droite")
+            Enabled: =enabled
+            AutoDisable: =auto
+            Changed: =Collect(history,{Panel:"Right",Count:count,Pressed:pressed})
+          ComponentName: CounterCard
+      - Styled:
+          Control: Classic/Button@2.2.0
+          Properties:
+            Text: =T("Typography","Typographie")
+            X: =24
+            Y: =316
+            Width: =250
+            Height: =76
+            Fill: =Color.White
+            Color: =ColorValue("#0f6cbd")
+            HoverFill: =ColorValue("#ebf3fc")
+            HoverColor: =ColorValue("#115ea3")
+            PressedFill: =ColorValue("#cfe4fa")
+            PressedColor: =ColorValue("#083a60")
+            BorderColor: =ColorValue("#0f6cbd")
+            FocusedBorderColor: =ColorValue("#c239b3")
+            FocusedBorderThickness: =4
+            BorderStyle: =BorderStyle.Dashed
+            BorderThickness: =2
+            Size: =18
+            Italic: =true
+            Underline: =true
+            Align: =Align.Left
+            VerticalAlign: =VerticalAlign.Top
+            PaddingLeft: =18
+            PaddingTop: =12
+            RadiusTopLeft: =18
+            RadiusTopRight: =0
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =18
+            AutoDisableOnSelect: =auto
+            OnSelect: =Collect(history,{Panel:"Styled",Count:0,Pressed:Self.Pressed})
+      - Oldest:
+          Control: Classic/Button@2.0.0
+          Properties:
+            Text: ="Version 2.0.0"
+            X: =300
+            Y: =316
+            Width: =180
+            Height: =52
+            OnSelect: =Set(legacyClicks,legacyClicks+1)
+      - Legacy:
+          Control: Classic/Button@2.0.1
+          Properties:
+            Text: ="Version 2.0.1"
+            X: =500
+            Y: =316
+            Width: =180
+            Height: =52
+            OnSelect: =Set(legacyClicks,legacyClicks+1)
+      - LegacyCount:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Legacy clicks: " & legacyClicks'
+            X: =706
+            Y: =320
+            Width: =270
+            Height: =36
+            Size: =14
+      - Capture:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Capture properties"
+            X: =24
+            Y: =424
+            Width: =170
+            Height: =36
+            OnSelect: =ClearCollect(captured,Table({Panel:"Left",Count:Left.Count,Pressed:Left.IsPressed,AutoDisable:Left.AutoDisable,Fill:Left.ButtonFill,HoverFill:Left.ButtonHoverFill,PressedFill:Left.ButtonPressedFill,DisabledFill:Left.ButtonDisabledFill,Radius:Left.ButtonRadius},{Panel:"Right",Count:Right.Count,Pressed:Right.IsPressed,AutoDisable:Right.AutoDisable,Fill:Right.ButtonFill,HoverFill:Right.ButtonHoverFill,PressedFill:Right.ButtonPressedFill,DisabledFill:Right.ButtonDisabledFill,Radius:Right.ButtonRadius}))
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save snapshot"
+            X: =206
+            Y: =424
+            Width: =170
+            Height: =36
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional button state",Total:Left.Count+Right.Count,Callbacks:CountRows(history),AutoDisable:auto})
+      - ResetAll:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset both counters"
+            X: =388
+            Y: =424
+            Width: =170
+            Height: =36
+            OnSelect: =Reset(Left);Reset(Right)
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Callbacks: " & CountRows(history) & " · Snapshots: " & CountRows(Snapshots)'
+            X: =24
+            Y: =486
+            Width: =930
+            Height: =36
+            Size: =17

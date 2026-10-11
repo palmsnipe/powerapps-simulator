@@ -1,0 +1,243 @@
+App:
+  Properties:
+    StartScreen: =TextTransforms
+    OnStart: =Clear(history);Clear(results);Clear(paired);Clear(errorCells);ClearCollect(samples,{Title:"Alpha study"},{Title:"Beta draft"},{Title:"Étude rivière"});Set(status,"Ready")
+    Formulas: =PreviewRows=Concatenate(Left(samples.Title,3)," / ",Substitute(samples.Title," ","_"));
+ComponentDefinitions:
+  TextPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Fictional title"
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: '={Raw:Input.Text,Prefix:Left(Input.Text,Count.Value),Middle:Mid(Input.Text,2,Count.Value),Suffix:Right(Input.Text,Count.Value),Replaced:Replace(Input.Text,2,2,"·"),Normalized:Substitute(Input.Text,Needle.Text,Replacement.Text),Label:Concatenate(TextPanel.Caption,": ",Left(Input.Text,Count.Value)," / ",Right(Input.Text,Count.Value)),Units:Len(Input.Text)}'
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =TextPanel.FormatRows(Table({Text:Input.Text},{Text:"🌲 River"}))
+      FormatRows:
+        PropertyKind: Function
+        ReturnType: Table
+        Parameters:
+          - rows:
+              DataType: Table
+              Default: =Table({Text:""})
+              IsOptional: true
+        Default: =Concatenate(Left(rows.Text,3)," · ",Substitute(rows.Text," ","_")," · ",Right(rows.Text,2))
+      Capture:
+        PropertyKind: Action
+        ReturnType: Record
+        Parameters:
+          - kind:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+        Default: =Collect(captured,Patch(TextPanel.Current,{Kind:kind}));TextPanel.Changed(TextPanel.Current);TextPanel.Current
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Raw:"",Prefix:"",Middle:"",Suffix:"",Replaced:"",Normalized:"",Label:"",Units:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =378
+      OnReset: =Clear(captured)
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =TextPanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =30
+      - Input:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =12
+            Y: =40
+            Width: =400
+            Default: =TextPanel.Seed
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =TextPanel.Caption & " title"
+            OnChange: =TextPanel.Capture("title")
+      - CountLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Characters"
+            X: =12
+            Y: =86
+            Width: =120
+            Height: =30
+      - Count:
+          Control: ModernNumberInput@1.1.2
+          Properties:
+            X: =144
+            Y: =82
+            Width: =130
+            Default: =3
+            Min: =0
+            Max: =40
+            Precision: =0
+            AccessibleLabel: =TextPanel.Caption & " characters"
+            OnChange: =TextPanel.Capture("count")
+      - Needle:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =12
+            Y: =124
+            Width: =170
+            Default: =" "
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =TextPanel.Caption & " match"
+            OnChange: =TextPanel.Capture("match")
+      - Replacement:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =204
+            Y: =124
+            Width: =208
+            Default: ="_"
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =TextPanel.Caption & " replacement"
+            OnChange: =TextPanel.Capture("replacement")
+      - Slice:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Prefix [" & TextPanel.Current.Prefix & "] · middle [" & TextPanel.Current.Middle & "] · suffix [" & TextPanel.Current.Suffix & "]"
+            X: =12
+            Y: =170
+            Width: =400
+            Height: =30
+      - Normalized:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Normalized: " & TextPanel.Current.Normalized'
+            X: =12
+            Y: =205
+            Width: =400
+            Height: =30
+      - Replaced:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Replace: " & TextPanel.Current.Replaced & " · units " & TextPanel.Current.Units'
+            X: =12
+            Y: =240
+            Width: =400
+            Height: =30
+      - RowsGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =12
+            Y: =278
+            Width: =400
+            Height: =90
+            Items: =TextPanel.Rows
+            TemplateSize: =38
+            TemplatePadding: =2
+          Children:
+            - Row:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Value
+                  X: =4
+                  Y: =0
+                  Width: =380
+                  Height: =36
+Screens:
+  TextTransforms:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Text transforms"
+            X: =16
+            Y: =8
+            Width: =900
+            Height: =30
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Callbacks " & CountRows(history) & " · " & status
+            X: =16
+            Y: =44
+            Width: =900
+            Height: =30
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =16
+            Y: =88
+            Caption: ="LeftPanel"
+            Seed: ="App planning"
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: TextPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =470
+            Y: =88
+            Caption: ="RightPanel"
+            Seed: ="Étude rivière"
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: TextPanel
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =16
+            Y: =480
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Build table"
+            X: =172
+            Y: =480
+            Width: =136
+            OnSelect: '=ClearCollect(results,AddColumns(samples,Prefix,Left(Title,3),Middle,Mid(Title,2,3),Suffix,Right(Title,3),Normalized,Substitute(Title," ","_"),Replaced,Replace(Title,2,2,"·"),Label,Concatenate("Name: ",Title),Units,Len(Title),FirstUnit,Left(Title,1),Tail,Mid(Title,2),LastUnit,Right(Title,1),UpperTitle,Upper(Title),LowerTitle,Lower(Title),Trimmed,Trim(Title),TrimEndsTitle,TrimEnds(Title),Repeated,Concatenate(Title," / ",Title),FirstReplacement,Substitute(Title,"a","A",1),SecondReplacement,Substitute(Title,"a","A",2),Append,Replace(Title,999,0,"!"),EmptyMatch,Substitute(Title,"","!")));ClearCollect(paired,Concatenate(Left(samples.Title,[1,2,3])," / ",Right(samples.Title,2)));Set(status,"Table ready")'
+      - CaptureErrors:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Error cells"
+            X: =328
+            Y: =480
+            Width: =136
+            OnSelect: =ClearCollect(errorCells,Mid(samples.Title,[1,0,-1]));Set(status,"Error cells ready")
+      - SaveLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save left"
+            X: =484
+            Y: =480
+            Width: =136
+            OnSelect: =Set(saved,IfError(Patch(Titles,LookUp(Titles,ID=1),{Title:LeftPanel.Current.Raw,Normalized:LeftPanel.Current.Normalized,Label:LeftPanel.Current.Label}),Set(status,"Save failed");Blank()));If(!IsBlank(saved),Set(status,"Saved"))
+      - Saved:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Saved: " & LookUp(Titles,ID=1).Normalized'
+            X: =16
+            Y: =540
+            Width: =900
+            Height: =30
+      - TableStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Projection rows " & CountRows(results) & " · paired rows " & CountRows(paired) & " · error rows " & CountRows(errorCells)
+            X: =16
+            Y: =580
+            Width: =900
+            Height: =30

@@ -1,0 +1,130 @@
+{
+  "inspection.workflow.json": {
+    "format_version": 1,
+    "name": "Typed live values and isolated component collections",
+    "environment": {
+      "clock": "2026-02-03T12:00:00Z"
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(snapshots)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 100
+      },
+      {
+        "op": "event",
+        "path": "InspectScreen/LeftPanel/CaptureButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "InspectScreen/RightPanel/CaptureButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 11
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "callbacks",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "InspectScreen/Snapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(snapshots)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Text(due,\"yyyy-mm-dd\")",
+        "expect": "2026-02-04"
+      },
+      {
+        "op": "event",
+        "path": "InspectScreen/ClearValues",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(snapshots)",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(photo)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "InspectScreen/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 101
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "InspectScreen/CaptureFailure",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "IsError(failure)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(uninitialized)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(emptyTable)",
+        "expect": 0
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,258 @@
+App:
+  Properties:
+    OnStart: =Set(blocked,false);Set(skip,false);Set(lastChanged,"")
+ComponentDefinitions:
+  FocusPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Request:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+      Draft:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Coalesce(draft,"")
+    Properties:
+      Width: =390
+      Height: =110
+      Fill: =RGBA(245,245,245,1)
+    Children:
+      - PanelInput:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            AccessibleLabel: ="PanelInput"
+            X: =12
+            Y: =12
+            Width: =260
+            Default: =""
+            OnChange: =Set(draft,Self.Text)
+      - RequestFocus:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Focus host"
+            X: =12
+            Y: =58
+            Width: =180
+            OnSelect: =FocusPanel.Request()
+Screens:
+  FocusScreen:
+    Properties:
+      OnVisible: =SetFocus(FirstName)
+    Children:
+      - Notes:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            AccessibleLabel: ="Notes"
+            X: =24
+            Y: =860
+            Width: =260
+            Default: ="Fictional notes"
+      - Surname:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            AccessibleLabel: ="Surname"
+            X: =330
+            Y: =90
+            Width: =260
+            Default: ="Example"
+            OnChange: =Set(lastChanged,Self.Text)
+      - FirstName:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            AccessibleLabel: ="FirstName"
+            X: =24
+            Y: =90
+            Width: =260
+            Default: ="Fictional"
+            DisplayMode: =If(blocked,DisplayMode.Disabled,DisplayMode.Edit)
+            AcceptsFocus: =!skip
+            OnChange: =Set(lastChanged,Self.Text)
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Focus · keyboard and components"
+            X: =24
+            Y: =16
+            Width: =820
+            Height: =32
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: = "Changes " & lastChanged & " · blocked " & Text(blocked) & " · skipped " & Text(skip)
+            X: =24
+            Y: =50
+            Width: =820
+            Height: =32
+      - FocusFirst:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Focus first"
+            X: =24
+            Y: =145
+            Width: =180
+            OnSelect: =SetFocus(FirstName)
+      - FocusNotes:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Focus notes"
+            X: =220
+            Y: =145
+            Width: =180
+            OnSelect: =SetFocus(Notes)
+      - Block:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Toggle disabled"
+            X: =416
+            Y: =145
+            Width: =180
+            OnSelect: =Set(blocked,!blocked)
+      - Skip:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Toggle tab stop"
+            X: =612
+            Y: =145
+            Width: =180
+            OnSelect: =Set(skip,!skip)
+      - ReadOnly:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            AccessibleLabel: ="ReadOnly"
+            X: =24
+            Y: =220
+            Width: =260
+            Default: ="Read-only fictional text"
+            DisplayMode: =DisplayMode.View
+      - FocusView:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Focus read-only"
+            X: =330
+            Y: =220
+            Width: =180
+            OnSelect: =SetFocus(ReadOnly)
+      - Caption:
+          Control: Label@2.5.1
+          Properties:
+            Text: ="Fictional keyboard label"
+            X: =24
+            Y: =275
+            Width: =320
+            TabIndex: =-1
+      - FocusCaption:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Focus label"
+            X: =330
+            Y: =275
+            Width: =180
+            OnSelect: =SetFocus(Caption)
+      - PositiveIndex:
+          Control: Classic/Button@2.2.0
+          Properties:
+            Text: ="Classic tab index 7"
+            X: =24
+            Y: =330
+            Width: =260
+            TabIndex: =7
+            OnSelect: =Set(lastChanged,"Classic selected")
+      - Next:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Next screen"
+            X: =330
+            Y: =330
+            Width: =180
+            OnSelect: =Navigate(SecondScreen)
+      - Left:
+          Control: CanvasComponent
+          ComponentName: FocusPanel
+          Properties:
+            X: =24
+            Y: =405
+            Request: =SetFocus(FirstName)
+      - Right:
+          Control: CanvasComponent
+          ComponentName: FocusPanel
+          Properties:
+            X: =440
+            Y: =405
+            Request: =SetFocus(Surname)
+      - Drafts:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Left draft " & Left.Draft & " · right draft " & Right.Draft
+            X: =24
+            Y: =535
+            Width: =820
+            Height: =32
+      - Group:
+          Control: GroupContainer@1.5.0
+          Properties:
+            X: =24
+            Y: =590
+            Width: =810
+            Height: =145
+          Children:
+            - GroupedSecond:
+                Control: ModernTextInput@1.0.0
+                Properties:
+                  AccessibleLabel: ="GroupedSecond"
+                  X: =330
+                  Y: =74
+                  Width: =260
+                  Default: ="Grouped second"
+            - GroupedFirst:
+                Control: ModernTextInput@1.0.0
+                Properties:
+                  AccessibleLabel: ="GroupedFirst"
+                  X: =12
+                  Y: =12
+                  Width: =260
+                  Default: ="Grouped first"
+      - NotesLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Off-screen notes"
+            X: =24
+            Y: =818
+            Width: =820
+            Height: =32
+      - BackToFirst:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Back to first"
+            X: =24
+            Y: =920
+            Width: =180
+            OnSelect: =SetFocus(FirstName)
+  SecondScreen:
+    Properties:
+      OnVisible: =SetFocus(Arrival)
+    Children:
+      - SecondTitle:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Second screen"
+            X: =24
+            Y: =24
+            Width: =820
+            Height: =32
+      - Arrival:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            AccessibleLabel: ="Arrival"
+            X: =24
+            Y: =90
+            Width: =260
+            Default: ="Fictional arrival"
+      - Return:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Return"
+            X: =24
+            Y: =150
+            Width: =180
+            OnSelect: =Back()

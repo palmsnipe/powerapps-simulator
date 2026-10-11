@@ -1,0 +1,217 @@
+{
+  "Projects": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      }
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional bridge study"
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional park survey"
+      }
+    ]
+  },
+  "Tasks": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 80
+      },
+      "Tags": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Value": {
+              "type": "string"
+            }
+          },
+          "x-ms-capabilities": {
+            "x-ms-sp": {
+              "IsChoice": true
+            }
+          }
+        }
+      },
+      "Links": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Id": {
+              "type": "integer"
+            },
+            "Value": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Owners": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Claims": {
+              "type": "string"
+            },
+            "Email": {
+              "type": "string"
+            },
+            "DisplayName": {
+              "type": "string"
+            },
+            "Department": {
+              "type": "string"
+            },
+            "JobTitle": {
+              "type": "string"
+            },
+            "Picture": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Reviewer": {
+        "type": "object",
+        "properties": {
+          "Claims": {
+            "type": "string"
+          },
+          "Email": {
+            "type": "string"
+          },
+          "DisplayName": {
+            "type": "string"
+          },
+          "Department": {
+            "type": "string"
+          },
+          "JobTitle": {
+            "type": "string"
+          },
+          "Picture": {
+            "type": "string"
+          }
+        }
+      },
+      "Created": {
+        "type": "string",
+        "format": "date-time",
+        "x-ms-permission": "read-only"
+      },
+      "Modified": {
+        "type": "string",
+        "format": "date-time",
+        "x-ms-permission": "read-only"
+      }
+    },
+    "required": [
+      "Title",
+      "Tags",
+      "Owners"
+    ],
+    "mapping": {
+      "ID": "ID",
+      "Title": "Title",
+      "Tags": "Project Tags",
+      "Links": "Related Projects",
+      "Owners": "Project Owners",
+      "Reviewer": "Reviewer",
+      "Created": "Created",
+      "Modified": "Modified"
+    },
+    "choices": {
+      "Tags": [
+        "Planning",
+        "Review",
+        "Delivery"
+      ]
+    },
+    "lookups": {
+      "Links": "Projects"
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional intake study",
+        "Tags": [
+          {
+            "Value": "Planning"
+          }
+        ],
+        "Links": [
+          {
+            "Id": 1,
+            "Value": "Fictional bridge study"
+          }
+        ],
+        "Owners": [
+          {
+            "Claims": "i:0#.f|membership|alex@example.test",
+            "DisplayName": "Alex Example",
+            "Email": "alex@example.test",
+            "Department": "Demo",
+            "JobTitle": "Fictional user",
+            "Picture": ""
+          }
+        ],
+        "Reviewer": {
+          "Claims": "i:0#.f|membership|sam@example.test",
+          "DisplayName": "Sam Example",
+          "Email": "sam@example.test",
+          "Department": "Demo",
+          "JobTitle": "Fictional user",
+          "Picture": ""
+        }
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional review task",
+        "Tags": [
+          {
+            "Value": "Review"
+          }
+        ],
+        "Links": [
+          {
+            "Id": 2,
+            "Value": "Fictional park survey"
+          }
+        ],
+        "Owners": [
+          {
+            "Claims": "i:0#.f|membership|sam@example.test",
+            "DisplayName": "Sam Example",
+            "Email": "sam@example.test",
+            "Department": "Demo",
+            "JobTitle": "Fictional user",
+            "Picture": ""
+          }
+        ],
+        "Reviewer": {
+          "Claims": "i:0#.f|membership|alex@example.test",
+          "DisplayName": "Alex Example",
+          "Email": "alex@example.test",
+          "Department": "Demo",
+          "JobTitle": "Fictional user",
+          "Picture": ""
+        }
+      }
+    ]
+  }
+}

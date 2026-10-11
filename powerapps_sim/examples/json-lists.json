@@ -1,0 +1,53 @@
+{
+  "Projects": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number",
+        "default": 0
+      },
+      "project_owners": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Claims": {
+              "type": "string"
+            },
+            "Email": {
+              "type": "string"
+            },
+            "DisplayName": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "project_status": {
+        "type": "object",
+        "properties": {
+          "Value": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "mapping": {
+      "project_owners": "Owners",
+      "project_status": "Status"
+    },
+    "choices": {
+      "project_status": [
+        "Draft",
+        "Review"
+      ]
+    },
+    "records": []
+  }
+}

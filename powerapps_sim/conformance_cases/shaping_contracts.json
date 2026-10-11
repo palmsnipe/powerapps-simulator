@@ -1,0 +1,2794 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Previously unselected non-mutation expressions from nine pinned AddColumns/ShowColumns/DropColumns/RenameColumns files. Compiler rejection kinds derived from native messages; values decoded from literal expected outputs without evaluating formulas. Float and Decimal profiles, except four explicitly Decimal-only cases. Existing table_overloads cases are not duplicated. Two WithMutationSetup display-name cases remain excluded because their host fixture representation differs from local display-key storage; mapped-name contracts have separate regression tests. Modern identifiers and legacy literal names remain accepted for imported Canvas source.",
+  "cases": [
+    {
+      "id": "shaping-addcolumns-10-float",
+      "expression": "AddColumns([1,2,3,4,5], \"Value\", Value * 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L10",
+        "expected_powerfx": "Errors: Warning 24-31: A column named 'Value' already exists.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-10-decimal",
+      "expression": "AddColumns([1,2,3,4,5], \"Value\", Value * 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L10",
+        "expected_powerfx": "Errors: Warning 24-31: A column named 'Value' already exists.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-14-float",
+      "expression": "AddColumns({Value:1}, \"Value\", Value * 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L14",
+        "expected_powerfx": "Errors: Warning 22-29: A column named 'Value' already exists.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-14-decimal",
+      "expression": "AddColumns({Value:1}, \"Value\", Value * 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L14",
+        "expected_powerfx": "Errors: Warning 22-29: A column named 'Value' already exists.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-65-float",
+      "expression": "AddColumns(Table({a: 1}, {a: 2}), \"b\", c)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L65",
+        "expected_powerfx": "Errors: Error 39-40: Name isn't valid. 'c' isn't recognized.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-65-decimal",
+      "expression": "AddColumns(Table({a: 1}, {a: 2}), \"b\", c)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L65",
+        "expected_powerfx": "Errors: Error 39-40: Name isn't valid. 'c' isn't recognized.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-69-float",
+      "expression": "AddColumns({a: 1}, \"b\", c)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L69",
+        "expected_powerfx": "Errors: Error 24-25: Name isn't valid. 'c' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-69-decimal",
+      "expression": "AddColumns({a: 1}, \"b\", c)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L69",
+        "expected_powerfx": "Errors: Error 24-25: Name isn't valid. 'c' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-93-float",
+      "expression": "AddColumns([1,2,3], \"sq\", Value * Value, \"cu\", sq * Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L93",
+        "expected_powerfx": "Errors: Error 47-49: Name isn't valid. 'sq' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-93-decimal",
+      "expression": "AddColumns([1,2,3], \"sq\", Value * Value, \"cu\", sq * Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L93",
+        "expected_powerfx": "Errors: Error 47-49: Name isn't valid. 'sq' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-97-float",
+      "expression": "AddColumns({Value:2}, \"sq\", Value * Value, \"cu\", sq * Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L97",
+        "expected_powerfx": "Errors: Error 49-51: Name isn't valid. 'sq' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-97-decimal",
+      "expression": "AddColumns({Value:2}, \"sq\", Value * Value, \"cu\", sq * Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L97",
+        "expected_powerfx": "Errors: Error 49-51: Name isn't valid. 'sq' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-100-float",
+      "expression": "AddColumns([1, 2, 3], 5, Value * Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L100",
+        "expected_powerfx": "Errors: Error 22-23: Argument '5' is invalid, expected a text literal.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-100-decimal",
+      "expression": "AddColumns([1, 2, 3], 5, Value * Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L100",
+        "expected_powerfx": "Errors: Error 22-23: Argument '5' is invalid, expected a text literal.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-103-float",
+      "expression": "AddColumns([1, 2, 3], \"\", Value * Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L103",
+        "expected_powerfx": "Errors: Error 22-24: Argument '' is not a valid identifier.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-103-decimal",
+      "expression": "AddColumns([1, 2, 3], \"\", Value * Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L103",
+        "expected_powerfx": "Errors: Error 22-24: Argument '' is not a valid identifier.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-106-float",
+      "expression": "AddColumns([1, 2, 3], \"a\", Value^2, \"a\", Value^3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L106",
+        "expected_powerfx": "Errors: Warning 36-39: Column name conflict for 'a'.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-106-decimal",
+      "expression": "AddColumns([1, 2, 3], \"a\", Value^2, \"a\", Value^3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L106",
+        "expected_powerfx": "Errors: Warning 36-39: Column name conflict for 'a'.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-110-float",
+      "expression": "AddColumns({Value:3}, \"a\", Value^2, \"a\", Value^3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L110",
+        "expected_powerfx": "Errors: Warning 36-39: Column name conflict for 'a'.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns-110-decimal",
+      "expression": "AddColumns({Value:3}, \"a\", Value^2, \"a\", Value^3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns.txt#L110",
+        "expected_powerfx": "Errors: Warning 36-39: Column name conflict for 'a'.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-10-float",
+      "expression": "AddColumns([1,2,3,4,5], Value, Value * 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L10",
+        "expected_powerfx": "Errors: Warning 24-29: A column named 'Value' already exists.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-10-decimal",
+      "expression": "AddColumns([1,2,3,4,5], Value, Value * 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L10",
+        "expected_powerfx": "Errors: Warning 24-29: A column named 'Value' already exists.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-14-float",
+      "expression": "AddColumns({Value:1}, Value, Value * 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L14",
+        "expected_powerfx": "Errors: Warning 22-27: A column named 'Value' already exists.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-14-decimal",
+      "expression": "AddColumns({Value:1}, Value, Value * 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L14",
+        "expected_powerfx": "Errors: Warning 22-27: A column named 'Value' already exists.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-51-float",
+      "expression": "AddColumns(Table({a: 1, b: {c: 3}}, {a: 2, b: {c: 4}}), b.d, a * a * a)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L51",
+        "expected_powerfx": "Errors: Error 56-57: Name isn't valid. 'b' isn't recognized.|Error 57-59: The '.' operator cannot be used on Error values.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-51-decimal",
+      "expression": "AddColumns(Table({a: 1, b: {c: 3}}, {a: 2, b: {c: 4}}), b.d, a * a * a)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L51",
+        "expected_powerfx": "Errors: Error 56-57: Name isn't valid. 'b' isn't recognized.|Error 57-59: The '.' operator cannot be used on Error values.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-60-float",
+      "expression": "AddColumns(Table({a: 1}, {a: 2}), b, c)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L60",
+        "expected_powerfx": "Errors: Error 37-38: Name isn't valid. 'c' isn't recognized.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-60-decimal",
+      "expression": "AddColumns(Table({a: 1}, {a: 2}), b, c)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L60",
+        "expected_powerfx": "Errors: Error 37-38: Name isn't valid. 'c' isn't recognized.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-64-float",
+      "expression": "AddColumns({a: 1}, b, c)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L64",
+        "expected_powerfx": "Errors: Error 22-23: Name isn't valid. 'c' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-64-decimal",
+      "expression": "AddColumns({a: 1}, b, c)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L64",
+        "expected_powerfx": "Errors: Error 22-23: Name isn't valid. 'c' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-84-float",
+      "expression": "AddColumns([1,2,3], sq, Value * Value, cu, sq * Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L84",
+        "expected_powerfx": "Errors: Error 43-45: Name isn't valid. 'sq' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-84-decimal",
+      "expression": "AddColumns([1,2,3], sq, Value * Value, cu, sq * Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L84",
+        "expected_powerfx": "Errors: Error 43-45: Name isn't valid. 'sq' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-87-float",
+      "expression": "AddColumns([1,2], _, _ * _)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L87",
+        "expected_powerfx": "Errors: Error 21-22: Name isn't valid. '_' isn't recognized.|Error 25-26: Name isn't valid. '_' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-87-decimal",
+      "expression": "AddColumns([1,2], _, _ * _)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L87",
+        "expected_powerfx": "Errors: Error 21-22: Name isn't valid. '_' isn't recognized.|Error 25-26: Name isn't valid. '_' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-100-float",
+      "expression": "AddColumns([1,2], 3, Value * Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L100",
+        "expected_powerfx": "Errors: Error 18-19: Expected identifier name|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-100-decimal",
+      "expression": "AddColumns([1,2], 3, Value * Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L100",
+        "expected_powerfx": "Errors: Error 18-19: Expected identifier name|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-103-float",
+      "expression": "AddColumns([1, 2, 3], a, Value^2, a, Value^3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L103",
+        "expected_powerfx": "Errors: Warning 34-35: Column name conflict for 'a'.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-103-decimal",
+      "expression": "AddColumns([1, 2, 3], a, Value^2, a, Value^3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L103",
+        "expected_powerfx": "Errors: Warning 34-35: Column name conflict for 'a'.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-107-float",
+      "expression": "AddColumns({Value:3}, a, Value^2, a, Value^3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L107",
+        "expected_powerfx": "Errors: Warning 34-35: Column name conflict for 'a'.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers-107-decimal",
+      "expression": "AddColumns({Value:3}, a, Value^2, a, Value^3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers.txt#L107",
+        "expected_powerfx": "Errors: Warning 34-35: Column name conflict for 'a'.|Error 0-10: The function 'AddColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers_numberisfloatdisabled-10-decimal",
+      "expression": "AddColumns([\"1\",\"2\",\"3\"],dec,Decimal(Value)+10000000000.0000000007)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers_NumberIsFloatDisabled.txt#L10",
+        "expected_powerfx": "Table({Value:\"1\",dec:10000000001.0000000007},{Value:\"2\",dec:10000000002.0000000007},{Value:\"3\",dec:10000000003.0000000007})"
+      },
+      "expected": [
+        {
+          "Value": "1",
+          "dec": {
+            "$decimal": "10000000001.0000000007"
+          }
+        },
+        {
+          "Value": "2",
+          "dec": {
+            "$decimal": "10000000002.0000000007"
+          }
+        },
+        {
+          "Value": "3",
+          "dec": {
+            "$decimal": "10000000003.0000000007"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers_numberisfloatdisabled-13-decimal",
+      "expression": "AddColumns([\"1\",\"2\",\"3\"],dec,Value+10000000000.0000000007)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers_NumberIsFloatDisabled.txt#L13",
+        "expected_powerfx": "Table({Value:\"1\",dec:10000000001.0000000007},{Value:\"2\",dec:10000000002.0000000007},{Value:\"3\",dec:10000000003.0000000007})"
+      },
+      "expected": [
+        {
+          "Value": "1",
+          "dec": {
+            "$decimal": "10000000001.0000000007"
+          }
+        },
+        {
+          "Value": "2",
+          "dec": {
+            "$decimal": "10000000002.0000000007"
+          }
+        },
+        {
+          "Value": "3",
+          "dec": {
+            "$decimal": "10000000003.0000000007"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers_numberisfloatdisabled-16-decimal",
+      "expression": "AddColumns([\"1\",\"2\",\"3\"],dec,Float(Value)+10000000000.0000000007)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers_NumberIsFloatDisabled.txt#L16",
+        "expected_powerfx": "Table({Value:\"1\",dec:10000000001},{Value:\"2\",dec:10000000002},{Value:\"3\",dec:10000000003})"
+      },
+      "expected": [
+        {
+          "Value": "1",
+          "dec": 10000000001.0
+        },
+        {
+          "Value": "2",
+          "dec": 10000000002.0
+        },
+        {
+          "Value": "3",
+          "dec": 10000000003.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-addcolumns_supportcolumnnamesasidentifiers_numberisfloatdisabled-19-decimal",
+      "expression": "AddColumns([\"1\",\"2\",\"3\"],dec,Value(Value)+10000000000.0000000007)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/AddColumns_SupportColumnNamesAsIdentifiers_NumberIsFloatDisabled.txt#L19",
+        "expected_powerfx": "Table({Value:\"1\",dec:10000000001.0000000007},{Value:\"2\",dec:10000000002.0000000007},{Value:\"3\",dec:10000000003.0000000007})"
+      },
+      "expected": [
+        {
+          "Value": "1",
+          "dec": {
+            "$decimal": "10000000001.0000000007"
+          }
+        },
+        {
+          "Value": "2",
+          "dec": {
+            "$decimal": "10000000002.0000000007"
+          }
+        },
+        {
+          "Value": "3",
+          "dec": {
+            "$decimal": "10000000003.0000000007"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-47-float",
+      "expression": "DropColumns(Table({a:1,b:2},{a:3,b:4}), a, a)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L47",
+        "expected_powerfx": "Errors: Error 43-44: The specified column 'a' does not exist. The column with the most similar name is 'b'.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-47-decimal",
+      "expression": "DropColumns(Table({a:1,b:2},{a:3,b:4}), a, a)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L47",
+        "expected_powerfx": "Errors: Error 43-44: The specified column 'a' does not exist. The column with the most similar name is 'b'.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-51-float",
+      "expression": "DropColumns({a:1,b:2}, a, a)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L51",
+        "expected_powerfx": "Errors: Error 26-27: The specified column 'a' does not exist. The column with the most similar name is 'b'.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-51-decimal",
+      "expression": "DropColumns({a:1,b:2}, a, a)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L51",
+        "expected_powerfx": "Errors: Error 26-27: The specified column 'a' does not exist. The column with the most similar name is 'b'.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-60-float",
+      "expression": "DropColumns([1, 2], 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L60",
+        "expected_powerfx": "Errors: Error 20-21: Expected identifier name|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-60-decimal",
+      "expression": "DropColumns([1, 2], 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L60",
+        "expected_powerfx": "Errors: Error 20-21: Expected identifier name|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-64-float",
+      "expression": "DropColumns({Value:1}, 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L64",
+        "expected_powerfx": "Errors: Error 23-24: Expected identifier name|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-64-decimal",
+      "expression": "DropColumns({Value:1}, 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L64",
+        "expected_powerfx": "Errors: Error 23-24: Expected identifier name|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-67-float",
+      "expression": "DropColumns([1, 2], z)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L67",
+        "expected_powerfx": "Errors: Error 20-21: The specified column 'z' does not exist.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-67-decimal",
+      "expression": "DropColumns([1, 2], z)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L67",
+        "expected_powerfx": "Errors: Error 20-21: The specified column 'z' does not exist.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-71-float",
+      "expression": "DropColumns({Value:1}, z)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L71",
+        "expected_powerfx": "Errors: Error 23-24: The specified column 'z' does not exist.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiers-71-decimal",
+      "expression": "DropColumns({Value:1}, z)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiers.txt#L71",
+        "expected_powerfx": "Errors: Error 23-24: The specified column 'z' does not exist.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiersdisabled-15-float",
+      "expression": "DropColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"a\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L15",
+        "expected_powerfx": "Errors: Error 45-48: The specified column 'a' does not exist. The column with the most similar name is 'b'.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiersdisabled-15-decimal",
+      "expression": "DropColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"a\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L15",
+        "expected_powerfx": "Errors: Error 45-48: The specified column 'a' does not exist. The column with the most similar name is 'b'.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiersdisabled-24-float",
+      "expression": "DropColumns([1, 2, 3], 5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L24",
+        "expected_powerfx": "Errors: Error 23-24: Argument '5' is invalid, expected a text literal.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiersdisabled-24-decimal",
+      "expression": "DropColumns([1, 2, 3], 5)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L24",
+        "expected_powerfx": "Errors: Error 23-24: Argument '5' is invalid, expected a text literal.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiersdisabled-27-float",
+      "expression": "DropColumns([1, 2, 3], \"\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L27",
+        "expected_powerfx": "Errors: Error 23-25: Argument '' is not a valid identifier.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-dropcolumns_supportcolumnnamesasidentifiersdisabled-27-decimal",
+      "expression": "DropColumns([1, 2, 3], \"\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DropColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L27",
+        "expected_powerfx": "Errors: Error 23-25: Argument '' is not a valid identifier.|Error 0-11: The function 'DropColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-62-float",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), a, b)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L62",
+        "expected_powerfx": "Errors: Error 45-46: A column named 'b' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-62-decimal",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), a, b)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L62",
+        "expected_powerfx": "Errors: Error 45-46: A column named 'b' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-66-float",
+      "expression": "RenameColumns({a:1,b:2}, a, b)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L66",
+        "expected_powerfx": "Errors: Error 28-29: A column named 'b' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-66-decimal",
+      "expression": "RenameColumns({a:1,b:2}, a, b)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L66",
+        "expected_powerfx": "Errors: Error 28-29: A column named 'b' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-69-float",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), a, c, b, c)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L69",
+        "expected_powerfx": "Errors: Error 51-52: A column named 'c' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-69-decimal",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), a, c, b, c)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L69",
+        "expected_powerfx": "Errors: Error 51-52: A column named 'c' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-73-float",
+      "expression": "RenameColumns({a:1,b:2}, a, c, b, c)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L73",
+        "expected_powerfx": "Errors: Error 34-35: A column named 'c' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-73-decimal",
+      "expression": "RenameColumns({a:1,b:2}, a, c, b, c)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L73",
+        "expected_powerfx": "Errors: Error 34-35: A column named 'c' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-82-float",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), a, a2, b)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L82",
+        "expected_powerfx": "Errors: Error 0-51: Invalid number of arguments: received 4, expected an odd number."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-82-decimal",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), a, a2, b)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L82",
+        "expected_powerfx": "Errors: Error 0-51: Invalid number of arguments: received 4, expected an odd number."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-86-float",
+      "expression": "RenameColumns({a:1,b:2}, a, a2, b)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L86",
+        "expected_powerfx": "Errors: Error 0-34: Invalid number of arguments: received 4, expected an odd number."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-86-decimal",
+      "expression": "RenameColumns({a:1,b:2}, a, a2, b)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L86",
+        "expected_powerfx": "Errors: Error 0-34: Invalid number of arguments: received 4, expected an odd number."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-89-float",
+      "expression": "RenameColumns([1, 2], 3, 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L89",
+        "expected_powerfx": "Errors: Error 22-23: Expected identifier name|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-89-decimal",
+      "expression": "RenameColumns([1, 2], 3, 4)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L89",
+        "expected_powerfx": "Errors: Error 22-23: Expected identifier name|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-93-float",
+      "expression": "RenameColumns({Value:1}, 3, 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L93",
+        "expected_powerfx": "Errors: Error 25-26: Expected identifier name|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-93-decimal",
+      "expression": "RenameColumns({Value:1}, 3, 4)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L93",
+        "expected_powerfx": "Errors: Error 25-26: Expected identifier name|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-96-float",
+      "expression": "RenameColumns([1, 2], z, y)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L96",
+        "expected_powerfx": "Errors: Error 22-23: The specified column 'z' does not exist.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-96-decimal",
+      "expression": "RenameColumns([1, 2], z, y)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L96",
+        "expected_powerfx": "Errors: Error 22-23: The specified column 'z' does not exist.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-100-float",
+      "expression": "RenameColumns({Value:1}, z, y)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L100",
+        "expected_powerfx": "Errors: Error 25-26: The specified column 'z' does not exist.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiers-100-decimal",
+      "expression": "RenameColumns({Value:1}, z, y)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiers.txt#L100",
+        "expected_powerfx": "Errors: Error 25-26: The specified column 'z' does not exist.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-62-float",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"c\", \"b\", \"c\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L62",
+        "expected_powerfx": "Errors: Error 57-60: A column named 'c' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-62-decimal",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"c\", \"b\", \"c\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L62",
+        "expected_powerfx": "Errors: Error 57-60: A column named 'c' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-66-float",
+      "expression": "RenameColumns({a:1,b:2}, \"a\", \"c\", \"b\", \"c\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L66",
+        "expected_powerfx": "Errors: Error 40-43: A column named 'c' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-66-decimal",
+      "expression": "RenameColumns({a:1,b:2}, \"a\", \"c\", \"b\", \"c\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L66",
+        "expected_powerfx": "Errors: Error 40-43: A column named 'c' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-69-float",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"b\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L69",
+        "expected_powerfx": "Errors: Error 47-50: A column named 'b' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-69-decimal",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"b\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L69",
+        "expected_powerfx": "Errors: Error 47-50: A column named 'b' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-73-float",
+      "expression": "RenameColumns({a:1,b:2}, \"a\", \"b\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L73",
+        "expected_powerfx": "Errors: Error 30-33: A column named 'b' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-73-decimal",
+      "expression": "RenameColumns({a:1,b:2}, \"a\", \"b\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L73",
+        "expected_powerfx": "Errors: Error 30-33: A column named 'b' already exists.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-82-float",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"a2\", \"b\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L82",
+        "expected_powerfx": "Errors: Errors: Error 0-57: Invalid number of arguments: received 4, expected an odd number."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-82-decimal",
+      "expression": "RenameColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"a2\", \"b\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L82",
+        "expected_powerfx": "Errors: Errors: Error 0-57: Invalid number of arguments: received 4, expected an odd number."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-86-float",
+      "expression": "RenameColumns({a:1,b:2}, \"a\", \"a2\", \"b\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L86",
+        "expected_powerfx": "Errors: Error 0-40: Invalid number of arguments: received 4, expected an odd number."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-86-decimal",
+      "expression": "RenameColumns({a:1,b:2}, \"a\", \"a2\", \"b\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L86",
+        "expected_powerfx": "Errors: Error 0-40: Invalid number of arguments: received 4, expected an odd number."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-89-float",
+      "expression": "RenameColumns([1, 2], 3, 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L89",
+        "expected_powerfx": "Errors: Error 22-23: Argument '3' is invalid, expected a text literal.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-89-decimal",
+      "expression": "RenameColumns([1, 2], 3, 4)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L89",
+        "expected_powerfx": "Errors: Error 22-23: Argument '3' is invalid, expected a text literal.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-93-float",
+      "expression": "RenameColumns({Value:1}, 3, 4)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L93",
+        "expected_powerfx": "Errors: Error 25-26: Argument '3' is invalid, expected a text literal.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-93-decimal",
+      "expression": "RenameColumns({Value:1}, 3, 4)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L93",
+        "expected_powerfx": "Errors: Error 25-26: Argument '3' is invalid, expected a text literal.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-96-float",
+      "expression": "RenameColumns([1, 2], \"z\", \"y\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L96",
+        "expected_powerfx": "Errors: Error 22-25: The specified column 'z' does not exist.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-96-decimal",
+      "expression": "RenameColumns([1, 2], \"z\", \"y\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L96",
+        "expected_powerfx": "Errors: Error 22-25: The specified column 'z' does not exist.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-100-float",
+      "expression": "RenameColumns({Value:1}, \"z\", \"y\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L100",
+        "expected_powerfx": "Errors: Error 25-28: The specified column 'z' does not exist.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-renamecolumns_supportcolumnnamesasidentifiersdisabled-100-decimal",
+      "expression": "RenameColumns({Value:1}, \"z\", \"y\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/RenameColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L100",
+        "expected_powerfx": "Errors: Error 25-28: The specified column 'z' does not exist.|Error 0-13: The function 'RenameColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-37-float",
+      "expression": "ShowColumns(Table({a:1,b:2},{a:3,b:4}), a, c)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L37",
+        "expected_powerfx": "Errors: Error 43-44: The specified column 'c' does not exist. The column with the most similar name is 'a'.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-37-decimal",
+      "expression": "ShowColumns(Table({a:1,b:2},{a:3,b:4}), a, c)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L37",
+        "expected_powerfx": "Errors: Error 43-44: The specified column 'c' does not exist. The column with the most similar name is 'a'.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-41-float",
+      "expression": "ShowColumns({a:1,b:2}, a, c)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L41",
+        "expected_powerfx": "Errors: Error 26-27: The specified column 'c' does not exist. The column with the most similar name is 'a'.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-41-decimal",
+      "expression": "ShowColumns({a:1,b:2}, a, c)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L41",
+        "expected_powerfx": "Errors: Error 26-27: The specified column 'c' does not exist. The column with the most similar name is 'a'.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-47-float",
+      "expression": "Last(ShowColumns(Table({a:1,b:2},{a:3,b:4}), b)).a",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L47",
+        "expected_powerfx": "Errors: Error 48-50: Name isn't valid. 'a' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-47-decimal",
+      "expression": "Last(ShowColumns(Table({a:1,b:2},{a:3,b:4}), b)).a",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L47",
+        "expected_powerfx": "Errors: Error 48-50: Name isn't valid. 'a' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-57-float",
+      "expression": "ShowColumns([1, 2], 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L57",
+        "expected_powerfx": "Errors: Error 20-21: Expected identifier name|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-57-decimal",
+      "expression": "ShowColumns([1, 2], 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L57",
+        "expected_powerfx": "Errors: Error 20-21: Expected identifier name|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-61-float",
+      "expression": "ShowColumns({Value:1}, 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L61",
+        "expected_powerfx": "Errors: Error 23-24: Expected identifier name|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-61-decimal",
+      "expression": "ShowColumns({Value:1}, 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L61",
+        "expected_powerfx": "Errors: Error 23-24: Expected identifier name|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-64-float",
+      "expression": "ShowColumns([1, 2], z)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L64",
+        "expected_powerfx": "Errors: Error 20-21: The specified column 'z' does not exist.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-64-decimal",
+      "expression": "ShowColumns([1, 2], z)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L64",
+        "expected_powerfx": "Errors: Error 20-21: The specified column 'z' does not exist.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-68-float",
+      "expression": "ShowColumns({Value:1}, z)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L68",
+        "expected_powerfx": "Errors: Error 23-24: The specified column 'z' does not exist.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns-68-decimal",
+      "expression": "ShowColumns({Value:1}, z)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns.txt#L68",
+        "expected_powerfx": "Errors: Error 23-24: The specified column 'z' does not exist.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-3-float",
+      "expression": "ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"b\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L3",
+        "expected_powerfx": "Table({b:2},{b:4})"
+      },
+      "expected": [
+        {
+          "b": 2.0
+        },
+        {
+          "b": 4.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-3-decimal",
+      "expression": "ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"b\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L3",
+        "expected_powerfx": "Table({b:2},{b:4})"
+      },
+      "expected": [
+        {
+          "b": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "b": {
+            "$decimal": "4"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-7-float",
+      "expression": "ShowColumns({a:1,b:2}, \"b\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L7",
+        "expected_powerfx": "{b:2}"
+      },
+      "expected": {
+        "b": 2.0
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-7-decimal",
+      "expression": "ShowColumns({a:1,b:2}, \"b\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L7",
+        "expected_powerfx": "{b:2}"
+      },
+      "expected": {
+        "b": {
+          "$decimal": "2"
+        }
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-10-float",
+      "expression": "ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"b\", \"a\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L10",
+        "expected_powerfx": "Table({a:1,b:2},{a:3,b:4})"
+      },
+      "expected": [
+        {
+          "a": 1.0,
+          "b": 2.0
+        },
+        {
+          "a": 3.0,
+          "b": 4.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-10-decimal",
+      "expression": "ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"b\", \"a\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L10",
+        "expected_powerfx": "Table({a:1,b:2},{a:3,b:4})"
+      },
+      "expected": [
+        {
+          "a": {
+            "$decimal": "1"
+          },
+          "b": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "a": {
+            "$decimal": "3"
+          },
+          "b": {
+            "$decimal": "4"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-14-float",
+      "expression": "ShowColumns({a:1,b:2}, \"b\", \"a\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L14",
+        "expected_powerfx": "{a:1,b:2}"
+      },
+      "expected": {
+        "a": 1.0,
+        "b": 2.0
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-14-decimal",
+      "expression": "ShowColumns({a:1,b:2}, \"b\", \"a\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L14",
+        "expected_powerfx": "{a:1,b:2}"
+      },
+      "expected": {
+        "a": {
+          "$decimal": "1"
+        },
+        "b": {
+          "$decimal": "2"
+        }
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-17-float",
+      "expression": "ShowColumns(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"a\"), \"a\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L17",
+        "expected_powerfx": "Table({a:1},{a:3})"
+      },
+      "expected": [
+        {
+          "a": 1.0
+        },
+        {
+          "a": 3.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-17-decimal",
+      "expression": "ShowColumns(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"a\"), \"a\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L17",
+        "expected_powerfx": "Table({a:1},{a:3})"
+      },
+      "expected": [
+        {
+          "a": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "a": {
+            "$decimal": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-21-float",
+      "expression": "ShowColumns(ShowColumns({a:1,b:2}, \"a\"), \"a\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L21",
+        "expected_powerfx": "{a:1}"
+      },
+      "expected": {
+        "a": 1.0
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-21-decimal",
+      "expression": "ShowColumns(ShowColumns({a:1,b:2}, \"a\"), \"a\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L21",
+        "expected_powerfx": "{a:1}"
+      },
+      "expected": {
+        "a": {
+          "$decimal": "1"
+        }
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-24-float",
+      "expression": "ShowColumns(AddColumns(Table({a:1,b:2},{a:3,b:4}), \"c\", a * b), \"c\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L24",
+        "expected_powerfx": "Table({c:2},{c:12})"
+      },
+      "expected": [
+        {
+          "c": 2.0
+        },
+        {
+          "c": 12.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-24-decimal",
+      "expression": "ShowColumns(AddColumns(Table({a:1,b:2},{a:3,b:4}), \"c\", a * b), \"c\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L24",
+        "expected_powerfx": "Table({c:2},{c:12})"
+      },
+      "expected": [
+        {
+          "c": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "c": {
+            "$decimal": "12"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-28-float",
+      "expression": "ShowColumns(First(AddColumns(Table({a:1,b:2},{a:3,b:4}), \"c\", a * b)), \"c\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L28",
+        "expected_powerfx": "{c:2}"
+      },
+      "expected": {
+        "c": 2.0
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-28-decimal",
+      "expression": "ShowColumns(First(AddColumns(Table({a:1,b:2},{a:3,b:4}), \"c\", a * b)), \"c\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L28",
+        "expected_powerfx": "{c:2}"
+      },
+      "expected": {
+        "c": {
+          "$decimal": "2"
+        }
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-31-float",
+      "expression": "AddColumns(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"a\"), \"c\", a * a * a)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L31",
+        "expected_powerfx": "Table({a:1,c:1},{a:3,c:27})"
+      },
+      "expected": [
+        {
+          "a": 1.0,
+          "c": 1.0
+        },
+        {
+          "a": 3.0,
+          "c": 27.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-31-decimal",
+      "expression": "AddColumns(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"a\"), \"c\", a * a * a)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L31",
+        "expected_powerfx": "Table({a:1,c:1},{a:3,c:27})"
+      },
+      "expected": [
+        {
+          "a": {
+            "$decimal": "1"
+          },
+          "c": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "a": {
+            "$decimal": "3"
+          },
+          "c": {
+            "$decimal": "27"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-34-float",
+      "expression": "AddColumns(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"a\"), \"b\", a * a * a)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L34",
+        "expected_powerfx": "Table({a:1,b:1},{a:3,b:27})"
+      },
+      "expected": [
+        {
+          "a": 1.0,
+          "b": 1.0
+        },
+        {
+          "a": 3.0,
+          "b": 27.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-34-decimal",
+      "expression": "AddColumns(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"a\"), \"b\", a * a * a)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L34",
+        "expected_powerfx": "Table({a:1,b:1},{a:3,b:27})"
+      },
+      "expected": [
+        {
+          "a": {
+            "$decimal": "1"
+          },
+          "b": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "a": {
+            "$decimal": "3"
+          },
+          "b": {
+            "$decimal": "27"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-37-float",
+      "expression": "ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"c\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L37",
+        "expected_powerfx": "Errors: Error 45-48: The specified column 'c' does not exist. The column with the most similar name is 'a'.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-37-decimal",
+      "expression": "ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"a\", \"c\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L37",
+        "expected_powerfx": "Errors: Error 45-48: The specified column 'c' does not exist. The column with the most similar name is 'a'.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-41-float",
+      "expression": "ShowColumns({a:1,b:2}, \"a\", \"c\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L41",
+        "expected_powerfx": "Errors: Error 28-31: The specified column 'c' does not exist. The column with the most similar name is 'a'.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-41-decimal",
+      "expression": "ShowColumns({a:1,b:2}, \"a\", \"c\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L41",
+        "expected_powerfx": "Errors: Error 28-31: The specified column 'c' does not exist. The column with the most similar name is 'a'.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-44-float",
+      "expression": "Last(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"b\")).b",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L44",
+        "expected_powerfx": "4"
+      },
+      "expected": 4.0
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-44-decimal",
+      "expression": "Last(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"b\")).b",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L44",
+        "expected_powerfx": "4"
+      },
+      "expected": {
+        "$decimal": "4"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-47-float",
+      "expression": "Last(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"b\")).a",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L47",
+        "expected_powerfx": "Errors: Error 50-52: Name isn't valid. 'a' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-47-decimal",
+      "expression": "Last(ShowColumns(Table({a:1,b:2},{a:3,b:4}), \"b\")).a",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L47",
+        "expected_powerfx": "Errors: Error 50-52: Name isn't valid. 'a' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-50-float",
+      "expression": "ShowColumns([1, 2, 3], \"Value\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L50",
+        "expected_powerfx": "Table({Value:1},{Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-50-decimal",
+      "expression": "ShowColumns([1, 2, 3], \"Value\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L50",
+        "expected_powerfx": "Table({Value:1},{Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-54-float",
+      "expression": "ShowColumns(Last([1, 2, 3]), \"Value\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L54",
+        "expected_powerfx": "{Value:3}"
+      },
+      "expected": {
+        "Value": 3.0
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-54-decimal",
+      "expression": "ShowColumns(Last([1, 2, 3]), \"Value\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L54",
+        "expected_powerfx": "{Value:3}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "3"
+        }
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-57-float",
+      "expression": "ShowColumns([1, 2], \"z\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L57",
+        "expected_powerfx": "Errors: Error 20-23: The specified column 'z' does not exist.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-57-decimal",
+      "expression": "ShowColumns([1, 2], \"z\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L57",
+        "expected_powerfx": "Errors: Error 20-23: The specified column 'z' does not exist.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-61-float",
+      "expression": "ShowColumns({Value:1}, \"z\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L61",
+        "expected_powerfx": "Errors: Error 23-26: The specified column 'z' does not exist.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-61-decimal",
+      "expression": "ShowColumns({Value:1}, \"z\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L61",
+        "expected_powerfx": "Errors: Error 23-26: The specified column 'z' does not exist.|Error 0-11: The function 'ShowColumns' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-64-float",
+      "expression": "ShowColumns([{a:1,b:2},{a:1/0,b:4},{a:5,b:6}],\"a\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L64",
+        "expected_powerfx": "Table({a:1},{a:Error({Kind:ErrorKind.Div0})},{a:5})"
+      },
+      "expected": [
+        {
+          "a": 1.0
+        },
+        {
+          "a": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "a": 5.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-64-decimal",
+      "expression": "ShowColumns([{a:1,b:2},{a:1/0,b:4},{a:5,b:6}],\"a\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L64",
+        "expected_powerfx": "Table({a:1},{a:Error({Kind:ErrorKind.Div0})},{a:5})"
+      },
+      "expected": [
+        {
+          "a": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "a": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "a": {
+            "$decimal": "5"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-68-float",
+      "expression": "ShowColumns({a:1/0,b:4},\"a\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L68",
+        "expected_powerfx": "{a:Error({Kind:ErrorKind.Div0})}"
+      },
+      "expected": {
+        "a": {
+          "$error": {
+            "Kind": 13
+          }
+        }
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-68-decimal",
+      "expression": "ShowColumns({a:1/0,b:4},\"a\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L68",
+        "expected_powerfx": "{a:Error({Kind:ErrorKind.Div0})}"
+      },
+      "expected": {
+        "a": {
+          "$error": {
+            "Kind": 13
+          }
+        }
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-71-float",
+      "expression": "ShowColumns(Filter([-2,-1,0,1,2],1/Value>0),\"Value\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L71",
+        "expected_powerfx": "Table(Error({Kind:ErrorKind.Div0}),{Value:1},{Value:2})"
+      },
+      "expected": [
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 2.0
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-71-decimal",
+      "expression": "ShowColumns(Filter([-2,-1,0,1,2],1/Value>0),\"Value\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L71",
+        "expected_powerfx": "Table(Error({Kind:ErrorKind.Div0}),{Value:1},{Value:2})"
+      },
+      "expected": [
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "2"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-75-float",
+      "expression": "ShowColumns(First(Filter([-2,-1,0,1,2],1/Value>0)),\"Value\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L75",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "shaping-showcolumns_supportcolumnnamesasidentifiersdisabled-75-decimal",
+      "expression": "ShowColumns(First(Filter([-2,-1,0,1,2],1/Value>0)),\"Value\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ShowColumns_SupportColumnNamesAsIdentifiersDisabled.txt#L75",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    }
+  ]
+}

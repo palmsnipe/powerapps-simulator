@@ -1,0 +1,128 @@
+{
+  "status.workflow.json": {
+    "format_version": 1,
+    "name": "Badge callbacks, information actions, row scope and SQLite snapshots",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=0 && RightPanel.Count=0 && CountRows(trace)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/LeftPanel/Counter",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=1 && RightPanel.Count=0 && First(trace).Panel=\"left\" && First(trace).Count=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/RightPanel/Counter",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Count=1 && LeftPanel.Count=1 && CountRows(trace)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/DisableLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/LeftPanel/Counter",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=1 && CountRows(trace)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/DisableLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/LeftPanel/Counter",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=2 && CountRows(trace)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(Rows.AllItems,2).RowBadge",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Last(trace).Panel=\"Fictional Beta\" && Last(trace).Count=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/Info",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "helpClicks=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/HideHelp",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/Info",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "helpClicks=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/HideHelp",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && First(Snapshots).LeftCount=2 && First(Snapshots).RightCount=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatusLab/LeftPanel/ResetPanel",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Count=0 && RightPanel.Count=1",
+        "expect": true
+      }
+    ]
+  }
+}

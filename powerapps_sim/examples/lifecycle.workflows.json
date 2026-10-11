@@ -1,0 +1,52 @@
+{
+  "components.workflow.json": {
+    "format_version": 1,
+    "name": "Component reset and queued gallery event",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "seed",
+        "expect": 10
+      },
+      {
+        "op": "event",
+        "path": "Lifecycle/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "seed",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total",
+        "expect": 100
+      },
+      {
+        "op": "event",
+        "path": "Lifecycle/QueueSelect",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "EventsGallery.Selected.Title",
+        "expect": "second"
+      },
+      {
+        "op": "assert",
+        "formula": "Last(trace).Step",
+        "expect": "gallery second"
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

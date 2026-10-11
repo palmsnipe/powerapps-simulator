@@ -1,0 +1,252 @@
+App:
+  Properties:
+    StartScreen: =TimerLab
+    OnStart: =Clear(history);Clear(results);Set(background,false);Set(bgEnds,0);Set(fgEnds,0);Set(reviews,0);Set(status,"Ready");Reset(LeftPulse);Reset(RightPulse)
+    Formulas: |-
+      =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);Summary=$"{CountRows(history)} events · {status}";
+ComponentDefinitions:
+  PulsePanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Period:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1000
+      Elapsed:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Beat.Value
+      Cycles:
+        PropertyKind: Output
+        DataType: Number
+        Default: =cycles
+      Starts:
+        PropertyKind: Output
+        DataType: Number
+        Default: =starts
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =captured
+      FormatMs:
+        PropertyKind: Function
+        PropertyDefinition: Output
+        ReturnType: Text
+        Parameters:
+          - value:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =Text(value/1000,"0.0") & " s"
+      Toggle:
+        PropertyKind: Action
+        ReturnType: None
+        Default: =Set(playing,Not(playing))
+      Expired:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Cycle:0,ElapsedMs:0,At:Now()}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =250
+      OnReset: =Set(playing,false);Set(cycles,0);Set(starts,0);Clear(captured);Reset(Beat)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =PulsePanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =32
+      - Beat:
+          Control: Timer@2.0.1
+          Properties:
+            Duration: =PulsePanel.Period
+            Start: =playing
+            Repeat: =true
+            AccessibleLabel: =PulsePanel.Caption & " timer"
+            Text: =PulsePanel.FormatMs(Self.Value)
+            X: =12
+            Y: =40
+            Width: =400
+            Height: =44
+            OnTimerStart: =Set(starts,starts+1)
+            OnTimerEnd: =Set(cycles,cycles+1);Collect(captured,{Cycle:cycles,ElapsedMs:Self.Value,At:Now()});PulsePanel.Expired({Cycle:cycles,ElapsedMs:Self.Value,At:Now()})
+      - Current:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"{cycles} cycles · {starts} starts · {CountRows(captured)} snapshots"
+            X: =12
+            Y: =94
+            Width: =400
+            Height: =32
+      - ActionButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =If(playing,"Pause ","Start ") & PulsePanel.Caption
+            X: =12
+            Y: =140
+            Width: =190
+            OnSelect: =PulsePanel.Toggle()
+      - ElapsedBar:
+          Control: ModernProgressBar@1.0.0
+          Properties:
+            Value: =Beat.Value
+            Max: =PulsePanel.Period
+            X: =12
+            Y: =198
+            Width: =400
+            Height: =8
+Screens:
+  TimerLab:
+    Properties:
+      Width: =940
+      Height: =570
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Timers · components and local writes","Minuteries · composants et enregistrements")
+            X: =16
+            Y: =14
+            Width: =900
+            Height: =32
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Summary
+            X: =16
+            Y: =48
+            Width: =900
+            Height: =32
+      - LeftPulse:
+          Control: CanvasComponent
+          ComponentName: PulsePanel
+          Properties:
+            X: =16
+            Y: =96
+            Caption: ="Left"
+            Period: =1000
+            Expired: =Collect(history,Patch(value,{Panel:Self.Name}));IfError(Patch(Ticks,Defaults(Ticks),{Title:$"Fictional {Self.Caption} cycle {value.Cycle}",Panel:Self.Name,Cycle:value.Cycle,ElapsedMs:value.ElapsedMs,At:Text(value.At,"yyyy-mm-dd hh:mm:ss")}),Set(status,T("Save failed","Échec")),Set(status,T("Saved","Enregistré")))
+      - RightPulse:
+          Control: CanvasComponent
+          ComponentName: PulsePanel
+          Properties:
+            X: =470
+            Y: =96
+            Caption: ="Right"
+            Period: =1500
+            Expired: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,T("Right elapsed","Minuterie droite"))
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            X: =16
+            Y: =368
+            Width: =144
+            OnSelect: =Reset(LeftPulse)
+      - Background:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =If(background,T("Stop background","Arrêter arrière-plan"),T("Start background","Démarrer arrière-plan"))
+            X: =172
+            Y: =368
+            Width: =210
+            OnSelect: =Set(background,Not(background))
+      - ReviewButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Review screen","Écran de revue")
+            X: =394
+            Y: =368
+            Width: =190
+            OnSelect: =Navigate(Review)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Build table","Créer une table")
+            X: =596
+            Y: =368
+            Width: =144
+            OnSelect: =ClearCollect(results,ForAll(Sequence(8),{ID:Value,Panel:LeftPulse.Caption,Elapsed:LeftPulse.Elapsed,Count:LeftPulse.Cycles,N01:Value,N02:Value+1,N03:Value+2,N04:Value+3,N05:Value+4,N06:Value+5,N07:Value+6,N08:Value+7,N09:Value+8,N10:Value+9,N11:Value+10,N12:Value+11,N13:Value+12,N14:Value+13,Nested:{Left:LeftPulse.Elapsed,Right:RightPulse.Elapsed},At:Now()}));Set(status,T("Table ready","Table prête"))
+      - BackgroundState:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"Background {bgEnds} · AutoPause {fgEnds} · Reviews {reviews}"
+            X: =16
+            Y: =424
+            Width: =900
+            Height: =32
+      - BgTimer:
+          Control: Timer@2.0.0
+          Properties:
+            Visible: =false
+            Duration: =2000
+            Start: =background
+            Repeat: =true
+            AutoPause: =false
+            OnTimerEnd: =Set(bgEnds,bgEnds+1)
+      - FgTimer:
+          Control: Timer@2.1.0
+          Properties:
+            Visible: =false
+            Duration: =2000
+            Start: =background
+            Repeat: =true
+            AutoPause: =true
+            OnTimerEnd: =Set(fgEnds,fgEnds+1)
+      - Clock:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(Now(),"yyyy-mm-dd hh:mm:ss")
+            X: =16
+            Y: =470
+            Width: =900
+            Height: =32
+  Review:
+    Properties:
+      Width: =940
+      Height: =570
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Review screen","Écran de revue")
+            X: =16
+            Y: =24
+            Width: =900
+      - ReviewTimer:
+          Control: Timer@2.1.0
+          Properties:
+            AutoStart: =true
+            Duration: =750
+            Text: ="Review · " & Text(Self.Value/1000,"0.0") & " s"
+            X: =16
+            Y: =80
+            Width: =300
+            OnTimerEnd: =Set(reviews,reviews+1)
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"Background {bgEnds} · AutoPause {fgEnds} · Reviews {reviews}"
+            X: =16
+            Y: =150
+            Width: =900
+      - Return:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Return","Retour")
+            X: =16
+            Y: =220
+            Width: =160
+            OnSelect: =Back()

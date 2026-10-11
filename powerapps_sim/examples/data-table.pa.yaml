@@ -1,0 +1,373 @@
+App:
+  Properties:
+    StartScreen: =TableLab
+    OnStart: =Clear(events);Clear(clicks);Clear(saves);Set(status,"Ready");Set(narrow,false);Reset(LeftFilter);Reset(RightShow)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+ComponentDefinitions:
+  LayoutSwitch:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Layout"
+      Seed:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Value:
+        PropertyKind: Output
+        DataType: Boolean
+        Default: =Switch.Value
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Boolean
+              Default: =false
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =240
+      Height: =48
+      OnReset: =Reset(Switch)
+    Children:
+      - Switch:
+          Control: Classic/Toggle@2.1.0
+          Properties:
+            Default: =LayoutSwitch.Seed
+            TrueText: =LayoutSwitch.Caption
+            FalseText: =LayoutSwitch.Caption
+            Width: =230
+            Height: =38
+            AccessibleLabel: =LayoutSwitch.Caption
+            OnChange: =LayoutSwitch.Changed(Self.Value)
+Screens:
+  TableLab:
+    Properties:
+      Fill: =RGBA(250,250,250,1)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Drafts · select and edit","Brouillons · sélectionner et modifier")
+            X: =20
+            Y: =8
+            Width: =900
+            Height: =36
+            Size: =22
+      - LeftFilter:
+          Control: CanvasComponent
+          ComponentName: LayoutSwitch
+          Properties:
+            Caption: ="First four rows"
+            Seed: =false
+            Changed: =Collect(events,{Kind:"LeftFilter",Value:value})
+            X: =20
+            Y: =48
+      - RightShow:
+          Control: CanvasComponent
+          ComponentName: LayoutSwitch
+          Properties:
+            Caption: ="Amount column"
+            Seed: =true
+            Changed: =Collect(events,{Kind:"RightShow",Value:value})
+            X: =280
+            Y: =48
+      - Narrow:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Resize table","Redimensionner")
+            X: =560
+            Y: =48
+            Width: =180
+            OnSelect: =Set(narrow,!narrow)
+      - DraftTable:
+          Control: DataTable@1.0.2
+          Properties:
+            X: =20
+            Y: =104
+            Width: =If(narrow,540,900)
+            Height: =250
+            Items: =Filter(Drafts,!LeftFilter.Value || ID<=4)
+            AccessibleLabel: =T("Fictional drafts","Brouillons fictifs")
+            NoDataText: =T("No drafts","Aucun brouillon")
+          Children:
+            - IDColumn:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="ID"
+                  FieldDisplayName: ="ID"
+                  Order: =1
+                  Width: =80
+                  OnSelect: =Collect(clicks,{ID:ThisItem.ID,Kind:"ID"})
+                  Text: =Text(ThisItem.ID)
+            - TitleColumn:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Title"
+                  FieldDisplayName: =T("Draft","Brouillon")
+                  Order: =2
+                  Width: =280
+                  IsHyperlink: =true
+                  OnSelect: =Collect(clicks,{ID:ThisItem.ID,Kind:"Title"})
+                  Text: =ThisItem.Title
+            - AmountColumn:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Amount"
+                  FieldDisplayName: ="Amount"
+                  Order: =3
+                  Width: =160
+                  Visible: =RightShow.Value
+                  Text: =Text(ThisItem.Amount,"0.00","en-US")
+            - StatusColumn:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Status"
+                  FieldDisplayName: ="Status"
+                  Order: =4
+                  Width: =160
+                  Text: =ThisItem.Status.Value
+            - Detail1:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail1"
+                  FieldDisplayName: ="Detail1"
+                  Order: =5
+                  Width: =190
+            - Detail2:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail2"
+                  FieldDisplayName: ="Detail2"
+                  Order: =6
+                  Width: =190
+            - Detail3:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail3"
+                  FieldDisplayName: ="Detail3"
+                  Order: =7
+                  Width: =190
+            - Detail4:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail4"
+                  FieldDisplayName: ="Detail4"
+                  Order: =8
+                  Width: =190
+            - Detail5:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail5"
+                  FieldDisplayName: ="Detail5"
+                  Order: =9
+                  Width: =190
+            - Detail6:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail6"
+                  FieldDisplayName: ="Detail6"
+                  Order: =10
+                  Width: =190
+            - Detail7:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail7"
+                  FieldDisplayName: ="Detail7"
+                  Order: =11
+                  Width: =190
+            - Detail8:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail8"
+                  FieldDisplayName: ="Detail8"
+                  Order: =12
+                  Width: =190
+            - Detail9:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail9"
+                  FieldDisplayName: ="Detail9"
+                  Order: =13
+                  Width: =190
+            - Detail10:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail10"
+                  FieldDisplayName: ="Detail10"
+                  Order: =14
+                  Width: =190
+            - Detail11:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail11"
+                  FieldDisplayName: ="Detail11"
+                  Order: =15
+                  Width: =190
+            - Detail12:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail12"
+                  FieldDisplayName: ="Detail12"
+                  Order: =16
+                  Width: =190
+            - Detail13:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail13"
+                  FieldDisplayName: ="Detail13"
+                  Order: =17
+                  Width: =190
+            - Detail14:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail14"
+                  FieldDisplayName: ="Detail14"
+                  Order: =18
+                  Width: =190
+            - Detail15:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail15"
+                  FieldDisplayName: ="Detail15"
+                  Order: =19
+                  Width: =190
+            - Detail16:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Detail16"
+                  FieldDisplayName: ="Detail16"
+                  Order: =20
+                  Width: =190
+      - Selection:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =360
+            Width: =900
+            Text: '=T("Selected: ","Sélection : ") & DraftTable.Selected.Title & " · " & status'
+      - DraftForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =20
+            Y: =398
+            Width: =680
+            Height: =110
+            NumberOfColumns: =3
+            DataSource: =Drafts
+            Item: =DraftTable.Selected
+            OnSuccess: =Set(status,T("Saved","Enregistré"));Collect(saves,Self.LastSubmit)
+            OnFailure: =Set(status,T("Save failed","Échec"))
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  X: =0
+                  Y: =0
+                  Width: =400
+                  Height: =100
+                  WidthFit: =false
+                  Fill: =RGBA(245,245,245,1)
+                  Required: =true
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Title","Titre")
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                        Height: =30
+                  - TitleInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        Default: =Text(Parent.Default)
+                        AccessibleLabel: ="Draft title"
+                        X: =12
+                        Y: =36
+                        Width: =Parent.Width-24
+                        Height: =36
+                  - CardError:
+                      Control: Label@2.5.1
+                      Properties:
+                        Text: =Parent.Error
+                        AutoHeight: =true
+                        Width: =Parent.Width-24
+                        Y: =76
+                        Height: =20
+                        Color: =Color.Red
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Amount"
+                  Default: =ThisItem.Amount
+                  Update: =Value(AmountInput.Text)
+                  X: =1
+                  Y: =0
+                  Width: =280
+                  Height: =100
+                  WidthFit: =false
+                  Fill: =RGBA(245,245,245,1)
+                Children:
+                  - AmountLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Amount","Montant")
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                        Height: =30
+                  - AmountInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        Default: =Text(Parent.Default)
+                        AccessibleLabel: ="Draft amount"
+                        X: =12
+                        Y: =36
+                        Width: =Parent.Width-24
+                        Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =720
+            Y: =432
+            Text: ="Save draft"
+            Width: =180
+            OnSelect: =SubmitForm(DraftForm)
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =720
+            Y: =470
+            Text: ="Reset edits"
+            Width: =180
+            OnSelect: =ResetForm(DraftForm)
+      - OtherTable:
+          Control: DataTable@1.0.2
+          Properties:
+            X: =20
+            Y: =532
+            Width: =900
+            Height: =120
+            Items: =Table({ID:101,Title:T("Independent table A","Table indépendante A")},{ID:102,Title:T("Independent table B","Table indépendante B")})
+          Children:
+            - OtherID:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="ID"
+                  FieldDisplayName: ="ID"
+                  Order: =1
+                  Width: =100
+            - OtherTitle:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  FieldName: ="Title"
+                  FieldDisplayName: ="Title"
+                  Order: =2
+                  Width: =500

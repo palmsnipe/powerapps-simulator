@@ -1,0 +1,34 @@
+{
+  "Notes": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 80
+      }
+    },
+    "required": [
+      "Title"
+    ],
+    "mapping": {
+      "ID": "ID",
+      "Title": "Title"
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Alpha note"
+      },
+      {
+        "ID": 2,
+        "Title": "Beta note"
+      },
+      {
+        "ID": 3,
+        "Title": "Gamma note"
+      }
+    ]
+  }
+}

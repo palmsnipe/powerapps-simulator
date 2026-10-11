@@ -1,0 +1,108 @@
+{
+  "Options": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "Group": {
+        "type": "string"
+      }
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional bridge",
+        "Group": "Engineering"
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional park",
+        "Group": "Environment"
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional survey",
+        "Group": "Engineering"
+      }
+    ]
+  },
+  "Notes": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "State": {
+        "type": "object",
+        "properties": {
+          "Value": {
+            "type": "string"
+          }
+        },
+        "x-ms-capabilities": {
+          "x-ms-sp": {
+            "IsChoice": true
+          }
+        }
+      },
+      "Tags": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Value": {
+              "type": "string"
+            }
+          },
+          "x-ms-capabilities": {
+            "x-ms-sp": {
+              "IsChoice": true
+            }
+          }
+        }
+      }
+    },
+    "choices": {
+      "State": [
+        "Draft",
+        "Review",
+        "Approved"
+      ],
+      "Tags": [
+        "Research",
+        "Design",
+        "Urgent"
+      ]
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional note 1",
+        "State": {
+          "Value": "Draft"
+        },
+        "Tags": [
+          {
+            "Value": "Research"
+          }
+        ]
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional note 2",
+        "State": {
+          "Value": "Review"
+        },
+        "Tags": []
+      }
+    ]
+  }
+}

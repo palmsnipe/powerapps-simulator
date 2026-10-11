@@ -1,0 +1,93 @@
+{
+  "month-shifts.workflow.json": {
+    "format_version": 1,
+    "name": "Month planning \u00b7 typed dates and isolated callbacks",
+    "records": {
+      "Plans": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Renewal=Date(2024,2,29) && Left.Cutoff=Date(2024,2,29) && Right.Renewal=Date(2023,6,15) && Right.Cutoff=Date(2023,6,30)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/Months",
+        "event": "OnChange",
+        "value": 1.9
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Renewal=Date(2024,2,29) && CountRows(history)=1 && First(history).Renewal=Left.Renewal",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Right/Months",
+        "event": "OnChange",
+        "value": -1.9
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Renewal=Date(2023,4,15) && Right.Cutoff=Date(2023,4,30) && Left.Renewal=Date(2024,2,29)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/Day",
+        "event": "OnChange",
+        "value": "2023-01-31"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Renewal=Date(2023,2,28) && Left.Cutoff=Date(2023,2,28) && CountRows(history)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Plans)=1 && First(Plans).'Renewal date'=Date(2023,2,28) && First(Plans).'Period end'=Date(2023,2,28)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Left/ResetButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Renewal=Date(2024,2,29) && Right.Renewal=Date(2023,4,15) && CountRows(history)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/Right/ResetButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Renewal=Date(2023,6,15) && Right.Cutoff=Date(2023,6,30) && CountRows(history)=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "MonthDate(DateTime(2024,1,31,12,30,0),1.9)=Date(2024,2,29) && PeriodEnd(Date(2023,5,15),-1.9)=Date(2023,4,30)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(EDate(Date(9999,12,31),1),Date(2024,1,1))=Date(2024,1,1)",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

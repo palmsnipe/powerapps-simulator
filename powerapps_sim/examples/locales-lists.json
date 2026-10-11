@@ -1,0 +1,30 @@
+{
+  "Amounts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readOnly": true
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 255
+      },
+      "Amount": {
+        "type": "number"
+      },
+      "Language": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "Title",
+      "Amount",
+      "Language"
+    ],
+    "mapping": {
+      "Amount": "Parsed amount",
+      "Language": "Input language"
+    },
+    "records": []
+  }
+}

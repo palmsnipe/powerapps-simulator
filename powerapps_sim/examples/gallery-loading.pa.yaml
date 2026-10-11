@@ -1,0 +1,117 @@
+App:
+  Properties:
+    StartScreen: =LoadingScreen
+    Formulas: |
+      LoadedCount = Records.AllItemsCount;
+      LoadedTotal = Sum(Records.AllItems, AmountInput.Value);
+    OnStart: =ClearCollect(rows,ForAll(Sequence(2048) As n,{ID:n.Value,Title:"Fictional row " & Text(n.Value),Amount:n.Value})); Set(clicks,0); Set(changes,0); Set(reverseRows,false)
+Screens:
+  LoadingScreen:
+    Children:
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =850
+            Height: =48
+            Text: ="Loaded " & LoadedCount & " of " & CountRows(rows) & " · amount " & LoadedTotal & " · clicks " & clicks & " · edits " & changes
+      - Records:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =76
+            Width: =570
+            Height: =300
+            Items: =Sort(rows,ID,If(reverseRows,SortOrder.Descending,SortOrder.Ascending))
+            TemplateSize: =92
+            TemplatePadding: =8
+            TemplateFill: =If(ThisItem.IsSelected,RGBA(225,239,255,1),Color.White)
+            ItemAccessibleLabel: =ThisItem.Title
+            OnSelect: =Set(clicks,clicks+1)
+          Children:
+            - Caption:
+                Control: ModernText@1.0.0
+                Properties:
+                  X: =12
+                  Y: =4
+                  Width: =530
+                  Height: =28
+                  Text: =ThisItem.Title
+            - Note:
+                Control: ModernTextInput@1.0.0
+                Properties:
+                  X: =12
+                  Y: =40
+                  Width: =280
+                  Height: =32
+                  Default: =ThisItem.Title
+                  TriggerOutput: =TriggerOutput.FocusOut
+                  AccessibleLabel: ="Note " & Text(ThisItem.ID)
+                  OnChange: =Set(changes,changes+1)
+            - AmountInput:
+                Control: ModernNumberInput@1.0.0
+                Properties:
+                  X: =310
+                  Y: =40
+                  Width: =170
+                  Height: =32
+                  Default: =ThisItem.Amount
+                  AccessibleLabel: ="Amount " & Text(ThisItem.ID)
+                  OnChange: =Set(changes,changes+1)
+      - Help:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =620
+            Y: =80
+            Width: =250
+            Height: =130
+            Text: ="Scroll to load more rows. Edits stay with their records. The lower gallery starts loading after it is visible."
+      - ResetRecords:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =620
+            Y: =230
+            Width: =230
+            Text: ="Reset gallery"
+            OnSelect: =Reset(Records)
+      - ReverseRows:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =620
+            Y: =280
+            Width: =230
+            Text: ="Reverse rows"
+            OnSelect: =Set(reverseRows,!reverseRows)
+      - CaptureControls:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =620
+            Y: =330
+            Width: =230
+            Text: ="Capture loaded controls"
+            OnSelect: =ClearCollect(captured,Records.AllItems)
+      - Horizontal:
+          Control: Gallery@2.15.0
+          Variant: Horizontal
+          Properties:
+            X: =20
+            Y: =430
+            Width: =850
+            Height: =130
+            Items: =FirstN(rows,30)
+            DelayItemLoading: =true
+            LoadingSpinner: =LoadingSpinner.Data
+            WrapCount: =2
+            TemplateSize: =160
+            TemplatePadding: =8
+            ItemAccessibleLabel: =ThisItem.Title
+          Children:
+            - SmallCaption:
+                Control: ModernText@1.0.0
+                Properties:
+                  X: =8
+                  Y: =4
+                  Width: =145
+                  Height: =50
+                  Text: =ThisItem.Title

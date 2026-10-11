@@ -1,0 +1,106 @@
+ComponentDefinitions:
+  LinkCard:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Fictional resource"
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="https://example.test/"
+      InteractionMode:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Edit"
+      Subtle:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Destination:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Address.Text
+      LinkTitle:
+        PropertyKind: Output
+        DataType: Text
+        Default: =TitleInput.Text
+      Edits:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(edits,0)
+      Kind:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Text(DestinationLink.Type)
+      Valid:
+        PropertyKind: Output
+        DataType: Boolean
+        Default: =!IsError(DestinationLink.URL) && !IsBlank(DestinationLink.URL)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - destination:
+              DataType: Text
+          - editCount:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =400
+      Height: =242
+      OnReset: =Set(edits,0)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =4
+            Width: =Parent.Width-24
+            Height: =28
+            Text: =LinkCard.Caption & " · edits " & LinkCard.Edits
+      - TitleInput:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =12
+            Y: =38
+            Width: =Parent.Width-24
+            Height: =32
+            Default: =LinkCard.Caption
+            AccessibleLabel: =LinkCard.Caption & " title"
+            DisplayMode: =LinkCard.InteractionMode
+            OnChange: =Set(edits,LinkCard.Edits+1);LinkCard.Changed(LinkCard.Destination,LinkCard.Edits)
+      - Address:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =12
+            Y: =80
+            Width: =Parent.Width-24
+            Height: =32
+            Default: =LinkCard.Seed
+            AccessibleLabel: =LinkCard.Caption & " address"
+            DisplayMode: =LinkCard.InteractionMode
+            OnChange: =Set(edits,LinkCard.Edits+1);LinkCard.Changed(Self.Text,LinkCard.Edits)
+      - DestinationLink:
+          Control: ModernLink@1.0.0
+          Properties:
+            X: =12
+            Y: =128
+            Width: =Parent.Width-24
+            Height: =32
+            AutoHeight: =true
+            Text: =TitleInput.Text
+            URL: =Address.Text
+            AccessibleLabel: ="Open " & TitleInput.Text
+            Type: =If(LinkCard.Subtle,LinkAppearance.Subtle,LinkAppearance.Default)
+            DisplayMode: =LinkCard.InteractionMode
+      - Feedback:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =DestinationLink.Y+DestinationLink.Height+8
+            Width: =Parent.Width-24
+            Height: =36
+            Text: =IfError(If(IsBlank(DestinationLink.URL),"No destination",LinkCard.Kind & " link"),FirstError.Message)

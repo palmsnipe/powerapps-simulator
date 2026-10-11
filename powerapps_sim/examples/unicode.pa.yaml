@@ -1,0 +1,244 @@
+App:
+  Properties:
+    StartScreen: =UnicodeText
+    OnStart: =Clear(history);Clear(results);Clear(glyphs);Clear(codeErrors);Clear(searchErrors);ClearCollect(samples,{Value:"🌲 River,,Lake,",Hex:"1F332"},{Value:"Été, Rivière,",Hex:"3BB"},{Value:"Coast",Hex:"D800"});Set(status,"Ready")
+    Formulas: =SamplePositions=Find("River",samples.Value);SampleSymbols=UniChar(Hex2Dec(samples.Hex));
+ComponentDefinitions:
+  UnicodePanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="🌲 River,,Lake,"
+      SeedCode:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="1F332"
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Raw:Input.Text,Delimiter:Separator.Text,Found:Find(Needle.Text,Input.Text),Units:Len(Input.Text),TokenCount:CountRows(Split(Input.Text,Separator.Text)),Symbol:IfError(UniChar(Hex2Dec(Hex.Text)),"Invalid code"),Code:IfError(Hex2Dec(Hex.Text),0),CodeError:IfError(Len(UniChar(Hex2Dec(Hex.Text))),FirstError.Kind,0)}
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Split(Input.Text,Separator.Text)
+      FindPosition:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - text:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+          - match:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+        Default: =Find(match,text)
+      Capture:
+        PropertyKind: Action
+        ReturnType: Record
+        Parameters:
+          - kind:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+        Default: =Collect(captured,Patch(UnicodePanel.Current,{Kind:kind}));UnicodePanel.Changed(UnicodePanel.Current);UnicodePanel.Current
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Raw:"",Delimiter:"",Found:0,Units:0,TokenCount:0,Symbol:"",Code:0,CodeError:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =400
+      OnReset: =Clear(captured)
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =UnicodePanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =30
+      - Input:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =12
+            Y: =40
+            Width: =400
+            Default: =UnicodePanel.Seed
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =UnicodePanel.Caption & " text"
+            OnChange: =UnicodePanel.Capture("text")
+      - Separator:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =12
+            Y: =82
+            Width: =100
+            Default: =","
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =UnicodePanel.Caption & " separator"
+            OnChange: =UnicodePanel.Capture("separator")
+      - Needle:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =130
+            Y: =82
+            Width: =282
+            Default: ="River"
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =UnicodePanel.Caption & " search"
+            OnChange: =UnicodePanel.Capture("search")
+      - Hex:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =12
+            Y: =126
+            Width: =200
+            Default: =UnicodePanel.SeedCode
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =UnicodePanel.Caption & " hex code"
+            OnChange: =UnicodePanel.Capture("hex code")
+      - Glyph:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Symbol " & UnicodePanel.Current.Symbol & " · error " & UnicodePanel.Current.CodeError
+            X: =224
+            Y: =126
+            Width: =195
+            Height: =30
+      - Found:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Found " & If(IsBlank(UnicodePanel.Current.Found),"Blank",Text(UnicodePanel.Current.Found)) & " · units " & UnicodePanel.Current.Units & " · tokens " & UnicodePanel.Current.TokenCount
+            X: =12
+            Y: =176
+            Width: =400
+            Height: =30
+      - Custom:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Custom position " & If(IsBlank(UnicodePanel.FindPosition(Input.Text,Needle.Text)),"Blank",Text(UnicodePanel.FindPosition(Input.Text,Needle.Text)))
+            X: =12
+            Y: =211
+            Width: =400
+            Height: =30
+      - Tokens:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =12
+            Y: =250
+            Width: =400
+            Height: =140
+            Items: =UnicodePanel.Rows
+            TemplateSize: =32
+            TemplatePadding: =1
+          Children:
+            - Token:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: ="[" & ThisItem.Value & "] · units " & Len(ThisItem.Value)
+                  X: =4
+                  Y: =0
+                  Width: =370
+                  Height: =30
+Screens:
+  UnicodeText:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Unicode search and tokens"
+            X: =16
+            Y: =8
+            Width: =900
+            Height: =30
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Callbacks " & CountRows(history) & " · " & status
+            X: =16
+            Y: =44
+            Width: =900
+            Height: =30
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =16
+            Y: =88
+            Caption: ="LeftPanel"
+            Seed: ="🌲 River,,Lake,"
+            SeedCode: ="1F332"
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: UnicodePanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =470
+            Y: =88
+            Caption: ="RightPanel"
+            Seed: ="Été, Rivière,"
+            SeedCode: ="3BB"
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: UnicodePanel
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =16
+            Y: =500
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Build table"
+            X: =172
+            Y: =500
+            Width: =136
+            OnSelect: =ClearCollect(results,AddColumns(samples,Symbol,IfError(UniChar(Hex2Dec(Hex)),"Invalid code"),Units,Len(Value),Found,Find("River",Value),PartCount,CountRows(Split(Value,",")),FirstToken,First(Split(Value,",")).Value,LastToken,Last(Split(Value,",")).Value,HexCode,IfError(Hex2Dec(Hex),0),CodeError,IfError(Len(UniChar(Hex2Dec(Hex))),FirstError.Kind,0),Characters,Split(Value,""),Tokens,Split(Value,","),Prefix,Left(Value,3),Suffix,Right(Value,3),Tail,Mid(Value,2),UpperText,Upper(Value),LowerText,Lower(Value),EmptyFind,Find("",Value),EndFind,Find("",Value,Len(Value)+1),ExactFind,Find(Value,Value)));ClearCollect(glyphs,UniChar([65,127794,955]));Set(status,"Table ready")
+      - Errors:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Code errors"
+            X: =328
+            Y: =500
+            Width: =136
+            OnSelect: =ClearCollect(codeErrors,UniChar([65,55296,0,127794]));ClearCollect(searchErrors,Find("River",samples.Value,[1,0,-1]));Set(status,"Errors ready")
+      - SaveLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save left"
+            DisplayMode: =If(LeftPanel.Current.CodeError=0,DisplayMode.Edit,DisplayMode.Disabled)
+            X: =484
+            Y: =500
+            Width: =136
+            OnSelect: =Set(saved,IfError(Patch(Snapshots,LookUp(Snapshots,ID=1),{Text:LeftPanel.Current.Raw,Symbol:LeftPanel.Current.Symbol,TokenCount:LeftPanel.Current.TokenCount}),Set(status,"Save failed");Blank()));If(!IsBlank(saved),Set(status,"Saved"))
+      - Saved:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Saved symbol " & LookUp(Snapshots,ID=1).Symbol & " · tokens " & LookUp(Snapshots,ID=1).TokenCount
+            X: =16
+            Y: =554
+            Width: =900
+            Height: =30
+      - Tables:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Results " & CountRows(results) & " · code errors " & CountRows(codeErrors) & " · search rows " & CountRows(searchErrors)
+            X: =16
+            Y: =594
+            Width: =900
+            Height: =30

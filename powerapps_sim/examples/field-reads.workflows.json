@@ -1,0 +1,174 @@
+{
+  "field-reads.workflow.json": {
+    "format_version": 1,
+    "name": "Field member precision, isolated components and record callbacks",
+    "environment": {
+      "random_seed": 20261011
+    },
+    "records": {
+      "Cards": [
+        {
+          "ID": 1,
+          "Title": "Fictional forest",
+          "Amount": 10
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional river",
+          "Amount": 20
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional meadow",
+          "Amount": 30
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(Cards)=3 && Editor.Item.ID=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/Remember",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/Unrelated",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "AmountInput.Text=remembered.Draft && GridFixed.Text=remembered.Fixed && GridRoll.Text=remembered.Roll && Editor.Item.ID=remembered.Item",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/Editor/AmountCard/AmountInput",
+        "event": "OnChange",
+        "value": "99"
+      },
+      {
+        "op": "assert",
+        "formula": "AmountInput.Text=\"99\" && Editor.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/Unrelated",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "AmountInput.Text=\"99\" && Editor.Unsaved && Editor.Item.ID=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && First(Cards).Amount=99 && CountRows(saves)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/RandomPick",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/Remember",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/Unrelated",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Editor.Item.ID=remembered.Item && AmountInput.Text=remembered.Draft",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Editor.Item.ID=remembered.Item && AmountInput.Text=remembered.Draft",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/RememberFields",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/RenameOwner",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftFields.Roll=fieldRemembered.L && RightFields.Roll=fieldRemembered.R && LeftFields.Mail=fieldRemembered.M && RightFields.Mail=fieldRemembered.RM && LeftFields.Whole<>fieldRemembered.W",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/IncreaseLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftFields.Roll<>fieldRemembered.L && RightFields.Roll=fieldRemembered.R && LeftFields.Mail=fieldRemembered.M",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/RememberFields",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/ChangeEmail",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftFields.Roll=fieldRemembered.L && LeftFields.Mail<>fieldRemembered.M && RightFields.Mail=fieldRemembered.RM",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/LeftFields/EmitButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ReactiveLab/RightFields/EmitButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(samples)=2 && First(samples).Roll=LeftFields.Roll && Last(samples).Roll=RightFields.Roll && First(samples).Mail=LeftFields.Mail && Last(samples).Mail=RightFields.Mail",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

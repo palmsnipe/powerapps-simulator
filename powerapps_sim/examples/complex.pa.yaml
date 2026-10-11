@@ -1,0 +1,275 @@
+App:
+  Properties:
+    StartScreen: =ComplexScreen
+    OnStart: =Set(selectedId,1);Set(leftOwners,Table());Set(rightLinks,Table());ClearCollect(events,{Event:"start"})
+ComponentDefinitions:
+  ComplexPicker:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Seed:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Kind:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="People"
+      Current:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Picker.SelectedItems
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - chosen:
+              DataType: Table
+        Default: =Blank()
+    Properties:
+      Width: =400
+      Height: =90
+    Children:
+      - Picker:
+          Control: ModernCombobox@1.1.2
+          Properties:
+            Items: =If(ComplexPicker.Kind="People",Search(ComplexPicker.Rows,Self.SearchText,DisplayName,Email),Search(ComplexPicker.Rows,Self.SearchText,Value))
+            DefaultSelectedItems: =ComplexPicker.Seed
+            ItemDisplayText: =If(ComplexPicker.Kind="People",ThisItem.DisplayName,ThisItem.Value)
+            AccessibleLabel: ="Component selections"
+            Width: =Parent.Width
+            OnChange: =ComplexPicker.Changed(Self.SelectedItems)
+      - SelectedLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =If(IsEmpty(Picker.SelectedItems),"None",If(ComplexPicker.Kind="People",First(Picker.SelectedItems).Email,First(Picker.SelectedItems).Value))
+            X: =0
+            Y: =42
+            Width: =400
+            Height: =32
+Screens:
+  ComplexScreen:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Complex cards and components"
+            X: =24
+            Y: =16
+            Width: =700
+            Height: =32
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save task"
+            OnSelect: =SubmitForm(TaskForm)
+            X: =24
+            Y: =64
+            Width: =140
+      - New:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="New task"
+            OnSelect: =NewForm(TaskForm)
+            X: =180
+            Y: =64
+            Width: =140
+      - Next:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Next record"
+            OnSelect: =Set(selectedId,If(selectedId=1,2,1));EditForm(TaskForm)
+            X: =336
+            Y: =64
+            Width: =140
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset inputs"
+            OnSelect: =ResetForm(TaskForm);Reset(LeftPeople);Reset(RightLinks)
+            X: =492
+            Y: =64
+            Width: =140
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =TaskForm.Mode & " · unsaved " & Text(TaskForm.Unsaved) & " · valid " & Text(TaskForm.Valid) & " · saved " & Coalesce(Text(TaskForm.LastSubmit.ID),"none") & Char(10) & TaskForm.Error
+            X: =24
+            Y: =112
+            Width: =840
+            Height: =56
+      - TaskForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Tasks
+            Item: =LookUp(Tasks,ID=selectedId)
+            NumberOfColumns: =2
+            X: =24
+            Y: =180
+            Width: =852
+            Height: =216
+            OnSuccess: =Set(selectedId,Self.LastSubmit.ID);Collect(events,{Event:"saved"})
+            OnFailure: =Collect(events,{Event:"failed"})
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Required: =true
+                  Update: =TaskTitle.Text
+                  Width: =Parent.Width/2
+                  Height: =104
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Task name"
+                        X: =0
+                        Y: =0
+                        Width: =400
+                        Height: =32
+                  - TaskTitle:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Task name"
+                        Y: =36
+                        Width: =Parent.Width-16
+            - TagsCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Project Tags"
+                  Default: =ThisItem.'Project Tags'
+                  Required: =DataSourceInfo(Tasks,DataSourceInfo.Required,'Project Tags')
+                  Update: =TagsPicker.SelectedItems
+                  Width: =Parent.Width/2
+                  Height: =104
+                Children:
+                  - TagsCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Project tags"
+                        X: =0
+                        Y: =0
+                        Width: =400
+                        Height: =32
+                  - TagsPicker:
+                      Control: ModernCombobox@1.1.2
+                      Properties:
+                        Items: =Choices(Tasks.'Project Tags',Self.SearchText)
+                        DefaultSelectedItems: =Coalesce(Parent.Default,Table())
+                        ItemDisplayText: =ThisItem.Value
+                        Required: =Parent.Required
+                        AccessibleLabel: ="Project tags"
+                        X: =0
+                        Y: =36
+                        Width: =Parent.Width-16
+                        OnChange: =Collect(events,{Event:"TagsPicker",Count:CountRows(Self.SelectedItems)})
+            - LinksCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Related Projects"
+                  Default: =ThisItem.'Related Projects'
+                  Required: =DataSourceInfo(Tasks,DataSourceInfo.Required,'Related Projects')
+                  Update: =LinksPicker.SelectedItems
+                  Width: =Parent.Width/2
+                  Height: =104
+                Children:
+                  - LinksCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Related projects"
+                        X: =0
+                        Y: =0
+                        Width: =400
+                        Height: =32
+                  - LinksPicker:
+                      Control: ModernCombobox@1.1.2
+                      Properties:
+                        Items: =Choices(Tasks.'Related Projects',Self.SearchText)
+                        DefaultSelectedItems: =Coalesce(Parent.Default,Table())
+                        ItemDisplayText: =ThisItem.Value
+                        Required: =Parent.Required
+                        AccessibleLabel: ="Related projects"
+                        X: =0
+                        Y: =36
+                        Width: =Parent.Width-16
+                        OnChange: =Collect(events,{Event:"LinksPicker",Count:CountRows(Self.SelectedItems)})
+            - OwnersCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Project Owners"
+                  Default: =ThisItem.'Project Owners'
+                  Required: =DataSourceInfo(Tasks,DataSourceInfo.Required,'Project Owners')
+                  Update: =OwnersPicker.SelectedItems
+                  Width: =Parent.Width/2
+                  Height: =104
+                Children:
+                  - OwnersCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Project owners"
+                        X: =0
+                        Y: =0
+                        Width: =400
+                        Height: =32
+                  - OwnersPicker:
+                      Control: ModernCombobox@1.1.2
+                      Properties:
+                        Items: =Choices(Tasks.'Project Owners',Self.SearchText)
+                        DefaultSelectedItems: =Coalesce(Parent.Default,Table())
+                        ItemDisplayText: =ThisItem.DisplayName
+                        Required: =Parent.Required
+                        AccessibleLabel: ="Project owners"
+                        X: =0
+                        Y: =36
+                        Width: =Parent.Width-16
+                        OnChange: =Collect(events,{Event:"OwnersPicker",Count:CountRows(Self.SelectedItems)})
+      - PeopleHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Isolated people component"
+            X: =24
+            Y: =416
+            Width: =400
+            Height: =32
+      - LookupHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Isolated lookup component"
+            X: =460
+            Y: =416
+            Width: =400
+            Height: =32
+      - LeftPeople:
+          Control: CanvasComponent
+          ComponentName: ComplexPicker
+          Properties:
+            Rows: =Choices(Tasks.'Project Owners')
+            Seed: =FirstN(Choices(Tasks.'Project Owners'),1)
+            Kind: ="People"
+            X: =24
+            Y: =456
+            Changed: =Set(leftOwners,chosen);Collect(events,{Event:"left",Count:CountRows(chosen)})
+      - RightLinks:
+          Control: CanvasComponent
+          ComponentName: ComplexPicker
+          Properties:
+            Rows: =Choices(Tasks.'Related Projects')
+            Seed: =FirstN(Choices(Tasks.'Related Projects'),1)
+            Kind: ="Lookup"
+            X: =460
+            Y: =456
+            Changed: =Set(rightLinks,chosen);Collect(events,{Event:"right",Count:CountRows(chosen)})
+      - TraceSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(CountRows(events)-1) & " callbacks"
+            X: =24
+            Y: =558
+            Width: =800
+            Height: =32

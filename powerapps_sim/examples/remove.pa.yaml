@@ -1,0 +1,241 @@
+App:
+  Properties:
+    Formulas: =Total=Sum(Projects,Cost);
+    OnStart: =ClearCollect(local,{Title:"Fictional Alpha",Amount:10,Enabled:true},{Title:"Fictional Alpha",Amount:10,Enabled:true},{Title:"Fictional Beta",Amount:20,Enabled:false});Set(copy,local);Set(book,{Rows:local});Set(lastId,Blank());Clear(events);Set(status,"Ready");Reset(Left);Reset(Right)
+ComponentDefinitions:
+  RemovalPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1
+      Count:
+        PropertyKind: Output
+        DataType: Number
+        Default: =CountRows(local)
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Sum(local,Amount)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - count:
+              DataType: Number
+        Default: =Blank()
+      Drop:
+        PropertyKind: Action
+        ReturnType: None
+        Default: =Remove(local,First(local));RemovalPanel.Changed(RemovalPanel.Count)
+    Properties:
+      OnReset: =ClearCollect(local,{Title:"Fictional component",Amount:RemovalPanel.Seed},{Title:"Fictional component",Amount:RemovalPanel.Seed},{Title:"Fictional larger",Amount:RemovalPanel.Seed+1})
+      Width: =390
+      Height: =100
+      Fill: =RGBA(245,245,245,1)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Rows "&Text(RemovalPanel.Count)&" · total "&Text(RemovalPanel.Total)
+            X: =12
+            Y: =10
+            Width: =366
+            Height: =30
+      - Drop:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remove first local"
+            OnSelect: =RemovalPanel.Drop()
+            X: =12
+            Y: =50
+            Width: =280
+            Height: =36
+Screens:
+  RemoveScreen:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Remove · records, tables and conditions"
+            X: =24
+            Y: =12
+            Width: =820
+            Height: =30
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status&" · list total "&Text(Total)&" · callbacks "&Text(CountRows(events))
+            X: =24
+            Y: =48
+            Width: =820
+            Height: =30
+      - Counts:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Local "&Text(CountRows(local))&" · copy "&Text(CountRows(copy))&" · nested "&Text(CountRows(book.Rows))&" · last ID "&Coalesce(Text(lastId),"blank")
+            X: =24
+            Y: =86
+            Width: =820
+            Height: =30
+      - LocalGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =local
+            X: =24
+            Y: =124
+            Width: =390
+            Height: =125
+            TemplateSize: =38
+          Children:
+            - LocalRow:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title&" · "&Text(ThisItem.Amount)
+                  X: =8
+                  Y: =0
+                  Width: =370
+                  Height: =30
+      - ListGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =Projects
+            X: =456
+            Y: =124
+            Width: =390
+            Height: =125
+            TemplateSize: =38
+            OnSelect: =Set(status,"Selected "&Text(Self.Selected.ID))
+          Children:
+            - ListRow:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =Text(ThisItem.ID)&" · "&ThisItem.Title&" · "&Text(ThisItem.Cost)
+                  X: =8
+                  Y: =0
+                  Width: =370
+                  Height: =30
+                  OnSelect: =Select(Parent)
+      - FirstLocal:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remove one duplicate"
+            OnSelect: =Remove(local,First(local));Set(status,"One removed")
+            X: =24
+            Y: =270
+            Width: =250
+            Height: =36
+      - AllLocal:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remove all duplicates"
+            OnSelect: =Remove(local,First(local),RemoveFlags.All);Set(status,"All copies removed")
+            X: =290
+            Y: =270
+            Width: =250
+            Height: =36
+      - CopyTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remove copied matches"
+            OnSelect: =Remove(copy,Filter(copy,Enabled),RemoveFlags.All);Set(status,"Copy matches removed")
+            X: =556
+            Y: =270
+            Width: =250
+            Height: =36
+      - NestedIf:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remove nested matches"
+            OnSelect: =RemoveIf(book.Rows,Amount>=20,!Enabled);Set(status,"Nested matches removed")
+            X: =24
+            Y: =316
+            Width: =250
+            Height: =36
+      - Selected:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remove selected project"
+            OnSelect: =IfError(Remove(Projects,ListGallery.Selected);Set(status,"Selected removed"),Set(status,FirstError.Message))
+            X: =290
+            Y: =316
+            Width: =250
+            Height: =36
+      - Create:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Create next project"
+            OnSelect: =Set(lastId,Patch(Projects,Defaults(Projects),{Title:"Fictional next project",Cost:7,Status:{Value:"Draft"}}).ID);Set(status,"Project created")
+            X: =556
+            Y: =316
+            Width: =250
+            Height: =36
+      - Missing:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try missing batch"
+            OnSelect: =IfError(Remove(Projects,Table({ID:999},{ID:1}));Set(status,"Unexpected"),Set(status,FirstError.Message))
+            X: =24
+            Y: =362
+            Width: =250
+            Height: =36
+      - Drafts:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remove draft projects"
+            OnSelect: =IfError(RemoveIf(Projects,Status.Value="Draft",Cost>=0);Set(status,"Drafts removed"),Set(status,FirstError.Message))
+            X: =290
+            Y: =362
+            Width: =250
+            Height: =36
+      - BadPredicate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try failing predicate"
+            OnSelect: =IfError(RemoveIf(Projects,If(Cost=7,1/0=0,true));Set(status,"Unexpected"),Set(status,FirstError.Message))
+            X: =556
+            Y: =362
+            Width: =250
+            Height: =36
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =424
+            Seed: =1
+            Changed: =Collect(events,{Title:"Left",Count:count});Set(status,"Left callback")
+          ComponentName: RemovalPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            X: =456
+            Y: =424
+            Seed: =10
+            Changed: =Collect(events,{Title:"Right",Count:count});Set(status,"Right callback")
+          ComponentName: RemovalPanel
+      - Components:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Left "&Text(Left.Count)&" · right "&Text(Right.Count)&" · app rows "&Text(CountRows(local))
+            X: =24
+            Y: =540
+            Width: =820
+            Height: =30
+      - SelectedId:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Selected ID "&Coalesce(Text(ListGallery.Selected.ID),"blank")
+            X: =24
+            Y: =578
+            Width: =820
+            Height: =30
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left component"
+            OnSelect: =Reset(Left);Set(status,"Left reset")
+            X: =24
+            Y: =620
+            Width: =250
+            Height: =36

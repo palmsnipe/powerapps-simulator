@@ -1,0 +1,1 @@
+{"Ticks":{"fields":{"ID":{"type":"integer","readOnly":true},"Title":{"type":"string","maxLength":120},"Panel":{"type":"string"},"Cycle":{"type":"number"},"ElapsedMs":{"type":"number"},"At":{"type":"string"}},"required":["Title","Panel"],"seed":[]}}

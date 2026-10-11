@@ -1,0 +1,26 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "LeftTotal": {
+        "type": "number"
+      },
+      "RightTotal": {
+        "type": "number"
+      },
+      "Callbacks": {
+        "type": "integer"
+      }
+    },
+    "mapping": {
+      "LeftTotal": "Left total",
+      "RightTotal": "Right total"
+    },
+    "records": []
+  }
+}

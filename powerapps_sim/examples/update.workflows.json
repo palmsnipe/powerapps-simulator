@@ -1,0 +1,207 @@
+{
+  "update.workflow.json": {
+    "format_version": 1,
+    "name": "Replace records, conditional writes, isolated components and save failures",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 60
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 50
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 200
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/BumpCollection",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 60
+      },
+      {
+        "op": "assert",
+        "formula": "First(snapshot).Amount",
+        "expect": 15
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/ReplaceCollection",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 40
+      },
+      {
+        "op": "assert",
+        "formula": "CountIf(local,Title=\"Fictional replaced\")",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(First(local).Status)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/Left/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 22
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 200
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/Right/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 202
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 22
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/BumpList",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 70
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects,ID=3).Cost",
+        "expect": 30
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/BadSave",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Project name is required"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 70
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/BumpList",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Simulated write failure for Projects"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 70
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/BumpList",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 80
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/ReplaceList",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 65
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(First(Projects).Status)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).ID",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "UpdateScreen/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 202
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 40
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

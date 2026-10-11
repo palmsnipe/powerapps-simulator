@@ -1,0 +1,692 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Selected embedded errors, date boundaries, localized parsing and Text cases. Canvas versus engine year behavior and unsupported locale coverage are explicit gaps.",
+  "cases": [
+    {
+      "id": "date-extended-1",
+      "expression": "Date(-1, 2, 3)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L1",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "date-extended-10",
+      "expression": "Date(10000,1,1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L10",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "date-extended-21",
+      "expression": "Date(80, 1, 2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L21",
+        "expected_powerfx": "Date(80,1,2)"
+      },
+      "expected": "0080-01-02",
+      "known_gap": "The pinned engine uses absolute years; this canvas simulator follows Microsoft canvas Date documentation and maps 80 to 1980."
+    },
+    {
+      "id": "date-extended-31",
+      "expression": "Date(2000, 25, 69)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L31",
+        "expected_powerfx": "Date(2002,3,10)"
+      },
+      "expected": "2002-03-10"
+    },
+    {
+      "id": "date-extended-34",
+      "expression": "Date(2000, 2, -1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L34",
+        "expected_powerfx": "Date(2000,1,30)"
+      },
+      "expected": "2000-01-30"
+    },
+    {
+      "id": "date-extended-37",
+      "expression": "Date(2000, -2, 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L37",
+        "expected_powerfx": "Date(1999,10,1)"
+      },
+      "expected": "1999-10-01"
+    },
+    {
+      "id": "date-extended-43",
+      "expression": "Date(1933,0,25)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L43",
+        "expected_powerfx": "Date(1932,12,25)"
+      },
+      "expected": "1932-12-25"
+    },
+    {
+      "id": "date-extended-46",
+      "expression": "Date(2012,13,14)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L46",
+        "expected_powerfx": "Date(2013,1,14)"
+      },
+      "expected": "2013-01-14"
+    },
+    {
+      "id": "date-extended-55",
+      "expression": "Date(2118,4,0)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L55",
+        "expected_powerfx": "Date(2118,3,31)"
+      },
+      "expected": "2118-03-31"
+    },
+    {
+      "id": "date-extended-58",
+      "expression": "Date(2012,7,32)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L58",
+        "expected_powerfx": "Date(2012,8,1)"
+      },
+      "expected": "2012-08-01"
+    },
+    {
+      "id": "date-extended-61",
+      "expression": "Date(2012,7,-20)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L61",
+        "expected_powerfx": "Date(2012,6,10)"
+      },
+      "expected": "2012-06-10"
+    },
+    {
+      "id": "date-extended-68",
+      "expression": "Date(1900.67,2.7,12.2)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Date.txt#L68",
+        "expected_powerfx": "Date(1900,2,12)"
+      },
+      "expected": "1900-02-12"
+    },
+    {
+      "id": "dateadd-extended-3",
+      "expression": "DateAdd(Date(2012,2,28), 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateAdd.txt#L3",
+        "expected_powerfx": "Date(2012,2,29)"
+      },
+      "expected": "2012-02-29"
+    },
+    {
+      "id": "dateadd-extended-6",
+      "expression": "DateAdd(Date(2013,2,28), 1)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateAdd.txt#L6",
+        "expected_powerfx": "Date(2013,3,1)"
+      },
+      "expected": "2013-03-01"
+    },
+    {
+      "id": "dateadd-extended-103",
+      "expression": "Month(DateAdd(Date(2001,1,1), 12, TimeUnit.Months))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateAdd.txt#L103",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "dateadd-extended-109",
+      "expression": "Year(DateAdd(Date(2001,1,1), 1, TimeUnit.Years))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateAdd.txt#L109",
+        "expected_powerfx": "2002"
+      },
+      "expected": 2002
+    },
+    {
+      "id": "datediff-extended-2",
+      "expression": "DateDiff(Date(2011,1,15) , Date(2011,1,30))",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateDiff.txt#L2",
+        "expected_powerfx": "15"
+      },
+      "expected": 15
+    },
+    {
+      "id": "datediff-extended-26",
+      "expression": "DateDiff(Date(2011,1,15) , Date(2011,1,30), TimeUnit.Milliseconds)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateDiff.txt#L26",
+        "expected_powerfx": "1296000000"
+      },
+      "expected": 1296000000
+    },
+    {
+      "id": "datediff-extended-41",
+      "expression": "DateDiff(Date(2011,1,15) , Date(2011,7,30), TimeUnit.Quarters)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateDiff.txt#L41",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "datediff-extended-44",
+      "expression": "DateDiff(Date(2021,1,1), Date(2000,1,1), TimeUnit.Years)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateDiff.txt#L44",
+        "expected_powerfx": "-21"
+      },
+      "expected": -21
+    },
+    {
+      "id": "datediff-extended-47",
+      "expression": "DateDiff(Date(2021,1,1), Date(2021,2,1), TimeUnit.Months)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateDiff.txt#L47",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "datediff-extended-50",
+      "expression": "DateDiff(Date(2021,1,1), Date(2021,1,20), TimeUnit.Months)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateDiff.txt#L50",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "datevalue-extended-5",
+      "expression": "DateValue(\"\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L5",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "datevalue-extended-8",
+      "expression": "DateTimeValue(\"\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L8",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "datevalue-extended-20",
+      "expression": "Date(2001, 2, 14) = DateValue(\"2001-02-14\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L20",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "datevalue-extended-23",
+      "expression": "DateValue(\"02-14-01\") = DateValue(\"02/14/01\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L23",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "datevalue-extended-54",
+      "expression": "DateTimeValue(\"jeudi 21 juillet 2022 19:34:03\", \"fr-FR\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L54",
+        "expected_powerfx": "DateTime(2022,7,21,19,34,3,0)"
+      },
+      "expected": "2022-07-21T19:34:03+00:00"
+    },
+    {
+      "id": "datevalue-extended-57",
+      "expression": "DateTimeValue(\"Thursday 28 July 2022 19:34:03\", \"EN-US\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L57",
+        "expected_powerfx": "DateTime(2022,7,28,19,34,3,0)"
+      },
+      "expected": "2022-07-28T19:34:03+00:00"
+    },
+    {
+      "id": "datevalue-extended-63",
+      "expression": "DateTimeValue(\"21-Dec-2016 02:55:00\", \"en-us\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L63",
+        "expected_powerfx": "DateTime(2016,12,21,2,55,0,0)"
+      },
+      "expected": "2016-12-21T02:55:00+00:00"
+    },
+    {
+      "id": "datevalue-extended-66",
+      "expression": "DateTimeValue(\"Thursday 28 July 2022 7:34:03 PM\", \"EN\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L66",
+        "expected_powerfx": "DateTime(2022,7,28,19,34,3,0)"
+      },
+      "expected": "2022-07-28T19:34:03+00:00"
+    },
+    {
+      "id": "datevalue-extended-101",
+      "expression": "DateTimeValue(\"2011-01-30T08:00:00.1234567\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L101",
+        "expected_powerfx": "DateTime(2011,1,30,8,0,0,123)"
+      },
+      "expected": "2011-01-30T08:00:00.123000+00:00"
+    },
+    {
+      "id": "datevalue-extended-104",
+      "expression": "DateTimeValue(\"12:34:56\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L104",
+        "expected_powerfx": "DateTime(1899,12,30,12,34,56,0)"
+      },
+      "expected": "1899-12-30T12:34:56+00:00"
+    },
+    {
+      "id": "datevalue-extended-107",
+      "expression": "DateValue(\"12:34:56\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L107",
+        "expected_powerfx": "Date(1899,12,30)"
+      },
+      "expected": "1899-12-30"
+    },
+    {
+      "id": "datevalue-extended-72",
+      "expression": "DateTimeValue(\"2022年07月28日 19:34:03\", \"ja-JP\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/DateValue.txt#L72",
+        "expected_powerfx": "DateTime(2022,7,28,19,34,3,0)"
+      },
+      "expected": "2022-07-28T19:34:03+00:00"
+    },
+    {
+      "id": "text-extended-4",
+      "expression": "Text(123.4, \"#.000\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L4",
+        "expected_powerfx": "\"123.400\""
+      },
+      "expected": "123.400"
+    },
+    {
+      "id": "text-extended-29",
+      "expression": "Text(8.9, \"#.000\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L29",
+        "expected_powerfx": "\"8.900\""
+      },
+      "expected": "8.900"
+    },
+    {
+      "id": "text-extended-32",
+      "expression": "Text(1.5, \"000\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L32",
+        "expected_powerfx": "\"002\""
+      },
+      "expected": "002"
+    },
+    {
+      "id": "text-extended-35",
+      "expression": "Text(123456789, \"0,0.0\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L35",
+        "expected_powerfx": "\"123,456,789.0\""
+      },
+      "expected": "123,456,789.0"
+    },
+    {
+      "id": "text-extended-41",
+      "expression": "Text(1234.59, \"####.#\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L41",
+        "expected_powerfx": "\"1234.6\""
+      },
+      "expected": "1234.6"
+    },
+    {
+      "id": "text-extended-44",
+      "expression": "Text(0.631, \"0.#\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L44",
+        "expected_powerfx": "\"0.6\""
+      },
+      "expected": "0.6"
+    },
+    {
+      "id": "text-extended-50",
+      "expression": "Text(12, \"#.0#\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L50",
+        "expected_powerfx": "\"12.0\""
+      },
+      "expected": "12.0"
+    },
+    {
+      "id": "text-extended-53",
+      "expression": "Text(1234.568, \"#.0#\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L53",
+        "expected_powerfx": "\"1234.57\""
+      },
+      "expected": "1234.57"
+    },
+    {
+      "id": "text-extended-56",
+      "expression": "Text(12000, \"$ #,###\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L56",
+        "expected_powerfx": "\"$ 12,000\""
+      },
+      "expected": "$ 12,000"
+    },
+    {
+      "id": "text-extended-232",
+      "expression": "Text(DateTimeValue(\"March 30, 2022 5:30 PM\"), \"hh:m\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L232",
+        "expected_powerfx": "\"17:30\""
+      },
+      "expected": "17:30"
+    },
+    {
+      "id": "text-extended-248",
+      "expression": "Text(DateTimeValue(\"March 30, 2022 5:30 PM\"), \"d-mmm-yy\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L248",
+        "expected_powerfx": "\"30-Mar-22\""
+      },
+      "expected": "30-Mar-22"
+    },
+    {
+      "id": "text-extended-252",
+      "expression": "Text(DateTimeValue(\"March 30, 2022 5:30 PM\"), \"dd mmmm yyyy, dddd, hh:mm:ss AM/PM \")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L252",
+        "expected_powerfx": "\"30 March 2022, Wednesday, 05:30:00 PM \""
+      },
+      "expected": "30 March 2022, Wednesday, 05:30:00 PM "
+    },
+    {
+      "id": "text-extended-261",
+      "expression": "Text(Date(2016,1,31), \"dddd mmmm d\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L261",
+        "expected_powerfx": "\"Sunday January 31\""
+      },
+      "expected": "Sunday January 31"
+    },
+    {
+      "id": "text-extended-265",
+      "expression": "Text(Date(2016,1,31), \"dddd mmmm d\", \"es-ES\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Text.txt#L265",
+        "expected_powerfx": "\"domingo enero 31\""
+      },
+      "expected": "domingo enero 31"
+    },
+    {
+      "id": "value-extended-13",
+      "expression": "Value(\"xxx\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L13",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "value-extended-16",
+      "expression": "Value( \"$ 12.34\" )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L16",
+        "expected_powerfx": "12.34"
+      },
+      "expected": 12.34
+    },
+    {
+      "id": "value-extended-19",
+      "expression": "Value( \"24e3\" )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L19",
+        "expected_powerfx": "24000"
+      },
+      "expected": 24000
+    },
+    {
+      "id": "value-extended-22",
+      "expression": "Value( \"12.34%\" )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L22",
+        "expected_powerfx": "0.1234"
+      },
+      "expected": 0.1234
+    },
+    {
+      "id": "value-extended-29",
+      "expression": "Value(\" %10\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L29",
+        "expected_powerfx": "0.1"
+      },
+      "expected": 0.1
+    },
+    {
+      "id": "value-extended-471",
+      "expression": "Value(true)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L471",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "value-extended-474",
+      "expression": "Value(false)",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L474",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "value-extended-491",
+      "expression": "Value(\"Hello\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L491",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "value-extended-495",
+      "expression": "Value(\"\")",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L495",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "value-extended-466",
+      "expression": "Value(\"123,456\", \"es-ES\" )",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Value.txt#L466",
+        "expected_powerfx": "123.456"
+      },
+      "expected": 123.456
+    },
+    {
+      "id": "table-extended-78",
+      "expression": "Table([42],[\"everything\"])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L78",
+        "expected_powerfx": "Table({Value:42},{Value:Error({Kind:ErrorKind.InvalidArgument})})"
+      },
+      "expected": [
+        {
+          "Value": 42
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "table-extended-85",
+      "expression": "Table([{a:1}], Error({Kind:ErrorKind.Div0, Message:\"Please don't divide by zero\"}), {a:3}, [{a:4}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L85",
+        "expected_powerfx": "Table({a:1},Error({Kind:ErrorKind.Div0}),{a:3},{a:4})"
+      },
+      "expected": [
+        {
+          "a": 1
+        },
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "a": 3
+        },
+        {
+          "a": 4
+        }
+      ]
+    },
+    {
+      "id": "table-extended-92",
+      "expression": "Table([{a:1}], If(1/0<2,{a:2}), {a:3}, [{a:4}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L92",
+        "expected_powerfx": "Table({a:1},Error({Kind:ErrorKind.Div0}),{a:3},{a:4})"
+      },
+      "expected": [
+        {
+          "a": 1
+        },
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "a": 3
+        },
+        {
+          "a": 4
+        }
+      ]
+    },
+    {
+      "id": "table-extended-99",
+      "expression": "Table([{a:1}], {a:Error({Kind:ErrorKind.Custom})}, {a:3}, [{a:4}])",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L99",
+        "expected_powerfx": "Table({a:1},{a:Error({Kind:ErrorKind.Custom})},{a:3},{a:4})"
+      },
+      "expected": [
+        {
+          "a": 1
+        },
+        {
+          "a": {
+            "$error": {
+              "Kind": 1000
+            }
+          }
+        },
+        {
+          "a": 3
+        },
+        {
+          "a": 4
+        }
+      ]
+    },
+    {
+      "id": "table-extended-117",
+      "expression": "[{name:\"John\",age:85}, If(1<0, {something:\"hello\"})]",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Table.txt#L117",
+        "expected_powerfx": "Table({age:85,name:\"John\",something:Blank()},Blank())"
+      },
+      "expected": [
+        {
+          "name": "John",
+          "age": 85,
+          "something": null
+        },
+        null
+      ]
+    },
+    {
+      "id": "forall-extended-55",
+      "expression": "ForAll(Table({a:1},If(1/0<2,{a:2})),{b:IfError(a,-FirstError.Kind)})",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ForAll.txt#L55",
+        "expected_powerfx": "Table({b:1},{b:-13})"
+      },
+      "expected": [
+        {
+          "b": 1
+        },
+        {
+          "b": -13
+        }
+      ]
+    },
+    {
+      "id": "forall-extended-61",
+      "expression": "ForAll(Table({a:1},Error({Kind:ErrorKind.Validation}),{a:3},Error({Kind: 11}),{a:5}),{b:IfError(a,-FirstError.Kind)})",
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/ForAll.txt#L61",
+        "expected_powerfx": "Table({b:1},{b:-11},{b:3},{b:-11},{b:5})"
+      },
+      "expected": [
+        {
+          "b": 1
+        },
+        {
+          "b": -11
+        },
+        {
+          "b": 3
+        },
+        {
+          "b": -11
+        },
+        {
+          "b": 5
+        }
+      ]
+    }
+  ]
+}

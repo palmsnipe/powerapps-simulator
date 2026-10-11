@@ -1,0 +1,2276 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "All expressions in FilterFunctions.txt and Lookup.txt, plus V1-disabled Blank-source cases and shared two-argument V1 cases, in Float and Decimal modes. Literal/record/table/error oracles independently decoded; source expressions never evaluated to produce expectations. V1-only multiple-Filter-predicate rejection is explicitly excluded because this host supports the Canvas signature. V1 untyped-Blank rejection files are not selected; this host preserves the Canvas legacy Blank scope contract.",
+  "exclusions": [
+    {
+      "expression": "Filter([1,2,3], Value > 1, Value > 2)",
+      "line": 7,
+      "file": "FilterLookUp_TwoArg_V1Compat.txt",
+      "reason": "Canvas permits multiple Filter predicates; the V1 engine disallows them. No V1 arity host profile is implemented."
+    },
+    {
+      "expression": "Filter([1,2,3], Value > 1, Value > 2, Value > 3)",
+      "line": 10,
+      "file": "FilterLookUp_TwoArg_V1Compat.txt",
+      "reason": "Canvas permits multiple Filter predicates; the V1 engine disallows them. No V1 arity host profile is implemented."
+    }
+  ],
+  "cases": [
+    {
+      "id": "queries-filterfunctions-4-float",
+      "expression": "Filter([1,2,3] As X, X.Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L4",
+        "expected_powerfx": "Table({Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-4-decimal",
+      "expression": "Filter([1,2,3] As X, X.Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L4",
+        "expected_powerfx": "Table({Value:3})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-8-float",
+      "expression": "Filter([1, 2, 3], true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L8",
+        "expected_powerfx": "Table({Value:1},{Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-8-decimal",
+      "expression": "Filter([1, 2, 3], true)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L8",
+        "expected_powerfx": "Table({Value:1},{Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-12-float",
+      "expression": "Filter([1,2,3], Value >= 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L12",
+        "expected_powerfx": "Table({Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-12-decimal",
+      "expression": "Filter([1,2,3], Value >= 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L12",
+        "expected_powerfx": "Table({Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-15-float",
+      "expression": "Filter([1,2,3], ThisRecord.Value >= 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L15",
+        "expected_powerfx": "Table({Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-15-decimal",
+      "expression": "Filter([1,2,3], ThisRecord.Value >= 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L15",
+        "expected_powerfx": "Table({Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-18-float",
+      "expression": "First([1,4,2,7]).Value",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L18",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "queries-filterfunctions-18-decimal",
+      "expression": "First([1,4,2,7]).Value",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L18",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "queries-filterfunctions-21-float",
+      "expression": "First([30,20,10,40])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L21",
+        "expected_powerfx": "{Value:30}"
+      },
+      "expected": {
+        "Value": 30.0
+      }
+    },
+    {
+      "id": "queries-filterfunctions-21-decimal",
+      "expression": "First([30,20,10,40])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L21",
+        "expected_powerfx": "{Value:30}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "30"
+        }
+      }
+    },
+    {
+      "id": "queries-filterfunctions-24-float",
+      "expression": "Last([30,20,10,40])",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L24",
+        "expected_powerfx": "{Value:40}"
+      },
+      "expected": {
+        "Value": 40.0
+      }
+    },
+    {
+      "id": "queries-filterfunctions-24-decimal",
+      "expression": "Last([30,20,10,40])",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L24",
+        "expected_powerfx": "{Value:40}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "40"
+        }
+      }
+    },
+    {
+      "id": "queries-filterfunctions-27-float",
+      "expression": "FirstN([30,20,10,40],2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L27",
+        "expected_powerfx": "Table({Value:30},{Value:20})"
+      },
+      "expected": [
+        {
+          "Value": 30.0
+        },
+        {
+          "Value": 20.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-27-decimal",
+      "expression": "FirstN([30,20,10,40],2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L27",
+        "expected_powerfx": "Table({Value:30},{Value:20})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "30"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "20"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-30-float",
+      "expression": "LastN([30,20,10,40],3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L30",
+        "expected_powerfx": "Table({Value:20},{Value:10},{Value:40})"
+      },
+      "expected": [
+        {
+          "Value": 20.0
+        },
+        {
+          "Value": 10.0
+        },
+        {
+          "Value": 40.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-30-decimal",
+      "expression": "LastN([30,20,10,40],3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L30",
+        "expected_powerfx": "Table({Value:20},{Value:10},{Value:40})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "20"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "10"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "40"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-35-float",
+      "expression": "Filter([1,4,2,7], Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L35",
+        "expected_powerfx": "Table({Value:4},{Value:7})"
+      },
+      "expected": [
+        {
+          "Value": 4.0
+        },
+        {
+          "Value": 7.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-35-decimal",
+      "expression": "Filter([1,4,2,7], Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L35",
+        "expected_powerfx": "Table({Value:4},{Value:7})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "4"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "7"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-38-float",
+      "expression": "First(Filter([1,4,2,7], Value > 2)).Value",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L38",
+        "expected_powerfx": "4"
+      },
+      "expected": 4.0
+    },
+    {
+      "id": "queries-filterfunctions-38-decimal",
+      "expression": "First(Filter([1,4,2,7], Value > 2)).Value",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L38",
+        "expected_powerfx": "4"
+      },
+      "expected": {
+        "$decimal": "4"
+      }
+    },
+    {
+      "id": "queries-filterfunctions-41-float",
+      "expression": "Filter([1,2,0,3,4], 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L41",
+        "expected_powerfx": "Table({Value:1},{Value:2},Error({Kind:ErrorKind.Div0}),{Value:3},{Value:4})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 2.0
+        },
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "Value": 3.0
+        },
+        {
+          "Value": 4.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-41-decimal",
+      "expression": "Filter([1,2,0,3,4], 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L41",
+        "expected_powerfx": "Table({Value:1},{Value:2},Error({Kind:ErrorKind.Div0}),{Value:3},{Value:4})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "3"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "4"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-44-float",
+      "expression": "Filter([1,2,0,3,4], Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L44",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "queries-filterfunctions-44-decimal",
+      "expression": "Filter([1,2,0,3,4], Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L44",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "queries-filterfunctions-48-float",
+      "expression": "Filter(LastN([1,2,3,4], Blank()), 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L48",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "queries-filterfunctions-48-decimal",
+      "expression": "Filter(LastN([1,2,3,4], Blank()), 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L48",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "queries-filterfunctions-52-float",
+      "expression": "Filter(If(1<0,[1,2,3]), Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L52",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-filterfunctions-52-decimal",
+      "expression": "Filter(If(1<0,[1,2,3]), Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L52",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-filterfunctions-55-float",
+      "expression": "Filter(Sort([-2, -1, 0, 1, 2], 1 / Value), 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L55",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-filterfunctions-55-decimal",
+      "expression": "Filter(Sort([-2, -1, 0, 1, 2], 1 / Value), 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L55",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-filterfunctions-58-float",
+      "expression": "Filter(Table({a:1},{a:2},If(1<0,{a:3}),{a:4},{a:5}), IsBlank(a) Or a > 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L58",
+        "expected_powerfx": "Table({a:1},{a:2},Blank(),{a:4},{a:5})"
+      },
+      "expected": [
+        {
+          "a": 1.0
+        },
+        {
+          "a": 2.0
+        },
+        null,
+        {
+          "a": 4.0
+        },
+        {
+          "a": 5.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-58-decimal",
+      "expression": "Filter(Table({a:1},{a:2},If(1<0,{a:3}),{a:4},{a:5}), IsBlank(a) Or a > 0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L58",
+        "expected_powerfx": "Table({a:1},{a:2},Blank(),{a:4},{a:5})"
+      },
+      "expected": [
+        {
+          "a": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "a": {
+            "$decimal": "2"
+          }
+        },
+        null,
+        {
+          "a": {
+            "$decimal": "4"
+          }
+        },
+        {
+          "a": {
+            "$decimal": "5"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-61-float",
+      "expression": "CountIf(Filter([{a:1},If(1/0<2,{a:2}),{a:3}], IsError(a)), true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L61",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "queries-filterfunctions-61-decimal",
+      "expression": "CountIf(Filter([{a:1},If(1/0<2,{a:2}),{a:3}], IsError(a)), true)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L61",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "queries-filterfunctions-64-float",
+      "expression": "Filter(Table({a:1},{a:2},If(1<0,{a:3}),{a:4},{a:5}), IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L64",
+        "expected_powerfx": "Table(Blank())"
+      },
+      "expected": [
+        null
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-64-decimal",
+      "expression": "Filter(Table({a:1},{a:2},If(1<0,{a:3}),{a:4},{a:5}), IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L64",
+        "expected_powerfx": "Table(Blank())"
+      },
+      "expected": [
+        null
+      ]
+    },
+    {
+      "id": "queries-filterfunctions-67-float",
+      "expression": "Filter(Table({a:1},{a:2},{a:4},{a:5}), IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L67",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "queries-filterfunctions-67-decimal",
+      "expression": "Filter(Table({a:1},{a:2},{a:4},{a:5}), IsBlank(ThisRecord))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions.txt#L67",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "queries-lookup-4-float",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L4",
+        "expected_powerfx": "{Id:2,Name:\"Element 2\"}"
+      },
+      "expected": {
+        "Id": 2.0,
+        "Name": "Element 2"
+      }
+    },
+    {
+      "id": "queries-lookup-4-decimal",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L4",
+        "expected_powerfx": "{Id:2,Name:\"Element 2\"}"
+      },
+      "expected": {
+        "Id": {
+          "$decimal": "2"
+        },
+        "Name": "Element 2"
+      }
+    },
+    {
+      "id": "queries-lookup-8-float",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L8",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-8-decimal",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L8",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-12-float",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 2, Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L12",
+        "expected_powerfx": "\"Element 2\""
+      },
+      "expected": "Element 2"
+    },
+    {
+      "id": "queries-lookup-12-decimal",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 2, Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L12",
+        "expected_powerfx": "\"Element 2\""
+      },
+      "expected": "Element 2"
+    },
+    {
+      "id": "queries-lookup-15-float",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 3, Name)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L15",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-15-decimal",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 3, Name)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L15",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-18-float",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 2).Name",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L18",
+        "expected_powerfx": "\"Element 2\""
+      },
+      "expected": "Element 2"
+    },
+    {
+      "id": "queries-lookup-18-decimal",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 2).Name",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L18",
+        "expected_powerfx": "\"Element 2\""
+      },
+      "expected": "Element 2"
+    },
+    {
+      "id": "queries-lookup-21-float",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 3).Name",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L21",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-21-decimal",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2\"}), Id = 3).Name",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L21",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-25-float",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2a\"}, { Id:2, Name: \"Element 2b\"}), Id = 2).Name",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L25",
+        "expected_powerfx": "\"Element 2a\""
+      },
+      "expected": "Element 2a"
+    },
+    {
+      "id": "queries-lookup-25-decimal",
+      "expression": "LookUp(Table({ Id: 1, Name: \"Element 1\" }, { Id:2, Name: \"Element 2a\"}, { Id:2, Name: \"Element 2b\"}), Id = 2).Name",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L25",
+        "expected_powerfx": "\"Element 2a\""
+      },
+      "expected": "Element 2a"
+    },
+    {
+      "id": "queries-lookup-29-float",
+      "expression": "LookUp([1,2,3] As X, X.Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L29",
+        "expected_powerfx": "{Value:3}"
+      },
+      "expected": {
+        "Value": 3.0
+      }
+    },
+    {
+      "id": "queries-lookup-29-decimal",
+      "expression": "LookUp([1,2,3] As X, X.Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L29",
+        "expected_powerfx": "{Value:3}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "3"
+        }
+      }
+    },
+    {
+      "id": "queries-lookup-32-float",
+      "expression": "LookUp([1,2,3] As X, X.Value > 2).Value",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L32",
+        "expected_powerfx": "3"
+      },
+      "expected": 3.0
+    },
+    {
+      "id": "queries-lookup-32-decimal",
+      "expression": "LookUp([1,2,3] As X, X.Value > 2).Value",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L32",
+        "expected_powerfx": "3"
+      },
+      "expected": {
+        "$decimal": "3"
+      }
+    },
+    {
+      "id": "queries-lookup-35-float",
+      "expression": "LookUp([1,2,3] As X, X.Value > 2, X.Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L35",
+        "expected_powerfx": "3"
+      },
+      "expected": 3.0
+    },
+    {
+      "id": "queries-lookup-35-decimal",
+      "expression": "LookUp([1,2,3] As X, X.Value > 2, X.Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L35",
+        "expected_powerfx": "3"
+      },
+      "expected": {
+        "$decimal": "3"
+      }
+    },
+    {
+      "id": "queries-lookup-39-float",
+      "expression": "LookUp([1,2,3], Value >= 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L39",
+        "expected_powerfx": "{Value:2}"
+      },
+      "expected": {
+        "Value": 2.0
+      }
+    },
+    {
+      "id": "queries-lookup-39-decimal",
+      "expression": "LookUp([1,2,3], Value >= 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L39",
+        "expected_powerfx": "{Value:2}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "2"
+        }
+      }
+    },
+    {
+      "id": "queries-lookup-42-float",
+      "expression": "LookUp([1,2,3], Value >= 2).Value",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L42",
+        "expected_powerfx": "2"
+      },
+      "expected": 2.0
+    },
+    {
+      "id": "queries-lookup-42-decimal",
+      "expression": "LookUp([1,2,3], Value >= 2).Value",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L42",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "queries-lookup-45-float",
+      "expression": "LookUp([1,2,3], Value >= 2, Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L45",
+        "expected_powerfx": "2"
+      },
+      "expected": 2.0
+    },
+    {
+      "id": "queries-lookup-45-decimal",
+      "expression": "LookUp([1,2,3], Value >= 2, Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L45",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "queries-lookup-48-float",
+      "expression": "LookUp([1,2,3], ThisRecord.Value >= 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L48",
+        "expected_powerfx": "{Value:2}"
+      },
+      "expected": {
+        "Value": 2.0
+      }
+    },
+    {
+      "id": "queries-lookup-48-decimal",
+      "expression": "LookUp([1,2,3], ThisRecord.Value >= 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L48",
+        "expected_powerfx": "{Value:2}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "2"
+        }
+      }
+    },
+    {
+      "id": "queries-lookup-51-float",
+      "expression": "LookUp([1,2,3], ThisRecord.Value >= 2, Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L51",
+        "expected_powerfx": "2"
+      },
+      "expected": 2.0
+    },
+    {
+      "id": "queries-lookup-51-decimal",
+      "expression": "LookUp([1,2,3], ThisRecord.Value >= 2, Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L51",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "queries-lookup-54-float",
+      "expression": "LookUp([1,2,3], Value >= 2, ThisRecord.Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L54",
+        "expected_powerfx": "2"
+      },
+      "expected": 2.0
+    },
+    {
+      "id": "queries-lookup-54-decimal",
+      "expression": "LookUp([1,2,3], Value >= 2, ThisRecord.Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L54",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "queries-lookup-57-float",
+      "expression": "LookUp([1,2,3], ThisRecord.Value > 2).Value",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L57",
+        "expected_powerfx": "3"
+      },
+      "expected": 3.0
+    },
+    {
+      "id": "queries-lookup-57-decimal",
+      "expression": "LookUp([1,2,3], ThisRecord.Value > 2).Value",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L57",
+        "expected_powerfx": "3"
+      },
+      "expected": {
+        "$decimal": "3"
+      }
+    },
+    {
+      "id": "queries-lookup-60-float",
+      "expression": "LookUp([1,2,3], ThisRecord.Value > 2, \"constant\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L60",
+        "expected_powerfx": "\"constant\""
+      },
+      "expected": "constant"
+    },
+    {
+      "id": "queries-lookup-60-decimal",
+      "expression": "LookUp([1,2,3], ThisRecord.Value > 2, \"constant\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L60",
+        "expected_powerfx": "\"constant\""
+      },
+      "expected": "constant"
+    },
+    {
+      "id": "queries-lookup-64-float",
+      "expression": "LookUp(Sequence(30000), Value > 25000, Value * 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L64",
+        "expected_powerfx": "50002"
+      },
+      "expected": 50002.0
+    },
+    {
+      "id": "queries-lookup-64-decimal",
+      "expression": "LookUp(Sequence(30000), Value > 25000, Value * 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L64",
+        "expected_powerfx": "50002"
+      },
+      "expected": {
+        "$decimal": "50002"
+      }
+    },
+    {
+      "id": "queries-lookup-67-float",
+      "expression": "LookUp(Sequence(30000), Value > 35000, Value * 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L67",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-67-decimal",
+      "expression": "LookUp(Sequence(30000), Value > 35000, Value * 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L67",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-72-float",
+      "expression": "LookUp([1,2,3], ThisRecord.Value > 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L72",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-72-decimal",
+      "expression": "LookUp([1,2,3], ThisRecord.Value > 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L72",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-75-float",
+      "expression": "LookUp([1,0,3,4], 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L75",
+        "expected_powerfx": "{Value:1}"
+      },
+      "expected": {
+        "Value": 1.0
+      }
+    },
+    {
+      "id": "queries-lookup-75-decimal",
+      "expression": "LookUp([1,0,3,4], 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L75",
+        "expected_powerfx": "{Value:1}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "1"
+        }
+      }
+    },
+    {
+      "id": "queries-lookup-78-float",
+      "expression": "LookUp([0,3,4], 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L78",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-78-decimal",
+      "expression": "LookUp([0,3,4], 1/ThisRecord.Value >= 0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L78",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-81-float",
+      "expression": "LookUp([0,3,4], ThisRecord.Value = 0, 1/ThisRecord.Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L81",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-81-decimal",
+      "expression": "LookUp([0,3,4], ThisRecord.Value = 0, 1/ThisRecord.Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L81",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-84-float",
+      "expression": "LookUp([1,2,3,4], Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L84",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-84-decimal",
+      "expression": "LookUp([1,2,3,4], Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L84",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-87-float",
+      "expression": "LookUp(If(1<0,[1,2,3]), Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L87",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-87-decimal",
+      "expression": "LookUp(If(1<0,[1,2,3]), Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L87",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-90-float",
+      "expression": "LookUp(If(1<0,[1,2,3]), Blank(), \"constant\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L90",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-90-decimal",
+      "expression": "LookUp(If(1<0,[1,2,3]), Blank(), \"constant\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L90",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-93-float",
+      "expression": "LookUp([100, 200, 300], Value > 250, Power(100, Value))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L93",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-93-decimal",
+      "expression": "LookUp([100, 200, 300], Value > 250, Power(100, Value))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L93",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-96-float",
+      "expression": "LookUp(Sequence(0), true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L96",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-96-decimal",
+      "expression": "LookUp(Sequence(0), true)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L96",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup-99-float",
+      "expression": "LookUp([\"one\", Left(\"two\", -1), \"three\"], IsError(Value), IfError(Value, \"found error on the table\"))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L99",
+        "expected_powerfx": "\"found error on the table\""
+      },
+      "expected": "found error on the table"
+    },
+    {
+      "id": "queries-lookup-99-decimal",
+      "expression": "LookUp([\"one\", Left(\"two\", -1), \"three\"], IsError(Value), IfError(Value, \"found error on the table\"))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L99",
+        "expected_powerfx": "\"found error on the table\""
+      },
+      "expected": "found error on the table"
+    },
+    {
+      "id": "queries-lookup-102-float",
+      "expression": "LookUp([\"one\", \"two\", \"three\"], Left(Value, -1) = \"string\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L102",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-102-decimal",
+      "expression": "LookUp([\"one\", \"two\", \"three\"], Left(Value, -1) = \"string\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L102",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-105-float",
+      "expression": "LookUp([\"one\", \"two\", \"three\"], true, Left(Value, -1))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L105",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-105-decimal",
+      "expression": "LookUp([\"one\", \"two\", \"three\"], true, Left(Value, -1))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L105",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-108-float",
+      "expression": "LookUp(If(1/0<2,[1,2]), true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L108",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-108-decimal",
+      "expression": "LookUp(If(1/0<2,[1,2]), true)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L108",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-111-float",
+      "expression": "LookUp(true, true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L111",
+        "expected_powerfx": "Errors: Error 7-11: Invalid argument type."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-lookup-111-decimal",
+      "expression": "LookUp(true, true)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L111",
+        "expected_powerfx": "Errors: Error 7-11: Invalid argument type."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-lookup-114-float",
+      "expression": "LookUp([1, 2, 3], \"string\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L114",
+        "expected_powerfx": "Errors: Error 18-26: Expected boolean. We expect a boolean (true/false) at this point in the formula.|Error 0-6: The function 'LookUp' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-lookup-114-decimal",
+      "expression": "LookUp([1, 2, 3], \"string\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L114",
+        "expected_powerfx": "Errors: Error 18-26: Expected boolean. We expect a boolean (true/false) at this point in the formula.|Error 0-6: The function 'LookUp' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-lookup-117-float",
+      "expression": "LookUp([1, 2, 3] As X, Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L117",
+        "expected_powerfx": "Errors: Error 23-28: Name isn't valid. 'Value' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-lookup-117-decimal",
+      "expression": "LookUp([1, 2, 3] As X, Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L117",
+        "expected_powerfx": "Errors: Error 23-28: Name isn't valid. 'Value' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-lookup-120-float",
+      "expression": "LookUp([1, 2, 3] As X, X.Value > 2, Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L120",
+        "expected_powerfx": "Errors: Error 36-41: Name isn't valid. 'Value' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-lookup-120-decimal",
+      "expression": "LookUp([1, 2, 3] As X, X.Value > 2, Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L120",
+        "expected_powerfx": "Errors: Error 36-41: Name isn't valid. 'Value' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-lookup-123-float",
+      "expression": "LookUp(Table({x:1}, Error({Kind:ErrorKind.Custom}), {x:3}), ThisRecord.x = 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L123",
+        "expected_powerfx": "Error({Kind:ErrorKind.Custom})"
+      },
+      "expected_error": {
+        "kind": "Custom",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-123-decimal",
+      "expression": "LookUp(Table({x:1}, Error({Kind:ErrorKind.Custom}), {x:3}), ThisRecord.x = 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L123",
+        "expected_powerfx": "Error({Kind:ErrorKind.Custom})"
+      },
+      "expected_error": {
+        "kind": "Custom",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-126-float",
+      "expression": "LookUp( [{a:1},If(1/0<2,{a:2}),{a:3},If(Sqrt(-1)<0,{a:4}),{a:5}], IsError(a) && IfError(a, FirstError.Kind) > 20 )",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L126",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-126-decimal",
+      "expression": "LookUp( [{a:1},If(1/0<2,{a:2}),{a:3},If(Sqrt(-1)<0,{a:4}),{a:5}], IsError(a) && IfError(a, FirstError.Kind) > 20 )",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L126",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "queries-lookup-129-float",
+      "expression": "IfError( LookUp( [{a:1},If(1/0<2,{a:2}),{a:3},If(Sqrt(-1)<0,{a:4}),{a:5}], IsError(a) && IfError(a, FirstError.Kind) > 20 ).a, FirstError.Kind )",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L129",
+        "expected_powerfx": "24"
+      },
+      "expected": 24.0
+    },
+    {
+      "id": "queries-lookup-129-decimal",
+      "expression": "IfError( LookUp( [{a:1},If(1/0<2,{a:2}),{a:3},If(Sqrt(-1)<0,{a:4}),{a:5}], IsError(a) && IfError(a, FirstError.Kind) > 20 ).a, FirstError.Kind )",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup.txt#L129",
+        "expected_powerfx": "24"
+      },
+      "expected": {
+        "$decimal": "24"
+      }
+    },
+    {
+      "id": "queries-filterfunctions_v1compatdisabled-4-float",
+      "expression": "Filter(Blank(), Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions_V1CompatDisabled.txt#L4",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-filterfunctions_v1compatdisabled-4-decimal",
+      "expression": "Filter(Blank(), Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterFunctions_V1CompatDisabled.txt#L4",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup_v1compatdisabled-4-float",
+      "expression": "LookUp(Blank(), Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup_V1CompatDisabled.txt#L4",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup_v1compatdisabled-4-decimal",
+      "expression": "LookUp(Blank(), Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup_V1CompatDisabled.txt#L4",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup_v1compatdisabled-8-float",
+      "expression": "LookUp(Blank(), Blank(), \"constant\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup_V1CompatDisabled.txt#L8",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-lookup_v1compatdisabled-8-decimal",
+      "expression": "LookUp(Blank(), Blank(), \"constant\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Lookup_V1CompatDisabled.txt#L8",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-3-float",
+      "expression": "Filter([1,2,3], Value > 1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L3",
+        "expected_powerfx": "Table({Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-3-decimal",
+      "expression": "Filter([1,2,3], Value > 1)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L3",
+        "expected_powerfx": "Table({Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-13-float",
+      "expression": "Filter([1,2,3], Value > 1 And Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L13",
+        "expected_powerfx": "Table({Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-13-decimal",
+      "expression": "Filter([1,2,3], Value > 1 And Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L13",
+        "expected_powerfx": "Table({Value:3})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-16-float",
+      "expression": "Filter([1,2,3], Value > 1 And Value > 2 And Value > 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L16",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-16-decimal",
+      "expression": "Filter([1,2,3], Value > 1 And Value > 2 And Value > 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L16",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-19-float",
+      "expression": "LookUp([1,2,3], Value > 1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L19",
+        "expected_powerfx": "{Value:2}"
+      },
+      "expected": {
+        "Value": 2.0
+      }
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-19-decimal",
+      "expression": "LookUp([1,2,3], Value > 1)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L19",
+        "expected_powerfx": "{Value:2}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "2"
+        }
+      }
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-24-float",
+      "expression": "LookUp([1,2,3], Value > 1, Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L24",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-24-decimal",
+      "expression": "LookUp([1,2,3], Value > 1, Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L24",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-27-float",
+      "expression": "LookUp([1,2,3], Value > 1, Value > 2, Value > 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L27",
+        "expected_powerfx": "Errors: Error 0-48: Invalid number of arguments: received 4, expected 2-3.|Error 38-43: Name isn't valid. 'Value' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-27-decimal",
+      "expression": "LookUp([1,2,3], Value > 1, Value > 2, Value > 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L27",
+        "expected_powerfx": "Errors: Error 0-48: Invalid number of arguments: received 4, expected 2-3.|Error 38-43: Name isn't valid. 'Value' isn't recognized."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-30-float",
+      "expression": "LookUp([1,2,3], Value > 1 And Value > 2)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L30",
+        "expected_powerfx": "{Value:3}"
+      },
+      "expected": {
+        "Value": 3.0
+      }
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-30-decimal",
+      "expression": "LookUp([1,2,3], Value > 1 And Value > 2)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L30",
+        "expected_powerfx": "{Value:3}"
+      },
+      "expected": {
+        "Value": {
+          "$decimal": "3"
+        }
+      }
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-33-float",
+      "expression": "LookUp([1,2,3], Value > 1 And Value > 2 And Value > 3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L33",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "queries-filterlookup_twoarg_v1compat-33-decimal",
+      "expression": "LookUp([1,2,3], Value > 1 And Value > 2 And Value > 3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FilterLookUp_TwoArg_V1Compat.txt#L33",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    }
+  ]
+}

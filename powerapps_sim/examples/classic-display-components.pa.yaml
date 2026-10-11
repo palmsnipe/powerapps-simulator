@@ -1,0 +1,127 @@
+ComponentDefinitions:
+  DisplayPanel:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Enabled:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =true
+      Count:
+        PropertyKind: Output
+        DataType: Number
+      LabelHeight:
+        PropertyKind: Output
+        DataType: Number
+      ShapeFill:
+        PropertyKind: Output
+        DataType: Color
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - count:
+              DataType: Number
+          - kind:
+              DataType: Text
+        Default: =Blank()
+    Properties:
+      Width: =420
+      Height: =205
+      Fill: =ColorValue("#f5f5f5")
+      Count: =Coalesce(count,0)
+      OnReset: =Set(count,0)
+      LabelHeight: =Heading.Height
+      ShapeFill: =Round.Fill
+    Children:
+      - Heading:
+          Control: Label@2.5.1
+          Properties:
+            X: =12
+            Y: =8
+            Width: =396
+            Height: =36
+            Text: =DisplayPanel.Caption & " · " & DisplayPanel.Count
+            Role: =TextRole.Heading2
+            Size: =20
+            FontWeight: =FontWeight.Semibold
+            Live: =Live.Polite
+      - Link:
+          Control: Label@2.5.1
+          Properties:
+            X: =12
+            Y: =50
+            Width: =396
+            Height: =40
+            Text: ="Select label"
+            TabIndex: =0
+            Underline: =true
+            Color: =ColorValue("#0f6cbd")
+            HoverColor: =ColorValue("#115ea3")
+            PressedColor: =Color.White
+            PressedFill: =ColorValue("#083a60")
+            FocusedBorderColor: =ColorValue("#c239b3")
+            FocusedBorderThickness: =3
+            DisplayMode: =If(DisplayPanel.Enabled,DisplayMode.Edit,DisplayMode.Disabled)
+            OnSelect: =Set(count,DisplayPanel.Count+1);DisplayPanel.Changed(count,"Label")
+      - Round:
+          Control: Circle@2.3.0
+          Properties:
+            X: =12
+            Y: =104
+            Width: =84
+            Height: =84
+            AccessibleLabel: =DisplayPanel.Caption & " circle"
+            TabIndex: =0
+            Fill: =ColorValue("#0f6cbd")
+            HoverFill: =ColorValue("#115ea3")
+            PressedFill: =ColorValue("#083a60")
+            DisabledFill: =ColorValue("#d1d1d1")
+            BorderThickness: =2
+            BorderColor: =ColorValue("#083a60")
+            FocusedBorderColor: =ColorValue("#c239b3")
+            FocusedBorderThickness: =4
+            DisplayMode: =If(DisplayPanel.Enabled,DisplayMode.Edit,DisplayMode.Disabled)
+            OnSelect: =Set(count,DisplayPanel.Count+1);DisplayPanel.Changed(count,"Circle")
+      - Starred:
+          Control: Star@2.0.0
+          Properties:
+            X: =124
+            Y: =104
+            Width: =84
+            Height: =84
+            AccessibleLabel: =DisplayPanel.Caption & " star"
+            TabIndex: =0
+            Fill: =ColorValue("#f5aa24")
+            HoverFill: =ColorValue("#eaa000")
+            PressedFill: =ColorValue("#835800")
+            DisabledFill: =ColorValue("#d1d1d1")
+            BorderThickness: =2
+            BorderStyle: =BorderStyle.Dashed
+            BorderColor: =ColorValue("#835800")
+            FocusedBorderThickness: =4
+            DisplayMode: =If(DisplayPanel.Enabled,DisplayMode.Edit,DisplayMode.Disabled)
+            OnSelect: =Set(count,DisplayPanel.Count+1);DisplayPanel.Changed(count,"Star")
+          Variant: star8
+      - Box:
+          Control: Rectangle@2.3.0
+          Properties:
+            X: =238
+            Y: =114
+            Width: =160
+            Height: =64
+            AccessibleLabel: =DisplayPanel.Caption & " rectangle"
+            TabIndex: =0
+            Fill: =ColorValue("#107c10")
+            HoverFill: =ColorValue("#0b5a0b")
+            PressedFill: =ColorValue("#054b05")
+            DisabledFill: =ColorValue("#d1d1d1")
+            BorderThickness: =2
+            BorderColor: =ColorValue("#054b05")
+            FocusedBorderThickness: =4
+            DisplayMode: =If(DisplayPanel.Enabled,DisplayMode.Edit,DisplayMode.Disabled)
+            OnSelect: =Set(count,DisplayPanel.Count+1);DisplayPanel.Changed(count,"Rectangle")

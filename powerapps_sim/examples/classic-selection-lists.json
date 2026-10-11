@@ -1,0 +1,43 @@
+{
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "Stage": {
+        "type": "string"
+      },
+      "Enabled": {
+        "type": "boolean"
+      }
+    },
+    "mapping": {
+      "Title": "Project Title",
+      "Stage": "Project Stage",
+      "Enabled": "Is Enabled"
+    },
+    "required": [
+      "Title",
+      "Stage",
+      "Enabled"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Project Title": "Fictional first draft",
+        "Project Stage": "Draft",
+        "Is Enabled": true
+      },
+      {
+        "ID": 2,
+        "Project Title": "Fictional second draft",
+        "Project Stage": "Review",
+        "Is Enabled": false
+      }
+    ]
+  }
+}

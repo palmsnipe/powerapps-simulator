@@ -1,0 +1,424 @@
+{
+  "classic-combo.workflow.json": {
+    "format_version": 1,
+    "name": "Classic ComboBox people and forms",
+    "records": {
+      "People": [
+        {
+          "ID": 1,
+          "DisplayName": "Fictional River Adams",
+          "Email": "river@example.test"
+        },
+        {
+          "ID": 2,
+          "DisplayName": "Fictional Casey Martin",
+          "Email": "casey@example.test"
+        },
+        {
+          "ID": 3,
+          "DisplayName": "Fictional Camille Roy",
+          "Email": "camille@example.test"
+        },
+        {
+          "ID": 4,
+          "DisplayName": "Fictional Morgan Lee",
+          "Email": "morgan@example.test"
+        }
+      ],
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional team draft",
+          "Owners": [
+            {
+              "ID": 1,
+              "DisplayName": "Fictional River Adams",
+              "Email": "river@example.test"
+            }
+          ]
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.Chosen)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPicker.Latest.ID=4",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/LeftPicker/Pick",
+        "event": "OnSearch",
+        "value": "casey@example"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.Chosen)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.History)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/LeftPicker/Pick",
+        "event": "OnChange",
+        "selection": [
+          0,
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.Chosen)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.History)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPicker.Latest.ID=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/LeftPicker/Pick",
+        "event": "OnSearch",
+        "value": "camille"
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/LeftPicker/Pick",
+        "event": "OnNavigate",
+        "value": {
+          "index": 2
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "navigated",
+        "expect": "Fictional Camille Roy"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/LeftPicker/Pick",
+        "event": "OnSearch",
+        "value": ""
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/LeftPicker/Pick",
+        "event": "OnChange",
+        "selection": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.History)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/RightPicker/Pick",
+        "event": "OnChange",
+        "selection": [
+          3,
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "RightPicker.Latest.ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightPicker.History)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPicker.Latest.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPicker.History)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPicker.Latest.ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightPicker.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/Single",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Single.Selected.ID=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/Single",
+        "event": "OnChange",
+        "selection": []
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Single.Selected)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional updated team draft"
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/DraftForm/OwnersCard/OwnerInput",
+        "event": "OnSearch",
+        "value": "camille@example"
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/DraftForm/OwnersCard/OwnerInput",
+        "event": "OnChange",
+        "selection": [
+          1,
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(DraftForm.Updates.Owners)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Save failed\",\"\u00c9chec\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Title",
+        "expect": "Fictional team draft"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(First(Drafts).Owners)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Saved\",\"Enregistr\u00e9\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(Drafts).Title",
+        "expect": "Fictional updated team draft"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(First(Drafts).Owners)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(First(Drafts).Owners).ID=3",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Not(DraftForm.Unsaved)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(saves)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/DraftForm/OwnersCard/OwnerInput",
+        "event": "OnChange",
+        "selection": []
+      },
+      {
+        "op": "assert",
+        "formula": "Not(DraftForm.Valid)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Save failed\",\"\u00c9chec\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(First(Drafts).Owners)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/ResetDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(DraftForm.Updates.Owners)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Not(DraftForm.Unsaved)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "ClassicComboLab/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)=8",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Details.Right",
+        "expect": "Fictional Camille Roy"
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Count=1",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ],
+    "environment": {
+      "language": "en-US",
+      "number_mode": "float",
+      "enum_mode": "strong"
+    }
+  }
+}

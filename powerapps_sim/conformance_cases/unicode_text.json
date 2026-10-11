@@ -1,0 +1,5186 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Scalar and Value-column Find, Split, Char, UniChar and Hex2Dec reference cases. Expected literal JSON is independently decoded from upstream oracles, never evaluated. Exact matching in an explicit English-US/Float host profile. Compiler-message oracles assert binding Type errors without comparing wording. NotYetReady cases are excluded.",
+  "cases": [
+    {
+      "id": "unicode-find-3",
+      "expression": "Find(\"\", \"\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L3",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-6",
+      "expression": "Find(\"\", \"\", 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L6",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-9",
+      "expression": "Find(\"\", \"\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L9",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-12",
+      "expression": "Find(\"\", \"textToBeSearchedIn\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L12",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-15",
+      "expression": "Find(\"\", \"textToBeSearchedIn\", 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L15",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-18",
+      "expression": "Find(\"\", \"textToBeSearchedIn\", 4)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L18",
+        "expected_powerfx": "4"
+      },
+      "expected": 4.0
+    },
+    {
+      "id": "unicode-find-21",
+      "expression": "Find(\"textToFind\", \"\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L21",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-24",
+      "expression": "Find(\"textToFind\", \"\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L24",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-27",
+      "expression": "Find(\",\", \"LastName,FirstName\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L27",
+        "expected_powerfx": "9"
+      },
+      "expected": 9.0
+    },
+    {
+      "id": "unicode-find-30",
+      "expression": "Find(\",\", \"LastName,FirstName\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L30",
+        "expected_powerfx": "9"
+      },
+      "expected": 9.0
+    },
+    {
+      "id": "unicode-find-33",
+      "expression": "Find(\",\", \"LastName,FirstName\", 9)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L33",
+        "expected_powerfx": "9"
+      },
+      "expected": 9.0
+    },
+    {
+      "id": "unicode-find-36",
+      "expression": "Find(\",\", \"LastName,FirstName\", 9.5)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L36",
+        "expected_powerfx": "9"
+      },
+      "expected": 9.0
+    },
+    {
+      "id": "unicode-find-39",
+      "expression": "Find(\",\", \"LastName,FirstName\", 10)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L39",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-42",
+      "expression": "Find(\"#\", \"LastName,FirstName\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L42",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-45",
+      "expression": "Find(\"#\", \"LastName,FirstName\", 3)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L45",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-48",
+      "expression": "Find(\"#\", \"LastName,FirstName\", 100)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L48",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-51",
+      "expression": "Find(\",\", \"LastName,First,Name\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L51",
+        "expected_powerfx": "9"
+      },
+      "expected": 9.0
+    },
+    {
+      "id": "unicode-find-54",
+      "expression": "Find(\",\", \"LastName,First,Name\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L54",
+        "expected_powerfx": "9"
+      },
+      "expected": 9.0
+    },
+    {
+      "id": "unicode-find-57",
+      "expression": "Find(\",\", \"LastName,First,Name\", 9)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L57",
+        "expected_powerfx": "9"
+      },
+      "expected": 9.0
+    },
+    {
+      "id": "unicode-find-60",
+      "expression": "Find(\",\", \"LastName,First,Name\", 10)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L60",
+        "expected_powerfx": "15"
+      },
+      "expected": 15.0
+    },
+    {
+      "id": "unicode-find-63",
+      "expression": "Find(\",\", \"LastNameFirstName,\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L63",
+        "expected_powerfx": "18"
+      },
+      "expected": 18.0
+    },
+    {
+      "id": "unicode-find-66",
+      "expression": "Find(\",\", \"LastNameFirstName,\", 18)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L66",
+        "expected_powerfx": "18"
+      },
+      "expected": 18.0
+    },
+    {
+      "id": "unicode-find-69",
+      "expression": "Find(\",\", \"LastNameFirstName,\", 19)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L69",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-72",
+      "expression": "Find(\"MULTIPLECHARS\", \"LastNameMULTIPLECHARSFirstName\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L72",
+        "expected_powerfx": "9"
+      },
+      "expected": 9.0
+    },
+    {
+      "id": "unicode-find-75",
+      "expression": "Find(\"MULTIPLECHARS\", \"LastNameMULTIPLEFirstName\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L75",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-78",
+      "expression": "Find(\",\", \",,,,,,\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L78",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-81",
+      "expression": "Find(\",\", \",,,,,,\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L81",
+        "expected_powerfx": "2"
+      },
+      "expected": 2.0
+    },
+    {
+      "id": "unicode-find-84",
+      "expression": "Find(Blank(), Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L84",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-87",
+      "expression": "Find(Blank(), Blank(), 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L87",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-90",
+      "expression": "Find(Blank(), \"textToBeSearchedIn\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L90",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-93",
+      "expression": "Find(Blank(), \"textToBeSearchedIn\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L93",
+        "expected_powerfx": "2"
+      },
+      "expected": 2.0
+    },
+    {
+      "id": "unicode-find-96",
+      "expression": "Find(\"textToFind\", Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L96",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-99",
+      "expression": "Find(\"textToFind\", Blank(), 3)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L99",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-102",
+      "expression": "Find(\",\", \"LastName,FirstName\", -1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L102",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-105",
+      "expression": "Find(\",\", \"LastName,FirstName\", 0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L105",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-108",
+      "expression": "Find(\",\", \"LastName,FirstName\", Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L108",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-111",
+      "expression": "Find(\"B\", \"LastNameisBlah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L111",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-114",
+      "expression": "Find(\"B\", \"LastNameisblah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L114",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-117",
+      "expression": "Find(\"b\", \"LastNameisblah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L117",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-120",
+      "expression": "Find(\"b\", \"LastNameisBlah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L120",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-123",
+      "expression": "Find(\"BB\", \"LastNameisBBlah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L123",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-126",
+      "expression": "Find(\"BB\", \"LastNameisBblah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L126",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-129",
+      "expression": "Find(\"bb\", \"LastNameisbblah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L129",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-132",
+      "expression": "Find(\"bb\", \"LastNameisbBlah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L132",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-135",
+      "expression": "Find(\"B\", \"LastNameisBlahFirstNameisBlah\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L135",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-138",
+      "expression": "Find(\"B\", \"LastNameisBlahFirstNameisBlah\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L138",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-141",
+      "expression": "Find(\"B\", \"LastNameisBlahFirstNameisBlah\", 11)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L141",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-144",
+      "expression": "Find(\"B\", \"LastNameisBlahFirstNameisBlah\", 12)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L144",
+        "expected_powerfx": "26"
+      },
+      "expected": 26.0
+    },
+    {
+      "id": "unicode-find-147",
+      "expression": "Find(\"B\", \"LastNameisBlahFirstNameisblah\", 12)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L147",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-150",
+      "expression": "Find(\"B\", \"LastNameisBiller\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L150",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-153",
+      "expression": "Find(\"B\", \"LastNameisbiller\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L153",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-156",
+      "expression": "Find(\"b\", \"LastNameisbiller\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L156",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-159",
+      "expression": "Find(\"b\", \"LastNameisBiller\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L159",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-162",
+      "expression": "Find(\"BB\", \"LastNameisBBiller\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L162",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-165",
+      "expression": "Find(\"BB\", \"LastNameisBbiller\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L165",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-168",
+      "expression": "Find(\"bb\", \"LastNameisbbiller\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L168",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-171",
+      "expression": "Find(\"bb\", \"LastNameisbBiller\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L171",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-174",
+      "expression": "Find(\"B\", \"LastNameisBillerFirstNameisBethy\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L174",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-177",
+      "expression": "Find(\"B\", \"LastNameisBillerFirstNameisBethy\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L177",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-180",
+      "expression": "Find(\"B\", \"LastNameisBillerFirstNameisBethy\", 11)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L180",
+        "expected_powerfx": "11"
+      },
+      "expected": 11.0
+    },
+    {
+      "id": "unicode-find-183",
+      "expression": "Find(\"B\", \"LastNameisBillerFirstNameisBethy\", 12)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L183",
+        "expected_powerfx": "28"
+      },
+      "expected": 28.0
+    },
+    {
+      "id": "unicode-find-186",
+      "expression": "Find(\"B\", \"LastNameisBillerFirstNameisbethy\", 12)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L186",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-189",
+      "expression": "Find(\"\", \"\", -1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L189",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-192",
+      "expression": "Find(\"\", \"\", 0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L192",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-195",
+      "expression": "Find(\"\", \"textToBeSearchedIn\", -1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L195",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-198",
+      "expression": "Find(\"\", \"textToBeSearchedIn\", 0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L198",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-201",
+      "expression": "Find(\"\", \"textToBeSearchedIn\", 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L201",
+        "expected_powerfx": "2"
+      },
+      "expected": 2.0
+    },
+    {
+      "id": "unicode-find-204",
+      "expression": "Find(\"\", \"textToBeSearchedIn\", 100)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L204",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-207",
+      "expression": "Find(\"textToFind\", \"\",-1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L207",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-210",
+      "expression": "Find(\"textToFind\", \"\",0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L210",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-213",
+      "expression": "Find(\"textToFind\", \"\",1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L213",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-216",
+      "expression": "Find(\"textToFind\", \"\",2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L216",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-219",
+      "expression": "Find(Blank(), Blank(), -1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L219",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-222",
+      "expression": "Find(Blank(), Blank(), 0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L222",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-225",
+      "expression": "Find(Blank(), Blank(), 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L225",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-230",
+      "expression": "Find(Blank(), \"\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L230",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-233",
+      "expression": "Find(\"\", Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L233",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-236",
+      "expression": "Find(1/0, \"\", 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L236",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-239",
+      "expression": "Find(1, 1/0, 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L239",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-242",
+      "expression": "Find(1, 1, 1/0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L242",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-245",
+      "expression": "Find(18, 18, ErrorKind.Sync)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L245",
+        "expected_powerfx": "1"
+      },
+      "expected": 1.0
+    },
+    {
+      "id": "unicode-find-248",
+      "expression": "Find(18, 18, ErrorKind.MissingRequired)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L248",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-find-256",
+      "expression": "Find(Table(\n   {find: Blank()},\n   {find: \"\"},\n   {find: \",\"}),\n   \"textToBeSearchedIn,textToBeSearchedIn\",\n   1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L256",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-266",
+      "expression": "Find(\n   Table(\n   {find: Blank()},{find: \"\"},{find: \",\"},{find: \",\"}),\n   \"textToBeSearchedIn,textToBeSearchedIn\",\n   Table({start:1},{start:2},{start:3},{start:20}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L266",
+        "expected_powerfx": "Table({Value:1},{Value:2},{Value:19},{Value:Blank()})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": null
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-276",
+      "expression": "Find(\",\", Table({within: \"textToBeSearchedIn,textToBeSearchedIn\"}),1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L276",
+        "expected_powerfx": "Table({Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-284",
+      "expression": "Find(\",\", \n   Table({within: \"textToBeSearchedIn,textToBeSearchedIn\"},{within: \"textToBeSearchedIn,textToBeSearchedIn,\"},{within: \"textToBeSearchedIn,textToBeSearchedIn\"}),\n   [1,20,40])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L284",
+        "expected_powerfx": "Table({Value:19},{Value:38},{Value:Error({Kind:ErrorKind.InvalidArgument})})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 38.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-294",
+      "expression": "Find(\n   Table({find: Blank()},{find: \"\"},{find: \",\"}), \n   Table({within: \"textToBeSearchedIn,textToBeSearchedIn\"},{within: \"textToBeSearchedIn,textToBeSearchedIn,\"},{within: \"textToBeSearchedIn,textToBeSearchedIn\"}),\n   [1,10,9])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L294",
+        "expected_powerfx": "Table({Value:1},{Value:10},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 10.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-303",
+      "expression": "Find(\n   \",\", \n   \"textToBeSearchedIn,textToBeSearchedIn\",\n   [1,2,19,20])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L303",
+        "expected_powerfx": "Table({Value:19},{Value:19},{Value:19},{Value:Blank()})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": null
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-312",
+      "expression": "Find(\n   Table({find: Blank()},{find: \"\"},{find: \",\"}),  \t\n   \"textToBeSearchedIn,textToBeSearchedIn\" )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L312",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-320",
+      "expression": "Find(\n   \",\",  \t\n   Table({within:\"textToBeSearchedIn,textToBeSearchedIn\"})\n   )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L320",
+        "expected_powerfx": "Table({Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-330",
+      "expression": "Find(\n   Table({find: Blank()},{find: \"\"},{find: \",\"}), \n   Table({within: \"textToBeSearchedIn,textToBeSearchedIn\"},{within: \"textToBeSearchedIn,textToBeSearchedIn,\"},{within: \"textToBeSearchedIn,textToBeSearchedIn\"})\n   )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L330",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-339",
+      "expression": "Find(Filter([\"string\"], Len(Value) > 10),\"\",1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L339",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-find-345",
+      "expression": "Find(\"\", Filter([\"string\"], Len(Value) > 10),1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L345",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-find-351",
+      "expression": "Find(\"textToFind\", Filter([\"string\"], Len(Value) > 10),2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L351",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-find-357",
+      "expression": "Find(Filter([\"string\"], Len(Value) > 10), Filter([\"string\"], Len(Value) > 10))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L357",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-find-363",
+      "expression": "Find(Filter([\"string\"], Len(Value) > 10), Filter([\"string\"], Len(Value) > 10), Filter([1, 2, 3], Value > 100))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L363",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-find-369",
+      "expression": "Find(\n   Table({find:\"a\"},{find:\"b\"},{find:\"c\"}),\n   1/0\n   )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L369",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-find-375",
+      "expression": "Find(\"B\", \"LastNameisBillerFirstNameisBethy\", 1e28)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L375",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-find-378",
+      "expression": "Find(\"B\", \"LastNameisBillerFirstNameisBethy\", -1e28)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Find.txt#L378",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-findt-2",
+      "expression": "Find(Blank(), [\"\"], [1])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L2",
+        "expected_powerfx": "Table({Value:1})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-5",
+      "expression": "Find([\"\"], [\"\"], Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L5",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.InvalidArgument})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-8",
+      "expression": "Find(If(false, [\"blank table\"], Blank()), If(false, [\"blank table\"], Blank()), [1])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L8",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-11",
+      "expression": "Find(If(false, [\"blank table\"], Blank()), If(false, [\"blank table\"], Blank()), [2])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L11",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-14",
+      "expression": "Find(If(false, [\"blank table\"], Blank()), \"textToBeSearchedIn\", [5])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L14",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-17",
+      "expression": "Find(\"textToSearch\", If(false, [\"blank table\"], Blank()), [1])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L17",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-20",
+      "expression": "Find([Blank(), \"\", \",\"], If(false, [\"blank table\"], Blank()), 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L20",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-23",
+      "expression": "Find([\"b\"], [\"abc\", \"cde\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L23",
+        "expected_powerfx": "Table({Value:2},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-26",
+      "expression": "Find([\"b\"], [\"abc\", \"cde\"], If(false, [0], Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L26",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-29",
+      "expression": "Find([\"b\"], [\"abc\", \"cde\"], Filter([0], Value <> Value))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L29",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-32",
+      "expression": "Find([Blank(), \"\", \",\"], If(false, [\"blank table\"], Blank()), [1, 2, 3])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L32",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-35",
+      "expression": "Find(If(false, [\"blank table\"], Blank()), [Blank(), \"\", \"textToBeSearchedIn\"], 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L35",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-38",
+      "expression": "Find(If(false, [\"blank table\"], Blank()), [Blank(), \"\", \"textToBeSearchedIn\"], [1, 2, 3])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L38",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-41",
+      "expression": "Find([Blank(), \"\", \",\"], \"textToBeSearchedIn,textToBeSearchedIn\", 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L41",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-44",
+      "expression": "Find([Blank(), \"\", \",\", \",\"], \"textToBeSearchedIn,textToBeSearchedIn\", [1, 2, 3, 20])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L44",
+        "expected_powerfx": "Table({Value:1},{Value:2},{Value:19},{Value:Blank()})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": null
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-47",
+      "expression": "Find(\",\", [\"textToBeSearchedIn,textToBeSearchedIn\"], 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L47",
+        "expected_powerfx": "Table({Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-50",
+      "expression": "Find(\",\", [\"textToBeSearchedIn,textToBeSearchedIn\", \"textToBeSearchedIn,textToBeSearchedIn,\", \"textToBeSearchedIn,textToBeSearchedIn\"], [1, 20, 40])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L50",
+        "expected_powerfx": "Table({Value:19},{Value:38},{Value:Error({Kind:ErrorKind.InvalidArgument})})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 38.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-53",
+      "expression": "Find([Blank(), \"\", \",\"], [\"textToBeSearchedIn,textToBeSearchedIn\", \"textToBeSearchedIn,textToBeSearchedIn,\", \"textToBeSearchedIn,textToBeSearchedIn\"], [1, 10, 9])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L53",
+        "expected_powerfx": "Table({Value:1},{Value:10},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 10.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-56",
+      "expression": "Find(\",\", \"textToBeSearchedIn,textToBeSearchedIn\", [1, 2, 19, 20])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L56",
+        "expected_powerfx": "Table({Value:19},{Value:19},{Value:19},{Value:Blank()})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": null
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-59",
+      "expression": "Find([Blank(), \"\", \",\"], If(false, [\"blank table\"], Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L59",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-62",
+      "expression": "Find(If(false, [\"blank table\"], Blank()), [Blank(), \"\", \"textToBeSearchedIn\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L62",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-findt-65",
+      "expression": "Find([Blank(), \"\", \",\"], \"textToBeSearchedIn,textToBeSearchedIn\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L65",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-68",
+      "expression": "Find(\",\", [\"textToBeSearchedIn,textToBeSearchedIn\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L68",
+        "expected_powerfx": "Table({Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-71",
+      "expression": "Find([Blank(), \"\", \",\"], [\"textToBeSearchedIn,textToBeSearchedIn\", \"textToBeSearchedIn,textToBeSearchedIn,\", \"textToBeSearchedIn,textToBeSearchedIn\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L71",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-74",
+      "expression": "Find([Blank(), \",\"], [\"lastName,firstName\", \"lastName,firstName,\", \"lastName,firstName\", Blank()])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L74",
+        "expected_powerfx": "Table({Value:1},{Value:9},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 9.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-77",
+      "expression": "Find([Blank(), \",\", \"\", \"findMe\"], [Blank(), \"lastName,firstName\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L77",
+        "expected_powerfx": "Table({Value:1},{Value:9},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 9.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-80",
+      "expression": "Find([Blank(), \",\"], [\"lastName,firstName\",], [9, 2, 3])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L80",
+        "expected_powerfx": "Table({Value:9},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": 9.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-83",
+      "expression": "Find([Blank(), \",\", \"\", \"findMe\"], [Blank(), \"lastName,firstName\"], 10)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L83",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:Blank()},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": null
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-86",
+      "expression": "Find([\",\", Blank()], \"lastName,firstName\", [1, 2, 3])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L86",
+        "expected_powerfx": "Table({Value:9},{Value:2},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": 9.0
+        },
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-89",
+      "expression": "Find(\",\", [Blank(), \"lastName,firstName\", \"lastName,firstName\"], [1, 2])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L89",
+        "expected_powerfx": "Table({Value:Blank()},{Value:9},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": null
+        },
+        {
+          "Value": 9.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-92",
+      "expression": "Find(Filter([\"empty table\"], Value <> Value), \"\", 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L92",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-95",
+      "expression": "Find(\"\", Filter([\"empty table\"], Value <> Value), 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L95",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-98",
+      "expression": "Find(\"textToFind\", Filter([\"empty table\"], Value <> Value), 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L98",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-101",
+      "expression": "Find(Filter([\"empty table\"], Value <> Value), Filter([\"empty table\"], Value <> Value))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L101",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-104",
+      "expression": "Find(Filter([\"empty table\"], Value <> Value), Filter([\"empty table\"], Value <> Value), Filter([\"empty table\"], Value <> Value))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L104",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-107",
+      "expression": "Find(Filter([\"empty table\"], Value <> Value), [Blank(), \"lastName,firstName\", \"lastName,firstName\"], 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L107",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-110",
+      "expression": "Find(Filter([\"empty table\"], Value <> Value), \"textToSearch\", [1, 2])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L110",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-113",
+      "expression": "Find([\",\", Blank(), \"\"], Filter([\"empty table\"], Value <> Value), 2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L113",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-116",
+      "expression": "Find(\",\", Filter([\"empty table\"], Value <> Value), [1, 1])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L116",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-119",
+      "expression": "Find([Blank(), \",\", \"\", \"findMe\"], [Blank(), \"lastName,firstName\", \"lastName,firstName\"], Filter([\"empty table\"], Value <> Value))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L119",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-122",
+      "expression": "Find(\",\", [Blank(), \"lastName,firstName\"], Filter([\"empty table\"], Value <> Value))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L122",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.NotApplicable})},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-125",
+      "expression": "Find(\"c\", Table({ within: \"abc\" }, { within: Error({Kind: ErrorKind.Validation}) }, { within: \"cde\" }))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L125",
+        "expected_powerfx": "Table({Value:3},{Value:Error({Kind:ErrorKind.Validation})},{Value:1})"
+      },
+      "expected": [
+        {
+          "Value": 3.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 11
+            }
+          }
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-128",
+      "expression": "Find(\"c\", [\"abc\", Error({Kind: ErrorKind.Validation}), \"cde\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L128",
+        "expected_powerfx": "Table({Value:3},{Value:Error({Kind:ErrorKind.Validation})},{Value:1})"
+      },
+      "expected": [
+        {
+          "Value": 3.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 11
+            }
+          }
+        },
+        {
+          "Value": 1.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-131",
+      "expression": "Find(Table({ find: \"a\" }, { find: Error({Kind: ErrorKind.Validation}) }, { find: \"b\" }), \"abc\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L131",
+        "expected_powerfx": "Table({Value:1},{Value:Error({Kind:ErrorKind.Validation})},{Value:2})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 11
+            }
+          }
+        },
+        {
+          "Value": 2.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-134",
+      "expression": "Find([\"a\", Error({Kind: ErrorKind.Validation}), \"b\"], \"abc\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L134",
+        "expected_powerfx": "Table({Value:1},{Value:Error({Kind:ErrorKind.Validation})},{Value:2})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 11
+            }
+          }
+        },
+        {
+          "Value": 2.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-137",
+      "expression": "Find(Table({ find: \"a\" }, { find: Mid(\"Hello\", -1) }, { find: \"b\" }, If(1/0>2, { find: \"e\" }), { find: \"c\" }), Table({ within: \"abc\" }, If(Sqrt(-1)<0, { within: \"err\" }), { within: Left(\"err\", -1) }, If(Right(\"err\", -3) = \"err\", { within: \"err\" }), { within: \"abc\" }))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L137",
+        "expected_powerfx": "Table({Value:1},Error({Kind:ErrorKind.Numeric}),{Value:Error({Kind:ErrorKind.InvalidArgument})},Error({Kind:ErrorKind.Div0}),{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "$error": {
+            "Kind": 24
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "$error": {
+            "Kind": 13
+          }
+        },
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-140",
+      "expression": "Find(Table({ find: \"a\" }, { find: \"b\" }, { find: \"c\" }), If(1/0>2,\"abcdef\"))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L140",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-143",
+      "expression": "Find(If(Sqrt(-1)<0,\"First second third\"), Table({ within: \"First\" }, { within: \"Second\" }))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L143",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Numeric})},{Value:Error({Kind:ErrorKind.Numeric})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 24
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 24
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-146",
+      "expression": "Find(Table({find: \"one\"}, {find: \"two\"}, {find:\"three\"}, {find: \"four\"}, {find: \"five\"}),\"one two three four five\", Table({a: 1/0}, {a: 0}, {a: 3}, {a: 100}, {a: 10}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L146",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:9},{Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:20})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": 9.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": 20.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-154",
+      "expression": "Find(Table(\n   {find: Blank()},\n   {find: \"\"},\n   {find: \",\"}),\n   \"textToBeSearchedIn,textToBeSearchedIn\",\n   1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L154",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-164",
+      "expression": "Find(\n   Table(\n   {find: Blank()},{find: \"\"},{find: \",\"},{find: \",\"}),\n   \"textToBeSearchedIn,textToBeSearchedIn\",\n   Table({start:1},{start:2},{start:3},{start:20}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L164",
+        "expected_powerfx": "Table({Value:1},{Value:2},{Value:19},{Value:Blank()})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": null
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-174",
+      "expression": "Find(\",\", Table({within: \"textToBeSearchedIn,textToBeSearchedIn\"}),1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L174",
+        "expected_powerfx": "Table({Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-182",
+      "expression": "Find(\",\", \n   Table({within: \"textToBeSearchedIn,textToBeSearchedIn\"},{within: \"textToBeSearchedIn,textToBeSearchedIn,\"},{within: \"textToBeSearchedIn,textToBeSearchedIn\"}),\n   [1,20,40])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L182",
+        "expected_powerfx": "Table({Value:19},{Value:38},{Value:Error({Kind:ErrorKind.InvalidArgument})})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 38.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-192",
+      "expression": "Find(\n   Table({find: Blank()},{find: \"\"},{find: \",\"}), \n   Table({within: \"textToBeSearchedIn,textToBeSearchedIn\"},{within: \"textToBeSearchedIn,textToBeSearchedIn,\"},{within: \"textToBeSearchedIn,textToBeSearchedIn\"}),\n   [1,10,9])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L192",
+        "expected_powerfx": "Table({Value:1},{Value:10},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 10.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-201",
+      "expression": "Find(\n   \",\", \n   \"textToBeSearchedIn,textToBeSearchedIn\",\n   [1,2,19,20])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L201",
+        "expected_powerfx": "Table({Value:19},{Value:19},{Value:19},{Value:Blank()})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": 19.0
+        },
+        {
+          "Value": null
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-210",
+      "expression": "Find(\n   Table({find: Blank()},{find: \"\"},{find: \",\"}),  \t\n   \"textToBeSearchedIn,textToBeSearchedIn\" )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L210",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-218",
+      "expression": "Find(\n   \",\",  \t\n   Table({within:\"textToBeSearchedIn,textToBeSearchedIn\"})\n   )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L218",
+        "expected_powerfx": "Table({Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-228",
+      "expression": "Find(\n   Table({find: Blank()},{find: \"\"},{find: \",\"}), \n   Table({within: \"textToBeSearchedIn,textToBeSearchedIn\"},{within: \"textToBeSearchedIn,textToBeSearchedIn,\"},{within: \"textToBeSearchedIn,textToBeSearchedIn\"})\n   )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L228",
+        "expected_powerfx": "Table({Value:1},{Value:1},{Value:19})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 19.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-237",
+      "expression": "Find(Filter([\"string\"], Len(Value) > 10),\"\",1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L237",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-243",
+      "expression": "Find(\"\", Filter([\"string\"], Len(Value) > 10),1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L243",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-249",
+      "expression": "Find(\"textToFind\", Filter([\"string\"], Len(Value) > 10),2)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L249",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-255",
+      "expression": "Find(Filter([\"string\"], Len(Value) > 10), Filter([\"string\"], Len(Value) > 10))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L255",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-261",
+      "expression": "Find(Filter([\"string\"], Len(Value) > 10), Filter([\"string\"], Len(Value) > 10), Filter([1, 2, 3], Value > 100))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L261",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-findt-267",
+      "expression": "Find(\n   Table({find:\"a\"},{find:\"b\"},{find:\"c\"}),\n   1/0\n   )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L267",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})},{Value:Error({Kind:ErrorKind.Div0})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 13
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-274",
+      "expression": "Find(Blank(), \"Hello\", [2,3])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L274",
+        "expected_powerfx": "Table({Value:2},{Value:3})"
+      },
+      "expected": [
+        {
+          "Value": 2.0
+        },
+        {
+          "Value": 3.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-277",
+      "expression": "Find(\"Hello\", Blank(), [1,2])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L277",
+        "expected_powerfx": "Table({Value:Blank()},{Value:Error({Kind:ErrorKind.InvalidArgument})})"
+      },
+      "expected": [
+        {
+          "Value": null
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-findt-280",
+      "expression": "Find([\"H\",\"e\"], \"Hello\", Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/FindT.txt#L280",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:Error({Kind:ErrorKind.InvalidArgument})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-3",
+      "expression": "Split( \"Hello, World\", \",\" )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L3",
+        "expected_powerfx": "Table({Value:\"Hello\"},{Value:\" World\"})"
+      },
+      "expected": [
+        {
+          "Value": "Hello"
+        },
+        {
+          "Value": " World"
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-6",
+      "expression": "Split(\"this is a test\", \" \")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L6",
+        "expected_powerfx": "Table({Value:\"this\"},{Value:\"is\"},{Value:\"a\"},{Value:\"test\"})"
+      },
+      "expected": [
+        {
+          "Value": "this"
+        },
+        {
+          "Value": "is"
+        },
+        {
+          "Value": "a"
+        },
+        {
+          "Value": "test"
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-9",
+      "expression": "Split(\"test\", \"\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L9",
+        "expected_powerfx": "Table({Value:\"t\"},{Value:\"e\"},{Value:\"s\"},{Value:\"t\"})"
+      },
+      "expected": [
+        {
+          "Value": "t"
+        },
+        {
+          "Value": "e"
+        },
+        {
+          "Value": "s"
+        },
+        {
+          "Value": "t"
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-12",
+      "expression": "Split(\"Hello world\", If(1 < 0, \"\"))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L12",
+        "expected_powerfx": "Table({Value:\"H\"},{Value:\"e\"},{Value:\"l\"},{Value:\"l\"},{Value:\"o\"},{Value:\" \"},{Value:\"w\"},{Value:\"o\"},{Value:\"r\"},{Value:\"l\"},{Value:\"d\"})"
+      },
+      "expected": [
+        {
+          "Value": "H"
+        },
+        {
+          "Value": "e"
+        },
+        {
+          "Value": "l"
+        },
+        {
+          "Value": "l"
+        },
+        {
+          "Value": "o"
+        },
+        {
+          "Value": " "
+        },
+        {
+          "Value": "w"
+        },
+        {
+          "Value": "o"
+        },
+        {
+          "Value": "r"
+        },
+        {
+          "Value": "l"
+        },
+        {
+          "Value": "d"
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-15",
+      "expression": "Split( \"Hello, World\", \"l\" )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L15",
+        "expected_powerfx": "Table({Value:\"He\"},{Value:\"\"},{Value:\"o, Wor\"},{Value:\"d\"})"
+      },
+      "expected": [
+        {
+          "Value": "He"
+        },
+        {
+          "Value": ""
+        },
+        {
+          "Value": "o, Wor"
+        },
+        {
+          "Value": "d"
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-18",
+      "expression": "Split( \"Hello, World\", \"ll\" )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L18",
+        "expected_powerfx": "Table({Value:\"He\"},{Value:\"o, World\"})"
+      },
+      "expected": [
+        {
+          "Value": "He"
+        },
+        {
+          "Value": "o, World"
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-21",
+      "expression": "Split( \"Hello, World\", \"%\" )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L21",
+        "expected_powerfx": "Table({Value:\"Hello, World\"})"
+      },
+      "expected": [
+        {
+          "Value": "Hello, World"
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-24",
+      "expression": "Split(\"\", \"\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L24",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-split-27",
+      "expression": "Split(If(1 < 0, \"\"), \"\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L27",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-split-30",
+      "expression": "Split(Text(1/0), \"\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L30",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-split-34",
+      "expression": "Split(\"Hello World\", \"Hello World\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L34",
+        "expected_powerfx": "Table({Value:\"\"},{Value:\"\"})"
+      },
+      "expected": [
+        {
+          "Value": ""
+        },
+        {
+          "Value": ""
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-37",
+      "expression": "Split(ParseJSON(\"\"\"Hello World\"\"\"), \"Hello World\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L37",
+        "expected_powerfx": "Table({Value:\"\"},{Value:\"\"})"
+      },
+      "expected": [
+        {
+          "Value": ""
+        },
+        {
+          "Value": ""
+        }
+      ]
+    },
+    {
+      "id": "unicode-split-40",
+      "expression": "Split(\"Hello World\", ParseJSON(\"\"\"Hello World\"\"\"))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Split.txt#L40",
+        "expected_powerfx": "Table({Value:\"\"},{Value:\"\"})"
+      },
+      "expected": [
+        {
+          "Value": ""
+        },
+        {
+          "Value": ""
+        }
+      ]
+    },
+    {
+      "id": "unicode-char-9",
+      "expression": "Char(36)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L9",
+        "expected_powerfx": "\"$\""
+      },
+      "expected": "$"
+    },
+    {
+      "id": "unicode-char-12",
+      "expression": "Char(174)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L12",
+        "expected_powerfx": "\"\u00ae\""
+      },
+      "expected": "\u00ae"
+    },
+    {
+      "id": "unicode-char-15",
+      "expression": "Char(255)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L15",
+        "expected_powerfx": "\"\u00ff\""
+      },
+      "expected": "\u00ff"
+    },
+    {
+      "id": "unicode-char-18",
+      "expression": "Char(65)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L18",
+        "expected_powerfx": "\"A\""
+      },
+      "expected": "A"
+    },
+    {
+      "id": "unicode-char-21",
+      "expression": "Char(660/10)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L21",
+        "expected_powerfx": "\"B\""
+      },
+      "expected": "B"
+    },
+    {
+      "id": "unicode-char-26",
+      "expression": "Char(0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L26",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-29",
+      "expression": "Char(256)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L29",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-32",
+      "expression": "Char(1024)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L32",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-35",
+      "expression": "Char(-1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L35",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-38",
+      "expression": "Char(-255)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L38",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-44",
+      "expression": "Char(33.0001)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L44",
+        "expected_powerfx": "\"!\""
+      },
+      "expected": "!"
+    },
+    {
+      "id": "unicode-char-47",
+      "expression": "Char(255.4)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L47",
+        "expected_powerfx": "\"\u00ff\""
+      },
+      "expected": "\u00ff"
+    },
+    {
+      "id": "unicode-char-51",
+      "expression": "Char(0.78)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L51",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-55",
+      "expression": "Char(-0.001)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L55",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-61",
+      "expression": "Char(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L61",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-64",
+      "expression": "IsBlank(Char(Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L64",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-67",
+      "expression": "IsError(Char(Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L67",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "unicode-char-71",
+      "expression": "Char(1/0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L71",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-77",
+      "expression": "Char(\"abc\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L77",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-80",
+      "expression": "Char(\"200\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L80",
+        "expected_powerfx": "\"\u00c8\""
+      },
+      "expected": "\u00c8"
+    },
+    {
+      "id": "unicode-char-83",
+      "expression": "Char(\"200.5\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L83",
+        "expected_powerfx": "\"\u00c8\""
+      },
+      "expected": "\u00c8"
+    },
+    {
+      "id": "unicode-char-87",
+      "expression": "Char(\"0\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L87",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-91",
+      "expression": "Char(\"256\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L91",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-95",
+      "expression": "Char(\"-20\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L95",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-105",
+      "expression": "Char(false)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L105",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-109",
+      "expression": "Char(\"false\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L109",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-112",
+      "expression": "IsBlank(Char(\"false\"))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L112",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-char-115",
+      "expression": "IsError(Char(\"false\"))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L115",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "unicode-char-120",
+      "expression": "Char(Len(\"ThisIsASampleStringWith35Characters\"))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Char.txt#L120",
+        "expected_powerfx": "\"#\""
+      },
+      "expected": "#"
+    },
+    {
+      "id": "unicode-chart-3",
+      "expression": "Char([36,37])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CharT.txt#L3",
+        "expected_powerfx": "Table({Value:\"$\"},{Value:\"%\"})"
+      },
+      "expected": [
+        {
+          "Value": "$"
+        },
+        {
+          "Value": "%"
+        }
+      ]
+    },
+    {
+      "id": "unicode-chart-6",
+      "expression": "Char(Table({a:72},{a:101},{a:108},{a:108},{a:111}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CharT.txt#L6",
+        "expected_powerfx": "Table({Value:\"H\"},{Value:\"e\"},{Value:\"l\"},{Value:\"l\"},{Value:\"o\"})"
+      },
+      "expected": [
+        {
+          "Value": "H"
+        },
+        {
+          "Value": "e"
+        },
+        {
+          "Value": "l"
+        },
+        {
+          "Value": "l"
+        },
+        {
+          "Value": "o"
+        }
+      ]
+    },
+    {
+      "id": "unicode-chart-9",
+      "expression": "Char([87, 111, 114, 108, 100])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CharT.txt#L9",
+        "expected_powerfx": "Table({Value:\"W\"},{Value:\"o\"},{Value:\"r\"},{Value:\"l\"},{Value:\"d\"})"
+      },
+      "expected": [
+        {
+          "Value": "W"
+        },
+        {
+          "Value": "o"
+        },
+        {
+          "Value": "r"
+        },
+        {
+          "Value": "l"
+        },
+        {
+          "Value": "d"
+        }
+      ]
+    },
+    {
+      "id": "unicode-chart-14",
+      "expression": "Char(Table({a:32},{a:257},{a:65},{a:Blank()},{a:97}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CharT.txt#L14",
+        "expected_powerfx": "Table({Value:\" \"},{Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:\"A\"},{Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:\"a\"})"
+      },
+      "expected": [
+        {
+          "Value": " "
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": "A"
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": "a"
+        }
+      ]
+    },
+    {
+      "id": "unicode-chart-17",
+      "expression": "ForAll(Char([65, -1, 97, 1000]), IfError(Value, Text(FirstError.Kind)))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/CharT.txt#L17",
+        "expected_powerfx": "Table({Value:\"A\"},{Value:\"25\"},{Value:\"a\"},{Value:\"25\"})"
+      },
+      "expected": [
+        {
+          "Value": "A"
+        },
+        {
+          "Value": "25"
+        },
+        {
+          "Value": "a"
+        },
+        {
+          "Value": "25"
+        }
+      ]
+    },
+    {
+      "id": "unicode-unichar-1",
+      "expression": "UniChar(955)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L1",
+        "expected_powerfx": "\"\u03bb\""
+      },
+      "expected": "\u03bb"
+    },
+    {
+      "id": "unicode-unichar-4",
+      "expression": "UniChar(65)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L4",
+        "expected_powerfx": "\"A\""
+      },
+      "expected": "A"
+    },
+    {
+      "id": "unicode-unichar-7",
+      "expression": "UniChar(6500/100)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L7",
+        "expected_powerfx": "\"A\""
+      },
+      "expected": "A"
+    },
+    {
+      "id": "unicode-unichar-10",
+      "expression": "UniChar(66)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L10",
+        "expected_powerfx": "\"B\""
+      },
+      "expected": "B"
+    },
+    {
+      "id": "unicode-unichar-13",
+      "expression": "UniChar(119137)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L13",
+        "expected_powerfx": "\"\ud834\udd61\""
+      },
+      "expected": "\ud834\udd61"
+    },
+    {
+      "id": "unicode-unichar-17",
+      "expression": "UniChar(Hex2Dec(\"1F600\"))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L17",
+        "expected_powerfx": "\"\ud83d\ude00\""
+      },
+      "expected": "\ud83d\ude00"
+    },
+    {
+      "id": "unicode-unichar-21",
+      "expression": "If(UniChar(1114111) = UniChar(1114111.99), UniChar(Hex2Dec(\"1F600\")))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L21",
+        "expected_powerfx": "\"\ud83d\ude00\""
+      },
+      "expected": "\ud83d\ude00"
+    },
+    {
+      "id": "unicode-unichar-25",
+      "expression": "If(UniChar(1.001) = UniChar(1.99), \"works\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L25",
+        "expected_powerfx": "\"works\""
+      },
+      "expected": "works"
+    },
+    {
+      "id": "unicode-unichar-29",
+      "expression": "If(UniChar(55295) = UniChar(55295.99), UniChar(Hex2Dec(\"1F600\")))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L29",
+        "expected_powerfx": "\"\ud83d\ude00\""
+      },
+      "expected": "\ud83d\ude00"
+    },
+    {
+      "id": "unicode-unichar-33",
+      "expression": "IsBlank(UniChar(true))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L33",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "unicode-unichar-37",
+      "expression": "UniChar(55296)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L37",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotApplicable})"
+      },
+      "expected_error": {
+        "kind": "NotApplicable",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-40",
+      "expression": "UniChar(57343)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L40",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotApplicable})"
+      },
+      "expected_error": {
+        "kind": "NotApplicable",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-44",
+      "expression": "UniChar(0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L44",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-47",
+      "expression": "UniChar(0.9999)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L47",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-50",
+      "expression": "UniChar(-42)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L50",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-53",
+      "expression": "UniChar(1114112)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L53",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-56",
+      "expression": "UniChar(2114111)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L56",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-59",
+      "expression": "UniChar(-1114112)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L59",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-63",
+      "expression": "UniChar(\"67\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L63",
+        "expected_powerfx": "\"C\""
+      },
+      "expected": "C"
+    },
+    {
+      "id": "unicode-unichar-66",
+      "expression": "UniChar(\"abc\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L66",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-69",
+      "expression": "UniChar(\"-1\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L69",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-72",
+      "expression": "UniChar(\"65.1\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L72",
+        "expected_powerfx": "\"A\""
+      },
+      "expected": "A"
+    },
+    {
+      "id": "unicode-unichar-76",
+      "expression": "UniChar(68.1234)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L76",
+        "expected_powerfx": "\"D\""
+      },
+      "expected": "D"
+    },
+    {
+      "id": "unicode-unichar-80",
+      "expression": "UniChar(0.1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L80",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-83",
+      "expression": "UniChar(119137.99)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L83",
+        "expected_powerfx": "\"\ud834\udd61\""
+      },
+      "expected": "\ud834\udd61"
+    },
+    {
+      "id": "unicode-unichar-87",
+      "expression": "UniChar(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L87",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-90",
+      "expression": "IsBlank(UniChar(Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L90",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichar-93",
+      "expression": "IsError(UniChar(Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L93",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "unicode-unichar-96",
+      "expression": "UniChar(1/0)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniChar.txt#L96",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-unichart-1",
+      "expression": "UniChar([128546, 8594, 128515])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniCharT.txt#L1",
+        "expected_powerfx": "Table({Value:\"\ud83d\ude22\"},{Value:\"\u2192\"},{Value:\"\ud83d\ude03\"})"
+      },
+      "expected": [
+        {
+          "Value": "\ud83d\ude22"
+        },
+        {
+          "Value": "\u2192"
+        },
+        {
+          "Value": "\ud83d\ude03"
+        }
+      ]
+    },
+    {
+      "id": "unicode-unichart-4",
+      "expression": "UniChar([955, 120, 46, 120])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniCharT.txt#L4",
+        "expected_powerfx": "Table({Value:\"\u03bb\"},{Value:\"x\"},{Value:\".\"},{Value:\"x\"})"
+      },
+      "expected": [
+        {
+          "Value": "\u03bb"
+        },
+        {
+          "Value": "x"
+        },
+        {
+          "Value": "."
+        },
+        {
+          "Value": "x"
+        }
+      ]
+    },
+    {
+      "id": "unicode-unichart-7",
+      "expression": "UniChar(Table({a:72},{a:101},{a:108},{a:108},{a:111}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniCharT.txt#L7",
+        "expected_powerfx": "Table({Value:\"H\"},{Value:\"e\"},{Value:\"l\"},{Value:\"l\"},{Value:\"o\"})"
+      },
+      "expected": [
+        {
+          "Value": "H"
+        },
+        {
+          "Value": "e"
+        },
+        {
+          "Value": "l"
+        },
+        {
+          "Value": "l"
+        },
+        {
+          "Value": "o"
+        }
+      ]
+    },
+    {
+      "id": "unicode-unichart-12",
+      "expression": "UniChar(Table({a:36},{a:-1},{a:Hex2Dec(\"1F600\")},{a:Blank()},{a:955}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniCharT.txt#L12",
+        "expected_powerfx": "Table({Value:\"$\"},{Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:\"\ud83d\ude00\"},{Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:\"\u03bb\"})"
+      },
+      "expected": [
+        {
+          "Value": "$"
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": "\ud83d\ude00"
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": "\u03bb"
+        }
+      ]
+    },
+    {
+      "id": "unicode-unichart-15",
+      "expression": "UniChar([-1.1, Hex2Dec(\"1F600\"), 55296])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/UniCharT.txt#L15",
+        "expected_powerfx": "Table({Value:Error({Kind:ErrorKind.InvalidArgument})},{Value:\"\ud83d\ude00\"},{Value:Error({Kind:ErrorKind.NotApplicable})})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$error": {
+              "Kind": 25
+            }
+          }
+        },
+        {
+          "Value": "\ud83d\ude00"
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicode-hex2dec-3",
+      "expression": "Hex2Dec(\"0\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L3",
+        "expected_powerfx": "0"
+      },
+      "expected": 0.0
+    },
+    {
+      "id": "unicode-hex2dec-7",
+      "expression": "Hex2Dec(\"A5\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L7",
+        "expected_powerfx": "165"
+      },
+      "expected": 165.0
+    },
+    {
+      "id": "unicode-hex2dec-10",
+      "expression": "Hex2Dec(\"C8D\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L10",
+        "expected_powerfx": "3213"
+      },
+      "expected": 3213.0
+    },
+    {
+      "id": "unicode-hex2dec-13",
+      "expression": "Hex2Dec(\"B2D4\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L13",
+        "expected_powerfx": "45780"
+      },
+      "expected": 45780.0
+    },
+    {
+      "id": "unicode-hex2dec-16",
+      "expression": "Hex2Dec(\"7FFFFFFFFF\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L16",
+        "expected_powerfx": "549755813887"
+      },
+      "expected": 549755813887.0
+    },
+    {
+      "id": "unicode-hex2dec-19",
+      "expression": "Hex2Dec(\"FfFf\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L19",
+        "expected_powerfx": "65535"
+      },
+      "expected": 65535.0
+    },
+    {
+      "id": "unicode-hex2dec-23",
+      "expression": "Hex2Dec(\"FFFFFFFFFF\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L23",
+        "expected_powerfx": "-1"
+      },
+      "expected": -1.0
+    },
+    {
+      "id": "unicode-hex2dec-26",
+      "expression": "Hex2Dec(\"FFFFFFFF5B\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L26",
+        "expected_powerfx": "-165"
+      },
+      "expected": -165.0
+    },
+    {
+      "id": "unicode-hex2dec-29",
+      "expression": "Hex2Dec(\"FFFFFFF373\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L29",
+        "expected_powerfx": "-3213"
+      },
+      "expected": -3213.0
+    },
+    {
+      "id": "unicode-hex2dec-32",
+      "expression": "Hex2Dec(\"8000000002\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L32",
+        "expected_powerfx": "-549755813886"
+      },
+      "expected": -549755813886.0
+    },
+    {
+      "id": "unicode-hex2dec-35",
+      "expression": "Hex2Dec(\"8000000001\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L35",
+        "expected_powerfx": "-549755813887"
+      },
+      "expected": -549755813887.0
+    },
+    {
+      "id": "unicode-hex2dec-38",
+      "expression": "Hex2Dec(\"FFFFFF4D2C\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L38",
+        "expected_powerfx": "-45780"
+      },
+      "expected": -45780.0
+    },
+    {
+      "id": "unicode-hex2dec-43",
+      "expression": "Hex2Dec(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L43",
+        "expected_powerfx": "0"
+      },
+      "expected": 0.0
+    },
+    {
+      "id": "unicode-hex2dec-46",
+      "expression": "Hex2Dec(\"\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L46",
+        "expected_powerfx": "0"
+      },
+      "expected": 0.0
+    },
+    {
+      "id": "unicode-hex2dec-50",
+      "expression": "Hex2Dec(\"FFFFFFFFFFF\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L50",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-hex2dec-54",
+      "expression": "Hex2Dec(\"ZZZZ\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L54",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-hex2dec-57",
+      "expression": "Hex2Dec(If(1/0<2,[\"true\"]))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L57",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-hex2dec-60",
+      "expression": "Hex2Dec(If(1<0,[\"true\"]))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L60",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-hex2dec-63",
+      "expression": "Hex2Dec(Filter([\"true\",\"false\"], Len(Value) > 10))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L63",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-hex2dec-66",
+      "expression": "Hex2Dec(If(1/0<2,[1]))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L66",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-hex2dec-69",
+      "expression": "Hex2Dec(If(1<0,[1]))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L69",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "unicode-hex2dec-72",
+      "expression": "Hex2Dec(Filter([1,2,3], Value > 10))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L72",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "unicode-hex2dec-77",
+      "expression": "Hex2Dec([\"A\",\"12\",\"FFFF\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L77",
+        "expected_powerfx": "Table({Value:10},{Value:18},{Value:65535})"
+      },
+      "expected": [
+        {
+          "Value": 10.0
+        },
+        {
+          "Value": 18.0
+        },
+        {
+          "Value": 65535.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-hex2dec-80",
+      "expression": "Hex2Dec(\"43j\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L80",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "unicode-hex2dec-83",
+      "expression": "Hex2Dec([\"3\",\"E\",\"I\",\"B\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L83",
+        "expected_powerfx": "Table({Value:3},{Value:14},{Value:Error({Kind:ErrorKind.Numeric})},{Value:11})"
+      },
+      "expected": [
+        {
+          "Value": 3.0
+        },
+        {
+          "Value": 14.0
+        },
+        {
+          "Value": {
+            "$error": {
+              "Kind": 24
+            }
+          }
+        },
+        {
+          "Value": 11.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-hex2dec-86",
+      "expression": "Hex2Dec(Table({a:\"A\"}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L86",
+        "expected_powerfx": "Table({Value:10})"
+      },
+      "expected": [
+        {
+          "Value": 10.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-hex2dec-89",
+      "expression": "Hex2Dec(Table({a:\"A\"},{a:\"12\"},{a:\"FFFF\"}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L89",
+        "expected_powerfx": "Table({Value:10},{Value:18},{Value:65535})"
+      },
+      "expected": [
+        {
+          "Value": 10.0
+        },
+        {
+          "Value": 18.0
+        },
+        {
+          "Value": 65535.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-hex2dec-92",
+      "expression": "Hex2Dec(Table({a:\"A\",b:\"B\"}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L92",
+        "expected_powerfx": "Errors: Error 0-7: The function 'Hex2Dec' has some invalid arguments.|Error 8-28: Invalid schema, expected a one-column table."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "unicode-hex2dec-95",
+      "expression": "Hex2Dec(Table({a:1},{a:10},{a:100}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L95",
+        "expected_powerfx": "Table({Value:1},{Value:16},{Value:256})"
+      },
+      "expected": [
+        {
+          "Value": 1.0
+        },
+        {
+          "Value": 16.0
+        },
+        {
+          "Value": 256.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-hex2dec-98",
+      "expression": "Hex2Dec([\"a\", 10, \"b\"])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L98",
+        "expected_powerfx": "Table({Value:10},{Value:16},{Value:11})"
+      },
+      "expected": [
+        {
+          "Value": 10.0
+        },
+        {
+          "Value": 16.0
+        },
+        {
+          "Value": 11.0
+        }
+      ]
+    },
+    {
+      "id": "unicode-hex2dec-101",
+      "expression": "Hex2Dec(Table({a:[1]},{a:[2]}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L101",
+        "expected_powerfx": "Errors: Error 0-7: The function 'Hex2Dec' has some invalid arguments.|Error 8-30: Invalid schema, expected a column of Text values for 'a'."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "unicode-hex2dec-104",
+      "expression": "Hex2Dec(Table({a:{b:1}},{a:{b:2}}))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Hex2Dec.txt#L104",
+        "expected_powerfx": "Errors: Error 0-7: The function 'Hex2Dec' has some invalid arguments.|Error 8-34: Invalid schema, expected a column of Text values for 'a'."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    }
+  ]
+}

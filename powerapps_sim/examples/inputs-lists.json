@@ -1,0 +1,34 @@
+{
+  "Records": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "Cost": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 100
+      },
+      "Due": {
+        "type": "string",
+        "format": "date"
+      }
+    },
+    "required": [
+      "Cost",
+      "Due"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional calendar record",
+        "Cost": 10,
+        "Due": "2026-01-15"
+      }
+    ]
+  }
+}

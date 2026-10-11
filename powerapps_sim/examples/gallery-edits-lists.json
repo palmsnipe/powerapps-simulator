@@ -1,0 +1,100 @@
+{
+  "Projects": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 60
+      },
+      "Cost": {
+        "type": "number",
+        "default": 99
+      },
+      "Enabled": {
+        "type": "boolean"
+      },
+      "Status": {
+        "type": "object",
+        "properties": {
+          "Value": {
+            "type": "string"
+          }
+        }
+      },
+      "Due": {
+        "type": "string",
+        "format": "date"
+      },
+      "Created": {
+        "type": "string",
+        "format": "date-time",
+        "x-ms-permission": "read-only"
+      },
+      "Modified": {
+        "type": "string",
+        "format": "date-time",
+        "x-ms-permission": "read-only"
+      }
+    },
+    "mapping": {
+      "ID": "ID",
+      "Title": "Project name",
+      "Cost": "Amount",
+      "Enabled": "Enabled",
+      "Status": "Status",
+      "Due": "Due",
+      "Created": "Created",
+      "Modified": "Modified"
+    },
+    "required": [
+      "Title"
+    ],
+    "choices": {
+      "Status": [
+        "Draft",
+        "Done"
+      ]
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional project 1",
+        "Cost": 10,
+        "Enabled": true,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Created": "2026-01-01T12:00:00Z",
+        "Modified": "2026-01-01T12:00:00Z",
+        "Due": "2026-01-01"
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional project 2",
+        "Cost": 20,
+        "Enabled": true,
+        "Status": {
+          "Value": "Draft"
+        },
+        "Created": "2026-01-01T12:00:00Z",
+        "Modified": "2026-01-01T12:00:00Z",
+        "Due": "2026-01-02"
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional project 3",
+        "Cost": 30,
+        "Enabled": true,
+        "Status": {
+          "Value": "Done"
+        },
+        "Created": "2026-01-01T12:00:00Z",
+        "Modified": "2026-01-01T12:00:00Z",
+        "Due": "2026-01-03"
+      }
+    ]
+  }
+}

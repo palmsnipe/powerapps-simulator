@@ -1,0 +1,61 @@
+{
+  "translation-navigation.workflow.json": {
+    "format_version": 1,
+    "name": "Translation, filtering and component navigation",
+    "steps": [
+      {
+        "op": "event",
+        "path": "Home/Page/Toolbar/SwitchLanguage",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "T(\"title\", [])",
+        "expect": "Espace projets"
+      },
+      {
+        "op": "event",
+        "path": "Home/Page/Toolbar/Search",
+        "event": "OnChange",
+        "value": "Water"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(ProjectRows)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "Home/Page/Toolbar/NewProject",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "App.ActiveScreen = Edit",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Mode = FormMode.New",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Edit/EditHeader/HomeButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "App.ActiveScreen = Home",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ],
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    }
+  }
+}

@@ -1,0 +1,212 @@
+App:
+  Properties:
+    StartScreen: =SearchScreen
+    OnStart: =ClearCollect(events,{Event:"start"}); Set(leftQuery,""); Set(rightQuery,"")
+    Formulas: |
+      =Records = Table({ID:1,Title:"Alpha planning",Team:"North",Amount:10},{ID:2,Title:"Beta review",Team:"South",Amount:20},{ID:3,Title:"Gamma planning",Team:"North",Amount:30},{ID:4,Title:"Delta review",Team:"South",Amount:40});
+      Teams = AddColumns(GroupBy(Records,Team,Members),Total,Sum(Members,Amount));
+ComponentDefinitions:
+  SearchPicker:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:1,Title:"Example",Team:"North",Amount:10})
+      Current:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Picker.SelectedItems
+      Query:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Picker.SearchText
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - chosen:
+              DataType: Table
+        Default: =Blank()
+    Properties:
+      Width: =400
+      Height: =80
+    Children:
+      - Picker:
+          Control: ModernCombobox@1.1.2
+          Properties:
+            Items: =Search(SearchPicker.Rows,Self.SearchText,Title,Team)
+            ItemDisplayText: =ThisItem.Title
+            AccessibleLabel: ="Component search"
+            Width: =Parent.Width
+            SelectMultiple: =true
+            OnChange: =SearchPicker.Changed(Self.SelectedItems)
+      - QueryLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Query: " & Picker.SearchText & " · selected " & Text(CountRows(Picker.SelectedItems))'
+            Y: =40
+            Width: =Parent.Width
+Screens:
+  SearchScreen:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Search, groups and forms"
+            X: =24
+            Y: =16
+            Width: =700
+            Size: =24
+      - MultiCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Multiple records · search Title or Team"
+            X: =24
+            Y: =56
+            Width: =400
+      - Multi:
+          Control: ModernCombobox@1.1.2
+          Properties:
+            Items: =Search(Records,Self.SearchText,Title,Team)
+            ItemDisplayText: =ThisItem.Title
+            DefaultSelectedItems: =FirstN(Records,1)
+            AccessibleLabel: ="Search records"
+            X: =24
+            Y: =92
+            Width: =400
+            OnChange: =Collect(events,{Event:"multi",Count:CountRows(Self.SelectedItems)})
+      - SingleCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Single record · delayed search"
+            X: =460
+            Y: =56
+            Width: =400
+      - Single:
+          Control: ModernCombobox@1.0.0
+          Properties:
+            Items: =Records
+            ItemDisplayText: =ThisItem.Title
+            SelectMultiple: =false
+            DelayOutput: =true
+            AccessibleLabel: ="Delayed search"
+            X: =460
+            Y: =92
+            Width: =400
+            OnChange: =Collect(events,{Event:"single",ID:Self.Selected.ID})
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Query: " & Multi.SearchText & " · selected " & Text(CountRows(Multi.SelectedItems)) & " · callbacks " & Text(CountRows(events)-1)'
+            X: =24
+            Y: =138
+            Width: =700
+      - LeftSearch:
+          Control: CanvasComponent
+          ComponentName: SearchPicker
+          Properties:
+            Rows: =Records
+            X: =24
+            Y: =200
+            Changed: =Collect(events,{Event:"left",Count:CountRows(chosen)})
+      - RightSearch:
+          Control: CanvasComponent
+          ComponentName: SearchPicker
+          Properties:
+            Rows: =Records
+            X: =460
+            Y: =200
+            Changed: =Collect(events,{Event:"right",Count:CountRows(chosen)})
+      - GroupHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Grouped totals"
+            X: =24
+            Y: =308
+            Width: =400
+      - TeamGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =Teams
+            X: =24
+            Y: =350
+            Width: =400
+            Height: =120
+            TemplateSize: =48
+          Children:
+            - TeamLabel:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Team & " · " & Text(CountRows(ThisItem.Members)) & " records · total " & Text(ThisItem.Total)
+                  Width: =Parent.TemplateWidth
+      - FormHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Choice card · local SQLite"
+            X: =460
+            Y: =308
+            Width: =400
+      - ChoiceForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Projects
+            Item: =First(Projects)
+            X: =460
+            Y: =350
+            Width: =400
+            Height: =90
+            OnSuccess: =Collect(events,{Event:"saved"})
+            OnFailure: =Collect(events,{Event:"failed"})
+          Children:
+            - TeamCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Team"
+                  Default: =ThisItem.Team
+                  Required: =true
+                  Update: =TeamChoice.Selected
+                  Width: =Parent.Width
+                Children:
+                  - TeamChoice:
+                      Control: ModernCombobox@1.1.2
+                      Properties:
+                        Items: =Choices(Projects.Team)
+                        ItemDisplayText: =ThisItem.Value
+                        DefaultSelectedItems: =If(IsBlank(Parent.Default),Table(),Table(Parent.Default))
+                        SelectMultiple: =false
+                        Required: =Parent.Required
+                        AccessibleLabel: ="Form team"
+                        Width: =Parent.Width
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save choice"
+            OnSelect: =SubmitForm(ChoiceForm)
+            X: =460
+            Y: =454
+            Width: =180
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset inputs"
+            OnSelect: =Reset(Multi); Reset(Single); Reset(LeftSearch); Reset(RightSearch); ResetForm(ChoiceForm)
+            X: =24
+            Y: =500
+            Width: =180
+      - FormSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Unsaved: " & Text(ChoiceForm.Unsaved) & " · " & ChoiceForm.Error'
+            X: =460
+            Y: =506
+            Width: =400
+            Height: =70
+      - ToggleFormView:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Toggle form view"
+            X: =216
+            Y: =500
+            Width: =180
+            OnSelect: =If(ChoiceForm.Mode=FormMode.View,EditForm(ChoiceForm),ViewForm(ChoiceForm))

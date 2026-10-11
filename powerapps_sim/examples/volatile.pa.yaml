@@ -1,0 +1,223 @@
+App:
+  Properties:
+    StartScreen: =VolatileLab
+    OnStart: =Set(counter,0);Clear(draws);Set(remembered,Blank())
+    Formulas: =CardRows = ForAll(Cards,{ID:ID,Title:Title}); ListRoll=CountRows(Cards)+Rand(); Permanent=Rand(); Jitter(base:Number):Number=base+Rand();
+ComponentDefinitions:
+  VolatilePanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =10
+      Entries:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:0,Title:""})
+      Fixed:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Rand()
+      Jitter:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Input.Value+Rand()
+      Shuffled:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Shuffle(VolatilePanel.Entries)
+      Draw:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - base:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+        Default: =base+Rand()
+      Roll:
+        PropertyKind: Action
+        ReturnType: None
+        Default: =VolatilePanel.Rolled({Base:Input.Value,Value:VolatilePanel.Draw(Input.Value)});Blank()
+      Rolled:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - snapshot:
+              DataType: Record
+              Default: ={Base:0,Value:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =215
+    Children:
+      - CaptionText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =VolatilePanel.Caption
+            X: =12
+            Y: =0
+            Width: =410
+            Height: =30
+      - StableText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Fixed: " & Text(VolatilePanel.Fixed,"0.000000")'
+            X: =12
+            Y: =32
+            Width: =410
+            Height: =30
+      - Input:
+          Control: Classic/Slider@2.1.0
+          Properties:
+            Default: =VolatilePanel.Seed
+            Min: =0
+            Max: =100
+            X: =12
+            Y: =74
+            Width: =390
+            Height: =32
+      - JitterText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Slider + Rand: " & Text(VolatilePanel.Jitter,"0.000000")'
+            X: =12
+            Y: =116
+            Width: =410
+            Height: =30
+      - DrawButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Draw"
+            OnSelect: =VolatilePanel.Roll()
+            X: =12
+            Y: =158
+            Width: =170
+            Height: =36
+Screens:
+  VolatileLab:
+    Properties:
+      Width: =App.Width
+      Height: =App.Height
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Volatile formulas"
+            X: =20
+            Y: =10
+            Width: =880
+            Height: =30
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: VolatilePanel
+          Properties:
+            X: =20
+            Y: =52
+            Caption: ="Left"
+            Seed: =10
+            Entries: =CardRows
+            Rolled: =Collect(draws,Patch(snapshot,{Side:"Left"}))
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: VolatilePanel
+          Properties:
+            X: =480
+            Y: =52
+            Caption: ="Right"
+            Seed: =20
+            Entries: =CardRows
+            Rolled: =Collect(draws,Patch(snapshot,{Side:"Right"}))
+      - Unrelated:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Unrelated change"
+            OnSelect: =Set(counter,counter+1)
+            X: =20
+            Y: =282
+            Width: =170
+            Height: =36
+      - Remember:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remember values"
+            OnSelect: =Set(remembered,{Left:LeftPanel.Fixed,Right:RightPanel.Fixed,Jitter:LeftPanel.Jitter,List:ListRoll,Deck:LeftPanel.Shuffled})
+            X: =210
+            Y: =282
+            Width: =190
+            Height: =36
+      - AddCard:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Add card"
+            OnSelect: =Patch(Cards,Defaults(Cards),{Title:"Fictional " & Text(CountRows(Cards)+1)})
+            X: =480
+            Y: =282
+            Width: =170
+            Height: =36
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            OnSelect: =Reset(LeftPanel)
+            X: =670
+            Y: =282
+            Width: =170
+            Height: =36
+      - Counter:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Unrelated changes: " & counter'
+            X: =20
+            Y: =335
+            Width: =410
+            Height: =30
+      - ListValue:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="List count + Rand: " & Text(ListRoll,"0.000000")'
+            X: =480
+            Y: =335
+            Width: =410
+            Height: =30
+      - DrawCount:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Behavior draws: " & CountRows(draws)'
+            X: =20
+            Y: =376
+            Width: =410
+            Height: =30
+      - LastDraw:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '=If(IsEmpty(draws),"",Last(draws).Side & ": " & Text(Last(draws).Value,"0.000000"))'
+            X: =480
+            Y: =376
+            Width: =410
+            Height: =30
+      - Deck:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Children:
+            - Card:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =Text(ThisItem.ID) & " · " & ThisItem.Title
+                  X: =12
+                  Y: =0
+                  Width: =820
+                  Height: =30
+          Properties:
+            Items: =LeftPanel.Shuffled
+            X: =20
+            Y: =424
+            Width: =880
+            Height: =145
+            TemplateSize: =32

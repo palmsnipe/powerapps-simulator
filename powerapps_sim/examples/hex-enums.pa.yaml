@@ -1,0 +1,224 @@
+App:
+  Properties:
+    StartScreen: =HexEnums
+    OnStart: =Clear(history);Clear(results);Clear(codeErrors);Set(status,"Ready");Set(selectedKind,ErrorKind.Network);Set(order,SortOrder.Descending);Set(unit,TimeUnit.Months);Set(format,DateTimeFormat.LongDate);ClearCollect(samples,{N:165,P:4},{N:-3.74,P:1},{N:255,P:1},{N:1e50,P:2})
+    Formulas: =EnumLabel=Text(selectedKind);CalendarLabel=Text(Date(2026,1,1),format);Ordered=Sort(samples,N,order);
+ComponentDefinitions:
+  HexPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =165
+      SeedPlaces:
+        PropertyKind: Input
+        DataType: Number
+        Default: =4
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Raw:Input.Text,Places:Value(Places.Text),Hex:IfError(Dec2Hex(Value(Input.Text),Value(Places.Text)),"Invalid number"),Back:IfError(Hex2Dec(Dec2Hex(Value(Input.Text),Value(Places.Text))),0),ErrorCode:IfError(Len(Dec2Hex(Value(Input.Text),Value(Places.Text))),FirstError.Kind,0),Kind:ErrorKind.Network}
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Dec2Hex([HexPanel.Current.Back,255,-16],[HexPanel.Current.Places,2,1])
+      Encode:
+        PropertyKind: Function
+        ReturnType: Text
+        Parameters:
+          - n:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+          - places:
+              DataType: Number
+              Default: =4
+              IsOptional: true
+        Default: =Dec2Hex(n,places)
+      Capture:
+        PropertyKind: Action
+        ReturnType: Record
+        Parameters:
+          - kind:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+        Default: =Collect(captured,Patch(HexPanel.Current,{EventKind:kind}));HexPanel.Changed(HexPanel.Current);HexPanel.Current
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Raw:"",Places:0,Hex:"",Back:0,ErrorCode:0,Kind:ErrorKind.Network}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =360
+      OnReset: =Clear(captured)
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =HexPanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =30
+      - Input:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =12
+            Y: =40
+            Width: =264
+            Default: =Text(HexPanel.Seed)
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =HexPanel.Caption & " number"
+            OnChange: =HexPanel.Capture("number")
+      - Places:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =302
+            Y: =40
+            Width: =110
+            Default: =Text(HexPanel.SeedPlaces)
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =HexPanel.Caption & " places"
+            OnChange: =HexPanel.Capture("places")
+      - Hex:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Hex " & HexPanel.Current.Hex & " · code " & HexPanel.Current.ErrorCode
+            X: =12
+            Y: =90
+            Width: =400
+            Height: =30
+      - Back:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Round trip " & HexPanel.Current.Back & " · kind " & Text(HexPanel.Current.Kind)
+            X: =12
+            Y: =128
+            Width: =400
+            Height: =30
+      - Function:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Function " & IfError(HexPanel.Encode(Value(Input.Text),Value(Places.Text)),"Invalid number")
+            X: =12
+            Y: =168
+            Width: =400
+            Height: =30
+      - RowsGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =HexPanel.Rows
+            X: =12
+            Y: =218
+            Width: =400
+            Height: =126
+            TemplateSize: =36
+            TemplatePadding: =1
+          Children:
+            - Row:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =IfError(ThisItem.Value,"Numeric error")
+                  X: =4
+                  Y: =0
+                  Width: =360
+                  Height: =30
+Screens:
+  HexEnums:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Hexadecimal conversions and enum identity"
+            X: =16
+            Y: =8
+            Width: =900
+            Height: =30
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Callbacks " & CountRows(history) & " · " & status
+            X: =16
+            Y: =44
+            Width: =900
+            Height: =30
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =16
+            Y: =88
+            Caption: ="LeftPanel"
+            Seed: =165
+            SeedPlaces: =4
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: HexPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =470
+            Y: =88
+            Caption: ="RightPanel"
+            Seed: =-3.74
+            SeedPlaces: =1
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & " captured")
+          ComponentName: HexPanel
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =16
+            Y: =466
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Build table"
+            X: =172
+            Y: =466
+            Width: =136
+            OnSelect: =ClearCollect(results,AddColumns(samples,Hex,IfError(Dec2Hex(N,P),"Invalid number"),DefaultHex,IfError(Dec2Hex(N),"Invalid number"),Back,IfError(Hex2Dec(Dec2Hex(N)),0),Units,IfError(Len(Dec2Hex(N)),0),Kind,ErrorKind.Network,EnumName,Text(ErrorKind.Network),KindNumber,Value(ErrorKind.Network),Order,SortOrder.Descending,OrderText,Text(SortOrder.Descending),Unit,TimeUnit.Months,UnitText,Text(TimeUnit.Months),Format,DateTimeFormat.LongDate,FormatText,Text(DateTimeFormat.LongDate),ErrorCode,IfError(Len(Dec2Hex(N,P)),FirstError.Kind,0),HasError,IsError(Dec2Hex(N,P)),BoundedHex,IfError(Dec2Hex(N,10),"Invalid number"),AllPlaces,Dec2Hex(N,[1,2,3]),UpperEnum,Upper(ErrorKind.Network)));Set(status,"Table ready")
+      - Errors:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Code errors"
+            X: =328
+            Y: =466
+            Width: =136
+            OnSelect: =ClearCollect(codeErrors,Dec2Hex([165,1e50,-1],[1,4,11]));Set(status,"Errors ready")
+      - SaveLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save left"
+            X: =484
+            Y: =466
+            Width: =136
+            OnSelect: =Set(saved,IfError(Patch(Snapshots,LookUp(Snapshots,ID=1),{Hex:LeftPanel.Current.Hex,Amount:LeftPanel.Current.Back,EnumName:Text(LeftPanel.Current.Kind)}),Set(status,"Save failed");Blank()));If(!IsBlank(saved),Set(status,"Saved"))
+            DisplayMode: =If(LeftPanel.Current.ErrorCode=0,DisplayMode.Edit,DisplayMode.Disabled)
+      - Saved:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Saved " & LookUp(Snapshots,ID=1).Hex & " · number " & LookUp(Snapshots,ID=1).Amount & " · " & LookUp(Snapshots,ID=1).EnumName
+            X: =16
+            Y: =514
+            Width: =900
+            Height: =30
+      - Calendar:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =CalendarLabel & " · " & EnumLabel & " · rows " & CountRows(results)
+            X: =16
+            Y: =552
+            Width: =900
+            Height: =30

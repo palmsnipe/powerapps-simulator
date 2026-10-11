@@ -1,0 +1,330 @@
+{
+  "source": "https://learn.microsoft.com/en-us/power-platform/power-fx/reference/function-groupby",
+  "source_kind": "Canvas documentation and direct composition of its examples",
+  "limits": "Independent documentation-based expectations; not pinned .NET engine cases or observed Studio executions. Complex key, Blank-row and error scheduling policies remain unverified against Studio.",
+  "cases": [
+    {
+      "id": "cities-grouped",
+      "expression": "GroupBy(Table({City:\"London\",Country:\"United Kingdom\",Population:8615000},{City:\"Berlin\",Country:\"Germany\",Population:3562000},{City:\"Madrid\",Country:\"Spain\",Population:3165000},{City:\"Rome\",Country:\"Italy\",Population:2874000},{City:\"Paris\",Country:\"France\",Population:2273000},{City:\"Hamburg\",Country:\"Germany\",Population:1760000},{City:\"Barcelona\",Country:\"Spain\",Population:1602000},{City:\"Munich\",Country:\"Germany\",Population:1494000},{City:\"Milan\",Country:\"Italy\",Population:1344000}),Country,Cities)",
+      "expected": [
+        {
+          "Country": "United Kingdom",
+          "Cities": [
+            {
+              "City": "London",
+              "Population": 8615000
+            }
+          ]
+        },
+        {
+          "Country": "Germany",
+          "Cities": [
+            {
+              "City": "Berlin",
+              "Population": 3562000
+            },
+            {
+              "City": "Hamburg",
+              "Population": 1760000
+            },
+            {
+              "City": "Munich",
+              "Population": 1494000
+            }
+          ]
+        },
+        {
+          "Country": "Spain",
+          "Cities": [
+            {
+              "City": "Madrid",
+              "Population": 3165000
+            },
+            {
+              "City": "Barcelona",
+              "Population": 1602000
+            }
+          ]
+        },
+        {
+          "Country": "Italy",
+          "Cities": [
+            {
+              "City": "Rome",
+              "Population": 2874000
+            },
+            {
+              "City": "Milan",
+              "Population": 1344000
+            }
+          ]
+        },
+        {
+          "Country": "France",
+          "Cities": [
+            {
+              "City": "Paris",
+              "Population": 2273000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cities-grouped-legacy",
+      "expression": "GroupBy(Table({City:\"London\",Country:\"United Kingdom\",Population:8615000},{City:\"Berlin\",Country:\"Germany\",Population:3562000},{City:\"Madrid\",Country:\"Spain\",Population:3165000},{City:\"Rome\",Country:\"Italy\",Population:2874000},{City:\"Paris\",Country:\"France\",Population:2273000},{City:\"Hamburg\",Country:\"Germany\",Population:1760000},{City:\"Barcelona\",Country:\"Spain\",Population:1602000},{City:\"Munich\",Country:\"Germany\",Population:1494000},{City:\"Milan\",Country:\"Italy\",Population:1344000}),\"Country\",\"Cities\")",
+      "expected": [
+        {
+          "Country": "United Kingdom",
+          "Cities": [
+            {
+              "City": "London",
+              "Population": 8615000
+            }
+          ]
+        },
+        {
+          "Country": "Germany",
+          "Cities": [
+            {
+              "City": "Berlin",
+              "Population": 3562000
+            },
+            {
+              "City": "Hamburg",
+              "Population": 1760000
+            },
+            {
+              "City": "Munich",
+              "Population": 1494000
+            }
+          ]
+        },
+        {
+          "Country": "Spain",
+          "Cities": [
+            {
+              "City": "Madrid",
+              "Population": 3165000
+            },
+            {
+              "City": "Barcelona",
+              "Population": 1602000
+            }
+          ]
+        },
+        {
+          "Country": "Italy",
+          "Cities": [
+            {
+              "City": "Rome",
+              "Population": 2874000
+            },
+            {
+              "City": "Milan",
+              "Population": 1344000
+            }
+          ]
+        },
+        {
+          "Country": "France",
+          "Cities": [
+            {
+              "City": "Paris",
+              "Population": 2273000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cities-round-trip",
+      "expression": "Ungroup(GroupBy(Table({City:\"London\",Country:\"United Kingdom\",Population:8615000},{City:\"Berlin\",Country:\"Germany\",Population:3562000},{City:\"Madrid\",Country:\"Spain\",Population:3165000},{City:\"Rome\",Country:\"Italy\",Population:2874000},{City:\"Paris\",Country:\"France\",Population:2273000},{City:\"Hamburg\",Country:\"Germany\",Population:1760000},{City:\"Barcelona\",Country:\"Spain\",Population:1602000},{City:\"Munich\",Country:\"Germany\",Population:1494000},{City:\"Milan\",Country:\"Italy\",Population:1344000}),Country,Cities),Cities)",
+      "expected": [
+        {
+          "City": "London",
+          "Country": "United Kingdom",
+          "Population": 8615000
+        },
+        {
+          "City": "Berlin",
+          "Country": "Germany",
+          "Population": 3562000
+        },
+        {
+          "City": "Madrid",
+          "Country": "Spain",
+          "Population": 3165000
+        },
+        {
+          "City": "Rome",
+          "Country": "Italy",
+          "Population": 2874000
+        },
+        {
+          "City": "Paris",
+          "Country": "France",
+          "Population": 2273000
+        },
+        {
+          "City": "Hamburg",
+          "Country": "Germany",
+          "Population": 1760000
+        },
+        {
+          "City": "Barcelona",
+          "Country": "Spain",
+          "Population": 1602000
+        },
+        {
+          "City": "Munich",
+          "Country": "Germany",
+          "Population": 1494000
+        },
+        {
+          "City": "Milan",
+          "Country": "Italy",
+          "Population": 1344000
+        }
+      ]
+    },
+    {
+      "id": "cities-filtered",
+      "expression": "Ungroup(Filter(GroupBy(Table({City:\"London\",Country:\"United Kingdom\",Population:8615000},{City:\"Berlin\",Country:\"Germany\",Population:3562000},{City:\"Madrid\",Country:\"Spain\",Population:3165000},{City:\"Rome\",Country:\"Italy\",Population:2874000},{City:\"Paris\",Country:\"France\",Population:2273000},{City:\"Hamburg\",Country:\"Germany\",Population:1760000},{City:\"Barcelona\",Country:\"Spain\",Population:1602000},{City:\"Munich\",Country:\"Germany\",Population:1494000},{City:\"Milan\",Country:\"Italy\",Population:1344000}),Country,Cities),\"e\" in Country),Cities)",
+      "expected": [
+        {
+          "City": "London",
+          "Country": "United Kingdom",
+          "Population": 8615000
+        },
+        {
+          "City": "Berlin",
+          "Country": "Germany",
+          "Population": 3562000
+        },
+        {
+          "City": "Paris",
+          "Country": "France",
+          "Population": 2273000
+        },
+        {
+          "City": "Hamburg",
+          "Country": "Germany",
+          "Population": 1760000
+        },
+        {
+          "City": "Munich",
+          "Country": "Germany",
+          "Population": 1494000
+        }
+      ]
+    },
+    {
+      "id": "cities-totals",
+      "expression": "DropColumns(AddColumns(GroupBy(Table({City:\"London\",Country:\"United Kingdom\",Population:8615000},{City:\"Berlin\",Country:\"Germany\",Population:3562000},{City:\"Madrid\",Country:\"Spain\",Population:3165000},{City:\"Rome\",Country:\"Italy\",Population:2874000},{City:\"Paris\",Country:\"France\",Population:2273000},{City:\"Hamburg\",Country:\"Germany\",Population:1760000},{City:\"Barcelona\",Country:\"Spain\",Population:1602000},{City:\"Munich\",Country:\"Germany\",Population:1494000},{City:\"Milan\",Country:\"Italy\",Population:1344000}),Country,Cities),Total,Sum(Cities,Population)),Cities)",
+      "expected": [
+        {
+          "Country": "United Kingdom",
+          "Total": 8615000
+        },
+        {
+          "Country": "Germany",
+          "Total": 6816000
+        },
+        {
+          "Country": "Spain",
+          "Total": 4767000
+        },
+        {
+          "Country": "Italy",
+          "Total": 4218000
+        },
+        {
+          "Country": "France",
+          "Total": 2273000
+        }
+      ]
+    },
+    {
+      "id": "cities-sorted-round-trip",
+      "expression": "Ungroup(SortByColumns(GroupBy(Table({City:\"London\",Country:\"United Kingdom\",Population:8615000},{City:\"Berlin\",Country:\"Germany\",Population:3562000},{City:\"Madrid\",Country:\"Spain\",Population:3165000},{City:\"Rome\",Country:\"Italy\",Population:2874000},{City:\"Paris\",Country:\"France\",Population:2273000},{City:\"Hamburg\",Country:\"Germany\",Population:1760000},{City:\"Barcelona\",Country:\"Spain\",Population:1602000},{City:\"Munich\",Country:\"Germany\",Population:1494000},{City:\"Milan\",Country:\"Italy\",Population:1344000}),Country,Cities),Country,SortOrder.Descending),Cities)",
+      "expected": [
+        {
+          "City": "London",
+          "Country": "United Kingdom",
+          "Population": 8615000
+        },
+        {
+          "City": "Berlin",
+          "Country": "Germany",
+          "Population": 3562000
+        },
+        {
+          "City": "Madrid",
+          "Country": "Spain",
+          "Population": 3165000
+        },
+        {
+          "City": "Rome",
+          "Country": "Italy",
+          "Population": 2874000
+        },
+        {
+          "City": "Paris",
+          "Country": "France",
+          "Population": 2273000
+        },
+        {
+          "City": "Hamburg",
+          "Country": "Germany",
+          "Population": 1760000
+        },
+        {
+          "City": "Barcelona",
+          "Country": "Spain",
+          "Population": 1602000
+        },
+        {
+          "City": "Munich",
+          "Country": "Germany",
+          "Population": 1494000
+        },
+        {
+          "City": "Milan",
+          "Country": "Italy",
+          "Population": 1344000
+        }
+      ]
+    },
+    {
+      "id": "cities-filtered-totals",
+      "expression": "Ungroup(Filter(AddColumns(GroupBy(Table({City:\"London\",Country:\"United Kingdom\",Population:8615000},{City:\"Berlin\",Country:\"Germany\",Population:3562000},{City:\"Madrid\",Country:\"Spain\",Population:3165000},{City:\"Rome\",Country:\"Italy\",Population:2874000},{City:\"Paris\",Country:\"France\",Population:2273000},{City:\"Hamburg\",Country:\"Germany\",Population:1760000},{City:\"Barcelona\",Country:\"Spain\",Population:1602000},{City:\"Munich\",Country:\"Germany\",Population:1494000},{City:\"Milan\",Country:\"Italy\",Population:1344000}),Country,Cities),Total,Sum(Cities,Population)),Total>5000000),Cities)",
+      "expected": [
+        {
+          "City": "London",
+          "Country": "United Kingdom",
+          "Population": 8615000,
+          "Total": 8615000
+        },
+        {
+          "City": "Berlin",
+          "Country": "Germany",
+          "Population": 3562000,
+          "Total": 6816000
+        },
+        {
+          "City": "Hamburg",
+          "Country": "Germany",
+          "Population": 1760000,
+          "Total": 6816000
+        },
+        {
+          "City": "Munich",
+          "Country": "Germany",
+          "Population": 1494000,
+          "Total": 6816000
+        }
+      ]
+    }
+  ]
+}

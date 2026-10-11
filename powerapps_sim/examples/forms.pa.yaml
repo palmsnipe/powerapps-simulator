@@ -1,0 +1,167 @@
+App:
+  Properties:
+    StartScreen: =Forms
+    OnStart: '=Set(selectedId, 1); Set(resetInputs, false); Set(resetCount, 0); ClearCollect(trace, {Step: "start"})'
+Screens:
+  Forms:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Form lifecycle · reset and save"
+            X: =24
+            Y: =16
+            Width: =Parent.Width - 48
+            Height: =36
+            Size: =24
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Mode " & DraftForm.Mode & " · unsaved " & Text(DraftForm.Unsaved) & " · last saved " & Coalesce(DraftForm.LastSubmit.Title, "none") & Char(10) & "Reset events " & Text(resetCount) & " · " & DraftForm.Error
+            X: =24
+            Y: =60
+            Width: =Parent.Width - 48
+            Height: =60
+      - NewDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="New draft"
+            OnSelect: =NewForm(DraftForm)
+            X: =24
+            Y: =130
+            Width: =156
+      - EditDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Edit mode"
+            OnSelect: =EditForm(DraftForm)
+            X: =194
+            Y: =130
+            Width: =156
+      - ViewDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="View mode"
+            OnSelect: =ViewForm(DraftForm)
+            X: =364
+            Y: =130
+            Width: =156
+      - ResetDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset form"
+            OnSelect: =ResetForm(DraftForm)
+            X: =534
+            Y: =130
+            Width: =156
+      - SaveDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save draft"
+            OnSelect: =SubmitForm(DraftForm)
+            X: =24
+            Y: =174
+            Width: =156
+      - PulseReset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Pulse inputs"
+            OnSelect: =Set(resetInputs, true); Set(resetInputs, false)
+            X: =194
+            Y: =174
+            Width: =156
+      - HeldReset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Hold to reset"
+            OnSelect: =Blank()
+            X: =364
+            Y: =174
+            Width: =156
+      - ChooseOther:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Next record"
+            OnSelect: =Set(selectedId, If(selectedId = 1, 2, 1)); EditForm(DraftForm)
+            X: =534
+            Y: =174
+            Width: =156
+      - DraftForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Drafts
+            Item: =LookUp(Drafts, ID = selectedId)
+            DefaultMode: =FormMode.Edit
+            X: =24
+            Y: =230
+            Width: =Parent.Width - 48
+            Height: =130
+            NumberOfColumns: =2
+            OnReset: '=Set(resetCount, resetCount + 1); Collect(trace, {Step: "reset " & Self.Mode & " / " & Coalesce(TitleInput.Text, "blank")})'
+            OnSuccess: '=Set(selectedId, Self.LastSubmit.ID); Collect(trace, {Step: "saved " & Self.LastSubmit.Title})'
+            OnFailure: '=Collect(trace, {Step: "failed " & Self.Error})'
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  Required: =true
+                  Width: =Parent.Width / 2
+                  Height: =120
+                  X: =0
+                  Y: =0
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Title"
+                        X: =12
+                        Y: =8
+                        Width: =Parent.Width - 24
+                  - TitleInput:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        Reset: =resetInputs || HeldReset.Pressed
+                        AccessibleLabel: ="Draft title"
+                        X: =12
+                        Y: =48
+                        Width: =Parent.Width - 24
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Amount"
+                  Default: =ThisItem.Amount
+                  Update: =AmountInput.Value
+                  Required: =true
+                  Width: =Parent.Width / 2
+                  Height: =120
+                  X: =1
+                  Y: =0
+                Children:
+                  - AmountLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Amount"
+                        X: =12
+                        Y: =8
+                        Width: =Parent.Width - 24
+                  - AmountInput:
+                      Control: ModernNumberInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        Reset: =resetInputs || HeldReset.Pressed
+                        AccessibleLabel: ="Draft amount"
+                        X: =12
+                        Y: =48
+                        Width: =Parent.Width - 24
+      - Trace:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Concat(LastN(trace, 6), Step, Char(10))
+            X: =24
+            Y: =380
+            Width: =Parent.Width - 48
+            Height: =170

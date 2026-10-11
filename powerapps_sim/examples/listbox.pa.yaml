@@ -1,0 +1,263 @@
+App:
+  Properties:
+    StartScreen: =ListBoxLab
+    OnStart: =Clear(events);Clear(results);Clear(saves);Set(status,"Ready");Reset(LeftPicker);Reset(RightPicker)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+ComponentDefinitions:
+  TopicPicker:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="People"
+      Records:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Chosen:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Pick.SelectedItems
+      Latest:
+        PropertyKind: Output
+        DataType: Record
+        Default: =Pick.Selected
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={ID:0,Title:""}
+              IsOptional: true
+          - values:
+              DataType: Table
+              Default: =Table()
+              IsOptional: true
+        Default: =Blank()
+      DefaultName:
+        PropertyKind: Input
+        DataType: Text
+        Default: =""
+      Touches:
+        PropertyKind: Output
+        DataType: Number
+        Default: =presses
+    Properties:
+      Width: =430
+      Height: =250
+      OnReset: =Clear(history);Set(presses,0);Reset(Pick)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =TopicPicker.Caption
+            X: =0
+            Y: =0
+            Width: =350
+            Height: =32
+      - Pick:
+          Control: Classic/ListBox@2.2.0
+          Properties:
+            X: =0
+            Y: =34
+            Width: =415
+            Height: =170
+            Items: =TopicPicker.Records
+            Default: =TopicPicker.DefaultName
+            Value: ="Title"
+            SelectMultiple: =true
+            OnSelect: =Set(presses,presses+1)
+            OnChange: =Collect(history,{Names:Concat(Self.SelectedItems,Title,", "),Count:CountRows(Self.SelectedItems),Latest:Self.Selected.Title});TopicPicker.Picked(Self.Selected,Self.SelectedItems)
+            AccessibleLabel: =TopicPicker.Caption & " topics"
+      - Counts:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"{CountRows(Pick.SelectedItems)} selected · {CountRows(history)} changes · {presses} taps"
+            X: =0
+            Y: =208
+            Width: =350
+            Height: =32
+      - LatestName:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Latest: " & Coalesce(Pick.Selected.Title,"None")'
+            X: =0
+            Y: =240
+            Width: =350
+            Height: =32
+Screens:
+  ListBoxLab:
+    Properties:
+      Width: =940
+      Height: =750
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("ListBox · topics and drafts","ListBox · sujets et brouillons")
+            X: =16
+            Y: =10
+            Width: =900
+            Height: =32
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '=$"{status} · {CountRows(events)} events"'
+            X: =16
+            Y: =46
+            Width: =900
+            Height: =32
+      - LeftPicker:
+          Control: CanvasComponent
+          ComponentName: TopicPicker
+          Properties:
+            X: =16
+            Y: =86
+            Width: =430
+            Height: =275
+            Caption: =T("Left","Gauche")
+            Records: =Topics
+            Picked: =Collect(events,{Panel:"LeftPicker",Name:value.Title,Count:CountRows(values)});Set(status,Coalesce(value.Title,"Cleared"))
+            DefaultName: =First(Topics).Title
+      - RightPicker:
+          Control: CanvasComponent
+          ComponentName: TopicPicker
+          Properties:
+            X: =480
+            Y: =86
+            Width: =430
+            Height: =275
+            Caption: =T("Right","Droite")
+            Records: =Topics
+            Picked: =Collect(events,{Panel:"RightPicker",Name:value.Title,Count:CountRows(values)});Set(status,Coalesce(value.Title,"Cleared"))
+            DefaultName: =Last(Topics).Title
+      - Single:
+          Control: ListBox@2.2.0
+          Properties:
+            X: =16
+            Y: =366
+            Width: =360
+            Height: =72
+            Items: =Topics
+            Value: ="Title"
+            Default: =First(Topics).Title
+            SelectMultiple: =false
+            AccessibleLabel: ="Single topic"
+            OnChange: =Set(status,Coalesce(Self.Selected.Title,"Cleared"))
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            OnSelect: =Reset(LeftPicker)
+            X: =402
+            Y: =372
+            Width: =130
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Build table","Créer table")
+            OnSelect: =ClearCollect(results,ForAll(Sequence(8),{ID:Value,Name:LeftPicker.Latest.Title,Count:CountRows(LeftPicker.Chosen),N01:Value,N02:Value,N03:Value,N04:Value,N05:Value,N06:Value,N07:Value,N08:Value,N09:Value,N10:Value,N11:Value,N12:Value,N13:Value,N14:Value,N15:Value,N16:Value,Details:{Right:RightPicker.Latest.Title,Language:Language()}}));Set(status,"Table ready")
+            X: =558
+            Y: =372
+            Width: =130
+      - DraftForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =16
+            Y: =464
+            Width: =900
+            Height: =220
+            DataSource: =Drafts
+            Item: =First(Drafts)
+            NumberOfColumns: =2
+            OnSuccess: =Set(status,T("Saved","Enregistré"));Collect(saves,Self.LastSubmit)
+            OnFailure: =Set(status,T("Save failed","Échec"))
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  Required: =true
+                  Width: =430
+                  Height: =90
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Title","Titre")
+                        X: =0
+                        Y: =0
+                        Width: =350
+                        Height: =32
+                  - TitleInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        Default: =Parent.Default
+                        X: =0
+                        Y: =34
+                        Width: =410
+                        Height: =40
+                        AccessibleLabel: =T("Draft title","Titre du brouillon")
+            - TopicCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Topic"
+                  Default: =ThisItem.Topic
+                  Update: =TopicInput.Selected
+                  Required: =true
+                  Width: =430
+                  Height: =190
+                Children:
+                  - OwnerLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Topic","Sujet")
+                        X: =0
+                        Y: =0
+                        Width: =350
+                        Height: =32
+                  - TopicInput:
+                      Control: Classic/ListBox@2.2.0
+                      Properties:
+                        X: =0
+                        Y: =34
+                        Width: =410
+                        Height: =148
+                        Items: =Topics
+                        Value: ="Title"
+                        Default: =Parent.Default.Title
+                        SelectMultiple: =false
+                        AccessibleLabel: =T("Draft topic","Sujet du brouillon")
+                        OnChange: =Set(status,"Draft edited")
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save draft","Enregistrer")
+            OnSelect: =SubmitForm(DraftForm)
+            X: =16
+            Y: =700
+            Width: =130
+      - ResetDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset draft","Réinitialiser")
+            OnSelect: =ResetForm(DraftForm)
+            X: =170
+            Y: =700
+            Width: =130
+      - Saves:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"{CountRows(saves)} saved drafts"
+            X: =350
+            Y: =700
+            Width: =350
+            Height: =32

@@ -1,0 +1,233 @@
+App:
+  Properties:
+    StartScreen: =StatusLab
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+    OnStart: =Set(editable,true);Set(showHelp,true);Set(helpClicks,0);Clear(trace);Reset(LeftPanel);Reset(RightPanel)
+ComponentDefinitions:
+  StatusPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Help:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Details"
+      Enabled:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =true
+      Count:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(clicks,0)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - count:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =300
+      Height: =150
+      OnReset: =Set(clicks,0)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =StatusPanel.Caption
+            Width: =Parent.Width
+            Height: =32
+      - Counter:
+          Control: ModernBadge@1.0.0
+          Properties:
+            Content: =StatusPanel.Count
+            Y: =45
+            Width: =96
+            Icon: ="Alert"
+            IconPosition: =If(Mod(StatusPanel.Count,2)=0,BadgeIconPosition.Before,BadgeIconPosition.After)
+            Appearance: =BadgeAppearance.Filled
+            Intent: =If(StatusPanel.Count>0,BadgeIntent.Critical,BadgeIntent.Positive)
+            AccessibleLabel: =StatusPanel.Caption & " counter " & StatusPanel.Count
+            DisplayMode: =If(StatusPanel.Enabled,DisplayMode.Edit,DisplayMode.View)
+            OnSelect: =Set(clicks,StatusPanel.Count+1);StatusPanel.Changed(clicks)
+      - Help:
+          Control: ModernInformationButton@1.0.0
+          Properties:
+            Content: "=StatusPanel.Help & \"<p>Count: \" & StatusPanel.Count & \"</p>\""
+            X: =112
+            Y: =45
+            IconColor: =Color.DarkBlue
+            AccessibleLabel: =StatusPanel.Caption & " help"
+            DisplayMode: =If(StatusPanel.Enabled,DisplayMode.Edit,DisplayMode.View)
+      - ResetPanel:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset"
+            Y: =95
+            Appearance: =ButtonAppearance.Secondary
+            OnSelect: =Reset(StatusPanel)
+Screens:
+  StatusLab:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Badges and contextual help","Badges et aide contextuelle")
+            X: =24
+            Y: =20
+            Width: =600
+            Size: =24
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: StatusPanel
+          Properties:
+            X: =24
+            Y: =72
+            Width: =300
+            Height: =150
+            Caption: =T("Left","Gauche")
+            Help: =HelpText.Text
+            Enabled: =editable
+            Changed: =Collect(trace,{Panel:"left",Count:count})
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: StatusPanel
+          Properties:
+            X: =370
+            Y: =72
+            Width: =300
+            Height: =150
+            Caption: =T("Right","Droite")
+            Help: =T("<b>Independent component</b>","<b>Composant indépendant</b>")
+            Enabled: =true
+            Changed: =Collect(trace,{Panel:"right",Count:count})
+      - HelpText:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            Default: ="<b>Editable help</b><p>Click the badge to update its counter.</p>"
+            X: =24
+            Y: =230
+            Width: =600
+            AccessibleLabel: ="Help content"
+      - DisableLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =If(editable,"View left","Edit left")
+            X: =650
+            Y: =230
+            Width: =130
+            OnSelect: =Set(editable,!editable)
+      - Info:
+          Control: ModernInformationButton@1.0.0
+          Properties:
+            Content: "=HelpText.Text & \"<p>Help clicks: \" & helpClicks & \"</p>\""
+            X: =24
+            Y: =285
+            Visible: =showHelp
+            AccessibleLabel: ="General help"
+            OnSelect: =Set(helpClicks,helpClicks+1)
+      - HideHelp:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =If(showHelp,"Hide help","Show help")
+            X: =80
+            Y: =285
+            Width: =130
+            OnSelect: =Set(showHelp,!showHelp)
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save counters","Enregistrer les compteurs")
+            X: =230
+            Y: =285
+            Width: =200
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional counters",LeftCount:LeftPanel.Count,RightCount:RightPanel.Count})
+      - States:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            X: =24
+            Y: =345
+            Width: =Parent.Width-48
+            Height: =72
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =24
+            LayoutOverflowX: =LayoutOverflow.Scroll
+          Children:
+            - Neutral:
+                Control: ModernBadge@1.0.0
+                Properties:
+                  Content: ="Neutral"
+                  Width: =100
+                  Intent: =BadgeIntent.Neutral
+            - Brand:
+                Control: ModernBadge@1.0.0
+                Properties:
+                  Content: ="Brand"
+                  Width: =100
+                  Intent: =BadgeIntent.Highlight
+                  BasePaletteColor: =Color.Purple
+            - Outline:
+                Control: ModernBadge@1.0.0
+                Properties:
+                  Content: ="Warning"
+                  Width: =110
+                  Intent: =BadgeIntent.Caution
+                  Appearance: =BadgeAppearance.Outline
+                  Shape: =BadgeShape.Rounded
+            - Ghost:
+                Control: ModernBadge@1.0.0
+                Properties:
+                  Content: ="Info"
+                  Icon: ="Info"
+                  Intent: =BadgeIntent.Informative
+                  Appearance: =BadgeAppearance.Ghost
+                  Shape: =BadgeShape.Square
+            - IconOnly:
+                Control: ModernBadge@1.0.0
+                Properties:
+                  Content: =Blank()
+                  Icon: ="Checkmark"
+                  AccessibleLabel: ="Complete"
+            - Disabled:
+                Control: ModernBadge@1.0.0
+                Properties:
+                  Content: ="Disabled"
+                  Width: =110
+                  DisplayMode: =DisplayMode.Disabled
+                  OnSelect: =Set(helpClicks,999)
+      - Rows:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            X: =24
+            Y: =440
+            Width: =760
+            Height: =160
+            TemplateSize: =48
+            Items: =Table({ID:1,Title:"Fictional Alpha"},{ID:2,Title:"Fictional Beta"},{ID:3,Title:"Fictional Gamma"},{ID:4,Title:"Fictional Delta"})
+          Children:
+            - RowBadge:
+                Control: ModernBadge@1.0.0
+                Properties:
+                  Content: =ThisItem.Title
+                  Width: =180
+                  OnSelect: =Collect(trace,{Panel:ThisItem.Title,Count:ThisItem.ID})
+            - RowHelp:
+                Control: ModernInformationButton@1.0.0
+                Properties:
+                  X: =200
+                  Content: ="Details for " & ThisItem.Title
+                  AccessibleLabel: =ThisItem.Title & " help"
+      - Trace:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: "=\"Callbacks: \" & CountRows(trace) & \" · Help clicks: \" & helpClicks & \" · Saves: \" & CountRows(Snapshots)"
+            X: =24
+            Y: =620
+            Width: =760

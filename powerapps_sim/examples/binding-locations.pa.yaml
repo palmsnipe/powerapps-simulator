@@ -1,0 +1,124 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Set(seed,10);Set(record,{N:1,Label:"Fictional"});Set(caught,"");Clear(history);Clear(failures)
+    OnError: =Collect(failures,AllErrors)
+    Formulas: |-
+      =Good=10;
+      FirstMissing=Missing_1+Missing_1;
+      SecondMissing=Missing_1+Missing_1;
+      Consumer=FirstMissing;
+      BadType := Type({N:UnknownType_1});
+Screens:
+  Home:
+    Properties:
+      Width: =App.Width
+      Height: =App.Height
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Binding declarations & component contracts"
+            X: =20
+            Y: =8
+            Width: =920
+            Height: =36
+      - Left:
+          Control: CanvasComponent
+          ComponentName: Panel
+          Properties:
+            X: =20
+            Y: =52
+            Width: =460
+            Height: =260
+            Changed: =Collect(history,{Panel:"left",N:n})
+            Seed: =seed
+            Record: =record
+            Caption: ="Host " & Text(n)
+      - Right:
+          Control: CanvasComponent
+          ComponentName: Panel
+          Properties:
+            X: =510
+            Y: =52
+            Width: =460
+            Height: =260
+            Changed: =Collect(history,{Panel:"right",N:n})
+            Total: =999
+      - Seed:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Change inputs"
+            OnSelect: =Set(seed,seed+10);Set(record,{N:record.N+1,Label:"Fictional changed"})
+            X: =20
+            Y: =334
+            Width: =220
+            Height: =36
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            OnSelect: =Reset(Left)
+            X: =256
+            Y: =334
+            Width: =220
+            Height: =36
+      - Catch:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Catch default error"
+            OnSelect: =Set(caught,IfError(Text(Left.BadDefault()),FirstError.Source))
+            X: =492
+            Y: =334
+            Width: =220
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save snapshot"
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional component snapshot",Total:Left.Total,Resets:Left.Resets,Caption:Left.Caption()})
+            X: =728
+            Y: =334
+            Width: =220
+            Height: =36
+      - CaptureText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Callbacks: " & Text(CountRows(history))'
+            X: =20
+            Y: =384
+            Width: =920
+            Height: =30
+      - CaughtText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Caught: " & caught'
+            X: =20
+            Y: =420
+            Width: =920
+            Height: =30
+      - SaveText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Snapshots: " & Text(CountRows(Snapshots))'
+            X: =20
+            Y: =456
+            Width: =920
+            Height: =30
+      - Call:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Report default error"
+            OnSelect: =Left.BadDefault()
+            X: =20
+            Y: =500
+            Width: =220
+            Height: =36
+      - FailureText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Reported: " & Text(CountRows(failures))'
+            X: =256
+            Y: =502
+            Width: =700
+            Height: =30

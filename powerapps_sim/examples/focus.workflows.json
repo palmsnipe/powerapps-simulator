@@ -1,0 +1,175 @@
+{
+  "focus.workflow.json": {
+    "format_version": 1,
+    "name": "Focus, keyboard contracts and host callbacks",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "App.ActiveScreen.Name",
+        "expect": "FocusScreen"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/FirstName",
+        "event": "OnChange",
+        "value": "Alex"
+      },
+      {
+        "op": "assert",
+        "formula": "FirstName.Text",
+        "expect": "Alex"
+      },
+      {
+        "op": "assert",
+        "formula": "lastChanged",
+        "expect": "Alex"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/FocusNotes",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Notes.Text",
+        "expect": "Fictional notes"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/Block",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "FirstName.DisplayMode",
+        "expect": "Disabled"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/FocusFirst",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "FirstName.Text",
+        "expect": "Alex"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/Block",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/Skip",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "FirstName.AcceptsFocus",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/FocusFirst",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/FocusView",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ReadOnly.Text",
+        "expect": "Read-only fictional text"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/FocusCaption",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/PositiveIndex",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "lastChanged",
+        "expect": "Classic selected"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/Left/PanelInput",
+        "event": "OnChange",
+        "value": "Left draft"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/Left/RequestFocus",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Draft",
+        "expect": "Left draft"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Draft",
+        "expect": null
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/Right/PanelInput",
+        "event": "OnChange",
+        "value": "Right draft"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/Right/RequestFocus",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Draft",
+        "expect": "Right draft"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Draft",
+        "expect": "Left draft"
+      },
+      {
+        "op": "event",
+        "path": "FocusScreen/Next",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "App.ActiveScreen.Name",
+        "expect": "SecondScreen"
+      },
+      {
+        "op": "assert",
+        "formula": "Arrival.Text",
+        "expect": "Fictional arrival"
+      },
+      {
+        "op": "event",
+        "path": "SecondScreen/Return",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "App.ActiveScreen.Name",
+        "expect": "FocusScreen"
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

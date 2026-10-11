@@ -1,0 +1,125 @@
+ComponentDefinitions:
+  Calculator:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =10
+      Total:
+        PropertyKind: Output
+        DataType: Number
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+      Calculate:
+        PropertyKind: OutputFunction
+        ReturnType: Number
+        Parameters:
+          - lhs:
+              DataType: Number
+              Default: =100
+          - rhs:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+      Caption:
+        PropertyKind: InputFunction
+        ReturnType: Text
+        Default: =prefix & Text(value)
+        Parameters:
+          - value:
+              DataType: Number
+              Default: =100
+          - prefix:
+              DataType: Text
+              IsOptional: true
+              Default: ="Total "
+      IsMissing:
+        PropertyKind: OutputFunction
+        ReturnType: Boolean
+        Parameters:
+          - n:
+              DataType: Number
+              IsOptional: true
+      Add:
+        PropertyKind: Action
+        ReturnType: Number
+        Parameters:
+          - item:
+              DataType: Record
+              Default: ={Amount:0,Label:""}
+          - factor:
+              DataType: Number
+              Default: =2
+              IsOptional: true
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - value:
+              DataType: Number
+              Default: =100
+          - tag:
+              DataType: Text
+              IsOptional: true
+              Default: ="saved"
+      Trouble:
+        PropertyKind: OutputFunction
+        ReturnType: Number
+        Parameters:
+          - x:
+              DataType: Number
+              Default: =1/0
+              IsOptional: true
+      DraftText:
+        PropertyKind: Output
+        DataType: Text
+    Properties:
+      Width: =450
+      Height: =220
+      OnReset: =Set(total,Calculator.Seed);Clear(savedRows)
+      Total: =Coalesce(total,Calculator.Seed)
+      Rows: =savedRows
+      Calculate: =lhs+rhs
+      IsMissing: =IsBlank(n)
+      Add: =Set(total,Calculator.Total+item.Amount*factor);Collect(savedRows,item);Calculator.Changed(total);total
+      Trouble: =x
+      DraftText: =Amount.Text
+    Children:
+      - CaptionText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Calculator.Caption(Calculator.Total)
+            X: =12
+            Y: =8
+            Width: =420
+            Height: =30
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Rows: " & Text(CountRows(Calculator.Rows)) & " · omitted: " & Text(Calculator.IsMissing())'
+            X: =12
+            Y: =48
+            Width: =420
+            Height: =30
+      - Amount:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            Default: ="7"
+            AccessibleLabel: ="Amount"
+            X: =12
+            Y: =90
+            Width: =190
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Add with default factor"
+            OnSelect: =Calculator.Add({Amount:Amount.Text,Label:"typed"})
+            X: =12
+            Y: =146
+            Width: =260
+            Height: =36

@@ -1,0 +1,193 @@
+{
+  "media-playback.workflow.json": {
+    "format_version": 1,
+    "name": "Media callbacks, component isolation, background playback and snapshots",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Elapsed=0 && Right.Elapsed=0 && Left.Paused && Right.Paused",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "metadata",
+          "duration": 6
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "play"
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "time",
+          "time": 1
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Elapsed=1 && !Left.Paused && Right.Elapsed=0 && Right.Paused",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "pause",
+          "time": 1
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=1 && First(history).Panel=\"Left\" && First(history).Seconds=1 && Left.Paused",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Play",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "play"
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "end",
+          "time": 6
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=2 && Last(history).Phase=\"end\" && Left.Elapsed=6 && Left.Paused",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Elapsed=0 && Left.Duration=0 && Left.Paused && CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "metadata",
+          "duration": 6
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "play"
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "time",
+          "time": 2
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/OpenAway",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Player",
+        "event": "OnMedia",
+        "value": {
+          "operation": "end",
+          "time": 6
+        }
+      },
+      {
+        "op": "event",
+        "path": "Away/Back",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Elapsed=6 && Right.Paused && Left.Elapsed=0 && CountRows(history)=3 && Last(history).Panel=\"Right\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Movie",
+        "event": "OnMedia",
+        "value": {
+          "operation": "metadata",
+          "duration": 4
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/Movie",
+        "event": "OnMedia",
+        "value": {
+          "operation": "play"
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/Movie",
+        "event": "OnMedia",
+        "value": {
+          "operation": "end",
+          "time": 4
+        }
+      },
+      {
+        "op": "event",
+        "path": "Home/Capture",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(captured)=3 && Last(captured).Duration=4 && CountRows(Snapshots)=1 && First(Snapshots).Callbacks=4",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

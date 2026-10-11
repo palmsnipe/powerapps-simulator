@@ -1,0 +1,43 @@
+{
+  "Feedback": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "Score": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 5
+      }
+    },
+    "required": [
+      "Title",
+      "Score"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional feedback 1",
+        "Score": 1
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional feedback 2",
+        "Score": 2
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional feedback 3",
+        "Score": 3
+      }
+    ],
+    "mapping": {
+      "Score": "Feedback score",
+      "Title": "Feedback title"
+    }
+  }
+}

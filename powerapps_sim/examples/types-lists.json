@@ -1,0 +1,30 @@
+{
+  "Projects": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number",
+        "default": 0
+      }
+    },
+    "mapping": {},
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional Alpha",
+        "Amount": 10
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional Beta",
+        "Amount": 20
+      }
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+ComponentDefinitions:
+  ScalarPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Amount:
+        PropertyKind: Input
+        DataType: Number
+        Default: =25
+      Enabled:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Plan"
+      ViewOnly:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      CurrentAmount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =AmountSlider.Value
+      CurrentEnabled:
+        PropertyKind: Output
+        DataType: Boolean
+        Default: =EnabledToggle.Checked
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+          - enabled:
+              DataType: Boolean
+        Default: =Blank()
+    Properties:
+      Width: =440
+      Height: =205
+      OnReset: =Clear(history);Reset(AmountSlider);Reset(EnabledToggle)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =ScalarPanel.Caption
+            X: =12
+            Y: =8
+            Width: =Parent.Width-24
+            Size: =18
+      - AmountSlider:
+          Control: Slider@1.0.29
+          Properties:
+            X: =12
+            Y: =44
+            Width: =Parent.Width-24
+            Height: =36
+            Value: =ScalarPanel.Amount
+            Min: =-100
+            Max: =1000
+            Layout: =Slider.Layout.Horizontal
+            Size: =Slider.Size.Medium
+            DisplayMode: =If(ScalarPanel.ViewOnly,DisplayMode.View,DisplayMode.Edit)
+            AccessibleLabel: =ScalarPanel.Caption & " amount"
+            OnChange: =Collect(history,{Event:"change",Amount:AmountSlider.Value,Enabled:EnabledToggle.Checked});ScalarPanel.Changed(Self.Value,EnabledToggle.Checked)
+      - EnabledToggle:
+          Control: Toggle@1.1.2
+          Properties:
+            X: =12
+            Y: =94
+            Width: =Parent.Width-24
+            Height: =44
+            Checked: =ScalarPanel.Enabled
+            Label: =ScalarPanel.Caption & " enabled"
+            LabelPosition: =Toggle.LabelPosition.After
+            DisplayMode: =If(ScalarPanel.ViewOnly,DisplayMode.View,DisplayMode.Edit)
+            AccessibleLabel: =ScalarPanel.Caption & " enabled"
+            OnCheck: =Collect(history,{Event:"check",Amount:AmountSlider.Value,Enabled:Self.Checked})
+            OnUncheck: =Collect(history,{Event:"uncheck",Amount:AmountSlider.Value,Enabled:Self.Checked})
+            OnSelect: =Collect(history,{Event:"select",Amount:AmountSlider.Value,Enabled:Self.Checked});ScalarPanel.Changed(AmountSlider.Value,Self.Checked)
+      - Current:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =155
+            Width: =Parent.Width-24
+            Text: =Text(ScalarPanel.CurrentAmount) & " · " & Text(ScalarPanel.CurrentEnabled) & " · " & CountRows(history)

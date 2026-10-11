@@ -1,0 +1,31 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 80
+      },
+      "Clicks": {
+        "type": "number"
+      },
+      "Rotation": {
+        "type": "number"
+      },
+      "Style": {
+        "type": "string",
+        "maxLength": 20
+      }
+    },
+    "mapping": {
+      "Rotation": "Icon rotation"
+    },
+    "required": [
+      "Title",
+      "Clicks"
+    ],
+    "records": []
+  }
+}

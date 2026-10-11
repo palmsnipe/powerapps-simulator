@@ -1,0 +1,183 @@
+App:
+  Properties:
+    StartScreen: =TabsLab
+    Formulas: |-
+      =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+      Sections=Table({ID:1,Key:"draft",Label:T("Draft","Brouillon")},{ID:2,Key:"review",Label:T("Review","Révision")},{ID:3,Key:"complete",Label:T("Complete","Terminé")});
+    OnStart: =Set(seed,"review");Set(vertical,false);Set(editable,true);Set(leftKey,"");Set(rightKey,"");Clear(trace);Clear(failures);Reset(LeftPanel);Reset(RightPanel)
+    OnError: =Collect(failures,{Kind:FirstError.Kind,Source:FirstError.Source,Message:FirstError.Message})
+ComponentDefinitions:
+  TabsPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Options:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:1,Key:"draft",Label:"Draft"})
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="draft"
+      Vertical:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Editable:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =true
+      Picked:
+        PropertyKind: Output
+        DataType: Record
+        Default: =Tabs.Selected
+      Changes:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(changes,0)
+      Clicks:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(clicks,0)
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - chosen:
+              DataType: Record
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =160
+      OnReset: =Set(changes,0);Set(clicks,0);Clear(history)
+    Children:
+      - Tabs:
+          Control: ModernTabList@1.0.2
+          Properties:
+            X: =0
+            Y: =0
+            Width: =Parent.Width
+            Height: =If(TabsPanel.Vertical,140,60)
+            Items: =TabsPanel.Options
+            Default: =LookUp(TabsPanel.Options,Key=TabsPanel.Seed)
+            ItemDisplayText: =ThisItem.Label
+            Alignment: =If(TabsPanel.Vertical,LayoutDirection.Vertical,LayoutDirection.Horizontal)
+            Appearance: =TabListAppearance.SubtleCircular
+            TabSize: =TabSize.Medium
+            AccessibleLabel: ="Section tabs"
+            DisplayMode: =If(TabsPanel.Editable,DisplayMode.Edit,DisplayMode.View)
+            OnSelect: =Set(clicks,TabsPanel.Clicks+1)
+            OnChange: =Set(changes,TabsPanel.Changes+1);Collect(history,{Key:Self.Selected.Key,ID:Self.Selected.ID});TabsPanel.Changed(Self.Selected)
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =0
+            Y: =If(TabsPanel.Vertical,144,72)
+            Width: =Parent.Width
+            Height: =32
+            Text: =Coalesce(TabsPanel.Picked.Label,"—") & " · " & TabsPanel.Clicks & " / " & TabsPanel.Changes
+Screens:
+  TabsLab:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =16
+            Width: =900
+            Height: =40
+            Size: =24
+            Text: =T("Tab lists · versions, selection and callbacks","Listes d’onglets · versions, sélection et événements")
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: TabsPanel
+          Properties:
+            X: =24
+            Y: =84
+            Width: =430
+            Height: =180
+            Options: =Sections
+            Seed: =seed
+            Changed: =Set(leftKey,chosen.Key);Collect(trace,{Panel:"Left",Key:chosen.Key})
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: TabsPanel
+          Properties:
+            X: =520
+            Y: =84
+            Width: =430
+            Height: =180
+            Options: =Sections
+            Vertical: =vertical
+            Editable: =editable
+            Changed: =Set(rightKey,chosen.Key);Collect(trace,{Panel:"Right",Key:chosen.Key})
+      - ModernTabs:
+          Control: ModernTabList@1.0.0
+          Properties:
+            X: =24
+            Y: =300
+            Width: =900
+            Height: =60
+            Items: =["Overview","Reports","Settings"]
+            Default: ="Reports"
+            Alignment: =TabListAlignment.Center
+            Appearance: =TabListAppearance.Filled
+            AccessibleLabel: ="Dashboard tabs"
+            OnSelect: =Collect(trace,{Panel:"Modern click",Key:Self.Selected.Value})
+            OnChange: =Collect(trace,{Panel:"Modern change",Key:Self.Selected.Value})
+      - ChangeSeed:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =400
+            Width: =160
+            Height: =40
+            Text: =T("Change default","Changer défaut")
+            OnSelect: =Set(seed,If(seed="review","complete","review"))
+      - ToggleVertical:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =204
+            Y: =400
+            Width: =160
+            Height: =40
+            Text: =T("Horizontal / vertical","Horizontal / vertical")
+            OnSelect: =Set(vertical,!vertical)
+      - ToggleGate:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =384
+            Y: =400
+            Width: =160
+            Height: =40
+            Text: =T("Edit / view","Modifier / lire")
+            OnSelect: =Set(editable,!editable)
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =564
+            Y: =400
+            Width: =160
+            Height: =40
+            Text: =T("Reset left","Réinitialiser gauche")
+            OnSelect: =Reset(LeftPanel)
+      - SaveSnapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =744
+            Y: =400
+            Width: =160
+            Height: =40
+            Text: =T("Save snapshot","Enregistrer")
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional tab snapshot",Section:LeftPanel.Picked.Key,Clicks:LeftPanel.Clicks,Changes:LeftPanel.Changes})
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =472
+            Width: =900
+            Height: =40
+            Text: =LeftPanel.Picked.Key & " / " & RightPanel.Picked.Key & " · " & ModernTabs.Selected.Value & " · " & CountRows(Snapshots)

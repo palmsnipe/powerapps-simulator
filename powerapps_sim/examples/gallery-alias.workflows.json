@@ -1,0 +1,232 @@
+{
+  "gallery-alias.workflow.json": {
+    "format_version": 1,
+    "name": "Nested gallery aliases and component callbacks",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional north draft"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional south draft"
+        }
+      ],
+      "Cells": [
+        {
+          "ID": 11,
+          "Owner": 1,
+          "Caption": "Fictional cell 1.1"
+        },
+        {
+          "ID": 12,
+          "Owner": 1,
+          "Caption": "Fictional cell 1.2"
+        },
+        {
+          "ID": 13,
+          "Owner": 1,
+          "Caption": "Fictional cell 1.3"
+        },
+        {
+          "ID": 21,
+          "Owner": 2,
+          "Caption": "Fictional cell 2.1"
+        },
+        {
+          "ID": 22,
+          "Owner": 2,
+          "Caption": "Fictional cell 2.2"
+        },
+        {
+          "ID": 23,
+          "Owner": 2,
+          "Caption": "Fictional cell 2.3"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftGrid.History)=0 && CountRows(RightGrid.History)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(Index(Ranks.AllItems,2).Files.AllItems,3).Pick",
+        "scope": "AliasLab/LeftGrid",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrid.Last.Outer=2 && LeftGrid.Last.Inner=23",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightGrid.Last.Outer=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "selected.Outer=2 && DraftForm.Item.ID=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(events).Panel=\"LeftGrid\" && First(events).Inner=23",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(Index(Ranks.AllItems,1).Files.AllItems,2).Note",
+        "scope": "AliasLab/RightGrid",
+        "event": "OnChange",
+        "value": "Fictional changed note"
+      },
+      {
+        "op": "assert",
+        "formula": "RightGrid.Last.Inner=12 && RightGrid.Last.Caption=\"Fictional changed note\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrid.Last.Inner=23",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "AliasLab/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional aliased draft"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "AliasLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=T(\"Save failed\",\"\u00c9chec\") && DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).Title=\"Fictional north draft\"",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "AliasLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).Title=\"Fictional aliased draft\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.LastSubmit.ID=1 && !DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(Index(Ranks.AllItems,1).Files.AllItems,1).Pick",
+        "scope": "AliasLab/LeftGrid",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrid.Last.Outer=1 && LeftGrid.Last.Inner=11",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftGrid.History)=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightGrid.Last.Inner=12",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "AliasLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftGrid.History)=0 && LeftGrid.Last.Outer=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightGrid.Last.Inner=12 && CountRows(RightGrid.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(Index(Ranks.AllItems,2).Files.AllItems,2).Pick",
+        "scope": "AliasLab/LeftGrid",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrid.Last.Inner=22",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "selected.Outer=2 && DraftForm.Item.ID=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "AliasLab/ResetRight",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightGrid.History)=0 && RightGrid.Last.Outer=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftGrid.Last.Inner=22",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

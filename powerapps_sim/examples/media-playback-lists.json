@@ -1,0 +1,28 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string"
+      },
+      "Seconds": {
+        "type": "number"
+      },
+      "Duration": {
+        "type": "number"
+      },
+      "Paused": {
+        "type": "boolean"
+      },
+      "Callbacks": {
+        "type": "integer"
+      }
+    },
+    "mapping": {
+      "Seconds": "Saved position"
+    },
+    "records": []
+  }
+}

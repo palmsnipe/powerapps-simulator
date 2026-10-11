@@ -1,0 +1,19 @@
+{
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number",
+        "default": 0
+      }
+    },
+    "mapping": {},
+    "records": []
+  }
+}

@@ -1,0 +1,150 @@
+App:
+  Properties:
+    StartScreen: =GalleryScreen
+    OnStart: =ClearCollect(rows,Table({ID:1,Title:"Fictional Alpha",Children:Table({ID:11,Title:"Inner Alpha"})},{ID:2,Title:"Fictional Beta",Children:Table({ID:21,Title:"Inner Beta"})},{ID:3,Title:"Fictional Gamma",Children:Table({ID:31,Title:"Inner Gamma"})})); Set(defaultId,2); Set(clicks,0); Set(status,"ready"); Set(canSelect,true); Set(wrapCount,1)
+Screens:
+  GalleryScreen:
+    Children:
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =16
+            Width: =850
+            Height: =64
+            Text: =status & " · selected " & Records.Selected.Title & " · events " & clicks & " · loaded " & Records.AllItemsCount
+      - Records:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =rows
+            Default: =LookUp(rows,ID=defaultId)
+            X: =20
+            Y: =100
+            Width: =570
+            Height: =260
+            TemplateSize: =104
+            TemplatePadding: =6
+            WrapCount: =wrapCount
+            Selectable: =canSelect
+            TemplateFill: =If(ThisItem.IsSelected,RGBA(225,239,255,1),Color.White)
+            ItemAccessibleLabel: =ThisItem.Title
+            OnSelect: =Set(status,"gallery " & ThisItem.Title); Set(clicks,clicks+1)
+          Children:
+            - Caption:
+                Control: ModernText@1.0.0
+                Properties:
+                  X: =12
+                  Y: =8
+                  Width: =Parent.TemplateWidth-24
+                  Height: =24
+                  Text: =ThisItem.Title
+            - Note:
+                Control: ModernTextInput@1.1.2
+                Properties:
+                  X: =12
+                  Y: =40
+                  Width: =150
+                  Height: =32
+                  Default: =ThisItem.Title
+                  AccessibleLabel: ="Note " & ThisItem.Title
+            - Custom:
+                Control: ModernButton@1.0.0
+                Properties:
+                  X: =170
+                  Y: =40
+                  Width: =90
+                  Height: =32
+                  Text: ="Custom"
+                  AccessibleLabel: ="Custom " & ThisItem.Title
+                  OnSelect: =Set(status,"custom " & ThisItem.Title)
+            - Silent:
+                Control: Label@2.5.1
+                Properties:
+                  X: =12
+                  Y: =76
+                  Width: =100
+                  Height: =20
+                  Text: ="Explicit Blank"
+                  OnSelect: =Blank()
+      - Groups:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =rows
+            X: =620
+            Y: =100
+            Width: =260
+            Height: =370
+            TemplateSize: =118
+            OnSelect: =Set(status,"outer " & ThisItem.Title)
+          Children:
+            - GroupCaption:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title
+                  Width: =250
+            - Nested:
+                Control: Gallery@2.15.0
+                Properties:
+                  Items: =ThisItem.Children
+                  X: =0
+                  Y: =30
+                  Width: =250
+                  Height: =80
+                  TemplateSize: =72
+                  TemplateFill: =If(ThisItem.IsSelected,RGBA(235,250,230,1),Color.White)
+                  ItemAccessibleLabel: =ThisItem.Title
+                  OnSelect: =Set(status,"inner " & ThisItem.Title)
+                Children:
+                  - InnerCaption:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =ThisItem.Title
+                        Width: =230
+      - ResetRecords:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =400
+            Width: =130
+            Text: ="Reset gallery"
+            OnSelect: =Reset(Records)
+      - ToggleSelectable:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =170
+            Y: =400
+            Width: =160
+            Text: ="Toggle selection"
+            OnSelect: =Set(canSelect,!canSelect)
+      - ToggleWrap:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =350
+            Y: =400
+            Width: =130
+            Text: ="Toggle wrap"
+            OnSelect: =Set(wrapCount,If(wrapCount=1,2,1))
+      - NextDefault:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =500
+            Y: =400
+            Width: =100
+            Text: ="Default 3"
+            OnSelect: =Set(defaultId,3); Reset(Records)
+      - SortRecords:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =455
+            Width: =130
+            Text: ="Reverse rows"
+            OnSelect: =ClearCollect(rows,Sort(rows,ID,SortOrder.Descending))
+      - SelectCustom:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =170
+            Y: =455
+            Width: =160
+            Text: ="Queue custom row 2"
+            OnSelect: =Set(status,"queued"); Select(Records,2,Custom); Set(status,"after queue")

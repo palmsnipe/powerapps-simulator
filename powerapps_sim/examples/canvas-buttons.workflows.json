@@ -1,0 +1,174 @@
+{
+  "canvas-buttons.workflow.json": {
+    "format_version": 1,
+    "name": "Archived button actions, typed callbacks, focus and form save retry",
+    "records": {
+      "Plans": [
+        {
+          "ID": 1,
+          "Title": "Fictional button budget",
+          "Amount": 25
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Current=0 && Right.Current=10 && IsEmpty(events)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Current=1 && Right.Current=10 && First(events).Panel=\"Left\" && First(events).Count=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Decrease",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Current=9 && CountRows(Left.History)=1 && CountRows(Right.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Current=0 && IsEmpty(Left.History) && Right.Current=9",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/NewSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Current=5 && IsEmpty(Left.History) && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleView",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Increase",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Current=5 && CountRows(events)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleView",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Rotate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "rotation=45 && Left.Current=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/FocusTargetAction",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "rootClicks=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/FocusTarget",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "rootClicks=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/PlanForm/AmountCard/AmountInput",
+        "event": "OnChange",
+        "value": "35"
+      },
+      {
+        "op": "assert",
+        "formula": "PlanForm.Unsaved && PlanForm.Valid && PlanForm.Updates.AmountValue=35",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Plans",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "PlanForm.Unsaved && First(Plans).AmountValue=25",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Plans",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!PlanForm.Unsaved && First(Plans).AmountValue=35 && status=\"Saved\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/PlanForm/AmountCard/AmountInput",
+        "event": "OnChange",
+        "value": "45"
+      },
+      {
+        "op": "event",
+        "path": "Home/Discard",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!PlanForm.Unsaved && AmountInput.Value=\"35\"",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

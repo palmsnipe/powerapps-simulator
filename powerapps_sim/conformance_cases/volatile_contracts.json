@@ -1,0 +1,1088 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "All pinned Rand/Shuffle expressions in Float and Decimal hosts; native literal outputs or invariants, with an simulator seed for repeatable execution. No implementation evaluates the expected output. PRNG sequence is not native parity.",
+  "cases": [
+    {
+      "id": "volatile-rand-3-float",
+      "expression": "RandBetween(1, 1)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L3",
+        "expected_powerfx": "1"
+      },
+      "expected": 1
+    },
+    {
+      "id": "volatile-rand-3-decimal",
+      "expression": "RandBetween(1, 1)",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L3",
+        "expected_powerfx": "1"
+      },
+      "expected": {
+        "$decimal": "1"
+      }
+    },
+    {
+      "id": "volatile-rand-6-float",
+      "expression": "IsError(RandBetween(5, 1))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L6",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-6-decimal",
+      "expression": "IsError(RandBetween(5, 1))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L6",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-9-float",
+      "expression": "IsError(RandBetween(1/0, 1))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L9",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-9-decimal",
+      "expression": "IsError(RandBetween(1/0, 1))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L9",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-12-float",
+      "expression": "IsError(RandBetween(0, 1/0))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L12",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-12-decimal",
+      "expression": "IsError(RandBetween(0, 1/0))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L12",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-15-float",
+      "expression": "RandBetween(100.5, 100.7)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L15",
+        "expected_powerfx": "101"
+      },
+      "expected": 101
+    },
+    {
+      "id": "volatile-rand-15-decimal",
+      "expression": "RandBetween(100.5, 100.7)",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L15",
+        "expected_powerfx": "101"
+      },
+      "expected": {
+        "$decimal": "101"
+      }
+    },
+    {
+      "id": "volatile-rand-19-float",
+      "expression": "CountIf(Sequence(200), RandBetween(3, 4) = 3) > 0",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L19",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-19-decimal",
+      "expression": "CountIf(Sequence(200), RandBetween(3, 4) = 3) > 0",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L19",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-23-float",
+      "expression": "CountIf(Sequence(200), RandBetween(3, 4) = 4) > 0",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L23",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-23-decimal",
+      "expression": "CountIf(Sequence(200), RandBetween(3, 4) = 4) > 0",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L23",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-26-float",
+      "expression": "RandBetween(Blank(),0.5)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L26",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "volatile-rand-26-decimal",
+      "expression": "RandBetween(Blank(),0.5)",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L26",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "volatile-rand-29-float",
+      "expression": "CountIf(Sequence(200), RandBetween(Blank(), 1) = 0) > 0",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L29",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-29-decimal",
+      "expression": "CountIf(Sequence(200), RandBetween(Blank(), 1) = 0) > 0",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L29",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-32-float",
+      "expression": "CountIf(Sequence(200), RandBetween(Blank(), 1) = 1) > 0",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L32",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-32-decimal",
+      "expression": "CountIf(Sequence(200), RandBetween(Blank(), 1) = 1) > 0",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L32",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "volatile-rand-35-float",
+      "expression": "Sum(Sequence(100), With({RandomNumber: RandBetween(1,20)}, If(RandomNumber >=1 && RandomNumber <= 20, 1, 0)))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L35",
+        "expected_powerfx": "100"
+      },
+      "expected": 100
+    },
+    {
+      "id": "volatile-rand-35-decimal",
+      "expression": "Sum(Sequence(100), With({RandomNumber: RandBetween(1,20)}, If(RandomNumber >=1 && RandomNumber <= 20, 1, 0)))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L35",
+        "expected_powerfx": "100"
+      },
+      "expected": {
+        "$decimal": "100"
+      }
+    },
+    {
+      "id": "volatile-rand-38-float",
+      "expression": "Sum(Sequence(100), With({RandomNumber: RandBetween(2-1,50-30)}, If(RandomNumber >=1 && RandomNumber <= 20, 1, 0)))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L38",
+        "expected_powerfx": "100"
+      },
+      "expected": 100
+    },
+    {
+      "id": "volatile-rand-38-decimal",
+      "expression": "Sum(Sequence(100), With({RandomNumber: RandBetween(2-1,50-30)}, If(RandomNumber >=1 && RandomNumber <= 20, 1, 0)))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L38",
+        "expected_powerfx": "100"
+      },
+      "expected": {
+        "$decimal": "100"
+      }
+    },
+    {
+      "id": "volatile-rand-41-float",
+      "expression": "Sum(Sequence(100), With({RandomNumber: Rand()}, If(RandomNumber > 0 && RandomNumber < 1.0, 1, 0)))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L41",
+        "expected_powerfx": "100"
+      },
+      "expected": 100
+    },
+    {
+      "id": "volatile-rand-41-decimal",
+      "expression": "Sum(Sequence(100), With({RandomNumber: Rand()}, If(RandomNumber > 0 && RandomNumber < 1.0, 1, 0)))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L41",
+        "expected_powerfx": "100"
+      },
+      "expected": {
+        "$decimal": "100"
+      }
+    },
+    {
+      "id": "volatile-rand-44-float",
+      "expression": "Sum(Sequence(100), With({rnd:RandBetween(-20,-10)}, If(rnd >= -20 And rnd <= -10, 1, 0)))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L44",
+        "expected_powerfx": "100"
+      },
+      "expected": 100
+    },
+    {
+      "id": "volatile-rand-44-decimal",
+      "expression": "Sum(Sequence(100), With({rnd:RandBetween(-20,-10)}, If(rnd >= -20 And rnd <= -10, 1, 0)))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L44",
+        "expected_powerfx": "100"
+      },
+      "expected": {
+        "$decimal": "100"
+      }
+    },
+    {
+      "id": "volatile-rand-48-float",
+      "expression": "Sum(Sequence(100), RandBetween(4.5, 5.7))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L48",
+        "expected_powerfx": "500"
+      },
+      "expected": 500
+    },
+    {
+      "id": "volatile-rand-48-decimal",
+      "expression": "Sum(Sequence(100), RandBetween(4.5, 5.7))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L48",
+        "expected_powerfx": "500"
+      },
+      "expected": {
+        "$decimal": "500"
+      }
+    },
+    {
+      "id": "volatile-rand-51-float",
+      "expression": "Sum(Sequence(100), With({rnd:RandBetween(-4.5,-2.7)}, If(rnd = -4 Or rnd = -3, 1, 0)))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L51",
+        "expected_powerfx": "100"
+      },
+      "expected": 100
+    },
+    {
+      "id": "volatile-rand-51-decimal",
+      "expression": "Sum(Sequence(100), With({rnd:RandBetween(-4.5,-2.7)}, If(rnd = -4 Or rnd = -3, 1, 0)))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L51",
+        "expected_powerfx": "100"
+      },
+      "expected": {
+        "$decimal": "100"
+      }
+    },
+    {
+      "id": "volatile-rand-54-float",
+      "expression": "RandBetween(4.7, 4.5)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L54",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "volatile-rand-54-decimal",
+      "expression": "RandBetween(4.7, 4.5)",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L54",
+        "expected_powerfx": "Error({Kind:ErrorKind.Numeric})"
+      },
+      "expected_error": {
+        "kind": "Numeric",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "volatile-rand-58-float",
+      "expression": "Sum(Sequence(100), RandBetween(3.5, 3.7))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L58",
+        "expected_powerfx": "400"
+      },
+      "expected": 400
+    },
+    {
+      "id": "volatile-rand-58-decimal",
+      "expression": "Sum(Sequence(100), RandBetween(3.5, 3.7))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L58",
+        "expected_powerfx": "400"
+      },
+      "expected": {
+        "$decimal": "400"
+      }
+    },
+    {
+      "id": "volatile-rand-61-float",
+      "expression": "RandBetween( 9007199254740992 /* MaxFloatInt */, 9007199254740992 /* MaxFloatInt */ )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L61",
+        "expected_powerfx": "9007199254740992"
+      },
+      "expected": 9007199254740992
+    },
+    {
+      "id": "volatile-rand-61-decimal",
+      "expression": "RandBetween( 9007199254740992 /* MaxFloatInt */, 9007199254740992 /* MaxFloatInt */ )",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L61",
+        "expected_powerfx": "9007199254740992"
+      },
+      "expected": {
+        "$decimal": "9007199254740992"
+      }
+    },
+    {
+      "id": "volatile-rand-64-float",
+      "expression": "RandBetween( -9007199254740992 /* MaxFloatInt */, -9007199254740992 /* MaxFloatInt */ )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L64",
+        "expected_powerfx": "-9007199254740992"
+      },
+      "expected": -9007199254740992
+    },
+    {
+      "id": "volatile-rand-64-decimal",
+      "expression": "RandBetween( -9007199254740992 /* MaxFloatInt */, -9007199254740992 /* MaxFloatInt */ )",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L64",
+        "expected_powerfx": "-9007199254740992"
+      },
+      "expected": {
+        "$decimal": "-9007199254740992"
+      }
+    },
+    {
+      "id": "volatile-rand-67-float",
+      "expression": "Sum(Sequence(100), With( { r: RandBetween( 9007199254740985, 9007199254740992 /* MaxFloatInt */ ) }, If( 9007199254740985 <= r And r <= 9007199254740992 /* MaxFloatInt */, 1, Error( \"Result out of range\" ) ) ) )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L67",
+        "expected_powerfx": "100"
+      },
+      "expected": 100
+    },
+    {
+      "id": "volatile-rand-67-decimal",
+      "expression": "Sum(Sequence(100), With( { r: RandBetween( 9007199254740985, 9007199254740992 /* MaxFloatInt */ ) }, If( 9007199254740985 <= r And r <= 9007199254740992 /* MaxFloatInt */, 1, Error( \"Result out of range\" ) ) ) )",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L67",
+        "expected_powerfx": "100"
+      },
+      "expected": {
+        "$decimal": "100"
+      }
+    },
+    {
+      "id": "volatile-rand-70-float",
+      "expression": "Sum(Sequence(100), With( { r: RandBetween( -9007199254740992 /* MinFloatInt */, -9007199254740985 ) }, If( -9007199254740992 /* MaxFloatInt */ <= r And r <= -9007199254740985 , 1, Error( \"Result out of range\" ) ) ) )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L70",
+        "expected_powerfx": "100"
+      },
+      "expected": 100
+    },
+    {
+      "id": "volatile-rand-70-decimal",
+      "expression": "Sum(Sequence(100), With( { r: RandBetween( -9007199254740992 /* MinFloatInt */, -9007199254740985 ) }, If( -9007199254740992 /* MaxFloatInt */ <= r And r <= -9007199254740985 , 1, Error( \"Result out of range\" ) ) ) )",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L70",
+        "expected_powerfx": "100"
+      },
+      "expected": {
+        "$decimal": "100"
+      }
+    },
+    {
+      "id": "volatile-rand-73-float",
+      "expression": "Sum(Sequence(100), With( { r: RandBetween( -9007199254740992 /* MinFloatInt */, 9007199254740992 /* MaxFloatInt */) }, If( -9007199254740992 <= r And r <= 9007199254740992 /* MaxFloatInt */, 1, Error( \"Result out of range\" ) ) ) )",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L73",
+        "expected_powerfx": "100"
+      },
+      "expected": 100
+    },
+    {
+      "id": "volatile-rand-73-decimal",
+      "expression": "Sum(Sequence(100), With( { r: RandBetween( -9007199254740992 /* MinFloatInt */, 9007199254740992 /* MaxFloatInt */) }, If( -9007199254740992 <= r And r <= 9007199254740992 /* MaxFloatInt */, 1, Error( \"Result out of range\" ) ) ) )",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Rand.txt#L73",
+        "expected_powerfx": "100"
+      },
+      "expected": {
+        "$decimal": "100"
+      }
+    },
+    {
+      "id": "volatile-shuffle-1-float",
+      "expression": "CountRows(Shuffle([-2, -1, 5, 1, 2]))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L1",
+        "expected_powerfx": "5"
+      },
+      "expected": 5
+    },
+    {
+      "id": "volatile-shuffle-1-decimal",
+      "expression": "CountRows(Shuffle([-2, -1, 5, 1, 2]))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L1",
+        "expected_powerfx": "5"
+      },
+      "expected": {
+        "$decimal": "5"
+      }
+    },
+    {
+      "id": "volatile-shuffle-4-float",
+      "expression": "Sort(Shuffle([-2, -1, 5, 1, 2]), Value)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L4",
+        "expected_powerfx": "Table({Value:-2},{Value:-1},{Value:1},{Value:2},{Value:5})"
+      },
+      "expected": [
+        {
+          "Value": -2
+        },
+        {
+          "Value": -1
+        },
+        {
+          "Value": 1
+        },
+        {
+          "Value": 2
+        },
+        {
+          "Value": 5
+        }
+      ]
+    },
+    {
+      "id": "volatile-shuffle-4-decimal",
+      "expression": "Sort(Shuffle([-2, -1, 5, 1, 2]), Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L4",
+        "expected_powerfx": "Table({Value:-2},{Value:-1},{Value:1},{Value:2},{Value:5})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "-2"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "-1"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "2"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "5"
+          }
+        }
+      ]
+    },
+    {
+      "id": "volatile-shuffle-7-float",
+      "expression": "CountRows(Shuffle([1, 1]))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L7",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "volatile-shuffle-7-decimal",
+      "expression": "CountRows(Shuffle([1, 1]))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L7",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "volatile-shuffle-10-float",
+      "expression": "Sort(Shuffle([1, 1]), Value)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L10",
+        "expected_powerfx": "Table({Value:1},{Value:1})"
+      },
+      "expected": [
+        {
+          "Value": 1
+        },
+        {
+          "Value": 1
+        }
+      ]
+    },
+    {
+      "id": "volatile-shuffle-10-decimal",
+      "expression": "Sort(Shuffle([1, 1]), Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L10",
+        "expected_powerfx": "Table({Value:1},{Value:1})"
+      },
+      "expected": [
+        {
+          "Value": {
+            "$decimal": "1"
+          }
+        },
+        {
+          "Value": {
+            "$decimal": "1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "volatile-shuffle-13-float",
+      "expression": "Sort(Shuffle([\"b\", \"a\"]), Value)",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L13",
+        "expected_powerfx": "Table({Value:\"a\"},{Value:\"b\"})"
+      },
+      "expected": [
+        {
+          "Value": "a"
+        },
+        {
+          "Value": "b"
+        }
+      ]
+    },
+    {
+      "id": "volatile-shuffle-13-decimal",
+      "expression": "Sort(Shuffle([\"b\", \"a\"]), Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L13",
+        "expected_powerfx": "Table({Value:\"a\"},{Value:\"b\"})"
+      },
+      "expected": [
+        {
+          "Value": "a"
+        },
+        {
+          "Value": "b"
+        }
+      ]
+    },
+    {
+      "id": "volatile-shuffle-16-float",
+      "expression": "CountRows(Shuffle([\"b\", \"a\"]))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L16",
+        "expected_powerfx": "2"
+      },
+      "expected": 2
+    },
+    {
+      "id": "volatile-shuffle-16-decimal",
+      "expression": "CountRows(Shuffle([\"b\", \"a\"]))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L16",
+        "expected_powerfx": "2"
+      },
+      "expected": {
+        "$decimal": "2"
+      }
+    },
+    {
+      "id": "volatile-shuffle-19-float",
+      "expression": "Shuffle(Sort([0], 1 / Value))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L19",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "volatile-shuffle-19-decimal",
+      "expression": "Shuffle(Sort([0], 1 / Value))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L19",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "volatile-shuffle-22-float",
+      "expression": "Shuffle(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L22",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "volatile-shuffle-22-decimal",
+      "expression": "Shuffle(Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L22",
+        "expected_powerfx": "Blank()"
+      },
+      "expected": null
+    },
+    {
+      "id": "volatile-shuffle-25-float",
+      "expression": "CountRows(Shuffle(Blank()))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L25",
+        "expected_powerfx": "0"
+      },
+      "expected": 0
+    },
+    {
+      "id": "volatile-shuffle-25-decimal",
+      "expression": "CountRows(Shuffle(Blank()))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L25",
+        "expected_powerfx": "0"
+      },
+      "expected": {
+        "$decimal": "0"
+      }
+    },
+    {
+      "id": "volatile-shuffle-28-float",
+      "expression": "Shuffle([])",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L28",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "volatile-shuffle-28-decimal",
+      "expression": "Shuffle([])",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L28",
+        "expected_powerfx": "Table()"
+      },
+      "expected": []
+    },
+    {
+      "id": "volatile-shuffle-31-float",
+      "expression": "Shuffle({a:1,b:2})",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L31",
+        "expected_powerfx": "Errors: Error 8-17: Invalid argument type (Record). Expecting a Table value instead.|Error 0-7: The function 'Shuffle' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "volatile-shuffle-31-decimal",
+      "expression": "Shuffle({a:1,b:2})",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "random_seed": 20261010
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Shuffle.txt#L31",
+        "expected_powerfx": "Errors: Error 8-17: Invalid argument type (Record). Expecting a Table value instead.|Error 0-7: The function 'Shuffle' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    }
+  ]
+}

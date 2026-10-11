@@ -1,0 +1,301 @@
+{
+  "classic-scalars.workflow.json": {
+    "format_version": 1,
+    "name": "Classic scalar typed components, drag commits and mapped form failures",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Is Enabled": true,
+          "Project Amount": -5,
+          "Target Date": "2026-01-15"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current",
+        "expect": {
+          "Enabled": false,
+          "Amount": -5.0,
+          "Day": "2026-01-15"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current",
+        "expect": {
+          "Enabled": true,
+          "Amount": 10.0,
+          "Day": "2026-02-10"
+        }
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/LeftPanel/Switch",
+        "event": "OnChange",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/LeftPanel/Amount",
+        "event": "OnInput",
+        "value": -3.25
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Amount",
+        "expect": -3.25
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/LeftPanel/Amount",
+        "event": "OnChange",
+        "value": -3.25
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/LeftPanel/Amount",
+        "event": "OnChange",
+        "value": -3.25
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/RightPanel/Day",
+        "event": "OnChange",
+        "value": "2026-03-05"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Day",
+        "expect": "2026-03-05"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current",
+        "expect": {
+          "Enabled": false,
+          "Amount": -5.0,
+          "Day": "2026-01-15"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Day",
+        "expect": "2026-03-05"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/ReadOnly",
+        "event": "OnChange",
+        "value": -9
+      },
+      {
+        "op": "assert",
+        "formula": "ReadOnly.Value",
+        "expect": 10
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/Vertical",
+        "event": "OnInput",
+        "value": 100
+      },
+      {
+        "op": "assert",
+        "formula": "Vertical.Value",
+        "expect": 10
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/ChangeSeed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Vertical.Value",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/Standalone",
+        "event": "OnChange",
+        "value": false
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/Standalone",
+        "event": "OnChange",
+        "value": false
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(trace)",
+        "expect": 4
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/DraftForm/EnabledCard/EnabledInput",
+        "event": "OnChange",
+        "value": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/DraftForm/AmountCard/AmountInput",
+        "event": "OnChange",
+        "value": -12.5
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/DraftForm/DayCard/DayInput",
+        "event": "OnChange",
+        "value": "2026-04-05"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Project Amount'",
+        "expect": -5
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Is Enabled'",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Project Amount'",
+        "expect": -12.5
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Target Date'",
+        "expect": "2026-04-05"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/ClearDate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/RestoreDate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "ClassicScalars/ResetForm",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

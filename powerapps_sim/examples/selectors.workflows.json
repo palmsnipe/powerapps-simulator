@@ -1,0 +1,101 @@
+{
+  "selectors.workflow.json": {
+    "format_version": 1,
+    "name": "Single selection, component callbacks and reset",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Status.Selected.Value",
+        "expect": "Draft"
+      },
+      {
+        "op": "event",
+        "path": "ChoicesScreen/Status",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "statusValue.Value",
+        "expect": "Submitted"
+      },
+      {
+        "op": "event",
+        "path": "ChoicesScreen/Priority",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Priority.Selected.Amount",
+        "expect": 100
+      },
+      {
+        "op": "event",
+        "path": "ChoicesScreen/LeftChoice/Picker",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "LeftChoice.Current.Value",
+        "expect": "Submitted"
+      },
+      {
+        "op": "assert",
+        "formula": "RightChoice.Current.Value",
+        "expect": "Approved"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftChoiceValue.Value",
+        "expect": "Submitted"
+      },
+      {
+        "op": "event",
+        "path": "ChoicesScreen/ResetChoices",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Status.Selected.Value",
+        "expect": "Draft"
+      },
+      {
+        "op": "assert",
+        "formula": "Priority.Selected.Amount",
+        "expect": 25
+      },
+      {
+        "op": "assert",
+        "formula": "LeftChoice.Current.Value",
+        "expect": "Draft"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "ChoicesScreen/ToggleBusy",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Progress.Indeterminate",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

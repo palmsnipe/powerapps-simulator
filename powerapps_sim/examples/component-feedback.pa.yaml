@@ -1,0 +1,171 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Set(seed,10);Set(rightSeed,100);Set(feedbackEnabled,false);Set(healthy,0);Clear(trace);Clear(failures)
+    OnError: =Collect(failures,AllErrors)
+ComponentDefinitions:
+  FeedbackPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        RaiseOnReset: true
+        Default: =10
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current, FeedbackPanel.Seed)
+      ResetCount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(resets, 0)
+      OnResetDone:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - total:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =300
+      Height: =220
+      Fill: =RGBA(245,248,255,1)
+      OnReset: =Set(current, FeedbackPanel.Seed); Set(resets, FeedbackPanel.ResetCount + 1); Reset(Note); FeedbackPanel.OnResetDone(current)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =12
+            Width: =Parent.Width - 24
+            Height: =52
+            Text: ="Total " & FeedbackPanel.Total & " · resets " & FeedbackPanel.ResetCount & " · width " & Round(Parent.Width, 0)
+            Wrap: =true
+      - Note:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =12
+            Y: =76
+            Width: =Parent.Width - 24
+            Default: ="component note"
+            AccessibleLabel: ="Component note"
+      - Increase:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =128
+            Width: =Parent.Width - 24
+            Text: ="Increase locally"
+            OnSelect: =Set(current, FeedbackPanel.Total + 1);FeedbackPanel.OnResetDone(current)
+Screens:
+  Home:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Component feedback"
+            X: =20
+            Y: =12
+            Width: =Parent.Width-40
+            Height: =40
+            Size: =22
+      - Toolbar:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            X: =20
+            Y: =64
+            Width: =Parent.Width-40
+            Height: =If(App.Width<600,184,64)
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =8
+            LayoutWrap: =true
+          Children:
+            - StartFeedback:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: ="Start feedback"
+                  OnSelect: =Set(feedbackEnabled,true);Set(seed,seed+1);Select(Healthy)
+                  Width: =140
+                  Height: =32
+                  FillPortions: =0
+            - Repair:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: ="Repair input"
+                  OnSelect: =Set(feedbackEnabled,false);Set(seed,300)
+                  Width: =140
+                  Height: =32
+                  FillPortions: =0
+            - ResetLeft:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: ="Reset left"
+                  OnSelect: =Set(feedbackEnabled,false);Reset(LeftPanel)
+                  Width: =140
+                  Height: =32
+                  FillPortions: =0
+            - Healthy:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: ="Healthy callback"
+                  OnSelect: =Set(healthy,healthy+1)
+                  Width: =140
+                  Height: =32
+                  FillPortions: =0
+            - ChangeRight:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: ="Change right"
+                  OnSelect: =Set(rightSeed,rightSeed+1)
+                  Width: =140
+                  Height: =32
+                  FillPortions: =0
+      - Panels:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            X: =20
+            Y: =Toolbar.Y+Toolbar.Height+12
+            Width: =Parent.Width-40
+            Height: =If(App.Width<640,440,208)
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutGap: =12
+            LayoutWrap: =true
+          Children:
+            - LeftPanel:
+                Control: CanvasComponent
+                ComponentName: FeedbackPanel
+                Properties:
+                  Seed: =seed
+                  OnResetDone: =Collect(trace,{Instance:"LeftPanel",Total:total,Snapshot:LeftPanel.Total,Peer:RightPanel.Total});If(feedbackEnabled,Set(seed,seed+1))
+                  FillPortions: =1
+                  LayoutMinWidth: =280
+                  LayoutMinHeight: =208
+            - RightPanel:
+                Control: CanvasComponent
+                ComponentName: FeedbackPanel
+                Properties:
+                  Seed: =rightSeed
+                  OnResetDone: =Collect(trace,{Instance:"RightPanel",Total:total,Snapshot:RightPanel.Total,Peer:LeftPanel.Total})
+                  FillPortions: =1
+                  LayoutMinWidth: =280
+                  LayoutMinHeight: =208
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Healthy callbacks " & healthy & " · observed failures " & CountRows(failures)
+            X: =20
+            Y: =Panels.Y+Panels.Height+12
+            Width: =Parent.Width-40
+            Height: =40
+      - Trace:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Concat(LastN(trace,5),Instance & " · value " & Total & " · callback snapshot " & Snapshot,Char(10))
+            X: =20
+            Y: =Status.Y+52
+            Width: =Parent.Width-40
+            Height: =140
+            Wrap: =true

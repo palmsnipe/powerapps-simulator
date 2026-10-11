@@ -1,0 +1,117 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Clear(history);Set(result,Blank());Set(caught,"")
+Screens:
+  Home:
+    Properties:
+      Width: =App.Width
+      Height: =App.Height
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Required schemas & optional component arguments"
+            X: =20
+            Y: =8
+            Width: =950
+            Height: =36
+      - Left:
+          Control: CanvasComponent
+          ComponentName: Calculator
+          Properties:
+            X: =20
+            Y: =52
+            Width: =460
+            Height: =220
+            Seed: =10
+            Changed: =Collect(history,{Panel:"Left",Value:value,Tag:tag})
+            Caption: ="Left " & prefix & Text(value)
+      - Right:
+          Control: CanvasComponent
+          ComponentName: Calculator
+          Properties:
+            X: =510
+            Y: =52
+            Width: =460
+            Height: =220
+            Seed: =100
+            Changed: =Collect(history,{Panel:"Right",Value:value,Tag:tag})
+      - Calculate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Calculate required value"
+            OnSelect: =Set(result,Left.Calculate(Value(Left.DraftText)))
+            X: =20
+            Y: =294
+            Width: =300
+            Height: =36
+      - RightAdd:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Add with explicit factor"
+            OnSelect: =Right.Add({Amount:5,Label:"override"},3)
+            X: =340
+            Y: =294
+            Width: =300
+            Height: =36
+      - Direct:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Emit explicit event"
+            OnSelect: =Left.Changed(42,"explicit")
+            X: =660
+            Y: =294
+            Width: =300
+            Height: =36
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            OnSelect: =Reset(Left)
+            X: =20
+            Y: =340
+            Width: =300
+            Height: =36
+      - Catch:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Catch optional default"
+            OnSelect: =Set(caught,IfError(Text(Left.Trouble()),FirstError.Source))
+            X: =340
+            Y: =340
+            Width: =300
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save snapshot"
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional optional arguments",LeftTotal:Left.Total,RightTotal:Right.Total,Callbacks:CountRows(history)})
+            X: =660
+            Y: =340
+            Width: =300
+            Height: =36
+      - Result:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Result: " & Text(result) & " · Optional Blank: " & Text(Left.IsMissing())'
+            X: =20
+            Y: =402
+            Width: =960
+            Height: =32
+      - Captured:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Callbacks: " & Text(CountRows(history)) & " · Snapshots: " & Text(CountRows(Snapshots))'
+            X: =20
+            Y: =442
+            Width: =960
+            Height: =32
+      - Caught:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Caught: " & caught'
+            X: =20
+            Y: =482
+            Width: =960
+            Height: =32

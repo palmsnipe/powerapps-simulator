@@ -1,0 +1,75 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Clear(history)
+    Formulas: =MonthDate(d:DateTime,n:Number):Date=EDate(d,n); PeriodEnd(d:Date,n:Number):Date=EOMonth(d,n);
+Screens:
+  Home:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =12
+            Width: =Parent.Width-48
+            Height: =36
+            Text: ="Month planning"
+      - Panels:
+          Control: GroupContainer@1.5.0
+          Variant: AutoLayout
+          Properties:
+            X: =24
+            Y: =64
+            Width: =Parent.Width-48
+            Height: =If(Self.Width<620,568,272)
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutWrap: =true
+            LayoutGap: =24
+            LayoutAlignItems: =LayoutAlignItems.Start
+          Children:
+            - Left:
+                Control: CanvasComponent
+                ComponentName: MonthPanel
+                Properties:
+                  Width: =420
+                  Height: =272
+                  LayoutMinWidth: =280
+                  FillPortions: =1
+                  Caption: ="Left"
+                  Seed: =Date(2024,1,31)
+                  Changed: =Collect(history,{Panel:"Left",Renewal:renewal,Cutoff:cutoff})
+            - Right:
+                Control: CanvasComponent
+                ComponentName: MonthPanel
+                Properties:
+                  Width: =420
+                  Height: =272
+                  LayoutMinWidth: =280
+                  FillPortions: =1
+                  Caption: ="Right"
+                  Seed: =Date(2023,5,15)
+                  Changed: =Collect(history,{Panel:"Right",Renewal:renewal,Cutoff:cutoff})
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =Panels.Y+Panels.Height+16
+            Width: =180
+            Text: ="Save dates"
+            OnSelect: =Patch(Plans,Defaults(Plans),{Title:"Fictional month plan",Start:Left.Current.Start,Months:Left.Current.Months,Renewal:Left.Renewal,Cutoff:Left.Cutoff})
+      - Count:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =220
+            Y: =Panels.Y+Panels.Height+16
+            Width: =200
+            Height: =36
+            Text: ="Saved locally · " & CountRows(Plans)
+      - History:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =Panels.Y+Panels.Height+64
+            Width: =Parent.Width-48
+            Height: =48
+            Text: =Concat(history,Panel & " · " & Text(Renewal,"yyyy-mm-dd") & " / " & Text(Cutoff,"yyyy-mm-dd"),"   ")

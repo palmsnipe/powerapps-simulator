@@ -1,0 +1,277 @@
+{
+  "math.workflow.json": {
+    "format_version": 1,
+    "name": "Power Fx math, isolated components and retained error cells",
+    "records": {
+      "Measurements": [
+        {
+          "ID": 1,
+          "Area": 16,
+          "Angle": 30,
+          "Estimate": 8
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Estimate",
+        "expect": 8
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Estimate",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "RootTotal",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "Math/LeftPanel/Area",
+        "event": "OnChange",
+        "value": 36
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Radius",
+        "expect": 3.3851
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Estimate",
+        "expect": 12
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Estimate",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "Math/LeftPanel/Angle",
+        "event": "OnInput",
+        "value": 90
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.X",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Y",
+        "expect": 50
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "Math/LeftPanel/Angle",
+        "event": "OnChange",
+        "value": 90
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "Math/LeftPanel/Angle",
+        "event": "OnChange",
+        "value": 90
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "Math/RightPanel/Rate",
+        "event": "OnChange",
+        "value": 4
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Estimate",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Forecast",
+        "expect": 1.1249
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "Math/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Table ready"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 13
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Angle",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(First(results).Cot)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Index(results,4).Y",
+        "expect": 50
+      },
+      {
+        "op": "assert",
+        "formula": "Last(results).PowerOfTwo",
+        "expect": 4096
+      },
+      {
+        "op": "event",
+        "path": "Math/CaptureErrors",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(errorCells)",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "IsError(Index(errorCells,2).Root)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(Index(errorCells,2).Root,FirstError.Kind)",
+        "expect": 24
+      },
+      {
+        "op": "assert",
+        "formula": "RootTotal",
+        "expect": 5
+      },
+      {
+        "op": "failure",
+        "list": "Measurements",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Math/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Measurements,ID=1).Area",
+        "expect": 16
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Area",
+        "expect": 36
+      },
+      {
+        "op": "failure",
+        "list": "Measurements",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Math/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Measurements,ID=1).Area",
+        "expect": 36
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Measurements,ID=1).Angle",
+        "expect": 90
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Measurements,ID=1).Estimate",
+        "expect": 12
+      },
+      {
+        "op": "event",
+        "path": "Math/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Area",
+        "expect": 16
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Angle",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Estimate",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 13
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

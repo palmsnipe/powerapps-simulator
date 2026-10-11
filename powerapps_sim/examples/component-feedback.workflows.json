@@ -1,0 +1,121 @@
+{
+  "component-feedback.workflow.json": {
+    "format_version": 1,
+    "name": "Component feedback isolation and recovery",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=10 && RightPanel.Total=100 && LeftPanel.ResetCount=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toolbar/StartFeedback",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.ResetCount=100 && healthy=1 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(failures).Source=\"Home/Panels/LeftPanel.OnReset\"",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.ResetCount=100",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toolbar/Healthy",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "healthy=2 && LeftPanel.ResetCount=100",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/RightPanel/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total=101 && LeftPanel.ResetCount=100",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toolbar/Repair",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=300 && LeftPanel.ResetCount=101 && RightPanel.Total=101",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Panels/LeftPanel/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=301 && Last(trace).Total=301 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toolbar/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=300 && LeftPanel.ResetCount=102 && Last(trace).Snapshot=300",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toolbar/ChangeRight",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Total=101 && RightPanel.ResetCount=1 && LeftPanel.ResetCount=102",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toolbar/StartFeedback",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.ResetCount=202 && healthy=3 && CountRows(failures)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Toolbar/Repair",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Total=300 && LeftPanel.ResetCount=203",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 1
+      }
+    ]
+  }
+}

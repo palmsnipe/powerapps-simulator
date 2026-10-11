@@ -1,0 +1,257 @@
+{
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readOnly": true
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "Lines": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Description": {
+              "type": "string",
+              "maxLength": 60
+            },
+            "Quantity": {
+              "type": "integer"
+            },
+            "Cost": {
+              "type": "number",
+              "format": "decimal",
+              "title": "Unit cost"
+            },
+            "Enabled": {
+              "type": "boolean"
+            },
+            "Due": {
+              "type": "string",
+              "format": "date"
+            },
+            "Tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Location": {
+              "type": "object",
+              "properties": {
+                "Site": {
+                  "type": "string"
+                },
+                "Code": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "Site"
+              ]
+            },
+            "Note01": {
+              "type": "string"
+            },
+            "Note02": {
+              "type": "string"
+            },
+            "Note03": {
+              "type": "string"
+            },
+            "Note04": {
+              "type": "string"
+            },
+            "Note05": {
+              "type": "string"
+            },
+            "Note06": {
+              "type": "string"
+            },
+            "Note07": {
+              "type": "string"
+            },
+            "Note08": {
+              "type": "string"
+            },
+            "Note09": {
+              "type": "string"
+            },
+            "Note10": {
+              "type": "string"
+            },
+            "Note11": {
+              "type": "string"
+            },
+            "Note12": {
+              "type": "string"
+            },
+            "Note13": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "Description",
+            "Quantity",
+            "Cost"
+          ]
+        }
+      },
+      "Settings": {
+        "type": "object",
+        "properties": {
+          "Owner": {
+            "type": "string"
+          },
+          "Enabled": {
+            "type": "boolean"
+          },
+          "Budget": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "Revision": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "Labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "Owner"
+        ]
+      },
+      "Numbers": {
+        "type": "array",
+        "items": {
+          "type": "number"
+        }
+      },
+      "Nullable": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "Loose": {
+        "type": "object"
+      }
+    },
+    "mapping": {
+      "ID": "ID",
+      "Title": "Title",
+      "Lines": "Line Items",
+      "Settings": "Settings",
+      "Numbers": "Numeric Values",
+      "Nullable": "Optional Tags",
+      "Loose": "Loose"
+    },
+    "required": [
+      "Title",
+      "Lines"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional nested draft",
+        "Lines": [
+          {
+            "Description": "Fictional river survey",
+            "Quantity": 2,
+            "Cost": {
+              "$decimal": "9007199254740993.123456789"
+            },
+            "Enabled": true,
+            "Due": "2026-01-15",
+            "Tags": [
+              "Fictional",
+              "Survey"
+            ],
+            "Location": {
+              "Site": "Riverbank",
+              "Code": 17,
+              "Legacy": {
+                "Token": "fictional-location-token"
+              }
+            },
+            "Legacy": {
+              "Token": "fictional-line-token"
+            },
+            "Note01": "Fictional column 1",
+            "Note02": "Fictional column 2",
+            "Note03": "Fictional column 3",
+            "Note04": "Fictional column 4",
+            "Note05": "Fictional column 5",
+            "Note06": "Fictional column 6",
+            "Note07": "Fictional column 7",
+            "Note08": "Fictional column 8",
+            "Note09": "Fictional column 9",
+            "Note10": "Fictional column 10",
+            "Note11": "Fictional column 11",
+            "Note12": "Fictional column 12",
+            "Note13": "Fictional column 13"
+          },
+          {
+            "Description": "Fictional tree inventory",
+            "Quantity": 3,
+            "Cost": {
+              "$decimal": "12.50"
+            },
+            "Enabled": false,
+            "Due": "2026-02-10",
+            "Tags": [],
+            "Location": null,
+            "Note01": "",
+            "Note02": "",
+            "Note03": "",
+            "Note04": "",
+            "Note05": "",
+            "Note06": "",
+            "Note07": "",
+            "Note08": "",
+            "Note09": "",
+            "Note10": "",
+            "Note11": "",
+            "Note12": "",
+            "Note13": ""
+          }
+        ],
+        "Settings": {
+          "Owner": "Fictional administrator",
+          "Enabled": true,
+          "Budget": {
+            "$decimal": "12345678901234567890.1234567"
+          },
+          "Revision": 7,
+          "Labels": [
+            "Planning"
+          ],
+          "Legacy": {
+            "Flag": "fictional-settings-value"
+          }
+        },
+        "Numbers": [
+          1,
+          2,
+          null
+        ],
+        "Nullable": null,
+        "Loose": {
+          "Unknown": [
+            "fictional",
+            {
+              "Key": true
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

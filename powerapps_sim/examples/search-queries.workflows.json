@@ -1,0 +1,185 @@
+{
+  "search-queries.workflow.json": {
+    "format_version": 1,
+    "name": "Search mappings, typed component functions and error isolation",
+    "records": {
+      "Samples": [
+        {
+          "ID": 1,
+          "Title": "Fictional left amount",
+          "Side": "Left",
+          "Amount": 2,
+          "Note": "Fictional Alpha"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional left blank",
+          "Side": "Left",
+          "Amount": null,
+          "Note": "Exemple \u00e9t\u00e9"
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional right amount",
+          "Side": "Right",
+          "Amount": 8,
+          "Note": "Fictional Beta"
+        }
+      ],
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Rows=2 && LeftPanel.Info.First=2 && RightPanel.Info.Rows=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(FindText(LeftRows,\"ALPHA\"))=1 && CountRows(LeftPanel.Find(LeftRows,\"\u00e9t\u00e9\"))=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Search(Samples,\"left\",Title,Note))=2 && CountRows(Search(Samples,\"left\",\"Title\",\"Note\"))=2 && CountRows(Search(Samples,\"left\",'Sample title'))=2",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Search(If(false,LeftRows),\"x\",Note)) && CountRows(Search(LeftRows,Blank(),Note))=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/LeftPanel/Query",
+        "event": "OnChange",
+        "value": "ALPHA"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Rows=1 && First(LeftPanel.Matched).ID=1 && Last(trace).Rows=1 && RightPanel.Info.Rows=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/LeftPanel/Results",
+        "event": "OnSelect",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "selected.ID=1 && selected.Amount=2 && CountRows(picks)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/InjectFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Errors=1 && LeftPanel.Info.Rows=1 && IfError(CountRows(Search(LeftRows,\"Alpha\",Note)),FirstError.Kind)=13",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=1 && First(Snapshots).Present=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/UpdateAmount",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.First=7 && RightPanel.Info.First=8",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && CountRows(Snapshots)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=2 && Last(Snapshots).Numeric=7",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/RightPanel/Query",
+        "event": "OnChange",
+        "value": "missing"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Info.Rows=0 && LeftPanel.Info.Rows=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/LeftPanel/Query",
+        "event": "OnChange",
+        "value": "\u00e9t\u00e9"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Rows=1 && First(LeftPanel.Matched).ID=2 && IsBlank(LeftPanel.Info.First)",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/LeftPanel/ResetPanel",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Rows=2 && LeftPanel.Info.Errors=1 && RightPanel.Info.Rows=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/InjectFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "SearchLab/RightPanel/ResetPanel",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Errors=0 && RightPanel.Info.Rows=1",
+        "expect": true
+      }
+    ]
+  }
+}

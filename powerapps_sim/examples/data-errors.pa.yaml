@@ -1,0 +1,273 @@
+App:
+  Properties:
+    Formulas: =ErrorCount=CountRows(Errors(Projects));Total=Sum(Projects,Cost);
+    OnStart: =Set(selectedId,1);Set(status,"Ready");Clear(events);Clear(captured);Reset(Left);Reset(Right)
+ComponentDefinitions:
+  ErrorPanel:
+    AccessAppScope: true
+    CustomProperties:
+      Target:
+        PropertyKind: Input
+        Default: =1
+        DataType: Number
+      Count:
+        PropertyKind: Output
+        Default: =CountRows(Errors(Projects,{ID:ErrorPanel.Target}))
+        DataType: Number
+      Message:
+        PropertyKind: Output
+        Default: =Coalesce(First(Errors(Projects,{ID:ErrorPanel.Target})).Message,"No record error")
+        DataType: Text
+      Observed:
+        PropertyKind: Event
+        Default: =Blank()
+        ReturnType: None
+        Parameters:
+          - count:
+              DataType: Number
+          - kind:
+              DataType: Number
+      Fail:
+        PropertyKind: Action
+        Default: =IfError(Patch(Projects,{ID:ErrorPanel.Target},{Title:Blank()});true,false);ClearCollect(history,Errors(Projects,{ID:ErrorPanel.Target}));ErrorPanel.Observed(ErrorPanel.Count,Coalesce(First(history).Error,0))
+        ReturnType: None
+    Properties:
+      OnReset: =Clear(history)
+      Width: =390
+      Height: =102
+      Fill: =RGBA(245,245,245,1)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Record "&Text(ErrorPanel.Target)&" · errors "&Text(ErrorPanel.Count)
+            X: =12
+            Y: =8
+            Width: =366
+            Height: =30
+      - Fail:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Fail record save"
+            OnSelect: =ErrorPanel.Fail()
+            X: =12
+            Y: =50
+            Width: =280
+            Height: =36
+Screens:
+  ErrorsScreen:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Errors · records, columns and recovery"
+            X: =24
+            Y: =12
+            Width: =820
+            Height: =30
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status&" · errors "&Text(ErrorCount)&" · list total "&Text(Total)&" · callbacks "&Text(CountRows(events))
+            X: =24
+            Y: =48
+            Width: =820
+            Height: =30
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Blank creates "&Text(CountRows(Errors(Projects,Blank())))&" · left "&Text(Left.Count)&" · right "&Text(Right.Count)
+            X: =24
+            Y: =86
+            Width: =820
+            Height: =30
+      - ErrorGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =Errors(Projects)
+            X: =24
+            Y: =124
+            Width: =820
+            Height: =130
+            TemplateSize: =40
+          Children:
+            - ErrorRow:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =Coalesce(Text(ThisItem.Record.ID),"new")&" · "&Coalesce(ThisItem.Column,"all columns")&" · "&ThisItem.Message
+                  X: =8
+                  Y: =0
+                  Width: =796
+                  Height: =38
+      - BadCreate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try invalid create"
+            OnSelect: =IfError(Patch(Projects,Defaults(Projects),{Title:Blank()});Set(status,"Unexpected saved"),Set(status,"Create failed"))
+            X: =24
+            Y: =270
+            Width: =250
+            Height: =36
+      - BadEdit:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try invalid edit"
+            OnSelect: =IfError(Patch(Projects,{ID:1},{Title:Blank()});true,Set(status,"Edit failed"))
+            X: =290
+            Y: =270
+            Width: =250
+            Height: =36
+      - BadBatch:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try failed row batch"
+            OnSelect: =IfError(UpdateIf(Projects,ID<>2,{Title:Blank()},true,{Cost:99});true,Set(status,"Batch failed"))
+            X: =556
+            Y: =270
+            Width: =250
+            Height: =36
+      - Retry:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Retry record save"
+            OnSelect: =IfError(Patch(Projects,{ID:1},{Title:"Fictional retry"});Set(status,"Retried"),Set(status,"Retry failed"))
+            X: =24
+            Y: =316
+            Width: =250
+            Height: =36
+      - Missing:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try missing records"
+            OnSelect: =IfError(Remove(Projects,Table({ID:999},{ID:888}));true,Set(status,"Missing records"))
+            X: =290
+            Y: =316
+            Width: =250
+            Height: =36
+      - Reload:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Refresh list"
+            OnSelect: =IfError(Refresh(Projects);Set(status,"Refreshed"),Set(status,"Refresh failed"))
+            X: =556
+            Y: =316
+            Width: =250
+            Height: =36
+      - New:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="New form"
+            OnSelect: =NewForm(ProjectForm);Set(status,"New form")
+            X: =24
+            Y: =496
+            Width: =250
+            Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save form"
+            OnSelect: =SubmitForm(ProjectForm)
+            X: =290
+            Y: =496
+            Width: =250
+            Height: =36
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset form"
+            OnSelect: =ResetForm(ProjectForm);Set(status,"Form reset")
+            X: =556
+            Y: =496
+            Width: =250
+            Height: =36
+      - Left:
+          Control: CanvasComponent
+          ComponentName: ErrorPanel
+          Properties:
+            Target: =1
+            X: =24
+            Y: =370
+            Width: =390
+            Height: =102
+            Observed: =Collect(events,{Title:"Left",Count:count,Kind:kind})
+      - Right:
+          Control: CanvasComponent
+          ComponentName: ErrorPanel
+          Properties:
+            Target: =2
+            X: =456
+            Y: =370
+            Width: =390
+            Height: =102
+            Observed: =Collect(events,{Title:"Right",Count:count,Kind:kind})
+      - ProjectForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Projects
+            Item: =LookUp(Projects,ID=selectedId)
+            DefaultMode: =FormMode.Edit
+            X: =24
+            Y: =542
+            Width: =820
+            Height: =120
+            NumberOfColumns: =2
+            OnFailure: =Set(status,"Form failed");ClearCollect(captured,Errors(Projects))
+            OnSuccess: =Set(selectedId,Self.LastSubmit.ID);Set(status,"Form saved")
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  Required: =true
+                  Width: =Parent.Width/2
+                  Height: =110
+                  X: =0
+                  Y: =0
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Project name"
+                        X: =12
+                        Y: =0
+                        Width: =380
+                        Height: =30
+                  - TitleInput:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Project name"
+                        X: =12
+                        Y: =35
+                        Width: =Parent.Width-24
+                        Height: =36
+            - CostCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Cost"
+                  Default: =ThisItem.Cost
+                  Update: =AmountInput.Value
+                  Width: =Parent.Width/2
+                  Height: =110
+                  X: =1
+                  Y: =0
+                Children:
+                  - CostLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Amount"
+                        X: =12
+                        Y: =0
+                        Width: =380
+                        Height: =30
+                  - AmountInput:
+                      Control: ModernNumberInput@1.0.0
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Amount"
+                        X: =12
+                        Y: =35
+                        Width: =Parent.Width-24
+                        Height: =36

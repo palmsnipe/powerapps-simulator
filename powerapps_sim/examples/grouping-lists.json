@@ -1,0 +1,110 @@
+{
+  "Samples": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Side": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number"
+      },
+      "Note": {
+        "type": "string"
+      },
+      "Team": {
+        "type": "string",
+        "required": true
+      }
+    },
+    "mapping": {
+      "Amount": "Sample amount",
+      "Note": "Sample note",
+      "Title": "Sample title",
+      "Side": "Sample side",
+      "Team": "Sample team"
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional left 1",
+        "Side": "Left",
+        "Team": "A",
+        "Amount": 2,
+        "Note": "Fictional 1"
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional right 2",
+        "Side": "Right",
+        "Team": "B",
+        "Amount": 8,
+        "Note": "Fictional 2"
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional left 3",
+        "Side": "Left",
+        "Team": "B",
+        "Amount": 3,
+        "Note": "Fictional 3"
+      },
+      {
+        "ID": 4,
+        "Title": "Fictional right 4",
+        "Side": "Right",
+        "Team": "A",
+        "Amount": 4,
+        "Note": "Fictional 4"
+      },
+      {
+        "ID": 5,
+        "Title": "Fictional left 5",
+        "Side": "Left",
+        "Team": "A",
+        "Amount": 5,
+        "Note": "Fictional 5"
+      },
+      {
+        "ID": 6,
+        "Title": "Fictional right 6",
+        "Side": "Right",
+        "Team": "B",
+        "Amount": 6,
+        "Note": "Fictional 6"
+      }
+    ]
+  },
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Numeric": {
+        "type": "number",
+        "required": true
+      },
+      "Present": {
+        "type": "number",
+        "required": true
+      },
+      "Rows": {
+        "type": "number",
+        "required": true
+      }
+    },
+    "records": []
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "canvas-selectors.workflow.json": {
+    "format_version": 1,
+    "name": "Native selectors \u00b7 fields, search, components and saves",
+    "records": {
+      "Notes": [
+        {
+          "ID": 1,
+          "Title": "Fictional note 1",
+          "State": {
+            "Value": "Draft"
+          },
+          "Tags": [
+            {
+              "Value": "Research"
+            }
+          ]
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional note 2",
+          "State": {
+            "Value": "Review"
+          },
+          "Tags": []
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(Left.Picked)=0 && CountRows(Right.Picked)=0 && Single.SelectMultiple=false",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "selection": [
+          0,
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Left.Picked)=2 && CountRows(Right.Picked)=0 && CountRows(events)=1 && CountRows(Left.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnSearch",
+        "value": "survey"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Query=\"survey\" && CountRows(Left.Picked)=2 && CountRows(events)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "value": {
+          "operation": "toggle",
+          "index": 2
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Left.Picked)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Picker",
+        "event": "OnChange",
+        "value": {
+          "operation": "remove",
+          "index": 0
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Left.Picked)=2 && First(Left.Picked).ID=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Query=\"\" && CountRows(Left.Picked)=0 && CountRows(Left.History)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ChangeDefaults",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Left.Picked).ID=3 && First(Right.Picked).ID=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Single",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Single.Selected.Value=\"Review\" && CountRows(Single.SelectedItems)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Dropdown",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "chosenState.Value=\"Approved\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/NoteForm/StateCard/FormState",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "event",
+        "path": "Home/NoteForm/TagsCard/FormTags",
+        "event": "OnChange",
+        "selection": [
+          1,
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "NoteForm.Unsaved && NoteForm.Updates.State.Value=\"Review\" && CountRows(NoteForm.Updates.Tags)=2",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Notes",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=\"Save failed\" && NoteForm.Unsaved && First(Notes).State.Value=\"Draft\"",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Notes",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status=\"Saved\" && !NoteForm.Unsaved && First(Notes).State.Value=\"Review\" && CountRows(First(Notes).Tags)=2",
+        "expect": true
+      }
+    ]
+  }
+}

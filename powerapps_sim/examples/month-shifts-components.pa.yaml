@@ -1,0 +1,103 @@
+ComponentDefinitions:
+  MonthPanel:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Planning"
+      Seed:
+        PropertyKind: Input
+        DataType: Date
+        Default: =Date(2024,1,31)
+      Renewal:
+        PropertyKind: Output
+        DataType: Date
+        Default: =EDate(Day.SelectedDate,Months.Value)
+      Cutoff:
+        PropertyKind: Output
+        DataType: Date
+        Default: =EOMonth(Day.SelectedDate,Months.Value)
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Start:Day.SelectedDate,Months:Months.Value,Renewal:MonthPanel.Renewal,Cutoff:MonthPanel.Cutoff}
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - renewal:
+              DataType: Date
+          - cutoff:
+              DataType: Date
+    Properties:
+      Width: =420
+      Height: =272
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =8
+            Width: =Parent.Width-24
+            Height: =32
+            Text: =MonthPanel.Caption
+      - Day:
+          Control: ModernDatePicker@1.0.2
+          Properties:
+            X: =12
+            Y: =48
+            Width: =Parent.Width-24
+            Height: =36
+            DefaultDate: =MonthPanel.Seed
+            IsEditable: =true
+            Format: ="yyyy-mm-dd"
+            AccessibleLabel: =MonthPanel.Caption & " start date"
+            OnChange: =MonthPanel.Changed(MonthPanel.Renewal,MonthPanel.Cutoff)
+      - Months:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =12
+            Y: =96
+            Width: =160
+            Height: =36
+            Default: =1
+            Min: =-120
+            Max: =120
+            Step: =0.1
+            AccessibleLabel: =MonthPanel.Caption & " month offset"
+            OnChange: =MonthPanel.Changed(MonthPanel.Renewal,MonthPanel.Cutoff)
+      - OffsetLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =188
+            Y: =96
+            Width: =200
+            Height: =36
+            Text: ="Months · " & Months.Value
+      - RenewalLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =144
+            Width: =Parent.Width-24
+            Height: =32
+            Text: ="Renewal · " & Text(MonthPanel.Renewal,"yyyy-mm-dd")
+      - CutoffLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =180
+            Width: =Parent.Width-24
+            Height: =32
+            Text: ="Month end · " & Text(MonthPanel.Cutoff,"yyyy-mm-dd")
+      - ResetButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =224
+            Width: =130
+            Text: ="Reset " & MonthPanel.Caption
+            OnSelect: =Reset(Day);Reset(Months)

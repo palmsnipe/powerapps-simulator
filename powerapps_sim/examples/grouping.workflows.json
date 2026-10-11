@@ -1,0 +1,211 @@
+{
+  "grouping.workflow.json": {
+    "format_version": 1,
+    "name": "Mapped grouping, aggregate components and persistent snapshots",
+    "records": {
+      "Samples": [
+        {
+          "ID": 1,
+          "Title": "Fictional left 1",
+          "Side": "Left",
+          "Team": "A",
+          "Amount": 2,
+          "Note": "Fictional 1"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional right 2",
+          "Side": "Right",
+          "Team": "B",
+          "Amount": 8,
+          "Note": "Fictional 2"
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional left 3",
+          "Side": "Left",
+          "Team": "B",
+          "Amount": 3,
+          "Note": "Fictional 3"
+        },
+        {
+          "ID": 4,
+          "Title": "Fictional right 4",
+          "Side": "Right",
+          "Team": "A",
+          "Amount": 4,
+          "Note": "Fictional 4"
+        },
+        {
+          "ID": 5,
+          "Title": "Fictional left 5",
+          "Side": "Left",
+          "Team": "A",
+          "Amount": 5,
+          "Note": "Fictional 5"
+        },
+        {
+          "ID": 6,
+          "Title": "Fictional right 6",
+          "Side": "Right",
+          "Team": "B",
+          "Amount": 6,
+          "Note": "Fictional 6"
+        }
+      ],
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Groups=2 && LeftPanel.Info.Rows=3 && LeftPanel.Info.Total=10 && RightPanel.Info.Groups=2 && RightPanel.Info.Total=18",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Concat(Ungroup(GroupBy(Samples,Team,Members),Members),Text(ID),\",\")=\"1,2,3,4,5,6\" && Concat(Ungroup(GroupBy(Samples,\"Team\",\"Members\"),Members),Text(ID),\",\")=\"1,2,3,4,5,6\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Summaries(LeftBase))=2 && Concat(Flatten(Summaries(LeftBase)),Text(ID),\",\")=\"1,3,5\" && Concat(LeftPanel.Flatten(LeftPanel.Groups),Text(ID),\",\")=\"1,3,5\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(GroupBy(If(false,Samples),Team,Members)) && IsBlank(Ungroup(If(false,GroupBy(Samples,Team,Members)),Members))",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/LeftPanel/Minimum",
+        "event": "OnChange",
+        "value": 5
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Groups=1 && LeftPanel.Info.Rows=2 && LeftPanel.Info.Total=7 && RightPanel.Info.Total=18 && Last(trace).Rows=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/LeftPanel/Results",
+        "event": "OnSelect",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "selected.ID=1 && selected.Amount=2 && selected.Team=\"A\" && selected.Total=7 && CountRows(picks)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/InjectFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Errors=1 && LeftPanel.Info.Total=7 && IfError(CountRows(GroupBy(LeftRows,Team,Members)),FirstError.Kind)=13 && RightPanel.Info.Errors=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/CaptureGroups",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(grouped)=2 && Sum(grouped,Total)=28 && Concat(Ungroup(grouped,Members),Text(ID),\",\")=\"1,2,3,4,5,6\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=1 && First(Snapshots).Numeric=7 && First(Snapshots).Rows=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/UpdateAmount",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Total=14 && LeftPanel.Info.Rows=2 && First(LeftPanel.Flat).'Sample amount'=9 && RightPanel.Info.Total=18",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!saved && CountRows(Snapshots)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/SaveSnapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "saved && CountRows(Snapshots)=2 && Last(Snapshots).Numeric=14",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/RightPanel/Minimum",
+        "event": "OnChange",
+        "value": 5
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Info.Groups=1 && RightPanel.Info.Rows=2 && RightPanel.Info.Total=14 && LeftPanel.Info.Total=14",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/LeftPanel/ResetPanel",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Groups=2 && LeftPanel.Info.Rows=3 && LeftPanel.Info.Total=17 && RightPanel.Info.Rows=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/InjectFault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "GroupingLab/RightPanel/ResetPanel",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Info.Errors=0 && RightPanel.Info.Groups=2 && RightPanel.Info.Rows=3 && RightPanel.Info.Total=18",
+        "expect": true
+      }
+    ]
+  }
+}

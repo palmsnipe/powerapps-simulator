@@ -1,0 +1,261 @@
+{
+  "gallery-edits.workflow.json": {
+    "format_version": 1,
+    "name": "Live AllItems controls, component save, list validation and retry",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "StoredTotal",
+        "expect": 60
+      },
+      {
+        "op": "assert",
+        "formula": "PendingTotal",
+        "expect": 60
+      },
+      {
+        "op": "assert",
+        "formula": "PendingCount",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ProjectsGallery/row:c427cee7e1987854:0/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional edited Beta"
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ProjectsGallery/row:c427cee7e1987854:0/CostInput",
+        "event": "OnChange",
+        "value": 25
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ProjectsGallery/row:c427cee7e1987854:0/StatusInput",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ProjectsGallery/row:c427cee7e1987854:0/EnabledInput",
+        "event": "OnSelect",
+        "value": false
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ProjectsGallery/row:c427cee7e1987854:0/DueInput",
+        "event": "OnChange",
+        "value": "2026-02-05"
+      },
+      {
+        "op": "assert",
+        "formula": "PendingTotal",
+        "expect": 65
+      },
+      {
+        "op": "assert",
+        "formula": "PendingCount",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects,ID=2).Cost",
+        "expect": 20
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/SnapshotEdits",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(editsSnapshot,ID=2).Title",
+        "expect": "Fictional edited Beta"
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/CaptureControls",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(controlRows,ID=2).CostInput.Value",
+        "expect": 25
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ReverseRows",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(ProjectsGallery.AllItems).ID",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(controlRows,ID=2).TitleInput.Text",
+        "expect": "Fictional edited Beta"
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/Panel/SaveRows",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "callbacks",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "StoredTotal",
+        "expect": 65
+      },
+      {
+        "op": "assert",
+        "formula": "PendingCount",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects,ID=2).Status.Value",
+        "expect": "Done"
+      },
+      {
+        "op": "assert",
+        "formula": "Text(LookUp(Projects,ID=2).Due,\"yyyy-mm-dd\")",
+        "expect": "2026-02-05"
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ProjectsGallery/row:c427cee7e1987854:0/TitleInput",
+        "event": "OnChange",
+        "value": ""
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/Panel/SaveRows",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "callbacks",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(saveErrors).Column",
+        "expect": "Title"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects,ID=2).Title",
+        "expect": "Fictional edited Beta"
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ResetInputs",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(ProjectsGallery.AllItems,ID=2).TitleInput.Text",
+        "expect": "Fictional edited Beta"
+      },
+      {
+        "op": "assert",
+        "formula": "PendingCount",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/ProjectsGallery/row:c427cee7e1987854:0/CostInput",
+        "event": "OnChange",
+        "value": 40
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/Panel/SaveRows",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "StoredTotal",
+        "expect": 65
+      },
+      {
+        "op": "assert",
+        "formula": "PendingTotal",
+        "expect": 80
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "GalleryEdits/Panel/SaveRows",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "callbacks",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "StoredTotal",
+        "expect": 80
+      },
+      {
+        "op": "assert",
+        "formula": "PendingCount",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(editsSnapshot,ID=2).Cost",
+        "expect": 25
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(controlRows,ID=2).CostInput.Value",
+        "expect": 40
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

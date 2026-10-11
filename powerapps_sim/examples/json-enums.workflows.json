@@ -1,0 +1,249 @@
+{
+  "json-enums.workflow.json": {
+    "format_version": 1,
+    "environment": {
+      "enum_mode": "strong"
+    },
+    "name": "Typed JSON flags, isolated enum callbacks and persisted payloads",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Float(CallbackCount)",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Snapshots))",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/LeftPanel/EncodeButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CallbackCount)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Last(history).Valid",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Text(Last(history).Flag)",
+        "expect": ""
+      },
+      {
+        "op": "assert",
+        "formula": "Last(history).Json",
+        "expect": "{\"Amount\":1,\"Flags\":\"\",\"Kind\":23,\"Order\":\"descending\",\"Title\":\"Fictional LeftPanel\",\"Unit\":\"months\",\"Week\":2,\"Weeks\":[{\"Value\":1},{\"Value\":2},{\"Value\":3}]}"
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/LeftPanel/Picker",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Text(Last(history).Flag)",
+        "expect": "_"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.History))",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(RightPanel.History))",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/RightPanel/Picker",
+        "event": "OnChange",
+        "selection": [
+          3
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Text(Last(history).Flag)",
+        "expect": "4_"
+      },
+      {
+        "op": "assert",
+        "formula": "Last(history).Panel",
+        "expect": "RightPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(RightPanel.Current.Amount)",
+        "expect": 10
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/LeftPanel/Amount",
+        "event": "OnChange",
+        "value": "5"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(LeftPanel.Current.Amount)",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "Float(RightPanel.Current.Amount)",
+        "expect": 10
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Snapshots))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).Flags",
+        "expect": "_"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(Value(ParseJSON(First(Snapshots).Payload).Kind))",
+        "expect": 23
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(ParseJSON(First(Snapshots).Payload).Weeks))",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/LeftPanel/Picker",
+        "event": "OnChange",
+        "selection": [
+          4
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Last(history).Valid",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Snapshots))",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.History))",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(RightPanel.History))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Text(LeftPanel.Options.Flag)",
+        "expect": ""
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(results))",
+        "expect": 8
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(results).Flag)",
+        "expect": "4"
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(results).Nested.Option)",
+        "expect": "4_"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(Value(ParseJSON(First(results).Json).Kind))",
+        "expect": 23
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/LeftPanel/EncodeButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Snapshots))",
+        "expect": 1
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "JsonEnums/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Snapshots))",
+        "expect": 2
+      }
+    ]
+  }
+}

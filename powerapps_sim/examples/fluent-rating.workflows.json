@@ -1,0 +1,126 @@
+{
+  "fluent-rating.workflow.json": {
+    "format_version": 1,
+    "name": "Fluent V8 rating \u00b7 bound values and isolated callbacks",
+    "records": {
+      "Feedback": [
+        {
+          "ID": 1,
+          "Title": "Fictional feedback 1",
+          "Score": 1
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional feedback 2",
+          "Score": 2
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional feedback 3",
+          "Score": 3
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftRating.Current=2.5 && RightRating.Current=2.5 && CountRows(events)=0 && CountRows(taps)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RatingLab/LeftRating/Score",
+        "event": "OnSelect",
+        "value": 4
+      },
+      {
+        "op": "assert",
+        "formula": "LeftRating.Current=4 && RightRating.Current=2.5 && CountRows(events)=1 && CountRows(taps)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RatingLab/LeftRating/Score",
+        "event": "OnSelect",
+        "value": 4
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=1 && CountRows(taps)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RatingLab/RightRating/Score",
+        "event": "OnChange",
+        "value": 1
+      },
+      {
+        "op": "assert",
+        "formula": "RightRating.Current=1 && LeftRating.Current=4 && CountRows(events)=2 && CountRows(taps)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RatingLab/ResetLeftRating",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftRating.Current=2.5 && RightRating.Current=1 && CountRows(LeftRating.History)=0 && CountRows(RightRating.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RatingLab/ChangeDefaults",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftRating.Current=1 && RightRating.Current=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RatingLab/FeedbackForm/ScoreCard/FormScore",
+        "event": "OnChange",
+        "value": 5
+      },
+      {
+        "op": "assert",
+        "formula": "FeedbackForm.Unsaved && FeedbackForm.Updates.Score=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RatingLab/SaveScore",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!FeedbackForm.Unsaved && First(Feedback).'Feedback score'=5 && FeedbackForm.LastSubmit.Score=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(FeedbackRows.AllItems,2).RowScore",
+        "event": "OnChange",
+        "value": 4
+      },
+      {
+        "op": "assert",
+        "formula": "Index(Feedback,2).Score=4 && First(Feedback).Score=5",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LeftRating.Current=1 && RightRating.Current=1 && CountRows(taps)=2",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

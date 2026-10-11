@@ -1,0 +1,107 @@
+{
+  "native-types.workflow.json": {
+    "format_version": 1,
+    "name": "Native component contracts, callbacks, navigation and snapshots",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Total=10.25 && Right.Total=100.5 && Left.Multiply(4)=8 && Left.ScreenWidth(Home)=App.Width",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.NextDay(Date(2026,1,1))=Date(2026,1,2) && Text(Left.Clip)=\"/api/asset/Assets/tone.wav\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Amount",
+        "event": "OnChange",
+        "value": "12"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Submit",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total=12 && Right.Total=100.5 && CountRows(history)=1 && First(history).Amount=12 && First(history).Panel=\"Left\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Amount",
+        "event": "OnChange",
+        "value": "25"
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Submit",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total=25 && Left.Total=12 && CountRows(history)=2 && Last(history).Panel=\"Right\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Capture",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "money=12 && multiplied=24 && day=Date(2026,1,2) && page.Width=App.Width",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Catch",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!IsBlank(caught) && Left.Total=12 && Right.Total=25 && CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Snapshot",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && First(Snapshots).Amount=12 && First(Snapshots).Day=\"2026-01-02\" && First(Snapshots).Callbacks=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Go",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Target/Back",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total=10.25 && Right.Total=25 && Left.Day=Date(2026,1,1) && CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

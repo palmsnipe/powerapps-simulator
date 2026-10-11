@@ -1,0 +1,376 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "All previously unselected expressions from pinned Proper/Lower/Upper files, in Float and Decimal profiles. Expected strings/Booleans are decoded from literal native expectations; Div0 is encoded from the native error record. No formula evaluator derives expected values. Numeric-address casing differs between the documentation example and the pinned TextInfo scan; that discrepancy is separate from these native cases.",
+  "cases": [
+    {
+      "id": "casing-proper-1-float",
+      "expression": "Proper(\"e. e. cummings\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L1",
+        "expected_powerfx": "\"E. E. Cummings\""
+      },
+      "expected": "E. E. Cummings"
+    },
+    {
+      "id": "casing-proper-1-decimal",
+      "expression": "Proper(\"e. e. cummings\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L1",
+        "expected_powerfx": "\"E. E. Cummings\""
+      },
+      "expected": "E. E. Cummings"
+    },
+    {
+      "id": "casing-proper-4-float",
+      "expression": "Proper(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L4",
+        "expected_powerfx": "\"\""
+      },
+      "expected": ""
+    },
+    {
+      "id": "casing-proper-4-decimal",
+      "expression": "Proper(Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L4",
+        "expected_powerfx": "\"\""
+      },
+      "expected": ""
+    },
+    {
+      "id": "casing-proper-7-float",
+      "expression": "Proper(Text(1/0, \"000\"))",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L7",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "casing-proper-7-decimal",
+      "expression": "Proper(Text(1/0, \"000\"))",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L7",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "casing-proper-10-float",
+      "expression": "Proper(\"Important!\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L10",
+        "expected_powerfx": "\"Important!\""
+      },
+      "expected": "Important!"
+    },
+    {
+      "id": "casing-proper-10-decimal",
+      "expression": "Proper(\"Important!\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L10",
+        "expected_powerfx": "\"Important!\""
+      },
+      "expected": "Important!"
+    },
+    {
+      "id": "casing-proper-13-float",
+      "expression": "Proper(\"hELLO WorLD\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L13",
+        "expected_powerfx": "\"Hello World\""
+      },
+      "expected": "Hello World"
+    },
+    {
+      "id": "casing-proper-13-decimal",
+      "expression": "Proper(\"hELLO WorLD\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L13",
+        "expected_powerfx": "\"Hello World\""
+      },
+      "expected": "Hello World"
+    },
+    {
+      "id": "casing-proper-16-float",
+      "expression": "Proper(\"\u00e8\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L16",
+        "expected_powerfx": "\"\u00c8\""
+      },
+      "expected": "\u00c8"
+    },
+    {
+      "id": "casing-proper-16-decimal",
+      "expression": "Proper(\"\u00e8\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L16",
+        "expected_powerfx": "\"\u00c8\""
+      },
+      "expected": "\u00c8"
+    },
+    {
+      "id": "casing-proper-19-float",
+      "expression": "Proper(\"\u00e8 \u00e8\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L19",
+        "expected_powerfx": "\"\u00c8 \u00c8\""
+      },
+      "expected": "\u00c8 \u00c8"
+    },
+    {
+      "id": "casing-proper-19-decimal",
+      "expression": "Proper(\"\u00e8 \u00e8\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L19",
+        "expected_powerfx": "\"\u00c8 \u00c8\""
+      },
+      "expected": "\u00c8 \u00c8"
+    },
+    {
+      "id": "casing-proper-22-float",
+      "expression": "Proper(\"\u00e8 \u00c8\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L22",
+        "expected_powerfx": "\"\u00c8 \u00c8\""
+      },
+      "expected": "\u00c8 \u00c8"
+    },
+    {
+      "id": "casing-proper-22-decimal",
+      "expression": "Proper(\"\u00e8 \u00c8\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L22",
+        "expected_powerfx": "\"\u00c8 \u00c8\""
+      },
+      "expected": "\u00c8 \u00c8"
+    },
+    {
+      "id": "casing-proper-25-float",
+      "expression": "Proper(\"\u00e8 \u00e8!\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L25",
+        "expected_powerfx": "\"\u00c8 \u00c8!\""
+      },
+      "expected": "\u00c8 \u00c8!"
+    },
+    {
+      "id": "casing-proper-25-decimal",
+      "expression": "Proper(\"\u00e8 \u00e8!\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L25",
+        "expected_powerfx": "\"\u00c8 \u00c8!\""
+      },
+      "expected": "\u00c8 \u00c8!"
+    },
+    {
+      "id": "casing-proper-28-float",
+      "expression": "Proper(\"\u00d2\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L28",
+        "expected_powerfx": "\"\u00d2\""
+      },
+      "expected": "\u00d2"
+    },
+    {
+      "id": "casing-proper-28-decimal",
+      "expression": "Proper(\"\u00d2\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L28",
+        "expected_powerfx": "\"\u00d2\""
+      },
+      "expected": "\u00d2"
+    },
+    {
+      "id": "casing-proper-31-float",
+      "expression": "Proper(\"\u00d2\u00e8\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L31",
+        "expected_powerfx": "\"\u00d2\u00e8\""
+      },
+      "expected": "\u00d2\u00e8"
+    },
+    {
+      "id": "casing-proper-31-decimal",
+      "expression": "Proper(\"\u00d2\u00e8\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L31",
+        "expected_powerfx": "\"\u00d2\u00e8\""
+      },
+      "expected": "\u00d2\u00e8"
+    },
+    {
+      "id": "casing-proper-34-float",
+      "expression": "Proper(\"\u0131\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L34",
+        "expected_powerfx": "\"I\""
+      },
+      "expected": "I"
+    },
+    {
+      "id": "casing-proper-34-decimal",
+      "expression": "Proper(\"\u0131\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L34",
+        "expected_powerfx": "\"I\""
+      },
+      "expected": "I"
+    },
+    {
+      "id": "casing-proper-37-float",
+      "expression": "Proper(\"RSVP\")",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L37",
+        "expected_powerfx": "\"Rsvp\""
+      },
+      "expected": "Rsvp"
+    },
+    {
+      "id": "casing-proper-37-decimal",
+      "expression": "Proper(\"RSVP\")",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Proper.txt#L37",
+        "expected_powerfx": "\"Rsvp\""
+      },
+      "expected": "Rsvp"
+    }
+  ]
+}

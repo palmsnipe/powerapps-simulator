@@ -1,0 +1,31 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 80
+      },
+      "Total": {
+        "type": "number"
+      },
+      "MeasuredHeight": {
+        "type": "number"
+      },
+      "Callbacks": {
+        "type": "integer"
+      }
+    },
+    "mapping": {
+      "Total": "Selection total",
+      "MeasuredHeight": "Measured height"
+    },
+    "required": [
+      "Title",
+      "Total"
+    ],
+    "records": []
+  }
+}

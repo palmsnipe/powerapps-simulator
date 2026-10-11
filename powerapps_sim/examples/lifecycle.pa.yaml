@@ -1,0 +1,188 @@
+App:
+  Properties:
+    StartScreen: =Lifecycle
+    OnStart: '=Set(seed, 10); Set(showSpacer, true); ClearCollect(trace, {Step: "start"})'
+ComponentDefinitions:
+  ResetPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        RaiseOnReset: true
+        Default: =10
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current, ResetPanel.Seed)
+      ResetCount:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(resets, 0)
+      OnResetDone:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - total:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =300
+      Height: =220
+      Fill: =RGBA(245,248,255,1)
+      OnReset: =Set(current, ResetPanel.Seed); Set(resets, ResetPanel.ResetCount + 1); Reset(Note); ResetPanel.OnResetDone(current)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =12
+            Width: =Parent.Width - 24
+            Height: =52
+            Text: ="Total " & ResetPanel.Total & " · resets " & ResetPanel.ResetCount & " · width " & Round(Parent.Width, 0)
+            Wrap: =true
+      - Note:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =12
+            Y: =76
+            Width: =Parent.Width - 24
+            Default: ="component note"
+            AccessibleLabel: ="Component note"
+      - Increase:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =128
+            Width: =Parent.Width - 24
+            Text: ="Increase locally"
+            OnSelect: =Set(current, ResetPanel.Total + 1)
+Screens:
+  Lifecycle:
+    Properties:
+      OnVisible: '=Collect(trace, {Step: "visible"})'
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =Parent.Width - 40
+            Height: =40
+            Size: =22
+            Text: ="Component lifecycle and layout"
+      - ChangeSeed:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =64
+            Width: =160
+            Text: ="Change left seed"
+            OnSelect: '=Collect(trace, {Step: "before seed"}); Set(seed, seed + 10); Collect(trace, {Step: "after seed"})'
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =192
+            Y: =64
+            Width: =130
+            Text: ="Reset left"
+            OnSelect: '=Collect(trace, {Step: "before reset"}); Reset(LeftPanel); Collect(trace, {Step: "after reset"})'
+      - QueueSelect:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =334
+            Y: =64
+            Width: =170
+            Text: ="Queue gallery row 2"
+            OnSelect: '=Collect(trace, {Step: "before select"}); Select(EventsGallery, 2, RowButton); Collect(trace, {Step: "after select"})'
+      - HideSpacer:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =516
+            Y: =64
+            Width: =150
+            Text: ="Toggle spacer"
+            OnSelect: =Set(showSpacer, !showSpacer)
+      - Panels:
+          Control: GroupContainer@1.5.0
+          Properties:
+            X: =20
+            Y: =116
+            Width: =Parent.Width - 40
+            Height: =208
+            LayoutDirection: =LayoutDirection.Horizontal
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =12
+            PaddingLeft: =12
+            PaddingRight: =12
+            PaddingTop: =12
+            PaddingBottom: =12
+            Fill: =RGBA(232,237,247,1)
+          Variant: AutoLayout
+          Children:
+            - LeftPanel:
+                Control: CanvasComponent
+                Properties:
+                  Seed: =seed
+                  FillPortions: =1
+                  LayoutMinWidth: =180
+                  LayoutMinHeight: =160
+                  AlignInContainer: =AlignInContainer.Stretch
+                  OnResetDone: '=Collect(trace, {Step: "LeftPanel reset " & total})'
+                ComponentName: ResetPanel
+            - Spacer:
+                Control: Rectangle@2.3.0
+                Properties:
+                  Width: =60
+                  Height: =40
+                  LayoutMinWidth: =0
+                  LayoutMinHeight: =0
+                  Visible: =showSpacer
+                  Fill: =RGBA(146,166,213,1)
+            - RightPanel:
+                Control: CanvasComponent
+                Properties:
+                  Seed: =100
+                  FillPortions: =2
+                  LayoutMinWidth: =180
+                  LayoutMinHeight: =160
+                  AlignInContainer: =AlignInContainer.Stretch
+                  OnResetDone: '=Collect(trace, {Step: "RightPanel reset " & total})'
+                ComponentName: ResetPanel
+      - Dimensions:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =332
+            Width: =Parent.Width - 40
+            Height: =38
+            Text: '="Python widths: " & Round(LeftPanel.Width, 0) & " / " & Round(RightPanel.Width, 0) & " · positions " & Round(LeftPanel.X, 0) & " / " & Round(RightPanel.X, 0)'
+      - EventsGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =384
+            Width: =300
+            Height: =140
+            TemplateSize: =42
+            TemplatePadding: =4
+            Items: '=Table({ID: 1, Title: "first"}, {ID: 2, Title: "second"})'
+            OnSelect: '=Collect(trace, {Step: "gallery " & ThisItem.Title})'
+          Variant: Vertical
+          Children:
+            - RowButton:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Width: =Parent.TemplateWidth - 12
+                  Height: =36
+                  Text: ="Select " & ThisItem.Title
+                  OnSelect: '=Collect(trace, {Step: "child " & ThisItem.Title}); Select(Parent)'
+      - Trace:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =340
+            Y: =384
+            Width: =Parent.Width - 360
+            Height: =184
+            VerticalAlign: =VerticalAlign.Top
+            Text: =Concat(LastN(trace, 8), Step, Char(10))

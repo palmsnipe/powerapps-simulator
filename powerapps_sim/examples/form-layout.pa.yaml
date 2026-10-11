@@ -1,0 +1,266 @@
+App:
+  Properties:
+    StartScreen: =CardLayout
+    OnStart: =Set(narrow,false);Clear(events);Clear(results);Clear(saves);Set(status,"Ready");Reset(LeftGrow);Reset(RightShow)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+ComponentDefinitions:
+  LayoutSwitch:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Layout"
+      Seed:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Value:
+        PropertyKind: Output
+        DataType: Boolean
+        Default: =Switch.Value
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Boolean
+              Default: =false
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =240
+      Height: =48
+      OnReset: =Reset(Switch)
+    Children:
+      - Switch:
+          Control: Classic/Toggle@2.1.0
+          Properties:
+            Default: =LayoutSwitch.Seed
+            TrueText: =LayoutSwitch.Caption
+            FalseText: =LayoutSwitch.Caption
+            Width: =230
+            Height: =38
+            AccessibleLabel: =LayoutSwitch.Caption
+            OnChange: =LayoutSwitch.Changed(Self.Value)
+Screens:
+  CardLayout:
+    Properties:
+      Width: =960
+      Height: =560
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Form cards · responsive layout","Cartes · disposition adaptative")
+            X: =16
+            Y: =8
+            Width: =920
+            Height: =30
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =$"{status} · {CountRows(events)} layout events"
+            X: =16
+            Y: =44
+            Width: =920
+            Height: =30
+      - LeftGrow:
+          Control: CanvasComponent
+          ComponentName: LayoutSwitch
+          Properties:
+            X: =16
+            Y: =86
+            Caption: ="Fit title"
+            Seed: =false
+            Changed: =Collect(events,{Panel:"LeftGrow",Enabled:value})
+      - RightShow:
+          Control: CanvasComponent
+          ComponentName: LayoutSwitch
+          Properties:
+            X: =300
+            Y: =86
+            Caption: ="Show extra"
+            Seed: =true
+            Changed: =Collect(events,{Panel:"RightShow",Enabled:value})
+      - Narrow:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Resize form","Redimensionner")
+            X: =580
+            Y: =88
+            Width: =150
+            OnSelect: =Set(narrow,!narrow)
+      - ResetSwitches:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset switches","Réinitialiser")
+            X: =750
+            Y: =88
+            Width: =170
+            OnSelect: =Reset(LeftGrow);Reset(RightShow)
+      - DraftForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =16
+            Y: =154
+            Width: =If(narrow,540,900)
+            Height: =290
+            NumberOfColumns: =3
+            DataSource: =Drafts
+            Item: =First(Drafts)
+            OnSuccess: =Set(status,T("Saved","Enregistré"));Collect(saves,Self.LastSubmit)
+            OnFailure: =Set(status,T("Save failed","Échec"))
+          Children:
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Amount"
+                  Default: =ThisItem.Amount
+                  Update: =Value(AmountInput.Text)
+                  X: =1
+                  Y: =0
+                  Width: =280
+                  Height: =95
+                  WidthFit: =true
+                  Fill: =RGBA(245,245,245,1)
+                Children:
+                  - AmountLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Amount","Montant")
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                        Height: =30
+                  - AmountInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        Default: =Text(Parent.Default)
+                        AccessibleLabel: ="Draft amount"
+                        X: =12
+                        Y: =36
+                        Width: =Parent.Width-24
+                        Height: =36
+            - NotesCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Notes"
+                  Default: =ThisItem.Notes
+                  Update: =NotesInput.Text
+                  X: =0
+                  Y: =1
+                  Width: =Parent.Width
+                  Height: =110
+                  WidthFit: =false
+                  Fill: =RGBA(245,245,245,1)
+                Children:
+                  - NotesLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Notes","Notes")
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                        Height: =30
+                  - NotesInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        Default: =Text(Parent.Default)
+                        AccessibleLabel: ="Draft notes"
+                        X: =12
+                        Y: =36
+                        Width: =Parent.Width-24
+                        Height: =36
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  X: =0
+                  Y: =0
+                  Width: =280
+                  Height: =95
+                  WidthFit: =LeftGrow.Value
+                  Fill: =RGBA(245,245,245,1)
+                  Required: =true
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Title","Titre")
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                        Height: =30
+                  - TitleInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        Default: =Text(Parent.Default)
+                        AccessibleLabel: ="Draft title"
+                        X: =12
+                        Y: =36
+                        Width: =Parent.Width-24
+                        Height: =36
+                  - CardError:
+                      Control: Label@2.5.1
+                      Properties:
+                        Text: =Parent.Error
+                        AutoHeight: =true
+                        Width: =Parent.Width-24
+                        Y: =76
+                        Height: =20
+                        Color: =Color.Red
+            - ExtraCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Extra"
+                  Default: =ThisItem.Extra
+                  Update: =ExtraInput.Text
+                  X: =2
+                  Y: =0
+                  Width: =240
+                  Height: =120
+                  WidthFit: =false
+                  Fill: =RGBA(245,245,245,1)
+                  Visible: =RightShow.Value
+                Children:
+                  - ExtraLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Extra","D\u00e9tail")
+                        X: =12
+                        Y: =4
+                        Width: =Parent.Width-24
+                        Height: =30
+                  - ExtraInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        Default: =Text(Parent.Default)
+                        AccessibleLabel: ="Draft extra"
+                        X: =12
+                        Y: =36
+                        Width: =Parent.Width-24
+                        Height: =36
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save draft","Enregistrer")
+            X: =16
+            Y: =468
+            OnSelect: =SubmitForm(DraftForm)
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset draft","Réinitialiser")
+            X: =210
+            Y: =468
+            OnSelect: =ResetForm(DraftForm)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Build table","Créer table")
+            X: =410
+            Y: =468
+            OnSelect: =ClearCollect(results,ForAll(Sequence(8),{ID:Value,Title:TitleInput.Text,Amount:DraftForm.Updates.Amount,N01:Value,N02:Value,N03:Value,N04:Value,N05:Value,N06:Value,N07:Value,N08:Value,N09:Value,N10:Value,N11:Value,N12:Value,N13:Value,N14:Value,N15:Value,N16:Value,Details:{Fit:LeftGrow.Value,Extra:RightShow.Value}}))

@@ -1,0 +1,179 @@
+App:
+  Properties:
+    StartScreen: =GalleryEdits
+    OnStart: =Set(reverseRows,false);Set(resetInputs,false);Set(callbacks,0);Set(status,"Ready");Clear(editsSnapshot);Clear(controlRows);Clear(saveErrors)
+    Formulas: =Edits=ForAll(ProjectsGallery.AllItems As row,{ID:row.ID,Title:row.TitleInput.Text,Cost:row.CostInput.Value,Status:row.StatusInput.Selected,Due:row.DueInput.SelectedDate,Enabled:row.EnabledInput.Checked}); StoredTotal=Sum(Projects,Cost); PendingTotal=Sum(Edits,Cost); PendingCount=CountIf(ProjectsGallery.AllItems,TitleInput.Text<>Title || CostInput.Value<>Cost);
+ComponentDefinitions:
+  SavePanel:
+    AccessAppScope: false
+    CustomProperties:
+      Edits:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table()
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Sum(SavePanel.Edits,Cost)
+      Save:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - incoming:
+              DataType: Table
+        Default: =Blank()
+    Properties:
+      Width: =270
+      Height: =260
+      Fill: =RGBA(245,248,255,1)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =12
+            Width: =246
+            Height: =120
+            Wrap: =true
+            Text: ="Edited rows " & CountRows(SavePanel.Edits) & Char(10) & "Pending cost " & SavePanel.Total
+      - SaveRows:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =154
+            Width: =246
+            Text: ="Save edited rows"
+            OnSelect: =SavePanel.Save(SavePanel.Edits)
+Screens:
+  GalleryEdits:
+    Children:
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =20
+            Width: =860
+            Height: =80
+            Wrap: =true
+            Text: =status & " · stored " & StoredTotal & " · pending " & PendingTotal & " · changed " & PendingCount & " · callbacks " & callbacks
+      - ProjectsGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =120
+            Width: =570
+            Height: =430
+            Items: =Sort(Projects,ID,If(reverseRows,SortOrder.Descending,SortOrder.Ascending))
+            TemplateSize: =138
+            TemplatePadding: =5
+            ItemAccessibleLabel: =ThisItem.Title
+            TemplateFill: =If(ThisItem.IsSelected,RGBA(225,239,255,1),Color.White)
+          Children:
+            - RowCaption:
+                Control: ModernText@1.0.0
+                Properties:
+                  X: =12
+                  Y: =4
+                  Width: =546
+                  Height: =28
+                  Text: ="Record " & ThisItem.ID & " · saved " & ThisItem.Title
+            - TitleInput:
+                Control: ModernTextInput@1.1.2
+                Properties:
+                  X: =12
+                  Y: =38
+                  Width: =280
+                  Height: =32
+                  Default: =ThisItem.Title
+                  AccessibleLabel: ="Title " & ThisItem.ID
+                  Reset: =resetInputs
+            - CostInput:
+                Control: ModernNumberInput@1.1.2
+                Properties:
+                  X: =304
+                  Y: =38
+                  Width: =140
+                  Height: =32
+                  Default: =ThisItem.Cost
+                  AccessibleLabel: ="Cost " & ThisItem.ID
+                  Reset: =resetInputs
+            - StatusInput:
+                Control: ModernCombobox@1.1.2
+                Properties:
+                  X: =12
+                  Y: =80
+                  Width: =160
+                  Height: =34
+                  Items: =Choices(Projects.Status)
+                  DefaultSelectedItems: =Table(ThisItem.Status)
+                  SelectMultiple: =false
+                  AccessibleLabel: ="Status " & ThisItem.ID
+                  Reset: =resetInputs
+            - DueInput:
+                Control: ModernDatePicker@1.0.2
+                Properties:
+                  X: =184
+                  Y: =80
+                  Width: =180
+                  Height: =34
+                  DefaultDate: =ThisItem.Due
+                  AccessibleLabel: ="Due " & ThisItem.ID
+                  Reset: =resetInputs
+            - EnabledInput:
+                Control: Toggle@1.1.5
+                Properties:
+                  X: =378
+                  Y: =80
+                  Width: =170
+                  Height: =34
+                  Checked: =ThisItem.Enabled
+                  AccessibleLabel: ="Enabled " & ThisItem.ID
+            - ResetEnabled:
+                Control: ModernButton@1.0.0
+                Properties:
+                  X: =448
+                  Y: =38
+                  Width: =132
+                  Height: =32
+                  Text: ="Reset enabled"
+                  OnSelect: =Reset(EnabledInput)
+      - Panel:
+          ComponentName: SavePanel
+          Control: CanvasComponent
+          Properties:
+            X: =610
+            Y: =120
+            Edits: =Edits
+            Save: =Clear(saveErrors);IfError(ForAll(incoming As edit,IfError(Patch(Projects,LookUp(Projects,ID=edit.ID),{Title:edit.Title,Cost:edit.Cost,Status:edit.Status,Due:edit.Due,Enabled:edit.Enabled}),Collect(saveErrors,Errors(Projects));Error(FirstError))),Set(status,"Save failed"),Set(status,"Saved");Set(callbacks,callbacks+1))
+      - ReverseRows:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =574
+            Width: =130
+            Text: ="Reverse rows"
+            OnSelect: =Set(reverseRows,!reverseRows)
+      - CaptureControls:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =166
+            Y: =574
+            Width: =155
+            Text: ="Capture controls"
+            OnSelect: =ClearCollect(controlRows,ProjectsGallery.AllItems)
+      - SnapshotEdits:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =337
+            Y: =574
+            Width: =140
+            Text: ="Snapshot edits"
+            OnSelect: =ClearCollect(editsSnapshot,Edits)
+      - ResetInputs:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =493
+            Y: =574
+            Width: =140
+            Text: ="Reset inputs"
+            OnSelect: =ForAll(ProjectsGallery.AllItems As row,Select(row.ResetEnabled));Set(resetInputs,true);Set(resetInputs,false)

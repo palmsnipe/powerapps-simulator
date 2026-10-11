@@ -1,0 +1,152 @@
+{
+  "galleries.workflow.json": {
+    "format_version": 1,
+    "name": "Gallery backgrounds, defaults, queued actions and reset",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Records.Selected.ID",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Records.AllItemsCount",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/Records",
+        "event": "OnSelect",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Records.Selected.ID",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "clicks",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "gallery Fictional Alpha"
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/SelectCustom",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Records.Selected.ID",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "custom Fictional Beta"
+      },
+      {
+        "op": "assert",
+        "formula": "clicks",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/ToggleSelectable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/Records",
+        "event": "OnSelect",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Records.Selected.ID",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "clicks",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/ToggleSelectable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/Records",
+        "event": "OnSelect",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "Records.Selected.ID",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/ResetRecords",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Records.Selected.ID",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/ToggleWrap",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Records.TemplateWidth",
+        "expect": 285
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/NextDefault",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Records.Selected.ID",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "GalleryScreen/SortRecords",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Records.Selected.ID",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "First(rows).ID",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Records.AllItemsCount",
+        "expect": 3
+      }
+    ]
+  }
+}

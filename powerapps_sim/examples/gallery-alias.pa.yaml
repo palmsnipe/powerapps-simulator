@@ -1,0 +1,240 @@
+App:
+  Properties:
+    StartScreen: =AliasLab
+    OnStart: =Clear(events);Clear(saves);Set(selected,{Outer:1,Inner:0,Caption:""});Set(status,"Ready");Reset(LeftGrid);Reset(RightGrid)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+ComponentDefinitions:
+  AliasGrid:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:0,Title:""})
+      Cells:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:0,Owner:0,Caption:""})
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Grid"
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - pick:
+              DataType: Record
+              Default: ={Outer:0,Inner:0,Caption:""}
+              IsOptional: true
+      Format:
+        PropertyKind: InputFunction
+        ReturnType: Text
+        Default: =Text(outer) & "/" & Text(inner) & " " & caption
+        Parameters:
+          - outer:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+          - inner:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+          - caption:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+      Report:
+        PropertyKind: Action
+        ReturnType: None
+        Default: =Set(last,{Outer:outer,Inner:inner,Caption:caption});Collect(history,last);AliasGrid.Picked(last)
+        Parameters:
+          - outer:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+          - inner:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+          - caption:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+      Last:
+        PropertyKind: Output
+        DataType: Record
+        Default: =Coalesce(last,{Outer:0,Inner:0,Caption:""})
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+    Properties:
+      Width: =470
+      Height: =300
+      OnReset: =Set(last,{Outer:0,Inner:0,Caption:""});Clear(history);Reset(Ranks)
+    Children:
+      - PanelCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =AliasGrid.Caption
+            Width: =460
+            Height: =30
+            Size: =18
+      - Ranks:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =AliasGrid.Rows As Rank
+            Y: =36
+            Width: =470
+            Height: =260
+            TemplateSize: =125
+            TemplatePadding: =4
+            TemplateFill: =If(Rank.IsSelected,RGBA(245,248,255,1),Color.White)
+          Children:
+            - RankTitle:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =Rank.Title
+                  X: =8
+                  Y: =0
+                  Width: =440
+                  Height: =28
+            - Files:
+                Control: Gallery@2.15.0
+                Properties:
+                  Items: =Filter(AliasGrid.Cells,Owner=Rank.ID) As File
+                  X: =8
+                  Y: =32
+                  Width: =450
+                  Height: =85
+                  TemplateSize: =185
+                  TemplatePadding: =4
+                  TemplateFill: =If(File.IsSelected,RGBA(225,237,248,1),Color.Transparent)
+                  ItemAccessibleLabel: =Rank.Title & " " & File.Caption
+                Children:
+                  - Note:
+                      Control: ModernTextInput@1.0.0
+                      Properties:
+                        Default: =File.Caption
+                        AccessibleLabel: =AliasGrid.Caption & " note " & Text(Rank.ID) & "/" & Text(File.ID)
+                        Width: =175
+                        Height: =32
+                        OnChange: =AliasGrid.Report(Rank.ID,File.ID,Self.Text)
+                  - Pick:
+                      Control: ModernButton@1.0.0
+                      Properties:
+                        Y: =36
+                        Width: =175
+                        Text: =AliasGrid.Format(Rank.ID,File.ID,Note.Text)
+                        OnSelect: =AliasGrid.Report(Rank.ID,File.ID,Note.Text)
+                Variant: Horizontal
+Screens:
+  AliasLab:
+    Properties:
+      Fill: =RGBA(250,250,250,1)
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Nested galleries · named record scopes","Galeries imbriquées · portées nommées")
+            X: =20
+            Y: =8
+            Width: =940
+            Height: =36
+            Size: =22
+      - LeftGrid:
+          Control: CanvasComponent
+          ComponentName: AliasGrid
+          Properties:
+            X: =20
+            Y: =52
+            Rows: =Drafts
+            Cells: =Cells
+            Caption: =T("Left grid","Grille gauche")
+            Format: =Text(outer) & "/" & Text(inner) & " " & caption
+            Picked: =Set(selected,pick);Collect(events,{Panel:"LeftGrid",Outer:pick.Outer,Inner:pick.Inner,Caption:pick.Caption})
+      - RightGrid:
+          Control: CanvasComponent
+          ComponentName: AliasGrid
+          Properties:
+            X: =510
+            Y: =52
+            Rows: =Drafts
+            Cells: =Cells
+            Caption: =T("Right grid","Grille droite")
+            Format: =Text(outer) & "/" & Text(inner) & " " & caption
+            Picked: =Set(selected,pick);Collect(events,{Panel:"RightGrid",Outer:pick.Outer,Inner:pick.Inner,Caption:pick.Caption})
+      - SelectionStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =366
+            Width: =940
+            Text: '=T("Selected: ","Sélection : ") & Text(selected.Outer) & "/" & Text(selected.Inner) & " " & selected.Caption & " · " & status'
+      - DraftForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =20
+            Y: =410
+            Width: =650
+            Height: =120
+            DataSource: =Drafts
+            Item: =LookUp(Drafts,ID=selected.Outer)
+            OnSuccess: =Set(status,T("Saved","Enregistré"));Collect(saves,Self.LastSubmit)
+            OnFailure: =Set(status,T("Save failed","Échec"))
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Required: =true
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  Width: =650
+                  Height: =100
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Draft title","Titre du brouillon")
+                        Width: =630
+                  - TitleInput:
+                      Control: ModernTextInput@1.0.0
+                      Properties:
+                        Y: =32
+                        Width: =630
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Draft title"
+                  - TitleError:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Y: =70
+                        Width: =630
+                        Text: =Parent.Error
+                        Color: =Color.Red
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =710
+            Y: =450
+            Width: =210
+            Text: =T("Save draft","Enregistrer")
+            OnSelect: =SubmitForm(DraftForm)
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =550
+            Width: =210
+            Text: =T("Reset left","Réinitialiser gauche")
+            OnSelect: =Reset(LeftGrid)
+      - ResetRight:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =250
+            Y: =550
+            Width: =210
+            Text: =T("Reset right","Réinitialiser droite")
+            OnSelect: =Reset(RightGrid)

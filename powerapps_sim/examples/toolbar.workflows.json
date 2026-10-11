@@ -1,0 +1,123 @@
+{
+  "toolbar.workflow.json": {
+    "format_version": 1,
+    "name": "Toolbar commands \u00b7 component actions and navigation",
+    "records": {
+      "Notes": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "IsBlank(Left.ChosenKey) && IsBlank(Right.ChosenKey) && CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Commands",
+        "event": "OnSelect",
+        "value": {
+          "command_key": "edit"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Commands",
+        "event": "OnSelect",
+        "value": {
+          "command_key": "hidden"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Commands",
+        "event": "OnSelect",
+        "value": {
+          "command_key": "new"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "Left.ChosenKey=\"new\" && IsBlank(Right.ChosenKey) && CountRows(events)=1 && CountRows(Notes)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Commands",
+        "event": "OnSelect",
+        "value": {
+          "command_key": "new"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)=2 && CountRows(Notes)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/EnableEdit",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Commands",
+        "event": "OnSelect",
+        "value": {
+          "command_key": "edit"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "Right.ChosenKey=\"edit\" && Left.ChosenKey=\"new\" && CountRows(events)=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(Left.ChosenKey) && CountRows(Left.History)=0 && Right.ChosenKey=\"edit\" && CountRows(Right.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Commands",
+        "event": "OnSelect",
+        "value": {
+          "command_key": "info"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "App.ActiveScreen.Name=\"Details\" && Left.ChosenKey=\"info\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Details/BackButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "App.ActiveScreen.Name=\"Home\" && CountRows(Left.Picked)=1 && First(Left.Picked).ItemKey=\"info\"",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

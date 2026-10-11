@@ -1,0 +1,101 @@
+App:
+  Properties:
+    OnStart: =Clear(events);Set(canEdit,false);Reset(Left);Reset(Right)
+    StartScreen: =Home
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);CommandRows=Table({ItemKey:"new",ItemDisplayName:T("New","Nouveau"),ItemIconName:"Add",ItemAppearance:"Primary",ItemTooltip:T("Create note","Créer une note")},{ItemKey:"edit",ItemDisplayName:T("Edit","Modifier"),ItemIconName:"Edit",ItemDisabled:!canEdit},{ItemKey:"delete",ItemDisplayName:T("Delete","Supprimer"),ItemIconName:"Delete",ItemDisabled:true,ItemIconStyle:"Filled"},{ItemKey:"hidden",ItemDisplayName:"Hidden",ItemVisible:false},{ItemKey:"info",ItemDisplayName:T("Info","Info"),ItemIconName:"Info"});
+Screens:
+  Home:
+    Properties:
+      Width: =App.Width
+      Height: =Max(App.Height,NotesRows.Y+NotesRows.Height+24)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Size: =24
+            Width: =Parent.Width-40
+            Text: =T("Fictional commands","Commandes fictives")
+      - Left:
+          Control: CanvasComponent
+          ComponentName: CommandPanel
+          Properties:
+            X: =20
+            Y: =65
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Rows: =CommandRows
+            Invoked: =Collect(events,{Panel:"Left",Key:key});If(key="new",Patch(Notes,Defaults(Notes),{Title:"Fictional command note",State:{Value:"Draft"}}));If(key="info",Navigate(Details))
+            Caption: =T("Left commands","Commandes de gauche")
+      - Right:
+          Control: CanvasComponent
+          ComponentName: CommandPanel
+          Properties:
+            X: =If(App.Width<760,20,Parent.Width/2+10)
+            Y: =If(App.Width<760,Left.Y+Left.Height+24,Left.Y)
+            Width: =Left.Width
+            Rows: =CommandRows
+            Invoked: =Collect(events,{Panel:"Right",Key:key})
+            Caption: =T("Right commands","Commandes de droite")
+      - EnableEdit:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =Right.Y+Right.Height+20
+            Width: =150
+            Text: =T("Enable edit","Activer")
+            OnSelect: =Set(canEdit,true)
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =If(App.Width<360,20,180)
+            Y: =If(App.Width<360,EnableEdit.Y+48,EnableEdit.Y)
+            Width: =150
+            Text: =T("Reset left","Réinitialiser")
+            OnSelect: =Reset(Left)
+      - EventRows:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =Max(EnableEdit.Y,ResetLeft.Y)+60
+            Width: =Parent.Width-40
+            Height: =120
+            TemplateSize: =32
+            Items: =events
+          Children:
+            - EventText:
+                Control: ModernText@1.0.0
+                Properties:
+                  Width: =Parent.TemplateWidth
+                  Text: =ThisItem.Panel&" · "&ThisItem.Key
+      - NotesRows:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =EventRows.Y+EventRows.Height+24
+            Width: =Parent.Width-40
+            Height: =150
+            TemplateSize: =36
+            Items: =Notes
+          Children:
+            - NoteText:
+                Control: ModernText@1.0.0
+                Properties:
+                  Width: =Parent.TemplateWidth
+                  Text: =ThisItem.Title&" · "&ThisItem.State.Value
+  Details:
+    Children:
+      - DetailsHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =20
+            Width: =Parent.Width-40
+            Text: =T("Command details","Détails")
+      - BackButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =80
+            Text: =T("Back","Retour")
+            OnSelect: =Back()

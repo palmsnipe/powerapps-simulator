@@ -1,0 +1,35 @@
+{
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number",
+        "required": true
+      }
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional first draft",
+        "Amount": 10
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional second draft",
+        "Amount": 25
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional third draft",
+        "Amount": 40
+      }
+    ]
+  }
+}

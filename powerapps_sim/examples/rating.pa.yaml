@@ -1,0 +1,213 @@
+App:
+  Properties:
+    StartScreen: =RatingLab
+    OnStart: =Clear(events);Set(initial,2.5);Set(status,T("Ready","Prêt"));Reset(LeftRating);Reset(RightRating)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+ComponentDefinitions:
+  RatingPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Initial:
+        PropertyKind: Input
+        DataType: Number
+        Default: =2.5
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Rating"
+      Current:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Score.Value
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - value:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+    Properties:
+      Width: =440
+      Height: =145
+      OnReset: =Clear(history);Reset(Score)
+    Children:
+      - RatingCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =RatingPanel.Caption
+            Size: =18
+            Width: =420
+            Height: =32
+      - Score:
+          Control: ModernRating@1.0.0
+          Properties:
+            Y: =35
+            Width: =220
+            Default: =RatingPanel.Initial
+            Step: =RatingStep.Half
+            Icon: ="Heart"
+            Color: =RGBA(220,38,38,1)
+            AccessibleLabel: =RatingPanel.Caption
+            OnChange: =Collect(history,{Value:Self.Value});RatingPanel.Changed(Self.Value)
+      - RatingSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            Y: =82
+            Width: =420
+            Text: =Text(Score.Value)&" / 5 · "&Text(CountRows(history))
+Screens:
+  RatingLab:
+    Properties:
+      Width: =1000
+      Height: =650
+    Children:
+      - RatingHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =950
+            Height: =40
+            Size: =24
+            Text: =T("Fictional feedback","Commentaires fictifs")
+      - LeftRating:
+          Control: CanvasComponent
+          ComponentName: RatingPanel
+          Properties:
+            X: =20
+            Y: =65
+            Initial: =initial
+            Caption: =T("Left rating","Note gauche")
+            Changed: =Collect(events,{Panel:"LeftRating",Value:value})
+      - RightRating:
+          Control: CanvasComponent
+          ComponentName: RatingPanel
+          Properties:
+            X: =500
+            Y: =65
+            Initial: =initial
+            Caption: =T("Right rating","Note droite")
+            Changed: =Collect(events,{Panel:"RightRating",Value:value})
+      - ResetLeftRating:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =208
+            Width: =140
+            Text: =T("Reset left","Réinitialiser")
+            OnSelect: =Reset(LeftRating)
+      - ChangeDefaults:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =180
+            Y: =208
+            Width: =150
+            Text: =T("Default to 1","Défaut à 1")
+            OnSelect: =Set(initial,1)
+      - RatingEvents:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =355
+            Y: =208
+            Width: =620
+            Text: '=T("Events: ","Événements : ")&Text(CountRows(events))'
+      - FeedbackRows:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =266
+            Width: =455
+            Height: =285
+            TemplateSize: =90
+            Items: =Feedback As review
+          Children:
+            - FeedbackTitle:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =review.Title
+                  Width: =430
+            - RowScore:
+                Control: ModernRating@1.0.0
+                Properties:
+                  Y: =34
+                  Default: =review.Score
+                  AccessibleLabel: =review.Title
+                  OnChange: =Patch(Feedback,review,{Score:Self.Value});Collect(events,{Panel:"Row",Value:Self.Value})
+      - FeedbackForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =510
+            Y: =270
+            Width: =450
+            Height: =145
+            DataSource: =Feedback
+            Item: =First(Feedback)
+            OnSuccess: =Set(status,T("Saved","Enregistré"))
+            OnFailure: =Set(status,T("Save failed","Échec"))
+          Children:
+            - ScoreCard:
+                Control: TypedDataCard@1.0.7
+                Variant: NumberEdit
+                Properties:
+                  DataField: ="Score"
+                  Default: =ThisItem.Score
+                  Update: =FormScore.Value
+                  Width: =440
+                  Height: =115
+                Children:
+                  - ScoreCardCaption:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Edit first feedback","Modifier le premier")
+                        Width: =430
+                  - FormScore:
+                      Control: ModernRating@1.0.0
+                      Properties:
+                        Y: =38
+                        Step: =RatingStep.Half
+                        Default: =Parent.Default
+                        AccessibleLabel: =T("Draft score","Note provisoire")
+      - SaveScore:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =510
+            Y: =430
+            Width: =130
+            Text: =T("Save score","Enregistrer")
+            OnSelect: =SubmitForm(FeedbackForm)
+      - ScoreStatus:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =660
+            Y: =430
+            Width: =320
+            Text: =status
+      - FormScoreState:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =510
+            Y: =475
+            Width: =450
+            Text: '=T("Unsaved: ","Modifié : ")&Text(FeedbackForm.Unsaved)&" · "&Text(FeedbackForm.LastSubmit.Score)'
+      - HistoryRows:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =570
+            Width: =940
+            Height: =65
+            Items: =events
+            TemplateSize: =30
+          Children:
+            - EventSummary:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Panel&" · "&Text(ThisItem.Value)
+                  Width: =900
+                  Height: =30

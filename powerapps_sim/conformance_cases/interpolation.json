@@ -1,0 +1,1234 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Every expression in StringInterpolate.txt; expected literal strings decoded without the simulator; parser and binder error categories retained. Both numeric profiles. Includes the interpolation expressions in IsMatch.txt and its V1Enabled/V1Disabled variants.",
+  "cases": [
+    {
+      "id": "interpolation-StringInterpolate-3-float",
+      "expression": "$\"Hello {\"World!\"}\"",
+      "expected": "Hello World!",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L3",
+        "expected_powerfx": "\"Hello World!\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-3-decimal",
+      "expression": "$\"Hello {\"World!\"}\"",
+      "expected": "Hello World!",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L3",
+        "expected_powerfx": "\"Hello World!\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-6-float",
+      "expression": "$\"Hello {\"World!\"} 2\"",
+      "expected": "Hello World! 2",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L6",
+        "expected_powerfx": "\"Hello World! 2\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-6-decimal",
+      "expression": "$\"Hello {\"World!\"} 2\"",
+      "expected": "Hello World! 2",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L6",
+        "expected_powerfx": "\"Hello World! 2\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-9-float",
+      "expression": "$\"One {$\"Two {\"Three\"}\"} Four\"",
+      "expected": "One Two Three Four",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L9",
+        "expected_powerfx": "\"One Two Three Four\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-9-decimal",
+      "expression": "$\"One {$\"Two {\"Three\"}\"} Four\"",
+      "expected": "One Two Three Four",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L9",
+        "expected_powerfx": "\"One Two Three Four\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-12-float",
+      "expression": "$\"This string {{{\"has\"}}} curly braces\"",
+      "expected": "This string {has} curly braces",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L12",
+        "expected_powerfx": "\"This string {has} curly braces\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-12-decimal",
+      "expression": "$\"This string {{{\"has\"}}} curly braces\"",
+      "expected": "This string {has} curly braces",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L12",
+        "expected_powerfx": "\"This string {has} curly braces\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-15-float",
+      "expression": "$\"This string {{ has }} curly braces\"",
+      "expected": "This string { has } curly braces",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L15",
+        "expected_powerfx": "\"This string { has } curly braces\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-15-decimal",
+      "expression": "$\"This string {{ has }} curly braces\"",
+      "expected": "This string { has } curly braces",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L15",
+        "expected_powerfx": "\"This string { has } curly braces\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-18-float",
+      "expression": "\"This string {{ has }} curly braces\"",
+      "expected": "This string {{ has }} curly braces",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L18",
+        "expected_powerfx": "\"This string {{ has }} curly braces\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-18-decimal",
+      "expression": "\"This string {{ has }} curly braces\"",
+      "expected": "This string {{ has }} curly braces",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L18",
+        "expected_powerfx": "\"This string {{ has }} curly braces\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-21-float",
+      "expression": "$\"\"",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L21",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-21-decimal",
+      "expression": "$\"\"",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L21",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-24-float",
+      "expression": "$\"{}\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L24",
+        "expected_powerfx": "Errors: Error 3-4: Empty expressions cannot appear inside an interpolated string."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-24-decimal",
+      "expression": "$\"{}\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L24",
+        "expected_powerfx": "Errors: Error 3-4: Empty expressions cannot appear inside an interpolated string."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-27-float",
+      "expression": "$\"Hello\"",
+      "expected": "Hello",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L27",
+        "expected_powerfx": "\"Hello\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-27-decimal",
+      "expression": "$\"Hello\"",
+      "expected": "Hello",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L27",
+        "expected_powerfx": "\"Hello\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-30-float",
+      "expression": "$\"{123}\"",
+      "expected": "123",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L30",
+        "expected_powerfx": "\"123\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-30-decimal",
+      "expression": "$\"{123}\"",
+      "expected": "123",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L30",
+        "expected_powerfx": "\"123\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-33-float",
+      "expression": "$\"{123}{456}\"",
+      "expected": "123456",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L33",
+        "expected_powerfx": "\"123456\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-33-decimal",
+      "expression": "$\"{123}{456}\"",
+      "expected": "123456",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L33",
+        "expected_powerfx": "\"123456\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-36-float",
+      "expression": "$\"{\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L36",
+        "expected_powerfx": "Errors: Error 3-4: Unexpected characters. Characters are used in the formula in an unexpected way.|Error 4-4: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-36-decimal",
+      "expression": "$\"{\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L36",
+        "expected_powerfx": "Errors: Error 3-4: Unexpected characters. Characters are used in the formula in an unexpected way.|Error 4-4: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-39-float",
+      "expression": "$\"}\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L39",
+        "expected_powerfx": "Errors: Error 2-2: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-39-decimal",
+      "expression": "$\"}\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L39",
+        "expected_powerfx": "Errors: Error 2-2: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-42-float",
+      "expression": "$\"{\" & \"\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L42",
+        "expected_powerfx": "Errors: Error 3-9: Unexpected characters. Characters are used in the formula in an unexpected way.|Error 9-9: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-42-decimal",
+      "expression": "$\"{\" & \"\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L42",
+        "expected_powerfx": "Errors: Error 3-9: Unexpected characters. Characters are used in the formula in an unexpected way.|Error 9-9: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-45-float",
+      "expression": "$\"}\" & \"\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L45",
+        "expected_powerfx": "Errors: Error 2-2: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-45-decimal",
+      "expression": "$\"}\" & \"\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L45",
+        "expected_powerfx": "Errors: Error 2-2: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-48-float",
+      "expression": "$\"{",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L48",
+        "expected_powerfx": "Errors: Error 3-3: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-48-decimal",
+      "expression": "$\"{",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L48",
+        "expected_powerfx": "Errors: Error 3-3: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-51-float",
+      "expression": "$\"}",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L51",
+        "expected_powerfx": "Errors: Error 2-2: Unexpected characters. Characters are used in the formula in an unexpected way.|Error 3-3: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-51-decimal",
+      "expression": "$\"}",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L51",
+        "expected_powerfx": "Errors: Error 2-2: Unexpected characters. Characters are used in the formula in an unexpected way.|Error 3-3: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-54-float",
+      "expression": "$\"{1}{2}{{3{{4{{5{{6{{7\"",
+      "expected": "12{3{4{5{6{7",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L54",
+        "expected_powerfx": "\"12{3{4{5{6{7\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-54-decimal",
+      "expression": "$\"{1}{2}{{3{{4{{5{{6{{7\"",
+      "expected": "12{3{4{5{6{7",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L54",
+        "expected_powerfx": "\"12{3{4{5{6{7\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-57-float",
+      "expression": "$\"{{\"",
+      "expected": "{",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L57",
+        "expected_powerfx": "\"{\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-57-decimal",
+      "expression": "$\"{{\"",
+      "expected": "{",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L57",
+        "expected_powerfx": "\"{\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-60-float",
+      "expression": "$\"{{a}}\"",
+      "expected": "{a}",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L60",
+        "expected_powerfx": "\"{a}\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-60-decimal",
+      "expression": "$\"{{a}}\"",
+      "expected": "{a}",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L60",
+        "expected_powerfx": "\"{a}\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-63-float",
+      "expression": "$\"-{{a}}-\"",
+      "expected": "-{a}-",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L63",
+        "expected_powerfx": "\"-{a}-\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-63-decimal",
+      "expression": "$\"-{{a}}-\"",
+      "expected": "-{a}-",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L63",
+        "expected_powerfx": "\"-{a}-\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-66-float",
+      "expression": "$\"-{{a}}\"",
+      "expected": "-{a}",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L66",
+        "expected_powerfx": "\"-{a}\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-66-decimal",
+      "expression": "$\"-{{a}}\"",
+      "expected": "-{a}",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L66",
+        "expected_powerfx": "\"-{a}\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-69-float",
+      "expression": "$\"{{a}}-\"",
+      "expected": "{a}-",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L69",
+        "expected_powerfx": "\"{a}-\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-69-decimal",
+      "expression": "$\"{{a}}-\"",
+      "expected": "{a}-",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L69",
+        "expected_powerfx": "\"{a}-\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-72-float",
+      "expression": "$\"! {Date(1980,1,1)} !\"",
+      "expected": "! 1/1/1980 !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L72",
+        "expected_powerfx": "\"! 1/1/1980 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-72-decimal",
+      "expression": "$\"! {Date(1980,1,1)} !\"",
+      "expected": "! 1/1/1980 !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L72",
+        "expected_powerfx": "\"! 1/1/1980 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-75-float",
+      "expression": "$\"\"\"\"",
+      "expected": "\"",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L75",
+        "expected_powerfx": "\"\"\"\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-75-decimal",
+      "expression": "$\"\"\"\"",
+      "expected": "\"",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L75",
+        "expected_powerfx": "\"\"\"\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-78-float",
+      "expression": "\"\"\"\"",
+      "expected": "\"",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L78",
+        "expected_powerfx": "\"\"\"\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-78-decimal",
+      "expression": "\"\"\"\"",
+      "expected": "\"",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L78",
+        "expected_powerfx": "\"\"\"\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-81-float",
+      "expression": "$\"! {With({a:4,b:6},a*b)} !\"",
+      "expected": "! 24 !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L81",
+        "expected_powerfx": "\"! 24 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-81-decimal",
+      "expression": "$\"! {With({a:4,b:6},a*b)} !\"",
+      "expected": "! 24 !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L81",
+        "expected_powerfx": "\"! 24 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-84-float",
+      "expression": "$\"! {With({array:[1,5,9]},Sum(Sequence(CountRows(array)) As Index,Power(Last(FirstN(array,Index.Value)).Value, Index.Value)))} !\"",
+      "expected": "! 755 !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L84",
+        "expected_powerfx": "\"! 755 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-84-decimal",
+      "expression": "$\"! {With({array:[1,5,9]},Sum(Sequence(CountRows(array)) As Index,Power(Last(FirstN(array,Index.Value)).Value, Index.Value)))} !\"",
+      "expected": "! 755 !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L84",
+        "expected_powerfx": "\"! 755 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-87-float",
+      "expression": "$\"! {$\"{$\"{true}\"}\"} !\"",
+      "expected": "! true !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L87",
+        "expected_powerfx": "\"! true !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-87-decimal",
+      "expression": "$\"! {$\"{$\"{true}\"}\"} !\"",
+      "expected": "! true !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L87",
+        "expected_powerfx": "\"! true !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-90-float",
+      "expression": "$\"! !\"",
+      "expected": "! !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L90",
+        "expected_powerfx": "\"! !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-90-decimal",
+      "expression": "$\"! !\"",
+      "expected": "! !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L90",
+        "expected_powerfx": "\"! !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-93-float",
+      "expression": "$\"! \"\" !\"",
+      "expected": "! \" !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L93",
+        "expected_powerfx": "\"! \"\" !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-93-decimal",
+      "expression": "$\"! \"\" !\"",
+      "expected": "! \" !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L93",
+        "expected_powerfx": "\"! \"\" !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-96-float",
+      "expression": "$\"! {{1,2}} !\"",
+      "expected": "! {1,2} !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L96",
+        "expected_powerfx": "\"! {1,2} !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-96-decimal",
+      "expression": "$\"! {{1,2}} !\"",
+      "expected": "! {1,2} !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L96",
+        "expected_powerfx": "\"! {1,2} !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-99-float",
+      "expression": "$\"! {[1,2]} !\"",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L99",
+        "expected_powerfx": "Errors: Error 5-10: Invalid argument type (Table). Expecting a Text value instead.|Error 0-14: Expressions which appear inside an interpolated string must evaluate to a Text value or to a compatible type."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-99-decimal",
+      "expression": "$\"! {[1,2]} !\"",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L99",
+        "expected_powerfx": "Errors: Error 5-10: Invalid argument type (Table). Expecting a Text value instead.|Error 0-14: Expressions which appear inside an interpolated string must evaluate to a Text value or to a compatible type."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-102-float",
+      "expression": "$\"! {Table({a:1})} !\"",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L102",
+        "expected_powerfx": "Errors: Error 5-17: Invalid argument type (Table). Expecting a Text value instead.|Error 0-21: Expressions which appear inside an interpolated string must evaluate to a Text value or to a compatible type."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-102-decimal",
+      "expression": "$\"! {Table({a:1})} !\"",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L102",
+        "expected_powerfx": "Errors: Error 5-17: Invalid argument type (Table). Expecting a Text value instead.|Error 0-21: Expressions which appear inside an interpolated string must evaluate to a Text value or to a compatible type."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-105-float",
+      "expression": "$\"! {{a:1,b:2}} !\"",
+      "expected": "! {a:1,b:2} !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L105",
+        "expected_powerfx": "\"! {a:1,b:2} !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-105-decimal",
+      "expression": "$\"! {{a:1,b:2}} !\"",
+      "expected": "! {a:1,b:2} !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L105",
+        "expected_powerfx": "\"! {a:1,b:2} !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-108-float",
+      "expression": "$\"! { {a:1,b:2} } !\"",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L108",
+        "expected_powerfx": "Errors: Error 6-15: Invalid argument type (Record). Expecting a Text value instead.|Error 0-20: Expressions which appear inside an interpolated string must evaluate to a Text value or to a compatible type."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-108-decimal",
+      "expression": "$\"! { {a:1,b:2} } !\"",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L108",
+        "expected_powerfx": "Errors: Error 6-15: Invalid argument type (Record). Expecting a Text value instead.|Error 0-20: Expressions which appear inside an interpolated string must evaluate to a Text value or to a compatible type."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-111-float",
+      "expression": "$\"Hello {\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L111",
+        "expected_powerfx": "Errors: Error 9-10: Unexpected characters. Characters are used in the formula in an unexpected way.|Error 10-10: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-111-decimal",
+      "expression": "$\"Hello {\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L111",
+        "expected_powerfx": "Errors: Error 9-10: Unexpected characters. Characters are used in the formula in an unexpected way.|Error 10-10: Unexpected characters. Characters are used in the formula in an unexpected way."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-114-float",
+      "expression": "$\"Hello {}\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L114",
+        "expected_powerfx": "Errors: Error 9-10: Empty expressions cannot appear inside an interpolated string."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-114-decimal",
+      "expression": "$\"Hello {}\"",
+      "expected_error": {
+        "kind": "Validation",
+        "phase": "parse"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L114",
+        "expected_powerfx": "Errors: Error 9-10: Empty expressions cannot appear inside an interpolated string."
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-117-float",
+      "expression": "$\"! { {a:1,b:2}.a } !\"",
+      "expected": "! 1 !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L117",
+        "expected_powerfx": "\"! 1 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-117-decimal",
+      "expression": "$\"! { {a:1,b:2}.a } !\"",
+      "expected": "! 1 !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L117",
+        "expected_powerfx": "\"! 1 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-120-float",
+      "expression": "$\"! {First([{a:1,b:2}.a]).Value} !\"",
+      "expected": "! 1 !",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L120",
+        "expected_powerfx": "\"! 1 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-120-decimal",
+      "expression": "$\"! {First([{a:1,b:2}.a]).Value} !\"",
+      "expected": "! 1 !",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L120",
+        "expected_powerfx": "\"! 1 !\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-123-float",
+      "expression": "First([$\"{ {a:1,b:2,c:3}.a }\"]).Value",
+      "expected": "1",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L123",
+        "expected_powerfx": "\"1\""
+      }
+    },
+    {
+      "id": "interpolation-StringInterpolate-123-decimal",
+      "expression": "First([$\"{ {a:1,b:2,c:3}.a }\"]).Value",
+      "expected": "1",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StringInterpolate.txt#L123",
+        "expected_powerfx": "\"1\""
+      }
+    },
+    {
+      "id": "interpolation-IsMatch-110-float",
+      "expression": "IsMatch(\"Hello 123 world\", $\"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "regex_mode": "powerfx-v1"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L110",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "interpolation-IsMatch-110-decimal",
+      "expression": "IsMatch(\"Hello 123 world\", $\"Hello\", MatchOptions.Contains)",
+      "expected": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "regex_mode": "powerfx-v1"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch.txt#L110",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "interpolation-IsMatch_V1Disabled-24-float",
+      "expression": "IsMatch(\"Hello 123 world\", $\"Hello {Sqrt(1)}{Sqrt(4)}{Sqrt(9)} world\")",
+      "expected": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "regex_mode": "powerfx-legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_V1Disabled.txt#L24",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "interpolation-IsMatch_V1Disabled-24-decimal",
+      "expression": "IsMatch(\"Hello 123 world\", $\"Hello {Sqrt(1)}{Sqrt(4)}{Sqrt(9)} world\")",
+      "expected": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "regex_mode": "powerfx-legacy"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_V1Disabled.txt#L24",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "interpolation-IsMatch_V1Enabled-23-float",
+      "expression": "IsMatch(\"Hello 123 world\", $\"Hello {Sqrt(1)}{Sqrt(4)}{Sqrt(9)} world\")",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "regex_mode": "powerfx-v1"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_V1Enabled.txt#L23",
+        "expected_powerfx": "Errors: Error 27-69: Regular expression must be a constant value.|Error 0-7: The function 'IsMatch' has some invalid arguments."
+      }
+    },
+    {
+      "id": "interpolation-IsMatch_V1Enabled-23-decimal",
+      "expression": "IsMatch(\"Hello 123 world\", $\"Hello {Sqrt(1)}{Sqrt(4)}{Sqrt(9)} world\")",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "regex_mode": "powerfx-v1"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/IsMatch_V1Enabled.txt#L23",
+        "expected_powerfx": "Errors: Error 27-69: Regular expression must be a constant value.|Error 0-7: The function 'IsMatch' has some invalid arguments."
+      }
+    }
+  ]
+}

@@ -1,0 +1,302 @@
+{
+  "hex-enums.workflow.json": {
+    "format_version": 1,
+    "name": "Hex conversions, strong enum identity, callbacks and mapped saves",
+    "environment": {
+      "enum_mode": "strong"
+    },
+    "records": {
+      "Snapshots": [
+        {
+          "ID": 1,
+          "Hex": "00",
+          "Amount": 0,
+          "EnumName": "Fictional"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Hex",
+        "expect": "00A5"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Hex",
+        "expect": "FFFFFFFFFD"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Back",
+        "expect": -3
+      },
+      {
+        "op": "assert",
+        "formula": "Text(selectedKind)",
+        "expect": "Network"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Ordered).N",
+        "expect": 1e+50
+      },
+      {
+        "op": "assert",
+        "formula": "Find(\"x\",ErrorKind.BadRegex)",
+        "expect": 8
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/LeftPanel/Input",
+        "event": "OnInput",
+        "value": "255"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Hex",
+        "expect": "00FF"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/LeftPanel/Input",
+        "event": "OnChange",
+        "value": "255"
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/LeftPanel/Places",
+        "event": "OnChange",
+        "value": "2"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Hex",
+        "expect": "FF"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Encode(255,2)",
+        "expect": "FF"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(history).Kind)",
+        "expect": "Network"
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/RightPanel/Input",
+        "event": "OnChange",
+        "value": "-1"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Hex",
+        "expect": "FFFFFFFFFF"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Hex",
+        "expect": "FF"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Hex",
+        "expect": "00A5"
+      },
+      {
+        "op": "assert",
+        "formula": "Index(results,2).Back",
+        "expect": -3
+      },
+      {
+        "op": "assert",
+        "formula": "Index(results,3).ErrorCode",
+        "expect": 24
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(results).Order)",
+        "expect": "descending"
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(results).Unit)",
+        "expect": "months"
+      },
+      {
+        "op": "assert",
+        "formula": "Text(First(results).Format)",
+        "expect": "'longdate'"
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).KindNumber",
+        "expect": 23
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/Errors",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(codeErrors)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(First(codeErrors).Value,Text(FirstError.Kind))",
+        "expect": "24"
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/LeftPanel/Places",
+        "event": "OnChange",
+        "value": "1"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.ErrorCode",
+        "expect": 24
+      },
+      {
+        "op": "assert",
+        "formula": "SaveLeft.DisplayMode",
+        "expect": "Disabled"
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/SaveLeft",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "LeftPanel captured"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Hex Code'",
+        "expect": "00"
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/LeftPanel/Places",
+        "event": "OnChange",
+        "value": "2"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.ErrorCode",
+        "expect": 0
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Save failed"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Hex Code'",
+        "expect": "00"
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Saved"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Hex Code'",
+        "expect": "FF"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Numeric Value'",
+        "expect": 255
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Snapshots,ID=1).'Error Kind'",
+        "expect": "Network"
+      },
+      {
+        "op": "event",
+        "path": "HexEnums/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.Hex",
+        "expect": "00A5"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Hex",
+        "expect": "FFFFFFFFFF"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(results)",
+        "expect": 4
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

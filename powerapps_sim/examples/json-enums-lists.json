@@ -1,0 +1,29 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readOnly": true
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 100
+      },
+      "Payload": {
+        "type": "string",
+        "maxLength": 8000
+      },
+      "Flags": {
+        "type": "string"
+      },
+      "Panel": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "Title",
+      "Payload"
+    ],
+    "records": []
+  }
+}

@@ -1,0 +1,1 @@
+{"Drafts":{"fields":{"ID":{"type":"integer"},"Title":{"type":"string","required":true,"maxLength":255}},"records":[{"ID":1,"Title":"Fictional draft"}]}}

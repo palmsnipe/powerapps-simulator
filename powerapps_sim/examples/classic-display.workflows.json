@@ -1,0 +1,162 @@
+{
+  "classic-display.workflow.json": {
+    "format_version": 1,
+    "name": "Classic display contracts, isolated components, hidden heights and snapshots",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Count=0 && Right.Count=0 && enabled && shown",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Growing.Height",
+        "expect": 34
+      },
+      {
+        "op": "event",
+        "path": "Home/FocusLink",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Link",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count=1 && Right.Count=0 && First(history).Kind=\"Label\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Round",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count=1 && Last(history).Kind=\"Circle\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Starred",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Box",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count=2 && Right.Count=2 && CountRows(history)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleEnabled",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Link",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Round",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count=2 && Right.Count=2 && CountRows(history)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleEnabled",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleVisible",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/ChangeCaption",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!shown && Growing.Height=34",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleVisible",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "shown && Growing.Height>34",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && First(Snapshots).Total=4 && First(Snapshots).Callbacks=4",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "First(captured).LineHeight=1.5 && First(captured).ShapeFill=ColorValue(\"#0f6cbd\")",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetPanels",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count=0 && Right.Count=0 && CountRows(history)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ChangeCaption",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Growing.Height",
+        "expect": 34
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=2 && Last(Snapshots).Total=0 && CountRows(captured)=2",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

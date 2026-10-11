@@ -1,0 +1,159 @@
+{
+  "inputs.workflow.json": {
+    "format_version": 1,
+    "name": "Numeric precision, dates, forms and component isolation",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Quantity.Value",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Amount.Value",
+        "expect": 12.5
+      },
+      {
+        "op": "assert",
+        "formula": "Meeting.SelectedDate",
+        "expect": "2026-01-15"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/Amount",
+        "event": "OnChange",
+        "value": 17.125
+      },
+      {
+        "op": "assert",
+        "formula": "Amount.Value",
+        "expect": 17.13
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/Amount",
+        "event": "OnChange",
+        "value": 17.13
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/Meeting",
+        "event": "OnChange",
+        "value": "2026-02-14"
+      },
+      {
+        "op": "assert",
+        "formula": "Meeting.SelectedDate",
+        "expect": "2026-02-14"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/InputForm/CostCard/FormCost",
+        "event": "OnChange",
+        "value": 32.25
+      },
+      {
+        "op": "assert",
+        "formula": "InputForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/InputForm/DueCard/FormDate",
+        "event": "OnChange",
+        "value": "2026-02-03"
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "InputForm.LastSubmit.Cost",
+        "expect": 32.25
+      },
+      {
+        "op": "assert",
+        "formula": "InputForm.LastSubmit.Due",
+        "expect": "2026-02-03"
+      },
+      {
+        "op": "assert",
+        "formula": "InputForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/LeftPair/N",
+        "event": "OnChange",
+        "value": 6
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPair.CurrentNumber",
+        "expect": 6
+      },
+      {
+        "op": "assert",
+        "formula": "RightPair.CurrentNumber",
+        "expect": 8
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/ResetAll",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPair.CurrentNumber",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "RightPair.CurrentNumber",
+        "expect": 8
+      },
+      {
+        "op": "assert",
+        "formula": "Amount.Value",
+        "expect": 12.5
+      },
+      {
+        "op": "event",
+        "path": "InputScreen/View",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "InputForm.DisplayMode",
+        "expect": "View"
+      },
+      {
+        "op": "assert",
+        "formula": "InputForm.Updates.Cost",
+        "expect": 32.25
+      }
+    ]
+  }
+}

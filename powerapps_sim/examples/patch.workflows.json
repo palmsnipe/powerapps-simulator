@@ -1,0 +1,359 @@
+{
+  "patch.workflow.json": {
+    "format_version": 1,
+    "name": "Pure merges, snapshots, batch writes, component callbacks and failed saves",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 60
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(copy,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(book.Rows,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "Merged",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 21
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Merge(4)",
+        "expect": 5
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/FirstLocal",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 25
+      },
+      {
+        "op": "assert",
+        "formula": "saved.Amount",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "First(local).Enabled",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(copy,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/AppendLocal",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(local)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "saved.Title",
+        "expect": "Fictional added"
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/CopyRows",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(copy,Amount)",
+        "expect": 40
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(book.Rows,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/NestedRows",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(book.Rows,Amount)",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(copy,Amount)",
+        "expect": 40
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/Left/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 21
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/Right/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 22
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Last(events).Amount",
+        "expect": 22
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/Drafts",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 70
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(batch)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "First(batch).Cost",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "Last(batch).Cost",
+        "expect": 25
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/Invalid",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Project name is required"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).Title",
+        "expect": "Fictional validated 1"
+      },
+      {
+        "op": "assert",
+        "formula": "Last(Projects).Title",
+        "expect": "Fictional project 3"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 70
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/Drafts",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Simulated write failure for Projects"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 70
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/Drafts",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 80
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/Create",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 91
+      },
+      {
+        "op": "assert",
+        "formula": "First(batch).ID",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "Last(batch).ID",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "First(batch).Cost",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "Last(batch).Cost",
+        "expect": 6
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/Keyed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 76
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).Cost",
+        "expect": 5
+      },
+      {
+        "op": "event",
+        "path": "PatchScreen/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Total",
+        "expect": 22
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ],
+    "records": {
+      "Projects": [
+        {
+          "ID": 1,
+          "Title": "Fictional project 1",
+          "Cost": 10,
+          "Enabled": true,
+          "Status": {
+            "Value": "Draft"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional project 2",
+          "Cost": 20,
+          "Enabled": true,
+          "Status": {
+            "Value": "Draft"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional project 3",
+          "Cost": 30,
+          "Enabled": true,
+          "Status": {
+            "Value": "Done"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "binding-locations.workflow.json": {
+    "format_version": 1,
+    "name": "Binding error isolation, pure scopes, callbacks, resets and snapshots",
+    "environment": {
+      "random_seed": 20261016
+    },
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Total=10 && Right.Total=5 && Left.Caption()=\"Host 2\" && Right.Caption()=\"Definition 2\"",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.BadDefault(7)=7 && Left.BadCast(8)=8 && Left.Resets=0 && Right.Resets=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Draft",
+        "event": "OnChange",
+        "value": "72"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.DraftText=\"72\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Emit",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total=3 && First(history).N=3 && First(history).Panel=\"left\" && Right.Total=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Emit",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(history)=2 && Last(history).Panel=\"right\" && Last(history).N=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Seed",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Seed=20 && Left.Record.N=2 && Left.Total=20 && Left.Resets=1 && Right.Resets=0 && Left.DraftText=\"20\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Catch",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "caught=\"Home/Left.BadDefault.n.Default\" && IsEmpty(failures) && Left.Total=20",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Resets=2 && Right.Resets=0 && Left.Total=20 && Right.Total=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Snapshots)=1 && Last(Snapshots).Total=20 && Last(Snapshots).Resets=2 && Last(Snapshots).Caption=\"Host 2\"",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 11
+      }
+    ]
+  }
+}

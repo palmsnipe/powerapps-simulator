@@ -1,0 +1,340 @@
+App:
+  Properties:
+    StartScreen: =TextOutputs
+    OnStart: =Set(seed,"");Clear(events)
+ComponentDefinitions:
+  TextPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: =""
+        RaiseOnReset: true
+      Timing:
+        PropertyKind: Input
+        DataType: Text
+        Default: =TriggerOutput.Keypress
+      Value:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Inner.Text
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Text
+        Default: =Blank()
+    Properties:
+      Width: =300
+      Height: =110
+    Children:
+      - Inner:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =8
+            Y: =8
+            Width: =Parent.Width-16
+            Height: =32
+            Default: =TextPanel.Seed
+            TriggerOutput: =TextPanel.Timing
+            AccessibleLabel: ="Component text"
+            OnChange: =TextPanel.Changed(Self.Text)
+      - InnerValue:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =8
+            Y: =50
+            Width: =300
+            Height: =34
+            Text: '="Output: " & Inner.Text'
+Screens:
+  TextOutputs:
+    Properties:
+      Fill: =RGBA(250,250,250,1)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =12
+            Width: =300
+            Height: =34
+            Text: ="Text outputs and blur callbacks"
+      - ResetAll:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =56
+            Width: =178
+            Height: =32
+            Text: ="Reset inputs"
+            OnSelect: =Reset(Keys);Reset(Focus);Reset(Delayed);Reset(SearchInput);Reset(Password);Reset(Multiline);Reset(LeftText);Reset(RightText);ResetForm(NoteForm)
+      - ChangeSeed:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =214
+            Y: =56
+            Width: =178
+            Height: =32
+            Text: ="Change defaults"
+            OnSelect: =Set(seed,seed & "+")
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =404
+            Y: =56
+            Width: =178
+            Height: =32
+            Text: ="Save form"
+            OnSelect: =SubmitForm(NoteForm)
+      - View:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =594
+            Y: =56
+            Width: =178
+            Height: =32
+            Text: ="Toggle form view"
+            OnSelect: =If(NoteForm.Mode=FormMode.View,EditForm(NoteForm),ViewForm(NoteForm))
+      - KeysLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =106
+            Width: =300
+            Height: =34
+            Text: ="Keypress"
+      - Keys:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =24
+            Y: =144
+            Width: =300
+            Height: =32
+            Default: =seed
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: ="Keypress text"
+            OnChange: =Collect(events,{Kind:"Keys",Value:Self.Text})
+      - KeysValue:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =184
+            Width: =300
+            Height: =34
+            Text: '="Output: " & Keys.Text'
+      - FocusLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =340
+            Y: =106
+            Width: =300
+            Height: =34
+            Text: ="FocusOut"
+      - Focus:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            X: =340
+            Y: =144
+            Width: =300
+            Height: =32
+            Default: =seed
+            TriggerOutput: =TriggerOutput.FocusOut
+            AccessibleLabel: ="FocusOut text"
+            OnChange: =Collect(events,{Kind:"Focus",Value:Self.Text})
+      - FocusValue:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =340
+            Y: =184
+            Width: =300
+            Height: =34
+            Text: '="Output: " & Focus.Text'
+      - DelayedLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =656
+            Y: =106
+            Width: =300
+            Height: =34
+            Text: ="Delayed"
+      - Delayed:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =656
+            Y: =144
+            Width: =300
+            Height: =32
+            Default: =seed
+            TriggerOutput: =TriggerOutput.Delayed
+            AccessibleLabel: ="Delayed text"
+            OnChange: =Collect(events,{Kind:"Delayed",Value:Self.Text})
+      - DelayedValue:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =656
+            Y: =184
+            Width: =300
+            Height: =34
+            Text: '="Output: " & Delayed.Text'
+      - SearchInputLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =222
+            Width: =300
+            Height: =34
+            Text: ="Search"
+      - SearchInput:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =24
+            Y: =260
+            Width: =300
+            Height: =32
+            Type: =TextInputType.Search
+            TriggerOutput: =TriggerOutput.Keypress
+            Default: =""
+            AccessibleLabel: ="Search text"
+            MaxLength: =80
+            OnChange: =Collect(events,{Kind:"SearchInput",Value:Self.Text})
+      - PasswordLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =340
+            Y: =222
+            Width: =300
+            Height: =34
+            Text: ="Password"
+      - Password:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =340
+            Y: =260
+            Width: =300
+            Height: =32
+            Type: =TextInputType.Password
+            TriggerOutput: =TriggerOutput.Keypress
+            Default: =""
+            AccessibleLabel: ="Password text"
+            MaxLength: =80
+            OnChange: =Collect(events,{Kind:"Password",Value:Self.Text})
+      - MultilineLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =656
+            Y: =222
+            Width: =300
+            Height: =34
+            Text: ="Multiline"
+      - Multiline:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =656
+            Y: =260
+            Width: =300
+            Height: =66
+            Type: =TextInputType.Multiline
+            TriggerOutput: =TriggerOutput.FocusOut
+            Default: =""
+            AccessibleLabel: ="Multiline text"
+            MaxLength: =80
+            OnChange: =Collect(events,{Kind:"Multiline",Value:Self.Text})
+      - FormCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =340
+            Width: =300
+            Height: =34
+            Text: '="Form output: " & FormTitle.Text & " · unsaved " & Text(NoteForm.Unsaved)'
+      - NoteForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =24
+            Y: =384
+            Width: =596
+            Height: =104
+            DataSource: =Notes
+            Item: =First(Notes)
+            OnSuccess: =Collect(events,{Kind:"saved",Value:Self.LastSubmit.Title})
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Update: =FormTitle.Text
+                  Required: =true
+                  Height: =104
+                Children:
+                  - FormTitle:
+                      Control: ModernTextInput@1.0.0
+                      Properties:
+                        X: =12
+                        Y: =12
+                        Width: =Parent.Width-24
+                        Height: =32
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Form title"
+                        OnChange: =Collect(events,{Kind:"form",Value:Self.Text})
+      - Filtered:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =656
+            Y: =360
+            Width: =300
+            Height: =126
+            TemplateSize: =36
+            Items: =Search(Notes,SearchInput.Text,Title)
+          Children:
+            - RowTitle:
+                Control: ModernText@1.0.0
+                Properties:
+                  X: =8
+                  Y: =0
+                  Width: =300
+                  Height: =34
+                  Text: =ThisItem.Title
+      - LeftText:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =502
+            Width: =300
+            Height: =100
+            Seed: =seed
+            Timing: =TriggerOutput.Keypress
+            Changed: =Collect(events,{Kind:"LeftText",Value:value})
+          ComponentName: TextPanel
+      - RightText:
+          Control: CanvasComponent
+          Properties:
+            X: =340
+            Y: =502
+            Width: =300
+            Height: =100
+            Seed: =seed
+            Timing: =TriggerOutput.FocusOut
+            Changed: =Collect(events,{Kind:"RightText",Value:value})
+          ComponentName: TextPanel
+      - EventCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =656
+            Y: =510
+            Width: =300
+            Height: =34
+            Text: '="Blur/save callbacks: " & CountRows(events)'
+      - ReadOnly:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =656
+            Y: =554
+            Width: =300
+            Height: =32
+            Default: ="Selectable read-only text"
+            DisplayMode: =DisplayMode.View
+            AccessibleLabel: ="Read-only text"

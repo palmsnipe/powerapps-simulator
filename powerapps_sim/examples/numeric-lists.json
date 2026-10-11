@@ -1,0 +1,12 @@
+{
+  "Ledger": {
+    "fields": {
+      "ID": {"type": "integer", "x-ms-permission": "read-only"},
+      "Amount": {"type": "number", "format": "decimal", "default": {"$decimal": "0.123456789123456789"}},
+      "Created": {"type": "string", "format": "date-time", "x-ms-permission": "read-only"},
+      "Modified": {"type": "string", "format": "date-time", "x-ms-permission": "read-only"}
+    },
+    "mapping": {"ID": "ID", "Amount": "Amount", "Created": "Created", "Modified": "Modified"},
+    "required": ["Amount"]
+  }
+}

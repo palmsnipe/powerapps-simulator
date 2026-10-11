@@ -1,0 +1,683 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "All 33 cases from pinned Remove.txt, using a disposable copy of its documented mutation setup and independently encoded JSON/error oracles. These compare explicit table results and errors; Canvas modified-table returns differ from upstream direct Void returns, which are not in this file.",
+  "cases": [
+    {
+      "id": "remove-reference-1",
+      "expression": "Collect(t1, r2);Remove(t1, r1);t1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L5",
+        "expected_powerfx": "Table({Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false})"
+      },
+      "expected": [
+        {
+          "Field1": {
+            "$decimal": "2"
+          },
+          "Field2": "moon",
+          "Field3": "2022-02-01T00:00:00+00:00",
+          "Field4": false
+        }
+      ]
+    },
+    {
+      "id": "remove-reference-2",
+      "expression": "Collect(t1, r1);Collect(t1, r1);Collect(t1, r1);Collect(t1, r2);Remove(t1, r1, \"All\");t1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L8",
+        "expected_powerfx": "Table({Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false})"
+      },
+      "expected": [
+        {
+          "Field1": {
+            "$decimal": "2"
+          },
+          "Field2": "moon",
+          "Field3": "2022-02-01T00:00:00+00:00",
+          "Field4": false
+        }
+      ]
+    },
+    {
+      "id": "remove-reference-3",
+      "expression": "Collect(t1, r2);\nCollect(t1, {Field1:3,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nCollect(t1, {Field1:4,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nRemove(t1, {Field4:false});\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L11",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-4",
+      "expression": "Collect(t1, r2);\nCollect(t1, {Field1:3,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nCollect(t1, {Field1:4,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nRemove(t1, {Field4:false}, \"All\");\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L18",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-5",
+      "expression": "Collect(t1, r2);\nCollect(t1, {Field1:1/0,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nCollect(t1, {Field1:1/0,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nRemove(t1, {Field1:1/0,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:true}, \"All\");\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L25",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-6",
+      "expression": "Collect(t1, {Field1:1/0,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nCollect(t1, {Field1:1/0,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nCollect(t1, {Field1:1/0,Field2:\"moon\",Field3:DateTime(2030,2,1,0,0,0,0),Field4:true});\nRemove(t1, {Field2:\"earth\"}, {Field2:\"moon\"}, \"All\");\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L32",
+        "expected_powerfx": "Error(Table({Kind:ErrorKind.NotFound},{Kind:ErrorKind.NotFound}))"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime",
+        "count": 2
+      }
+    },
+    {
+      "id": "remove-reference-7",
+      "expression": "Collect(t1, r2);\nCollect(t1, {Field1:3,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nCollect(t1, {Field1:4,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nRemove(t1, {DisplayNameField1:3,DisplayNameField2:\"earth\",DisplayNameField3:DateTime(2022,2,1,0,0,0,0),DisplayNameField4:false});\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L39",
+        "expected_powerfx": "Table({Field1:1,Field2:\"earth\",Field3:DateTime(2022,1,1,0,0,0,0),Field4:true},{Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false},{Field1:4,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false})"
+      },
+      "expected": [
+        {
+          "Field1": {
+            "$decimal": "1"
+          },
+          "Field2": "earth",
+          "Field3": "2022-01-01T00:00:00+00:00",
+          "Field4": true
+        },
+        {
+          "Field1": {
+            "$decimal": "2"
+          },
+          "Field2": "moon",
+          "Field3": "2022-02-01T00:00:00+00:00",
+          "Field4": false
+        },
+        {
+          "Field1": {
+            "$decimal": "4"
+          },
+          "Field2": "earth",
+          "Field3": "2022-02-01T00:00:00+00:00",
+          "Field4": false
+        }
+      ]
+    },
+    {
+      "id": "remove-reference-8",
+      "expression": "Collect(t1, r2);\nCollect(t1, {Field1:3,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nCollect(t1, {Field1:3,Field2:\"earth\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false});\nRemove(t1, {DisplayNameField1:3,DisplayNameField2:\"earth\",DisplayNameField3:DateTime(2022,2,1,0,0,0,0),DisplayNameField4:false}, \"All\");\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L46",
+        "expected_powerfx": "Table({Field1:1,Field2:\"earth\",Field3:DateTime(2022,1,1,0,0,0,0),Field4:true},{Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false})"
+      },
+      "expected": [
+        {
+          "Field1": {
+            "$decimal": "1"
+          },
+          "Field2": "earth",
+          "Field3": "2022-01-01T00:00:00+00:00",
+          "Field4": true
+        },
+        {
+          "Field1": {
+            "$decimal": "2"
+          },
+          "Field2": "moon",
+          "Field3": "2022-02-01T00:00:00+00:00",
+          "Field4": false
+        }
+      ]
+    },
+    {
+      "id": "remove-reference-9",
+      "expression": "Remove(t2, {Field1:1,Field2:{Field2_1:121,Field2_2:\"2_2\",Field2_3:{Field2_3_1:1231,Field2_3_2:\"common\"}},Field3:false}); t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L53",
+        "expected_powerfx": "Table({Field1:2,Field2:{Field2_1:221,Field2_2:\"2_2\",Field2_3:{Field2_3_1:2231,Field2_3_2:\"common\"}},Field3:false},{Field1:3,Field2:{Field2_1:321,Field2_2:\"2_2\",Field2_3:{Field2_3_1:3231,Field2_3_2:\"common\"}},Field3:true})"
+      },
+      "expected": [
+        {
+          "Field1": {
+            "$decimal": "2"
+          },
+          "Field2": {
+            "Field2_1": {
+              "$decimal": "221"
+            },
+            "Field2_2": "2_2",
+            "Field2_3": {
+              "Field2_3_1": {
+                "$decimal": "2231"
+              },
+              "Field2_3_2": "common"
+            }
+          },
+          "Field3": false
+        },
+        {
+          "Field1": {
+            "$decimal": "3"
+          },
+          "Field2": {
+            "Field2_1": {
+              "$decimal": "321"
+            },
+            "Field2_2": "2_2",
+            "Field2_3": {
+              "Field2_3_1": {
+                "$decimal": "3231"
+              },
+              "Field2_3_2": "common"
+            }
+          },
+          "Field3": true
+        }
+      ]
+    },
+    {
+      "id": "remove-reference-10",
+      "expression": "Remove(t2, {Field1:1,Field2:{Field2_1:121,Field2_2:\"2_2\",Field2_3:{Field2_3_1:1231}},Field3:false}); t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L56",
+        "expected_powerfx": "Errors: Error 11-98: Invalid argument type. Expecting a Record value, but of a different schema.|Error 11-98: Missing column. Your formula is missing a column 'DisplayNameField2_3.DisplayNameField2_3_2' with a type of 'Text'.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-11",
+      "expression": "Remove(t2, {Field1:2,Field2:{Field2_1:221,Field2_3:{Field2_3_1:2231,Field2_3_2:\"common\"}},Field3:false}); t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L59",
+        "expected_powerfx": "Errors: Error 11-103: Invalid argument type. Expecting a Record value, but of a different schema.|Error 11-103: Missing column. Your formula is missing a column 'DisplayNameField2_2' with a type of 'Text'.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-12",
+      "expression": "Remove(t2, {Field2:{Field2_1:321, Field2_2:\"Moon\"}}); t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L62",
+        "expected_powerfx": "Errors: Error 11-51: Invalid argument type. Expecting a Record value, but of a different schema.|Error 11-51: Missing column. Your formula is missing a column 'DisplayNameField2_3' with a type of 'Record'.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-13",
+      "expression": "Remove(t2, {Field2:{Field2_3:{Field2_3_1:3231}}}) ; t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L65",
+        "expected_powerfx": "Errors: Error 11-48: Invalid argument type. Expecting a Record value, but of a different schema.|Error 11-48: Missing column. Your formula is missing a column 'DisplayNameField2_1' with a type of 'Decimal'.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-14",
+      "expression": "Remove(t2, {Field2:{Field2_1:321,Field2_2:\"2_2\",Field2_3:{Field2_3_1:3231,Field2_3_2:\"common\"}}}); t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L68",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-15",
+      "expression": "Remove(t2, {Field1:5})",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L71",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-16",
+      "expression": "Remove(t2, {Field2:{Field2_1:555,Field2_2:\"2_2\",Field2_3:{Field2_3_1:3231,Field2_3_2:\"common\"}}});",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L74",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-17",
+      "expression": "Remove(t2, {Field2:{Field2_1:321,Field2_2:\"2_2\",Field2_3:{Field2_3_1:555,Field2_3_2:\"common\"}}});",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L77",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-18",
+      "expression": "Remove(t2, {Field2:{Field2_3:{Field2_3_2:\"common\"}}}, \"All\")",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L81",
+        "expected_powerfx": "Errors: Error 11-52: Invalid argument type. Expecting a Record value, but of a different schema.|Error 11-52: Missing column. Your formula is missing a column 'DisplayNameField2_1' with a type of 'Decimal'.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-19",
+      "expression": "Remove(t2, {Field1:5}, \"All\")",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L84",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-20",
+      "expression": "Remove(t2, {Field2:{Field2_1:321}});t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L87",
+        "expected_powerfx": "Errors: Error 11-34: Invalid argument type. Expecting a Record value, but of a different schema.|Error 11-34: Missing column. Your formula is missing a column 'DisplayNameField2_2' with a type of 'Text'.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-21",
+      "expression": "Remove(t2, {Field2:{Field2_3:{Field2_3_1:3231}}});t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L90",
+        "expected_powerfx": "Errors: Error 11-48: Invalid argument type. Expecting a Record value, but of a different schema.|Error 11-48: Missing column. Your formula is missing a column 'DisplayNameField2_1' with a type of 'Decimal'.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-22",
+      "expression": "Remove(t2, {Field2:{Field2_1:321,Field2_2:\"2_2\",Field2_3:{Field2_3_1:5555,Field2_3_2:\"common\"}}}, \"All\");t2",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L93",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-23",
+      "expression": "Remove(t1, r1,\"Al\");",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L97",
+        "expected_powerfx": "Errors: Error 14-18: If provided, last argument must be 'RemoveFlags.All'. Is there a typo?|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-24",
+      "expression": "Remove(t1, r1,\"\");",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L100",
+        "expected_powerfx": "Errors: Error 14-16: If provided, last argument must be 'RemoveFlags.All'. Is there a typo?|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-25",
+      "expression": "Remove(t1, r1, r1, r1, r1, r1, r1, \"Al\");",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L103",
+        "expected_powerfx": "Errors: Error 35-39: If provided, last argument must be 'RemoveFlags.All'. Is there a typo?|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-26",
+      "expression": "Remove(t1, \"All\");",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L106",
+        "expected_powerfx": "Errors: Error 11-16: Invalid argument type (Text). Expecting a Record value instead.|Error 11-16: Cannot use a non-record value in this context.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-27",
+      "expression": "Collect(t1, r2);\nCollect(t1, {Field1:3,Field2:\"earth\",Field3:DateTime(2030,2,1,0,0,0,0),Field4:true});\nCollect(t1, {Field1:4,Field2:\"earth\",Field3:DateTime(2040,2,1,0,0,0,0),Field4:false});\nRemove(t1,LookUp(t1,DisplayNameField2=\"earth\"));\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L109",
+        "expected_powerfx": "Table({Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false},{Field1:3,Field2:\"earth\",Field3:DateTime(2030,2,1,0,0,0,0),Field4:true},{Field1:4,Field2:\"earth\",Field3:DateTime(2040,2,1,0,0,0,0),Field4:false})"
+      },
+      "expected": [
+        {
+          "Field1": {
+            "$decimal": "2"
+          },
+          "Field2": "moon",
+          "Field3": "2022-02-01T00:00:00+00:00",
+          "Field4": false
+        },
+        {
+          "Field1": {
+            "$decimal": "3"
+          },
+          "Field2": "earth",
+          "Field3": "2030-02-01T00:00:00+00:00",
+          "Field4": true
+        },
+        {
+          "Field1": {
+            "$decimal": "4"
+          },
+          "Field2": "earth",
+          "Field3": "2040-02-01T00:00:00+00:00",
+          "Field4": false
+        }
+      ]
+    },
+    {
+      "id": "remove-reference-28",
+      "expression": "Collect(t1, r2);\nCollect(t1, {Field1:3,Field2:\"earth\",Field3:DateTime(2030,2,1,0,0,0,0),Field4:true});\nCollect(t1, {Field1:4,Field2:\"earth\",Field3:DateTime(2040,2,1,0,0,0,0),Field4:false});\nRemove(t1,Last(Filter(t1, DisplayNameField2 = \"earth\")));\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L116",
+        "expected_powerfx": "Table({Field1:1,Field2:\"earth\",Field3:DateTime(2022,1,1,0,0,0,0),Field4:true},{Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false},{Field1:3,Field2:\"earth\",Field3:DateTime(2030,2,1,0,0,0,0),Field4:true})"
+      },
+      "expected": [
+        {
+          "Field1": {
+            "$decimal": "1"
+          },
+          "Field2": "earth",
+          "Field3": "2022-01-01T00:00:00+00:00",
+          "Field4": true
+        },
+        {
+          "Field1": {
+            "$decimal": "2"
+          },
+          "Field2": "moon",
+          "Field3": "2022-02-01T00:00:00+00:00",
+          "Field4": false
+        },
+        {
+          "Field1": {
+            "$decimal": "3"
+          },
+          "Field2": "earth",
+          "Field3": "2030-02-01T00:00:00+00:00",
+          "Field4": true
+        }
+      ]
+    },
+    {
+      "id": "remove-reference-29",
+      "expression": "Collect(t1, r2);\nCollect(t1, {Field1:3,Field2:\"earth\",Field3:DateTime(2030,2,1,0,0,0,0),Field4:true});\nCollect(t1, {Field1:4,Field2:\"earth\",Field3:DateTime(2040,2,1,0,0,0,0),Field4:false});\nRemove(t1,First(Filter(t1, DisplayNameField2 = \"earth\")));\nt1",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L123",
+        "expected_powerfx": "Table({Field1:2,Field2:\"moon\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false},{Field1:3,Field2:\"earth\",Field3:DateTime(2030,2,1,0,0,0,0),Field4:true},{Field1:4,Field2:\"earth\",Field3:DateTime(2040,2,1,0,0,0,0),Field4:false})"
+      },
+      "expected": [
+        {
+          "Field1": {
+            "$decimal": "2"
+          },
+          "Field2": "moon",
+          "Field3": "2022-02-01T00:00:00+00:00",
+          "Field4": false
+        },
+        {
+          "Field1": {
+            "$decimal": "3"
+          },
+          "Field2": "earth",
+          "Field3": "2030-02-01T00:00:00+00:00",
+          "Field4": true
+        },
+        {
+          "Field1": {
+            "$decimal": "4"
+          },
+          "Field2": "earth",
+          "Field3": "2040-02-01T00:00:00+00:00",
+          "Field4": false
+        }
+      ]
+    },
+    {
+      "id": "remove-reference-30",
+      "expression": "Remove(Foo, {Field1:5}, \"All\")",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L130",
+        "expected_powerfx": "Errors: Error 7-10: Name isn't valid. 'Foo' isn't recognized.|Error 12-22: The specified column 'Field1' does not exist.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-31",
+      "expression": "Remove(Foo, Bar)",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L133",
+        "expected_powerfx": "Errors: Error 7-10: Name isn't valid. 'Foo' isn't recognized.|Error 12-15: Name isn't valid. 'Bar' isn't recognized.|Error 0-6: The function 'Remove' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Name",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "remove-reference-32",
+      "expression": "Remove(t1, {Field1:2,Field2:\"not in the table\",Field3:DateTime(2022,2,1,0,0,0,0),Field4:false})",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L136",
+        "expected_powerfx": "Error({Kind:ErrorKind.NotFound})"
+      },
+      "expected_error": {
+        "kind": "NotFound",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "remove-reference-33",
+      "expression": "Remove(t1, If(1/0<2, {Field1:2}))",
+      "setup": "remove_records",
+      "environment": {
+        "number_mode": "decimal"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/Remove.txt#L140",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    }
+  ]
+}

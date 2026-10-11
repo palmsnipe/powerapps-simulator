@@ -1,0 +1,152 @@
+{
+  "classic-buttons.workflow.json": {
+    "format_version": 1,
+    "name": "Classic button states, scoped callbacks, legacy versions and snapshots",
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Left.Count=0 && Right.Count=0 && auto && enabled",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Increase",
+        "event": "Pressed",
+        "value": true
+      },
+      {
+        "op": "assert",
+        "formula": "Left.IsPressed && !Right.IsPressed",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Increase",
+        "event": "Pressed",
+        "value": false
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count=1 && Right.Count=0 && First(history).Panel=\"Left\" && First(history).Pressed",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Right/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count=1 && Last(history).Panel=\"Right\" && !Last(history).Pressed",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleEnabled",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!Left.Enabled && Left.Count=1 && CountRows(history)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleEnabled",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/ToggleAuto",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "!Left.AutoDisable && !Right.AutoDisable",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Increase",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count=3 && Right.Count=1 && CountRows(history)=4",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Oldest",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Legacy",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "legacyClicks=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Styled",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Capture",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "Home/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(captured)=2 && First(captured).Count=3 && First(captured).Radius=16 && First(captured).Fill=ColorValue(\"#0f6cbd\") && First(captured).HoverFill=ColorValue(\"#115ea3\") && First(captured).PressedFill=ColorValue(\"#083a60\") && First(captured).DisabledFill=ColorValue(\"#e0e0e0\") && !First(captured).AutoDisable && First(Snapshots).Total=4 && First(Snapshots).Callbacks=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/Left/Reset",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count=0 && Right.Count=1 && CountRows(history)=5",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Home/ResetAll",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count=0 && Right.Count=0 && First(Snapshots).Total=4",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

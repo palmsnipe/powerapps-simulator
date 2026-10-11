@@ -1,0 +1,226 @@
+App:
+  Properties:
+    StartScreen: =CasingLab
+    Formulas: =CaseRow := Type({Raw:Text,Lowered:Text,Uppered:Text,Propered:Text,Units:Number}); Normalize(raw:Text):CaseRow = {Raw:raw,Lowered:Lower(raw),Uppered:Upper(raw),Propered:Proper(raw),Units:Len(raw)}; LeftRows = ForAll(Filter(Titles,Side="Left"),{Raw:Title}); RightRows = ForAll(Filter(Titles,Side="Right"),{Raw:Title});
+    OnStart: =Clear(history); ClearCollect(errorRows,Proper(Table({Value:"healthy TITLE"},{Value:1/0}))); Set(leftPicked,"");Set(rightPicked,"");Set(saved,false)
+ComponentDefinitions:
+  CasingPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Fictional title"
+      SourceRows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({Raw:""})
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: =CasingPanel.Normalize({Raw:Input.Text})
+      Rows:
+        PropertyKind: Output
+        DataType: Table
+        Default: =CasingPanel.FormatRows(CasingPanel.SourceRows)
+      Captured:
+        PropertyKind: Output
+        DataType: Table
+        Default: =captured
+      Normalize:
+        PropertyKind: Function
+        ReturnType: Record
+        Parameters:
+          - row:
+              DataType: Record
+              Default: ={Raw:""}
+              IsOptional: true
+        Default: ={Raw:row.Raw,Lowered:Lower(row.Raw),Uppered:Upper(row.Raw),Propered:Proper(row.Raw),Units:Len(row.Raw)}
+      FormatRows:
+        PropertyKind: Function
+        ReturnType: Table
+        Parameters:
+          - rows:
+              DataType: Table
+              Default: =Table({Raw:""})
+              IsOptional: true
+        Default: =Proper(rows.Raw)
+      Capture:
+        PropertyKind: Action
+        ReturnType: Record
+        Default: =Collect(captured,CasingPanel.Current);CasingPanel.Changed(CasingPanel.Current);CasingPanel.Current
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - snapshot:
+              DataType: Record
+              Default: ={Raw:"",Lowered:"",Uppered:"",Propered:"",Units:0}
+              IsOptional: true
+        Default: =Blank()
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - title:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =330
+      OnReset: =Clear(captured)
+    Children:
+      - CaptionText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =CasingPanel.Caption
+            X: =12
+            Y: =0
+            Width: =406
+            Height: =30
+      - Input:
+          Control: ModernTextInput@1.0.0
+          Properties:
+            X: =12
+            Y: =38
+            Width: =406
+            Height: =36
+            Default: =CasingPanel.Seed
+            TriggerOutput: =TriggerOutput.Keypress
+            AccessibleLabel: =CasingPanel.Caption & " title"
+            OnChange: =CasingPanel.Capture()
+      - ProperLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Proper: " & CasingPanel.Current.Propered'
+            X: =12
+            Y: =82
+            Width: =406
+            Height: =34
+      - LowerLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Lower: " & CasingPanel.Current.Lowered'
+            X: =12
+            Y: =120
+            Width: =406
+            Height: =34
+      - UpperLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Upper: " & CasingPanel.Current.Uppered'
+            X: =12
+            Y: =158
+            Width: =406
+            Height: =34
+      - Names:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =12
+            Y: =205
+            Width: =406
+            Height: =110
+            Items: =CasingPanel.Rows
+            TemplateSize: =48
+            OnSelect: =CasingPanel.Picked(Self.Selected.Value)
+          Children:
+            - Name:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  Text: =ThisItem.Value
+                  X: =0
+                  Y: =0
+                  Width: =Parent.TemplateWidth
+                  Height: =42
+                  OnSelect: =Select(Parent)
+Screens:
+  CasingLab:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Text casing · components and local data"
+            X: =20
+            Y: =12
+            Width: =900
+            Height: =36
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: CasingPanel
+          Properties:
+            X: =20
+            Y: =58
+            Caption: ="Left"
+            Seed: =LookUp(Titles,ID=1).Title
+            SourceRows: =LeftRows
+            Changed: =Collect(history,Patch(snapshot,{Side:"Left"}))
+            Picked: =Set(leftPicked,title)
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: CasingPanel
+          Properties:
+            X: =480
+            Y: =58
+            Caption: ="Right"
+            Seed: =LookUp(Titles,ID=2).Title
+            SourceRows: =RightRows
+            Changed: =Collect(history,Patch(snapshot,{Side:"Right"}))
+            Picked: =Set(rightPicked,title)
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =20
+            Y: =410
+            Width: =170
+            Height: =36
+            OnSelect: =Reset(LeftPanel)
+      - ResetRight:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset right"
+            X: =200
+            Y: =410
+            Width: =170
+            Height: =36
+            OnSelect: =Reset(RightPanel)
+      - WriteSource:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Update left title"
+            X: =480
+            Y: =410
+            Width: =170
+            Height: =36
+            OnSelect: =Patch(Titles,LookUp(Titles,ID=1),{Title:LeftPanel.Current.Raw})
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save snapshot"
+            X: =690
+            Y: =410
+            Width: =170
+            Height: =36
+            OnSelect: =Set(saved,false);IfError(Patch(Snapshots,Defaults(Snapshots),Patch(Normalize(LeftPanel.Current.Raw),{Title:Normalize(LeftPanel.Current.Raw).Propered})),false,Set(saved,true))
+      - Selection:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Selected · left: " & leftPicked & " · right: " & rightPicked'
+            X: =20
+            Y: =460
+            Width: =900
+            Height: =36
+      - Saved:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Snapshots: " & CountRows(Snapshots)'
+            X: =20
+            Y: =505
+            Width: =900
+            Height: =36

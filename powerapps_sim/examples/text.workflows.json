@@ -1,0 +1,213 @@
+{
+  "text.workflow.json": {
+    "format_version": 1,
+    "name": "Text publication, blur callbacks, reset and form saving",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Keys.Text",
+        "expect": ""
+      },
+      {
+        "op": "assert",
+        "formula": "FormTitle.TriggerOutput",
+        "expect": "Delayed"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/Keys",
+        "event": "OnInput",
+        "value": "published"
+      },
+      {
+        "op": "assert",
+        "formula": "Keys.Text",
+        "expect": "published"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/Keys",
+        "event": "OnChange",
+        "value": "published"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/Keys",
+        "event": "OnChange",
+        "value": "published"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/Delayed",
+        "event": "OnInput",
+        "value": "after timer"
+      },
+      {
+        "op": "assert",
+        "formula": "Delayed.Text",
+        "expect": "after timer"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/Delayed",
+        "event": "OnChange",
+        "value": "after timer"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/Focus",
+        "event": "OnChange",
+        "value": "focus commit"
+      },
+      {
+        "op": "assert",
+        "formula": "Focus.Text",
+        "expect": "focus commit"
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/LeftText/Inner",
+        "event": "OnInput",
+        "value": "component"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftText.Value",
+        "expect": "component"
+      },
+      {
+        "op": "assert",
+        "formula": "RightText.Value",
+        "expect": ""
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/LeftText/Inner",
+        "event": "OnChange",
+        "value": "component"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 4
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/ResetAll",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Keys.Text",
+        "expect": ""
+      },
+      {
+        "op": "assert",
+        "formula": "LeftText.Value",
+        "expect": ""
+      },
+      {
+        "op": "assert",
+        "formula": "FormTitle.Text",
+        "expect": "Alpha note"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 4
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/NoteForm/TitleCard/FormTitle",
+        "event": "OnInput",
+        "value": "Updated fictional note"
+      },
+      {
+        "op": "assert",
+        "formula": "NoteForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "NoteForm.Updates.Title",
+        "expect": "Updated fictional note"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 4
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/NoteForm/TitleCard/FormTitle",
+        "event": "OnChange",
+        "value": "Updated fictional note"
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "NoteForm.LastSubmit.Title",
+        "expect": "Updated fictional note"
+      },
+      {
+        "op": "assert",
+        "formula": "NoteForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 6
+      },
+      {
+        "op": "event",
+        "path": "TextOutputs/SearchInput",
+        "event": "OnInput",
+        "value": "beta"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Filtered.AllItems)",
+        "expect": 1
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

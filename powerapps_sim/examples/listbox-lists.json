@@ -1,0 +1,87 @@
+{
+  "Topics": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "Title"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional Bridge"
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional Parks"
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional Transit"
+      },
+      {
+        "ID": 4,
+        "Title": "Fictional Culture"
+      },
+      {
+        "ID": 5,
+        "Title": "Fictional Water"
+      },
+      {
+        "ID": 6,
+        "Title": "Fictional Housing"
+      },
+      {
+        "ID": 7,
+        "Title": "Fictional Schools"
+      },
+      {
+        "ID": 8,
+        "Title": "Fictional Health"
+      }
+    ]
+  },
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "x-ms-permission": "read-only"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 120
+      },
+      "Topic": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "type": "integer"
+          },
+          "Title": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "required": [
+      "Title",
+      "Topic"
+    ],
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional topic draft",
+        "Topic": {
+          "ID": 1,
+          "Title": "Fictional Bridge"
+        }
+      }
+    ]
+  }
+}

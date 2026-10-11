@@ -1,0 +1,76 @@
+{
+  "Titles": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Side": {
+        "type": "string",
+        "required": true
+      }
+    },
+    "mapping": {
+      "Title": "Original title"
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "DEMO BUSINESS PLAN",
+        "Side": "Left"
+      },
+      {
+        "ID": 2,
+        "Title": "ÉTUDE RIVIÈRE",
+        "Side": "Right"
+      },
+      {
+        "ID": 3,
+        "Title": "DON'T STOP",
+        "Side": "Left"
+      },
+      {
+        "ID": 4,
+        "Title": "RSVP",
+        "Side": "Right"
+      }
+    ]
+  },
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Raw": {
+        "type": "string",
+        "required": true
+      },
+      "Lowered": {
+        "type": "string",
+        "required": true
+      },
+      "Uppered": {
+        "type": "string",
+        "required": true
+      },
+      "Propered": {
+        "type": "string",
+        "required": true
+      },
+      "Units": {
+        "type": "number",
+        "required": true
+      }
+    },
+    "records": []
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "gallery-loading.workflow.json": {
+    "format_version": 1,
+    "name": "Viewport loading, retained edits, control references and wrapped scrolling",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LoadedCount",
+        "expect": 6
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(rows)",
+        "expect": 2048
+      },
+      {
+        "op": "assert",
+        "formula": "Horizontal.AllItemsCount",
+        "expect": 0
+      },
+      {
+        "op": "event",
+        "path": "LoadingScreen/Records/row:7a3aa522462ca78e:0/AmountInput",
+        "event": "OnChange",
+        "value": 99
+      },
+      {
+        "op": "event",
+        "path": "LoadingScreen/Records/row:7a3aa522462ca78e:0/Note",
+        "event": "OnChange",
+        "value": "Fictional retained edit"
+      },
+      {
+        "op": "event",
+        "path": "LoadingScreen/CaptureControls",
+        "event": "OnSelect"
+      },
+      {
+        "op": "scroll",
+        "path": "LoadingScreen/Records",
+        "offset": 60000,
+        "extent": 300
+      },
+      {
+        "op": "assert",
+        "formula": "LoadedCount",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "First(captured).AmountInput.Value",
+        "expect": 99
+      },
+      {
+        "op": "assert",
+        "formula": "First(captured).Note.Text",
+        "expect": "Fictional retained edit"
+      },
+      {
+        "op": "assert",
+        "formula": "clicks",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "changes",
+        "expect": 2
+      },
+      {
+        "op": "scroll",
+        "path": "LoadingScreen/Records",
+        "offset": 0,
+        "extent": 300
+      },
+      {
+        "op": "assert",
+        "formula": "LoadedCount",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "First(Records.AllItems).AmountInput.Value",
+        "expect": 99
+      },
+      {
+        "op": "event",
+        "path": "LoadingScreen/ResetRecords",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LoadedCount",
+        "expect": 15
+      },
+      {
+        "op": "assert",
+        "formula": "First(Records.AllItems).Note.Text",
+        "expect": "Fictional retained edit"
+      },
+      {
+        "op": "event",
+        "path": "LoadingScreen/ReverseRows",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(Records.AllItems).ID",
+        "expect": 2048
+      },
+      {
+        "op": "assert",
+        "formula": "Last(captured).ID",
+        "expect": 6
+      },
+      {
+        "op": "assert",
+        "formula": "First(captured).AmountInput.Value",
+        "expect": 99
+      },
+      {
+        "op": "scroll",
+        "path": "LoadingScreen/Horizontal",
+        "offset": 0,
+        "extent": 850
+      },
+      {
+        "op": "assert",
+        "formula": "Horizontal.AllItemsCount",
+        "expect": 24
+      },
+      {
+        "op": "scroll",
+        "path": "LoadingScreen/Horizontal",
+        "offset": 1000,
+        "extent": 850
+      },
+      {
+        "op": "assert",
+        "formula": "Horizontal.AllItemsCount",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(rows)",
+        "expect": 2048
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

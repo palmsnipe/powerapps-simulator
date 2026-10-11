@@ -1,0 +1,378 @@
+App:
+  Properties:
+    StartScreen: =GridLab
+    OnStart: =Clear(events);Set(selected,{ID:1,Title:"",Amount:0});Set(status,T("Ready","Prêt"));Reset(LeftPanel);Reset(RightPanel)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+ComponentDefinitions:
+  GridPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =Table({ID:0,Title:"",Amount:0,Field1:"",Field2:"",Field3:"",Field4:"",Field5:"",Field6:"",Field7:"",Field8:"",Field9:"",Field10:"",Field11:"",Field12:"",Field13:"",Field14:"",Field15:"",Field16:"",Field17:"",Field18:""})
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Grid"
+      T:
+        PropertyKind: InputFunction
+        ReturnType: Text
+        Default: =en
+        Parameters:
+          - en:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+          - fr:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - pick:
+              DataType: Record
+              Default: ={ID:0,Title:"",Amount:0}
+              IsOptional: true
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Selection:
+        PropertyKind: Output
+        DataType: Table
+        Default: =Grid.SelectedItems
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: =Grid.Selected
+      Query:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Grid.SearchText
+    Properties:
+      Width: =500
+      Height: =370
+      OnReset: =Clear(history);Reset(Grid)
+    Children:
+      - CaptionText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =GridPanel.Caption
+            Width: =470
+            Height: =30
+            Size: =18
+      - Grid:
+          Control: ModernDataGrid@1.1.0
+          Properties:
+            Y: =32
+            Width: =490
+            Height: =320
+            Items: =GridPanel.Rows
+            DefaultSelectedItems: =FirstN(GridPanel.Rows,1)
+            Searchable: =true
+            Sortable: =true
+            SelectMultiple: =true
+            ShowSelector: =true
+            AccessibleLabel: =GridPanel.Caption
+            OnChange: =Collect(history,{ID:Self.Selected.ID,Count:CountRows(Self.SelectedItems)});GridPanel.Picked({ID:Self.Selected.ID,Title:Self.Selected.Title,Amount:Self.Selected.Amount})
+          Children:
+            - TitleColumn:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: =GridPanel.T("Draft","Brouillon")
+                  Text: =ThisItem.Title
+                  Width: =240
+                Variant: Textual
+            - AmountColumn:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: =GridPanel.T("Amount","Montant")
+                  Text: =ThisItem.Amount
+                  Width: =150
+                Variant: Textual
+            - Extra1:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 1"
+                  Text: =ThisItem.Field1
+                  Width: =150
+                Variant: Textual
+            - Extra2:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 2"
+                  Text: =ThisItem.Field2
+                  Width: =150
+                Variant: Textual
+            - Extra3:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 3"
+                  Text: =ThisItem.Field3
+                  Width: =150
+                Variant: Textual
+            - Extra4:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 4"
+                  Text: =ThisItem.Field4
+                  Width: =150
+                Variant: Textual
+            - Extra5:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 5"
+                  Text: =ThisItem.Field5
+                  Width: =150
+                Variant: Textual
+            - Extra6:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 6"
+                  Text: =ThisItem.Field6
+                  Width: =150
+                Variant: Textual
+            - Extra7:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 7"
+                  Text: =ThisItem.Field7
+                  Width: =150
+                Variant: Textual
+            - Extra8:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 8"
+                  Text: =ThisItem.Field8
+                  Width: =150
+                Variant: Textual
+            - Extra9:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 9"
+                  Text: =ThisItem.Field9
+                  Width: =150
+                Variant: Textual
+            - Extra10:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 10"
+                  Text: =ThisItem.Field10
+                  Width: =150
+                Variant: Textual
+            - Extra11:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 11"
+                  Text: =ThisItem.Field11
+                  Width: =150
+                Variant: Textual
+            - Extra12:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 12"
+                  Text: =ThisItem.Field12
+                  Width: =150
+                Variant: Textual
+            - Extra13:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 13"
+                  Text: =ThisItem.Field13
+                  Width: =150
+                Variant: Textual
+            - Extra14:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 14"
+                  Text: =ThisItem.Field14
+                  Width: =150
+                Variant: Textual
+            - Extra15:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 15"
+                  Text: =ThisItem.Field15
+                  Width: =150
+                Variant: Textual
+            - Extra16:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 16"
+                  Text: =ThisItem.Field16
+                  Width: =150
+                Variant: Textual
+            - Extra17:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 17"
+                  Text: =ThisItem.Field17
+                  Width: =150
+                Variant: Textual
+            - Extra18:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Field 18"
+                  Text: =ThisItem.Field18
+                  Width: =150
+                Variant: Textual
+Screens:
+  GridLab:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Modern grids · search, sorting and selection","Grilles modernes · recherche, tri et sélection")
+            X: =20
+            Y: =8
+            Width: =1000
+            Size: =22
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =20
+            Y: =48
+            Rows: =Drafts
+            Caption: =T("Left drafts","Brouillons gauche")
+            T: =If(StartsWith(Language(),"fr"),fr,en)
+            Picked: =Set(selected,pick);Collect(events,{Panel:"Left",ID:pick.ID})
+          ComponentName: GridPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =530
+            Y: =48
+            Rows: =Drafts
+            Caption: =T("Right drafts","Brouillons droite")
+            T: =If(StartsWith(Language(),"fr"),fr,en)
+            Picked: =Set(selected,pick);Collect(events,{Panel:"Right",ID:pick.ID})
+          ComponentName: GridPanel
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =420
+            Width: =1000
+            Text: '=T("Left selected: ","Gauche sélection: ") & Text(CountRows(LeftPanel.Selection)) & " · " & T("Right selected: ","Droite sélection: ") & Text(CountRows(RightPanel.Selection)) & " · " & status'
+      - DraftForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =20
+            Y: =470
+            Width: =760
+            Height: =130
+            DataSource: =Drafts
+            Item: =Coalesce(LookUp(Drafts,ID=selected.ID),First(Drafts))
+            OnSuccess: =Set(status,T("Saved","Enregistré"))
+            OnFailure: =Set(status,T("Save failed","Échec"))
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Required: =true
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  Width: =760
+                  Height: =120
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: =T("Draft title","Titre du brouillon")
+                        Width: =700
+                  - TitleInput:
+                      Control: ModernTextInput@1.0.0
+                      Properties:
+                        Y: =32
+                        Width: =740
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Draft title"
+                  - TitleError:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Y: =70
+                        Width: =740
+                        Text: =Parent.Error
+                        Color: =Color.Red
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =810
+            Y: =500
+            Width: =190
+            Text: =T("Save draft","Enregistrer")
+            OnSelect: =SubmitForm(DraftForm)
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =640
+            Width: =160
+            Text: =T("Reset left","Réinitialiser gauche")
+            OnSelect: =Reset(LeftPanel)
+      - ResetRight:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =200
+            Y: =640
+            Width: =160
+            Text: =T("Reset right","Réinitialiser droite")
+            OnSelect: =Reset(RightPanel)
+      - OpenLarge:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =500
+            Y: =640
+            Width: =200
+            Text: =T("Large grid","Grande grille")
+            OnSelect: =Navigate(LargeLab)
+  LargeLab:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =8
+            Width: =1000
+            Text: =T("2,105 fictional rows","2 105 lignes fictives")
+            Size: =22
+      - BigGrid:
+          Control: ModernDataGrid@1.1.0
+          Properties:
+            X: =20
+            Y: =48
+            Width: =1000
+            Height: =540
+            Items: =ForAll(Sequence(2105) As row,{ID:row.Value,Title:"Fictional row " & Text(row.Value)})
+            DefaultSelectedItems: =FirstN(Self.Items,1)
+            Searchable: =true
+            Sortable: =true
+            AccessibleLabel: ="Large fictional grid"
+          Children:
+            - NameColumn:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  FieldDisplayName: ="Fictional row"
+                  Text: =ThisItem.Title
+                  Width: =980
+                Variant: Textual
+      - SelectedRow:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =610
+            Width: =950
+            Text: '="Selected row: " & Text(BigGrid.Selected.ID) & " · " & BigGrid.SearchText'
+      - Back:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =660
+            Width: =180
+            Text: =T("Back to drafts","Retour aux brouillons")
+            OnSelect: =Navigate(GridLab)

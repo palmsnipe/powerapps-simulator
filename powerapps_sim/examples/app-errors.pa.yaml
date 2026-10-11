@@ -1,0 +1,153 @@
+App:
+  Properties:
+    StartScreen: =ErrorLab
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);Reciprocal(n:Number):Number=1/n;
+    OnStart: =Clear(reports);Set(showFault,false);Set(stored,1/0);Set(caught,0);Set(afterChain,0);Set(rethrow,false);Set(status,T("Ready","Prêt"))
+    OnError: =Collect(reports,{Kind:FirstError.Kind,Message:FirstError.Message,Source:FirstError.Source,Observed:FirstError.Observed,BatchCount:CountRows(AllErrors),HttpStatus:FirstError.Details.HttpStatusCode,Response:FirstError.Details.HttpResponse,SeenAt:Now()});If(rethrow,Error(AllErrors))
+ComponentDefinitions:
+  ErrorPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Raise:
+        PropertyKind: Action
+        ReturnType: Number
+        Default: =ErrorPanel.Failed(13);1
+      Failed:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - code:
+              DataType: Number
+    Properties:
+      Width: =440
+      Height: =90
+    Children:
+      - Fire:
+          Control: ModernButton@1.0.0
+          Properties:
+            Width: =420
+            Text: =ErrorPanel.Caption
+            OnSelect: =ErrorPanel.Raise()
+Screens:
+  Recovery:
+    Properties:
+      Width: =1000
+      Height: =650
+    Children:
+      - ReturnToLab:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =20
+            Text: =T("Return","Retour")
+            OnSelect: =Navigate(ErrorLab)
+  ErrorLab:
+    Properties:
+      Width: =1000
+      Height: =650
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =950
+            Height: =40
+            Size: =24
+            Text: =T("Formula errors","Erreurs de formule")
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: ErrorPanel
+          Properties:
+            X: =20
+            Y: =70
+            Caption: =T("Left callback error","Erreur du rappel gauche")
+            Failed: =Error({Kind:code,Message:"Fictional left callback"})
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: ErrorPanel
+          Properties:
+            X: =500
+            Y: =70
+            Caption: =T("Right callback error","Erreur du rappel droit")
+            Failed: =Error({Kind:ErrorKind.Custom,Message:"Fictional right callback",Details:{HttpStatusCode:503,HttpResponse:"Fictional offline service"}})
+      - CatchCallback:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =170
+            Width: =220
+            Text: =T("Catch callback","Intercepter le rappel")
+            OnSelect: =IfError(LeftPanel.Raise(),Set(caught,FirstError.Kind);0)
+      - FailFunction:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =260
+            Y: =170
+            Width: =220
+            Text: =T("Fail typed function","Échec de la fonction")
+            OnSelect: =Reciprocal(0)
+      - FailChain:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =500
+            Y: =170
+            Width: =220
+            Text: =T("Two errors in chain","Deux erreurs en chaîne")
+            OnSelect: =1/0;Set(afterChain,42);Error({Kind:ErrorKind.Custom,Message:"Fictional second error"})
+      - ToggleFault:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =740
+            Y: =170
+            Width: =220
+            Text: =T("Toggle stored error","Afficher l'erreur")
+            OnSelect: =Set(showFault,!showFault)
+      - Fault:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =235
+            Width: =440
+            Text: =If(showFault,stored,42)
+      - SaveDraft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =500
+            Y: =235
+            Width: =220
+            Text: =T("Save draft","Enregistrer le brouillon")
+            OnSelect: =Patch(Drafts,First(Drafts),{Title:"Fictional updated draft"});Set(status,T("Save attempted","Enregistrement tenté"))
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =740
+            Y: =235
+            Width: =220
+            Text: =status
+      - Reports:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =310
+            Width: =940
+            Height: =320
+            TemplateSize: =65
+            Items: =reports
+          Children:
+            - ReportMessage:
+                Control: ModernText@1.0.0
+                Properties:
+                  Width: =910
+                  Text: =Text(ThisItem.Kind)&" · "&ThisItem.Message
+            - ReportLocation:
+                Control: ModernText@1.0.0
+                Properties:
+                  Y: =30
+                  Width: =910
+                  Text: =ThisItem.Source&" → "&ThisItem.Observed&" · "&Text(ThisItem.BatchCount)

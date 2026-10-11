@@ -1,0 +1,147 @@
+App:
+  Properties:
+    Formulas: "=ProjectRow := Type(RecordOf(ProjectTable));\nProjectTable := Type([{Title:Text,Amount:Number}]);\nAmounts := Type([Number]);\nProjected = ShowColumns(Projects,Title,Amount);\nSorted(rows:ProjectTable):ProjectTable=SortByColumns(rows,\"Title\",SortOrder.Ascending);\nTotal(rows:ProjectTable):Number=Sum(rows,Amount);\nAmountOf(row:ProjectRow):Number=Coalesce(row.Amount,0);\nIncrease(row:ProjectRow):ProjectRow={Title:row.Title,Amount:AmountOf(row)+1};\nSumAmounts(values:Amounts):Number=Sum(values,Value);\nApplyRow(row:ProjectRow):Void={Patch(Projects,LookUp(Projects,Title=row.Title),{Amount:row.Amount});Set(selection,row)};\n"
+    StartScreen: =Types
+    OnStart: =Set(selection,Blank());Set(partial,Blank());ClearCollect(events,FirstN(Table({Title:"",Amount:0}),0));Set(leftOnly,false)
+ComponentDefinitions:
+  ListPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Rows:
+        PropertyKind: Input
+        DataType: Table
+        Default: =FirstN(Table({Title:"",Amount:0}),0)
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Sum(ListPanel.Rows,Amount)
+      Score:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - rows:
+              DataType: Table
+              Default: =FirstN(Table({Title:"",Amount:0}),0)
+              IsOptional: true
+        Default: =Sum(rows,Amount)
+      Picked:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - row:
+              DataType: Record
+              Default: ={Title:"",Amount:0}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =430
+      Height: =300
+      Fill: =RGBA(245,245,245,1)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Panel total " & ListPanel.Total
+            X: =12
+            Y: =8
+            Width: =400
+            Height: =36
+      - RowsGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =ListPanel.Rows
+            OnSelect: =ListPanel.Picked(Self.Selected)
+            X: =12
+            Y: =54
+            Width: =406
+            Height: =225
+            TemplateSize: =60
+          Children:
+            - RowLabel:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title & " · " & ThisItem.Amount
+                  OnSelect: =Select(Parent)
+                  X: =8
+                  Y: =8
+                  Width: =390
+                  Height: =40
+Screens:
+  Types:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Typed records and tables"
+            X: =24
+            Y: =18
+            Width: =900
+            Height: =40
+            Size: =24
+      - FilterLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Filter left panel"
+            OnSelect: =Set(leftOnly,!leftOnly)
+            X: =24
+            Y: =76
+            Width: =200
+            Height: =34
+      - IncreaseSelected:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase selected"
+            OnSelect: =If(!IsBlank(selection),ApplyRow(Increase(selection)))
+            X: =242
+            Y: =76
+            Width: =200
+            Height: =34
+      - MakePartial:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Create partial record"
+            OnSelect: =Set(partial,Increase({Title:"Fictional partial"}))
+            X: =460
+            Y: =76
+            Width: =200
+            Height: =34
+      - Totals:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="App total " & Total(Projected) & " · numeric table " & SumAmounts([1,2,3])
+            X: =24
+            Y: =125
+            Width: =900
+            Height: =36
+      - Selection:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Selected " & Coalesce(selection.Title,"none") & " · partial " & Coalesce(partial.Title,"none") & " · amount " & Coalesce(partial.Amount,0)
+            X: =24
+            Y: =171
+            Width: =920
+            Height: =36
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            Rows: =Sorted(If(leftOnly,Filter(Projected,Amount>=20),Projected))
+            Picked: =Set(selection,row);Collect(events,row)
+            X: =24
+            Y: =226
+          ComponentName: ListPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            Rows: =Sorted(Projected)
+            Picked: =Set(selection,row);Collect(events,row)
+            X: =480
+            Y: =226
+          ComponentName: ListPanel
+      - Scores:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Pure component score " & Left.Score(Projected) & " · picked rows " & CountRows(events)
+            X: =24
+            Y: =556
+            Width: =900
+            Height: =36

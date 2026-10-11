@@ -1,0 +1,51 @@
+{
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Category": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number",
+        "required": true
+      }
+    },
+    "mapping": {
+      "Amount": "Sample amount"
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional left one",
+        "Category": "Left",
+        "Amount": 2
+      },
+      {
+        "ID": 2,
+        "Title": "Fictional left two",
+        "Category": "Left",
+        "Amount": 4
+      },
+      {
+        "ID": 3,
+        "Title": "Fictional right one",
+        "Category": "Right",
+        "Amount": 10
+      },
+      {
+        "ID": 4,
+        "Title": "Fictional right two",
+        "Category": "Right",
+        "Amount": 14
+      }
+    ]
+  }
+}

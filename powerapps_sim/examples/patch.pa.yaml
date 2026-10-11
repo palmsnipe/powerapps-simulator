@@ -1,0 +1,234 @@
+App:
+  Properties:
+    Formulas: =Total=Sum(Projects,Cost);Merged=Patch({Amount:1},{Amount:2}).Amount;
+    OnStart: =ClearCollect(local,{Title:"Fictional Alpha",Amount:10,Enabled:true},{Title:"Fictional Beta",Amount:20,Enabled:false});Set(copy,local);Set(book,{Rows:local});Set(saved,Blank());Set(batch,Table());Clear(events);Set(status,"Ready");Reset(Left);Reset(Right)
+ComponentDefinitions:
+  PatchPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Sum(local,Amount)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: =Blank()
+      Increase:
+        PropertyKind: Action
+        ReturnType: None
+        Default: =Patch(local,First(local),{Amount:First(local).Amount+1});PatchPanel.Changed(PatchPanel.Total)
+      Merge:
+        PropertyKind: Function
+        ReturnType: Number
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: =Patch({Amount:amount},{Amount:amount+1}).Amount
+    Properties:
+      OnReset: =ClearCollect(local,{Title:"Fictional component",Amount:PatchPanel.Seed},{Title:"Fictional component",Amount:PatchPanel.Seed+1})
+      Width: =390
+      Height: =115
+      Fill: =RGBA(245,245,245,1)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Component total "&Text(PatchPanel.Total)
+            X: =12
+            Y: =12
+            Width: =370
+            Height: =32
+      - Increase:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Patch local row"
+            OnSelect: =PatchPanel.Increase()
+            X: =12
+            Y: =55
+            Width: =250
+Screens:
+  PatchScreen:
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Patch · records and tables"
+            X: =24
+            Y: =16
+            Width: =820
+            Height: =32
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status&" · list total "&Text(Total)&" · callbacks "&Text(CountRows(events))
+            X: =24
+            Y: =52
+            Width: =820
+            Height: =32
+      - Step:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            Default: =5
+            Min: =0
+            Max: =100
+            Step: =1
+            AccessibleLabel: ="Patch amount"
+            X: =24
+            Y: =100
+            Width: =160
+      - FirstLocal:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Patch first row"
+            OnSelect: =Set(saved,Patch(local,First(local),{Amount:Step.Value}));Set(status,"Local patched")
+            X: =200
+            Y: =100
+            Width: =240
+      - AppendLocal:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Append local row"
+            OnSelect: =Set(saved,Patch(local,Defaults(local),{Title:"Fictional added",Amount:Step.Value,Enabled:true}));Set(status,"Local appended")
+            X: =456
+            Y: =100
+            Width: =240
+      - Totals:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Local "&Text(Sum(local,Amount))&" · copy "&Text(Sum(copy,Amount))&" · nested "&Text(Sum(book.Rows,Amount))&" · pure merge "&Text(Merged)
+            X: =24
+            Y: =145
+            Width: =820
+            Height: =32
+      - LocalGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =local
+            X: =24
+            Y: =185
+            Width: =390
+            Height: =140
+            TemplateSize: =42
+          Children:
+            - LocalRow:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title&" · "&Text(ThisItem.Amount)&" · "&Text(ThisItem.Enabled)
+                  X: =8
+                  Y: =0
+                  Width: =370
+                  Height: =32
+      - ListGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =Projects
+            X: =456
+            Y: =185
+            Width: =390
+            Height: =140
+            TemplateSize: =42
+          Children:
+            - ListRow:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =Text(ThisItem.ID)&" · "&ThisItem.Title&" · "&Text(ThisItem.Cost)
+                  X: =8
+                  Y: =0
+                  Width: =370
+                  Height: =32
+      - CopyRows:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Patch copied rows"
+            OnSelect: =Patch(copy,copy,ForAll(copy,{Amount:Amount+Step.Value}));Set(status,"Copy patched")
+            X: =24
+            Y: =345
+            Width: =250
+      - NestedRows:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Patch nested row"
+            OnSelect: =Patch(book.Rows,Last(book.Rows),{Amount:Step.Value});Set(status,"Nested patched")
+            X: =290
+            Y: =345
+            Width: =250
+      - Drafts:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Patch draft projects"
+            OnSelect: =IfError(Patch(Projects,Filter(Projects,Status.Value="Draft"),ForAll(Filter(Projects,Status.Value="Draft"),{Cost:Cost+Step.Value}));Set(batch,Filter(Projects,Status.Value="Draft"));Set(status,"Drafts patched"),Set(status,FirstError.Message))
+            X: =556
+            Y: =345
+            Width: =250
+      - Create:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Create two projects"
+            OnSelect: =IfError(Patch(Projects,Table(Defaults(Projects),Defaults(Projects)),Table({Title:"Fictional created A",Cost:Step.Value,Status:{Value:"Draft"}},{Title:"Fictional created B",Cost:Step.Value+1,Status:{Value:"Draft"}}));Set(batch,LastN(Projects,2));Set(status,"Two created"),Set(status,FirstError.Message))
+            X: =24
+            Y: =395
+            Width: =250
+      - Invalid:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Try invalid batch"
+            OnSelect: =IfError(Patch(Projects,Projects,ForAll(Projects,{Title:If(ID=2,Blank(),"Fictional validated "&Text(ID))}));Set(status,"Unexpected"),Set(status,FirstError.Message))
+            X: =290
+            Y: =395
+            Width: =250
+      - Keyed:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Patch keyed record"
+            OnSelect: =IfError(Patch(Projects,Patch(First(Projects),{Cost:Step.Value}));Set(status,"Key patch"),Set(status,FirstError.Message))
+            X: =556
+            Y: =395
+            Width: =250
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =460
+            Seed: =1
+            Changed: =Collect(events,{Title:"Left",Amount:amount});Set(status,"Left callback")
+          ComponentName: PatchPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            X: =456
+            Y: =460
+            Seed: =10
+            Changed: =Collect(events,{Title:"Right",Amount:amount});Set(status,"Right callback")
+          ComponentName: PatchPanel
+      - Components:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Left "&Text(Left.Total)&" · right "&Text(Right.Total)&" · batch rows "&Text(CountRows(batch))
+            X: =24
+            Y: =590
+            Width: =820
+            Height: =32
+      - Saved:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =If(IsBlank(saved),"No local result",saved.Title&" · saved amount "&Text(saved.Amount))
+            X: =24
+            Y: =630
+            Width: =820
+            Height: =32
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left component"
+            OnSelect: =Reset(Left);Set(status,"Left reset")
+            X: =24
+            Y: =685
+            Width: =250

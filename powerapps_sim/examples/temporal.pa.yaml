@@ -1,0 +1,225 @@
+App:
+  Properties:
+    StartScreen: =Dates
+    Formulas: '=DateRow := Type({When: DateTime}); DateOnly(row: DateRow): Date = DateValue(row.When);'
+    OnStart: =Set(savedDate, Blank())
+ComponentDefinitions:
+  DatePanel:
+    AccessAppScope: false
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Date
+        Default: =Date(2026, 1, 1)
+      Day:
+        PropertyKind: Output
+        DataType: Date
+        Default: =Coalesce(selectedDay, DatePanel.Seed)
+      Shift:
+        PropertyKind: Action
+        ReturnType: None
+        Parameters:
+          - days:
+              DataType: Number
+        Default: =Set(selectedDay, DateValue(DateAdd(DatePanel.Day, days))); DatePanel.OnChanged(selectedDay)
+      Caption:
+        PropertyKind: Function
+        PropertyDefinition: Output
+        ReturnType: Text
+        Parameters:
+          - when:
+              DataType: DateTime
+        Default: =Text(when, DateTimeFormat.LongDate)
+      OnChanged:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - when:
+              DataType: DateTime
+        Default: =Blank()
+    Properties:
+      Width: =560
+      Height: =145
+      OnReset: =Set(selectedDay, DatePanel.Seed)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =DatePanel.Caption(DatePanel.Day)
+            X: =12
+            Y: =8
+            Width: =Parent.Width - 24
+            Height: =60
+      - Advance:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Next day"
+            AccessibleLabel: ="Advance " & Text(DatePanel.Seed, "yyyy-mm-dd")
+            OnSelect: =DatePanel.Shift(1)
+            X: =12
+            Y: =78
+            Width: =140
+Screens:
+  Dates:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Typed dates · component and form fixture"
+            X: =32
+            Y: =16
+            Width: =Parent.Width - 64
+            Height: =48
+            Size: =26
+      - LeftDate:
+          Control: CanvasComponent
+          ComponentName: DatePanel
+          Properties:
+            Seed: =Date(2026, 1, 1)
+            OnChanged: =Set(leftChanged, when)
+            X: =32
+            Y: =80
+      - RightDate:
+          Control: CanvasComponent
+          ComponentName: DatePanel
+          Properties:
+            Seed: =Date(2026, 7, 1)
+            OnChanged: =Set(rightChanged, when)
+            X: =620
+            Y: =80
+      - DateForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Events
+            DefaultMode: =FormMode.New
+            Item: =First(Events)
+            X: =32
+            Y: =240
+            Width: =600
+            Height: =340
+            NumberOfColumns: =1
+            OnSuccess: =Set(savedDate, Self.LastSubmit.'Due date'); Notify("Date saved", NotificationType.Success)
+            OnFailure: =Notify(Self.Error, NotificationType.Error)
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ModernTextualEdit
+                Properties:
+                  DataField: ="Title"
+                  Default: =Coalesce(ThisItem.Title, "Temporal draft")
+                  Update: =TitleInput.Text
+                  Required: =true
+                  X: =0
+                  Y: =0
+                  Width: =Parent.Width
+                  Height: =110
+                Children:
+                  - TitleCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Title"
+                        X: =12
+                        Y: =8
+                        Width: =Parent.Width - 24
+                  - TitleInput:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Title"
+                        X: =12
+                        Y: =48
+                        Width: =Parent.Width - 24
+            - DueCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ModernDateEdit
+                Properties:
+                  DataField: ="Due date"
+                  Default: =ThisItem.'Due date'
+                  Update: =DueInput.SelectedDate
+                  Required: =true
+                  X: =0
+                  Y: =110
+                  Width: =Parent.Width
+                  Height: =110
+                Children:
+                  - DueCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Due date"
+                        X: =12
+                        Y: =8
+                        Width: =Parent.Width - 24
+                  - DueInput:
+                      Control: ModernDatePicker@1.0.2
+                      Properties:
+                        DefaultDate: =Parent.Default
+                        IsEditable: =true
+                        Format: ="yyyy-mm-dd"
+                        AccessibleLabel: ="Due date"
+                        X: =12
+                        Y: =48
+                        Width: =Parent.Width - 24
+            - ClockCard:
+                Control: TypedDataCard@1.0.7
+                Variant: ModernDateEdit
+                Properties:
+                  DataField: ="Appointment"
+                  Default: =ThisItem.Appointment
+                  Update: =ClockInput.SelectedDate + Time(9, 30, 0)
+                  Required: =false
+                  X: =0
+                  Y: =220
+                  Width: =Parent.Width
+                  Height: =110
+                Children:
+                  - ClockCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Appointment"
+                        X: =12
+                        Y: =8
+                        Width: =Parent.Width - 24
+                  - ClockInput:
+                      Control: ModernDatePicker@1.0.2
+                      Properties:
+                        DefaultDate: =Parent.Default
+                        IsEditable: =true
+                        Format: ="yyyy-mm-dd"
+                        AccessibleLabel: ="Appointment"
+                        X: =12
+                        Y: =48
+                        Width: =Parent.Width - 24
+      - SaveDate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save date"
+            OnSelect: =SubmitForm(DateForm)
+            X: =44
+            Y: =600
+            Width: =140
+      - NewDate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="New date draft"
+            OnSelect: =NewForm(DateForm)
+            X: =200
+            Y: =600
+            Width: =160
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left component"
+            OnSelect: =Reset(LeftDate)
+            X: =660
+            Y: =250
+            Width: =220
+      - SavedCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =If(IsBlank(savedDate), "No saved date yet", Text(savedDate, DateTimeFormat.LongDate))
+            X: =660
+            Y: =320
+            Width: =500
+            Height: =80

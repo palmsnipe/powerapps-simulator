@@ -1,0 +1,357 @@
+{
+  "remove.workflow.json": {
+    "format_version": 1,
+    "name": "Removal matching, owned copies, scoped callbacks, failures and persistent IDs",
+    "records": {
+      "Projects": [
+        {
+          "ID": 1,
+          "Title": "Fictional project 1",
+          "Cost": 10,
+          "Enabled": true,
+          "Status": {
+            "Value": "Draft"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional project 2",
+          "Cost": 20,
+          "Enabled": true,
+          "Status": {
+            "Value": "Draft"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional project 3",
+          "Cost": 30,
+          "Enabled": true,
+          "Status": {
+            "Value": "Done"
+          },
+          "Created": "2026-01-01T12:00:00Z",
+          "Modified": "2026-01-01T12:00:00Z"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 60
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(local)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/FirstLocal",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(local)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(local,Amount)",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(copy)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(book.Rows)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/AllLocal",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(local)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(local).Title",
+        "expect": "Fictional Beta"
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/CopyTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(copy)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(book.Rows)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/NestedIf",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(book.Rows)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Sum(book.Rows,Amount)",
+        "expect": 20
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(local)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/Left/Drop",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Total",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/Right/Drop",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Last(events).Count",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/ListGallery",
+        "event": "OnSelect",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "ListGallery.Selected.ID",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/Selected",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Projects)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(LookUp(Projects,ID=3))",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/Create",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "lastId",
+        "expect": 4
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 37
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/Missing",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Remove record was not found"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 27
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(LookUp(Projects,ID=1))",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/Drafts",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Simulated write failure for Projects"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 27
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/Drafts",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Projects)",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": null
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/Create",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "lastId",
+        "expect": 5
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 7
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).ID",
+        "expect": 5
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/BadPredicate",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Total",
+        "expect": 7
+      },
+      {
+        "op": "assert",
+        "formula": "StartsWith(status,\"Division\")",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "RemoveScreen/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(local)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 2
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

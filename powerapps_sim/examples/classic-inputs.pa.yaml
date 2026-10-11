@@ -1,0 +1,304 @@
+App:
+  Properties:
+    StartScreen: =ClassicInputs
+    OnStart: =Set(seed,"hello");Set(status,"Ready");Clear(history)
+ComponentDefinitions:
+  ClassicInputsPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Text
+        Default: =""
+      StageSeed:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Draft"
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Title:Inner.Text,Stage:Stage.Selected.Code}
+      Capture:
+        PropertyKind: Action
+        ReturnType: Record
+        Default: =Collect(captured,ClassicInputsPanel.Current);ClassicInputsPanel.Changed(ClassicInputsPanel.Current);ClassicInputsPanel.Current
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Title:"",Stage:""}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =380
+      Height: =140
+      OnReset: =Clear(captured)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =ClassicInputsPanel.Caption
+            X: =12
+            Y: =0
+            Width: =340
+            Height: =32
+      - Inner:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =12
+            Y: =38
+            Width: =340
+            Height: =40
+            Default: =ClassicInputsPanel.Seed
+            Clear: =true
+            AccessibleLabel: =ClassicInputsPanel.Caption & " title"
+            OnChange: =ClassicInputsPanel.Capture()
+      - Stage:
+          Control: Classic/DropDown@2.3.1
+          Properties:
+            X: =12
+            Y: =88
+            Width: =340
+            Height: =40
+            Items: =Table({Code:"Draft",Caption:"Draft"},{Code:"Review",Caption:"In review"},{Code:"Done",Caption:"Completed"})
+            Value: ="Caption"
+            Default: =ClassicInputsPanel.StageSeed
+            AccessibleLabel: =ClassicInputsPanel.Caption & " stage"
+            OnChange: =ClassicInputsPanel.Capture()
+Screens:
+  ClassicInputs:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Classic inputs"
+            X: =16
+            Y: =8
+            Width: =840
+            Height: =32
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Callbacks " & CountRows(history) & " · " & status & " · form unsaved " & Text(DraftForm.Unsaved) & " · delayed [" & Delayed.Text & "]"
+            X: =16
+            Y: =44
+            Width: =840
+            Height: =32
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: ClassicInputsPanel
+          Properties:
+            X: =16
+            Y: =90
+            Caption: ="LeftPanel"
+            Seed: ="Alpha"
+            StageSeed: ="Draft"
+            Changed: =Collect(history,{Panel:Self.Name,Title:value.Title,Stage:value.Stage});Set(status,Self.Name & " captured")
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: ClassicInputsPanel
+          Properties:
+            X: =410
+            Y: =90
+            Caption: ="RightPanel"
+            Seed: ="Beta"
+            StageSeed: ="In review"
+            Changed: =Collect(history,{Panel:Self.Name,Title:value.Title,Stage:value.Stage});Set(status,Self.Name & " captured")
+      - Immediate:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =16
+            Y: =250
+            Width: =270
+            Height: =40
+            Default: =seed
+            Clear: =true
+            AccessibleLabel: ="Immediate text"
+            HintText: ="Immediate output"
+            OnChange: =Collect(history,{Panel:"Immediate",Title:Self.Text,Stage:""})
+      - Delayed:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =306
+            Y: =250
+            Width: =270
+            Height: =40
+            Default: =""
+            DelayOutput: =true
+            MaxLength: =8
+            AccessibleLabel: ="Delayed text"
+            HintText: ="500 ms delay"
+            OnChange: =Collect(history,{Panel:"Delayed",Title:Self.Text,Stage:""})
+      - Optional:
+          Control: Classic/DropDown@2.3.1
+          Properties:
+            X: =596
+            Y: =250
+            Width: =270
+            Height: =40
+            Items: =Table({Code:"Draft",Caption:"Draft"},{Code:"Review",Caption:"In review"},{Code:"Done",Caption:"Completed"})
+            Value: ="Caption"
+            Default: =Blank()
+            AllowEmptySelection: =true
+            AccessibleLabel: ="Optional stage"
+            OnChange: =Set(status,"Optional " & Coalesce(Self.SelectedText.Value,"blank"))
+      - Numeric:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =16
+            Y: =310
+            Width: =200
+            Height: =40
+            Default: ="12.5"
+            Format: =TextFormat.Number
+            AccessibleLabel: ="Numeric text"
+      - Password:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =236
+            Y: =310
+            Width: =200
+            Height: =40
+            Default: ="fictional"
+            Mode: =TextMode.Password
+            AccessibleLabel: ="Fictional password"
+      - Multiline:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            X: =456
+            Y: =310
+            Width: =410
+            Height: =76
+            Default: ="First line" & Char(10) & "Second line"
+            Mode: =TextMode.MultiLine
+            EnableSpellCheck: =true
+            AccessibleLabel: ="Multiline notes"
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =16
+            Y: =402
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - ChangeSeed:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Change default"
+            X: =162
+            Y: =402
+            Width: =136
+            OnSelect: =Set(seed,seed & "+")
+      - FocusText:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Focus text"
+            X: =320
+            Y: =402
+            Width: =136
+            OnSelect: =SetFocus(Immediate)
+      - ResetForm:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset form"
+            X: =466
+            Y: =402
+            Width: =136
+            OnSelect: =ResetForm(DraftForm)
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save form"
+            X: =612
+            Y: =402
+            Width: =136
+            OnSelect: =SubmitForm(DraftForm)
+      - ResetDelayed:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset delayed"
+            X: =758
+            Y: =402
+            Width: =124
+            OnSelect: =Reset(Delayed)
+      - DraftForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =16
+            Y: =456
+            Width: =850
+            Height: =134
+            DataSource: =Drafts
+            Item: =LookUp(Drafts,ID=1)
+            DefaultMode: =FormMode.Edit
+            NumberOfColumns: =2
+            OnSuccess: =Set(status,"Saved " & Self.LastSubmit.'Project Title')
+            OnFailure: =Set(status,"Save failed")
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Project Title"
+                  Default: =ThisItem.'Project Title'
+                  Required: =true
+                  Update: =TitleInput.Text
+                  Width: =410
+                  Height: =96
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Project title"
+                        X: =0
+                        Y: =0
+                        Width: =380
+                        Height: =32
+                  - TitleInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        X: =0
+                        Y: =34
+                        Width: =380
+                        Height: =40
+                        Default: =Parent.Default
+                        Clear: =true
+                        MaxLength: =40
+                        DisplayMode: =Parent.DisplayMode
+                        AccessibleLabel: ="Saved project title"
+            - StageCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Project Stage"
+                  Default: =ThisItem.'Project Stage'
+                  Update: =StageInput.Selected.Code
+                  Width: =410
+                  Height: =96
+                Children:
+                  - StageLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Project stage"
+                        X: =0
+                        Y: =0
+                        Width: =380
+                        Height: =32
+                  - StageInput:
+                      Control: Classic/DropDown@2.3.1
+                      Properties:
+                        X: =0
+                        Y: =34
+                        Width: =380
+                        Height: =40
+                        Items: =Table({Code:"Draft",Caption:"Draft"},{Code:"Review",Caption:"In review"},{Code:"Done",Caption:"Completed"})
+                        Value: ="Caption"
+                        Default: =LookUp(Table({Code:"Draft",Caption:"Draft"},{Code:"Review",Caption:"In review"},{Code:"Done",Caption:"Completed"}),Code=Parent.Default).Caption
+                        DisplayMode: =Parent.DisplayMode
+                        AccessibleLabel: ="Saved project stage"

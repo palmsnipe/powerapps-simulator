@@ -1,0 +1,30 @@
+{
+  "Snapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 80
+      },
+      "Total": {
+        "type": "number"
+      },
+      "Callbacks": {
+        "type": "integer"
+      },
+      "AutoDisable": {
+        "type": "boolean"
+      }
+    },
+    "mapping": {
+      "Total": "Counter total"
+    },
+    "required": [
+      "Title",
+      "Total"
+    ],
+    "records": []
+  }
+}

@@ -1,0 +1,182 @@
+App:
+  Properties:
+    StartScreen: =Home
+    OnStart: =Clear(events);Set(defaults,Table());Set(status,"Ready");Reset(Left);Reset(Right)
+    Formulas: =T(en:Text,fr:Text):Text=If(StartsWith(Language(),"fr"),fr,en);
+Screens:
+  Home:
+    Properties:
+      Width: =App.Width
+      Height: =Max(App.Height,Save.Y+70)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =T("Fictional selector lab","Sélection fictive")
+            X: =20
+            Y: =12
+            Width: =Parent.Width-40
+            Size: =24
+      - Left:
+          Control: CanvasComponent
+          Properties:
+            X: =20
+            Y: =65
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Rows: =Options
+            Defaults: =defaults
+            Caption: =T("Left panel","Panneau gauche")
+            Changed: =Collect(events,{Panel:"Left",Count:CountRows(picked)})
+          ComponentName: SelectorPanel
+      - Right:
+          Control: CanvasComponent
+          Properties:
+            X: =If(App.Width<760,20,Parent.Width/2+10)
+            Y: =If(App.Width<760,Left.Y+Left.Height+20,Left.Y)
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Rows: =Options
+            Defaults: =defaults
+            Caption: =T("Right panel","Panneau droit")
+            Changed: =Collect(events,{Panel:"Right",Count:CountRows(picked)})
+          ComponentName: SelectorPanel
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Reset left","Réinitialiser")
+            X: =20
+            Y: =Right.Y+Right.Height+12
+            Width: =140
+            OnSelect: =Reset(Left)
+      - ChangeDefaults:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("New defaults","Nouveaux défauts")
+            X: =If(App.Width<360,20,180)
+            Y: =If(App.Width<360,ResetLeft.Y+48,ResetLeft.Y)
+            Width: =140
+            OnSelect: =Set(defaults,Table(Last(Options)))
+      - Single:
+          Control: ComboBox@0.0.48
+          Properties:
+            X: =20
+            Y: =Max(ResetLeft.Y,ChangeDefaults.Y)+50
+            Width: =Parent.Width-40
+            Items: =Choices(Notes.State)
+            AccessibleLabel: ="Single choice"
+            OnChange: =Collect(events,{Panel:"Single",Count:CountRows(Self.SelectedItems)})
+      - Dropdown:
+          Control: DropDown@0.0.44
+          Properties:
+            X: =20
+            Y: =Single.Y+45
+            Width: =Parent.Width-40
+            Items: =Choices(Notes.State)
+            AccessibleLabel: ="State dropdown"
+            OnChange: =Set(chosenState,Self.Selected)
+      - NotesRows:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =Dropdown.Y+50
+            Width: =If(App.Width<760,Parent.Width-40,Parent.Width/2-40)
+            Height: =210
+            Items: =Notes As note
+            TemplateSize: =100
+          Children:
+            - RowTitle:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =note.Title
+                  X: =0
+                  Y: =0
+                  Width: =Parent.TemplateWidth-16
+                  Size: =15
+            - RowState:
+                Control: DropDown@0.0.44
+                Properties:
+                  Y: =40
+                  Width: =Parent.TemplateWidth-16
+                  Items: =Choices(Notes.State)
+                  DefaultSelectedItems: =Table(note.State)
+                  AccessibleLabel: =note.Title&" state"
+                  OnChange: =Patch(Notes,note,{State:Self.Selected})
+      - NoteForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =If(App.Width<760,20,Parent.Width/2+10)
+            Y: =If(App.Width<760,NotesRows.Y+NotesRows.Height+20,NotesRows.Y)
+            Width: =NotesRows.Width
+            Height: =200
+            DataSource: =Notes
+            Item: =First(Notes)
+            OnSuccess: =Set(status,"Saved")
+            OnFailure: =Set(status,"Save failed")
+          Children:
+            - StateCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  Width: =Parent.Width
+                  Height: =90
+                  DataField: ="State"
+                  Default: =ThisItem.State
+                  Update: =FormState.Selected
+                Variant: ComboBoxEdit
+                Children:
+                  - StateCaption:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="State"
+                        X: =0
+                        Y: =0
+                        Width: =Parent.Width
+                        Size: =15
+                  - FormState:
+                      Control: DropDown@0.0.44
+                      Properties:
+                        Y: =35
+                        Width: =Parent.Width-16
+                        Items: =Choices(Notes.State)
+                        DefaultSelectedItems: =Table(Parent.Default)
+                        AccessibleLabel: ="Draft State"
+            - TagsCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  Width: =Parent.Width
+                  Height: =90
+                  DataField: ="Tags"
+                  Default: =ThisItem.Tags
+                  Update: =FormTags.SelectedItems
+                Variant: ComboBoxMultiSelectEdit
+                Children:
+                  - TagsCaption:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Tags"
+                        X: =0
+                        Y: =0
+                        Width: =Parent.Width
+                        Size: =15
+                  - FormTags:
+                      Control: ComboBox@0.0.49
+                      Properties:
+                        Y: =35
+                        Width: =Parent.Width-16
+                        Items: =Choices(Notes.Tags)
+                        DefaultSelectedItems: =Parent.Default
+                        AccessibleLabel: ="Draft Tags"
+                        SelectMultiple: =true
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: =T("Save","Enregistrer")
+            X: =20
+            Y: =Max(NotesRows.Y+NotesRows.Height,NoteForm.Y+NoteForm.Height)+15
+            OnSelect: =SubmitForm(NoteForm)
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =status
+            X: =140
+            Y: =Save.Y
+            Width: =Parent.Width-160
+            Size: =15

@@ -1,0 +1,43 @@
+{
+  "CalendarSnapshots": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readOnly": true
+      },
+      "Day": {
+        "type": "string",
+        "format": "date"
+      },
+      "Weekday": {
+        "type": "number"
+      },
+      "Week": {
+        "type": "number"
+      },
+      "ISO": {
+        "type": "number"
+      },
+      "Zero": {
+        "type": "number"
+      }
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Day": "2021-01-01",
+        "Weekday": 5,
+        "Week": 1,
+        "ISO": 53,
+        "Zero": 4
+      }
+    ],
+    "required": [
+      "Day",
+      "Weekday",
+      "Week",
+      "ISO",
+      "Zero"
+    ]
+  }
+}

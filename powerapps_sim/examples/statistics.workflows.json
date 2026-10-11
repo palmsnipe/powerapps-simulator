@@ -1,0 +1,188 @@
+{
+  "statistics.workflow.json": {
+    "format_version": 1,
+    "name": "Population statistics, typed callbacks and mapped draft save retry",
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional left one",
+          "Category": "Left",
+          "Amount": 2
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional left two",
+          "Category": "Left",
+          "Amount": 4
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional right one",
+          "Category": "Right",
+          "Amount": 10
+        },
+        {
+          "ID": 4,
+          "Title": "Fictional right two",
+          "Category": "Right",
+          "Amount": 14
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "LeftStats.Summary.Variance=1 && LeftStats.Summary.Deviation=1 && RightStats.Summary.Variance=4 && RightStats.Summary.Deviation=2 && CountRows(trace)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/Panels/LeftStats/AddSample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftStats.Summary.Count=3 && Abs(LeftStats.Summary.Variance-8/3)<1e-12 && Abs(Last(trace).Deviation-Sqrt(8/3))<1e-12 && RightStats.Summary.Count=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/Panels/RightStats/AddSample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightStats.Summary.Count=3 && Abs(RightStats.Summary.Variance-32/3)<1e-12 && Last(trace).Panel=\"RightStats\" && LeftStats.Summary.Count=3",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/Panels/LeftStats/ResetSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftStats.Summary.Count=2 && LeftStats.Summary.Deviation=1 && RightStats.Summary.Count=3 && LeftStats.ResetCount=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/Panels/RightStats/ResetSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightStats.Summary.Deviation=2 && RightStats.ResetCount=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/ToggleSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftStats.Summary.Count=0 && !IsError(LeftStats.Summary) && IsError(LeftStats.Summary.Variance) && IsError(LeftStats.Summary.Deviation) && CountRows(failures)=0",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "scope": "StatisticsLab/Panels/LeftStats",
+        "formula": "Result.Text=StatsPanel.EmptyCaption",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IfError(VarP(LeftStats.Rows,Amount),FirstError.Kind)=13 && RightStats.Summary.Deviation=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/ToggleSamples",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftStats.Summary.Deviation=1 && LeftStats.ResetCount=4 && RightStats.ResetCount=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/EditAmount",
+        "event": "OnChange",
+        "value": 8
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "EditAmount.Value=8 && LookUp(Drafts,ID=1).'Sample amount'=2 && LeftStats.Summary.Deviation=1 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=1).'Sample amount'=8 && LeftStats.Summary.Deviation=2 && LeftStats.ResetCount=5 && RightStats.Summary.Deviation=2 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "target": "Index(DraftQueue.AllItems,3).Pick",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftQueue.Selected.ID=3 && EditAmount.Value=10",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/EditAmount",
+        "event": "OnChange",
+        "value": 18
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/SaveDraft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightStats.Summary.Deviation=2 && RightStats.Summary.Mean=16 && RightStats.ResetCount=3 && LeftStats.Summary.Mean=6 && CountRows(failures)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "StatisticsLab/Panels/LeftStats/AddSample",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Last(trace).Panel=\"LeftStats\" && Last(trace).Count=3 && Abs(Last(trace).Variance-8/3)<1e-12 && Last(trace).SelectedDraft=\"Fictional right one\"",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 1
+      }
+    ]
+  }
+}

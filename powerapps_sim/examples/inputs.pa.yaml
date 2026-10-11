@@ -1,0 +1,318 @@
+App:
+  Properties:
+    StartScreen: =InputScreen
+    OnStart: =Set(french,false);Clear(events)
+ComponentDefinitions:
+  InputPair:
+    AccessAppScope: false
+    CustomProperties:
+      SeedNumber:
+        PropertyKind: Input
+        DataType: Number
+        Default: =2
+        RaiseOnReset: true
+      SeedDate:
+        PropertyKind: Input
+        DataType: Date
+        Default: =Date(2026,1,15)
+      CurrentNumber:
+        PropertyKind: Output
+        DataType: Number
+        Default: =N.Value
+      CurrentDate:
+        PropertyKind: Output
+        DataType: Date
+        Default: =D.SelectedDate
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =380
+      Height: =124
+    Children:
+      - N:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =8
+            Y: =8
+            Width: =170
+            Height: =32
+            Default: =InputPair.SeedNumber
+            Min: =0
+            Max: =20
+            Step: =1
+            AccessibleLabel: ="Component number"
+            OnChange: =InputPair.Changed(Self.Value)
+      - D:
+          Control: ModernDatePicker@1.0.0
+          Properties:
+            X: =190
+            Y: =8
+            Width: =180
+            Height: =32
+            DefaultDate: =InputPair.SeedDate
+            Format: ="yyyy-mm-dd"
+            AccessibleLabel: ="Component date"
+      - Output:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =8
+            Y: =52
+            Width: =365
+            Height: =32
+            Text: ="Number " & Text(N.Value) & " · date " & Text(D.SelectedDate)
+Screens:
+  InputScreen:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =12
+            Width: =500
+            Height: =32
+            Text: ="Dates and numeric inputs"
+            Size: =24
+      - ResetAll:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =24
+            Y: =56
+            Width: =184
+            Height: =32
+            Text: ="Reset inputs"
+            OnSelect: =Reset(Quantity);Reset(Amount);Reset(Meeting);Reset(Editable);Reset(LeftPair);Reset(RightPair);ResetForm(InputForm)
+      - View:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =224
+            Y: =56
+            Width: =184
+            Height: =32
+            Text: ="Toggle form view"
+            OnSelect: =If(InputForm.Mode=FormMode.View,EditForm(InputForm),ViewForm(InputForm))
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =424
+            Y: =56
+            Width: =184
+            Height: =32
+            Text: ="Save record"
+            OnSelect: =SubmitForm(InputForm)
+      - Language:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =624
+            Y: =56
+            Width: =184
+            Height: =32
+            Text: ="English / French"
+            OnSelect: =Set(french,!french)
+      - QuantityHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =100
+            Width: =280
+            Height: =32
+            Text: ="Quantity · step 2"
+      - AmountHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =332
+            Y: =100
+            Width: =280
+            Height: =32
+            Text: ="Amount · two decimals"
+      - MeetingHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =220
+            Width: =280
+            Height: =32
+            Text: ="Calendar · Monday first"
+      - EditableHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =332
+            Y: =220
+            Width: =280
+            Height: =32
+            Text: ="Editable date · ISO format"
+      - Quantity:
+          Control: ModernNumberInput@1.0.0
+          Properties:
+            X: =24
+            Y: =136
+            Width: =280
+            Height: =32
+            Default: =2
+            Min: =0
+            Max: =10
+            Step: =2
+            Precision: =DecimalPrecision.'0'
+            ContentLanguage: =If(french,"fr-CA","en-US")
+            AccessibleLabel: ="Quantity"
+            OnChange: =Collect(events,{Kind:"quantity",Number:Self.Value})
+      - Amount:
+          Control: ModernNumberInput@1.1.2
+          Properties:
+            X: =332
+            Y: =136
+            Width: =280
+            Height: =32
+            Default: =12.5
+            Min: =0
+            Max: =100
+            Step: =0.25
+            Precision: =DecimalPrecision.'2'
+            ContentLanguage: =If(french,"fr-CA","en-US")
+            AccessibleLabel: ="Amount"
+            OnChange: =Collect(events,{Kind:"amount",Number:Self.Value})
+      - Meeting:
+          Control: ModernDatePicker@1.0.0
+          Properties:
+            X: =24
+            Y: =256
+            Width: =280
+            Height: =32
+            DefaultDate: =Date(2026,1,15)
+            StartDate: =Date(2026,1,10)
+            EndDate: =Date(2026,3,20)
+            StartOfWeek: =StartOfWeek.Monday
+            Format: ="dd/mm/yyyy"
+            IsEditable: =false
+            ContentLanguage: =If(french,"fr-CA","en-US")
+            AccessibleLabel: ="Meeting date"
+            OnChange: =Collect(events,{Kind:"Meeting",Day:Self.SelectedDate})
+      - Editable:
+          Control: ModernDatePicker@1.0.2
+          Properties:
+            X: =332
+            Y: =256
+            Width: =280
+            Height: =32
+            DefaultDate: =Date(2026,1,15)
+            StartDate: =Date(2026,1,10)
+            EndDate: =Date(2026,3,20)
+            StartOfWeek: =StartOfWeek.Monday
+            Format: ="yyyy-mm-dd"
+            IsEditable: =true
+            ContentLanguage: =If(french,"fr-CA","en-US")
+            AccessibleLabel: ="Editable date"
+            OnChange: =Collect(events,{Kind:"Editable",Day:Self.SelectedDate})
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =176
+            Width: =880
+            Height: =32
+            Text: ="Quantity " & Text(Quantity.Value) & " · amount " & Text(Amount.Value) & " · callbacks " & Text(CountRows(events))
+      - LeftPair:
+          Control: CanvasComponent
+          Properties:
+            X: =24
+            Y: =316
+            Width: =380
+            Height: =124
+            SeedNumber: =2
+            SeedDate: =Date(2026,1,15)
+            Changed: =Collect(events,{Kind:"LeftPair",Number:amount})
+          ComponentName: InputPair
+      - RightPair:
+          Control: CanvasComponent
+          Properties:
+            X: =440
+            Y: =316
+            Width: =380
+            Height: =124
+            SeedNumber: =8
+            SeedDate: =Date(2026,1,15)
+            Changed: =Collect(events,{Kind:"RightPair",Number:amount})
+          ComponentName: InputPair
+      - FormHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =452
+            Width: =500
+            Height: =32
+            Text: ="Local record · cost and due date"
+      - InputForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =24
+            Y: =490
+            Width: =760
+            Height: =80
+            DataSource: =Records
+            Item: =First(Records)
+            NumberOfColumns: =2
+            OnSuccess: =Collect(events,{Kind:"saved",Number:Self.LastSubmit.Cost})
+          Children:
+            - CostCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  X: =0
+                  Y: =0
+                  Width: =380
+                  Height: =70
+                  DataField: ="Cost"
+                  Default: =ThisItem.Cost
+                  Required: =true
+                  Update: =FormCost.Value
+                Children:
+                  - FormCost:
+                      Control: ModernNumberInput@1.0.0
+                      Properties:
+                        X: =8
+                        Y: =12
+                        Width: =352
+                        Height: =32
+                        Default: =Parent.Default
+                        AccessibleLabel: ="FormCost"
+                        ContentLanguage: =If(french,"fr-CA","en-US")
+                        Min: =0
+                        Max: =100
+                        Step: =0.5
+                        Precision: =DecimalPrecision.'2'
+                        HintText: ="Cost"
+            - DueCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  X: =380
+                  Y: =0
+                  Width: =380
+                  Height: =70
+                  DataField: ="Due"
+                  Default: =ThisItem.Due
+                  Required: =true
+                  Update: =FormDate.SelectedDate
+                Children:
+                  - FormDate:
+                      Control: ModernDatePicker@1.0.0
+                      Properties:
+                        X: =8
+                        Y: =12
+                        Width: =352
+                        Height: =32
+                        DefaultDate: =Parent.Default
+                        AccessibleLabel: ="FormDate"
+                        ContentLanguage: =If(french,"fr-CA","en-US")
+                        IsEditable: =true
+                        Format: ="yyyy-mm-dd"
+      - FormSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =24
+            Y: =582
+            Width: =760
+            Height: =50
+            Text: ="Unsaved " & Text(InputForm.Unsaved) & " · cost " & Text(InputForm.Updates.Cost) & " · due " & Text(InputForm.Updates.Due)

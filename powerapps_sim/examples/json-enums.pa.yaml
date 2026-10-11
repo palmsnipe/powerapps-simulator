@@ -1,0 +1,172 @@
+App:
+  Properties:
+    StartScreen: =JsonEnums
+    OnStart: =Clear(history);Clear(results);Set(status,"Ready");Reset(LeftPanel);Reset(RightPanel)
+    Formulas: =CallbackCount=CountRows(history);
+ComponentDefinitions:
+  JsonPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =1
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Title:Title.Text,Amount:Value(Amount.Text),Kind:ErrorKind.Network,Unit:TimeUnit.Months,Order:SortOrder.Descending,Week:StartOfWeek.Monday,Flags:Picker.Selected.Flag,Weeks:[1,2,3]}
+      Options:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Flag:Picker.Selected.Flag}
+      Encode:
+        PropertyKind: Action
+        ReturnType: Text
+        Default: =Set(isValid,true);Set(lastJSON,IfError(JSON(JsonPanel.Current,JsonPanel.Options.Flag),Set(isValid,false);FirstError.Message));Set(encoding,{Text:lastJSON,Valid:isValid});Collect(captured,{Json:lastJSON,Flag:JsonPanel.Options.Flag,Valid:encoding.Valid});JsonPanel.Changed({Json:lastJSON,Flag:JsonPanel.Options.Flag,Valid:encoding.Valid,Count:CountRows(captured)});lastJSON
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Json:"",Flag:JSONFormat.Compact,Valid:false,Count:0}
+              IsOptional: true
+        Default: =Blank()
+      Result:
+        PropertyKind: Output
+        DataType: Record
+        Default: =encoding
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =captured
+      Json:
+        PropertyKind: Output
+        DataType: Text
+        Default: =lastJSON
+    Properties:
+      Width: =430
+      Height: =360
+      OnReset: =Clear(captured);Set(lastJSON,"");Set(encoding,{Text:"",Valid:false});Reset(Title);Reset(Amount);Reset(Picker)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =JsonPanel.Caption
+            X: =12
+            Y: =0
+            Width: =400
+            Height: =30
+      - Title:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: ="Fictional " & JsonPanel.Caption
+            X: =12
+            Y: =38
+            Width: =400
+            AccessibleLabel: =JsonPanel.Caption & " title"
+            TriggerOutput: =TriggerOutput.FocusOut
+            OnChange: =JsonPanel.Encode()
+      - Amount:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: =Text(JsonPanel.Seed)
+            X: =12
+            Y: =82
+            Width: =128
+            AccessibleLabel: =JsonPanel.Caption & " amount"
+            TriggerOutput: =TriggerOutput.FocusOut
+            OnChange: =JsonPanel.Encode()
+      - Picker:
+          Control: ModernDropdown@1.0.0
+          Properties:
+            Items: =Table({Label:"Compact",Flag:JSONFormat.Compact},{Label:"Indented",Flag:JSONFormat.IndentFour},{Label:"Flattened",Flag:JSONFormat.FlattenValueTables},{Label:"Indented flat",Flag:Concatenate(JSONFormat.IndentFour,JSONFormat.FlattenValueTables)},{Label:"Conflicting media",Flag:JSONFormat.IncludeBinaryData & JSONFormat.IgnoreBinaryData})
+            Default: =First(Self.Items)
+            X: =152
+            Y: =82
+            Width: =260
+            AccessibleLabel: =JsonPanel.Caption & " format"
+            OnChange: =JsonPanel.Encode()
+      - EncodeButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Encode " & JsonPanel.Caption
+            X: =12
+            Y: =126
+            Width: =170
+            OnSelect: =JsonPanel.Encode()
+      - Output:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =lastJSON
+            X: =12
+            Y: =166
+            Width: =400
+            Height: =188
+            Wrap: =true
+            Size: =12
+Screens:
+  JsonEnums:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="JSON formats and enum identity"
+            X: =16
+            Y: =8
+            Width: =900
+            Height: =30
+      - Status:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Callbacks " & CountRows(history) & " · " & status
+            X: =16
+            Y: =42
+            Width: =900
+            Height: =30
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =16
+            Y: =82
+            Caption: ="LeftPanel"
+            Seed: =1
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & If(value.Valid," encoded"," rejected"))
+          ComponentName: JsonPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =470
+            Y: =82
+            Caption: ="RightPanel"
+            Seed: =10
+            Changed: =Collect(history,Patch(value,{Panel:Self.Name}));Set(status,Self.Name & If(value.Valid," encoded"," rejected"))
+          ComponentName: JsonPanel
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =16
+            Y: =458
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - BuildTable:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Build table"
+            X: =160
+            Y: =458
+            Width: =136
+            OnSelect: =ClearCollect(results,ForAll(Sequence(8),{Id:Value,Flag:If(Mod(Value,2)=0,JSONFormat.Compact,JSONFormat.IndentFour),Kind:ErrorKind.Network,Order:SortOrder.Descending,Unit:TimeUnit.Months,Week:StartOfWeek.Monday,FormatText:Text(If(Mod(Value,2)=0,JSONFormat.Compact,JSONFormat.IndentFour)),Json:JSON({N:Value,Kind:ErrorKind.Network,Weeks:[1,2,3]},If(Mod(Value,2)=0,JSONFormat.Compact,JSONFormat.FlattenValueTables)),N01:Value,N02:Value+1,N03:Value+2,N04:Value+3,N05:Value+4,N06:Value+5,N07:Value+6,N08:Value+7,N09:Value+8,N10:Value+9,Flags:[JSONFormat.Compact,JSONFormat.IndentFour],Nested:{Option:JSONFormat.IndentFour & JSONFormat.FlattenValueTables}}));Set(status,"Table ready")
+      - SaveLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save left"
+            X: =304
+            Y: =458
+            Width: =136
+            OnSelect: =If(LeftPanel.Result.Valid,IfError(Patch(Snapshots,Defaults(Snapshots),{Title:LeftPanel.Current.Title,Payload:LeftPanel.Json,Flags:Text(LeftPanel.Options.Flag),Panel:"LeftPanel"});Set(status,"Saved"),Set(status,"Save failed")),Set(status,"Encode a valid payload first"))

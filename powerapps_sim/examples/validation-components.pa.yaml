@@ -1,0 +1,83 @@
+ComponentDefinitions:
+  ScoreEditor:
+    DefinitionType: CanvasComponent
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Fictional score"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =0
+      Message:
+        PropertyKind: Input
+        DataType: Text
+        Default: =Blank()
+      Candidate:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Amount.Value
+      Edits:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(edits,0)
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - percentage:
+              DataType: Number
+        Default: =Blank()
+      SaveRequested:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - percentage:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =450
+      Height: =208
+      OnReset: =Set(edits,0)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =8
+            Width: =426
+            Height: =32
+            Text: =ScoreEditor.Caption & " · edits " & ScoreEditor.Edits
+      - Amount:
+          Control: ModernNumberInput@1.1.2
+          Properties:
+            X: =12
+            Y: =50
+            Width: =240
+            Height: =36
+            Default: =ScoreEditor.Seed
+            Min: =-100
+            Max: =200
+            AccessibleLabel: =ScoreEditor.Caption
+            OnChange: =Set(edits,ScoreEditor.Edits+1);ScoreEditor.Changed(Self.Value)
+      - Feedback:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =98
+            Width: =426
+            Height: =48
+            Text: =Coalesce(ScoreEditor.Message,"Valid")
+            FontColor: =If(IsBlank(ScoreEditor.Message),ColorValue("#107c10"),ColorValue("#a4262c"))
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =12
+            Y: =158
+            Width: =180
+            Height: =36
+            Text: ="Save " & ScoreEditor.Caption
+            DisplayMode: =If(IsBlank(ScoreEditor.Message),DisplayMode.Edit,DisplayMode.Disabled)
+            OnSelect: =ScoreEditor.SaveRequested(ScoreEditor.Candidate)

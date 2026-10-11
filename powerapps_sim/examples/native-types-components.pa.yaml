@@ -1,0 +1,129 @@
+ComponentDefinitions:
+  NativeCard:
+    DefinitionType: CanvasComponent
+    CustomProperties:
+      Seed:
+        PropertyKind: Input
+        DataType: Currency
+        Default: =10.25
+      StartDay:
+        PropertyKind: Input
+        DataType: DateAndTime
+        Default: =Date(2026,1,1)
+      Destination:
+        PropertyKind: Input
+        DataType: Screen
+        Default: =Blank()
+      Sound:
+        PropertyKind: Input
+        DataType: VideoOrAudio
+        Default: =Blank()
+      Total:
+        PropertyKind: Output
+        DataType: Currency
+      Day:
+        PropertyKind: Output
+        DataType: DateAndTime
+      Page:
+        PropertyKind: Output
+        DataType: Screen
+      Clip:
+        PropertyKind: Output
+        DataType: VideoOrAudio
+      Multiply:
+        PropertyKind: OutputFunction
+        ReturnType: Currency
+        Parameters:
+          - v:
+              DataType: Currency
+          - factor:
+              DataType: Number
+              IsOptional: true
+              Default: =2
+      NextDay:
+        PropertyKind: OutputFunction
+        ReturnType: DateAndTime
+        Parameters:
+          - v:
+              DataType: DateAndTime
+          - days:
+              DataType: Number
+              IsOptional: true
+              Default: =1
+      ScreenWidth:
+        PropertyKind: OutputFunction
+        ReturnType: Number
+        Parameters:
+          - v:
+              DataType: Screen
+      Go:
+        PropertyKind: Action
+        ReturnType: Screen
+        Parameters:
+          - v:
+              DataType: Screen
+      Save:
+        PropertyKind: Action
+        ReturnType: Currency
+        Parameters:
+          - amount:
+              DataType: Currency
+          - day:
+              DataType: DateAndTime
+          - clip:
+              DataType: VideoOrAudio
+          - page:
+              DataType: Screen
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - amount:
+              DataType: Currency
+          - day:
+              DataType: DateAndTime
+          - clip:
+              DataType: VideoOrAudio
+          - page:
+              DataType: Screen
+        Default: =Blank()
+    Properties:
+      Width: =450
+      Height: =220
+      OnReset: =Set(localMoney,NativeCard.Seed);Set(localDay,NativeCard.StartDay);Set(localClip,NativeCard.Sound);Set(localPage,NativeCard.Destination)
+      Total: =Coalesce(localMoney,NativeCard.Seed)
+      Day: =Coalesce(localDay,NativeCard.StartDay)
+      Clip: =Coalesce(localClip,NativeCard.Sound)
+      Page: =Coalesce(localPage,NativeCard.Destination)
+      Multiply: =v*factor
+      NextDay: =DateAdd(v,days,TimeUnit.Days)
+      ScreenWidth: =v.Width
+      Go: =Navigate(v);v
+      Save: =Set(localMoney,amount);Set(localDay,day);Set(localClip,clip);Set(localPage,page);NativeCard.Changed(amount,day,clip,page);amount
+    Children:
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Amount: " & Text(NativeCard.Total) & " · " & Text(NativeCard.Day,"yyyy-mm-dd")'
+            X: =12
+            Y: =12
+            Width: =420
+            Height: =36
+      - Amount:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            Default: ="12.5"
+            AccessibleLabel: ="Amount"
+            X: =12
+            Y: =64
+            Width: =200
+            Height: =36
+      - Submit:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save component"
+            OnSelect: =NativeCard.Save(Value(Amount.Text),NativeCard.NextDay(NativeCard.Day),NativeCard.Clip,NativeCard.Page)
+            X: =12
+            Y: =120
+            Width: =180
+            Height: =36

@@ -1,0 +1,1298 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Every expression in EncodeHTML.txt and PlainText.txt, independently decoded literal/error oracles in both numeric profiles. Windows CRLF host contract.",
+  "cases": [
+    {
+      "id": "html-EncodeHTML-2-float",
+      "expression": "EncodeHTML(\"<p>A paragraph</p>\")",
+      "expected": "&lt;p&gt;A paragraph&lt;/p&gt;",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L2",
+        "expected_powerfx": "\"&lt;p&gt;A paragraph&lt;/p&gt;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-2-decimal",
+      "expression": "EncodeHTML(\"<p>A paragraph</p>\")",
+      "expected": "&lt;p&gt;A paragraph&lt;/p&gt;",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L2",
+        "expected_powerfx": "\"&lt;p&gt;A paragraph&lt;/p&gt;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-6-float",
+      "expression": "EncodeHTML(\"<h1>Mac & cheese</h1>\")",
+      "expected": "&lt;h1&gt;Mac &amp; cheese&lt;/h1&gt;",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L6",
+        "expected_powerfx": "\"&lt;h1&gt;Mac &amp; cheese&lt;/h1&gt;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-6-decimal",
+      "expression": "EncodeHTML(\"<h1>Mac & cheese</h1>\")",
+      "expected": "&lt;h1&gt;Mac &amp; cheese&lt;/h1&gt;",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L6",
+        "expected_powerfx": "\"&lt;h1&gt;Mac &amp; cheese&lt;/h1&gt;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-10-float",
+      "expression": "EncodeHTML(\"A value with \"\"double\"\" and 'single' quotes\")",
+      "expected": "A value with &quot;double&quot; and &#39;single&#39; quotes",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L10",
+        "expected_powerfx": "\"A value with &quot;double&quot; and &#39;single&#39; quotes\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-10-decimal",
+      "expression": "EncodeHTML(\"A value with \"\"double\"\" and 'single' quotes\")",
+      "expected": "A value with &quot;double&quot; and &#39;single&#39; quotes",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L10",
+        "expected_powerfx": "\"A value with &quot;double&quot; and &#39;single&#39; quotes\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-14-float",
+      "expression": "EncodeHTML(Concat(Sequence(16, 160), UniChar(Value)))",
+      "expected": "&#160;&#161;&#162;&#163;&#164;&#165;&#166;&#167;&#168;&#169;&#170;&#171;&#172;&#173;&#174;&#175;",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L14",
+        "expected_powerfx": "\"&#160;&#161;&#162;&#163;&#164;&#165;&#166;&#167;&#168;&#169;&#170;&#171;&#172;&#173;&#174;&#175;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-14-decimal",
+      "expression": "EncodeHTML(Concat(Sequence(16, 160), UniChar(Value)))",
+      "expected": "&#160;&#161;&#162;&#163;&#164;&#165;&#166;&#167;&#168;&#169;&#170;&#171;&#172;&#173;&#174;&#175;",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L14",
+        "expected_powerfx": "\"&#160;&#161;&#162;&#163;&#164;&#165;&#166;&#167;&#168;&#169;&#170;&#171;&#172;&#173;&#174;&#175;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-18-float",
+      "expression": "With({str:Concat(Sequence(16, 144), UniChar(Value))}, str = EncodeHTML(str))",
+      "expected": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L18",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "html-EncodeHTML-18-decimal",
+      "expression": "With({str:Concat(Sequence(16, 144), UniChar(Value))}, str = EncodeHTML(str))",
+      "expected": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L18",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "html-EncodeHTML-22-float",
+      "expression": "With({str:EncodeHTML(Concat(Sequence(96, 160), UniChar(Value))), expectedEscaped:Concat(Sequence(96, 160), $\"&#{Value};\")}, str = expectedEscaped)",
+      "expected": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L22",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "html-EncodeHTML-22-decimal",
+      "expression": "With({str:EncodeHTML(Concat(Sequence(96, 160), UniChar(Value))), expectedEscaped:Concat(Sequence(96, 160), $\"&#{Value};\")}, str = expectedEscaped)",
+      "expected": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L22",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "html-EncodeHTML-26-float",
+      "expression": "EncodeHTML(\"<b>ĀāĂă</b>\")",
+      "expected": "&lt;b&gt;ĀāĂă&lt;/b&gt;",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L26",
+        "expected_powerfx": "\"&lt;b&gt;ĀāĂă&lt;/b&gt;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-26-decimal",
+      "expression": "EncodeHTML(\"<b>ĀāĂă</b>\")",
+      "expected": "&lt;b&gt;ĀāĂă&lt;/b&gt;",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L26",
+        "expected_powerfx": "\"&lt;b&gt;ĀāĂă&lt;/b&gt;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-30-float",
+      "expression": "EncodeHTML(Blank())",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L30",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-30-decimal",
+      "expression": "EncodeHTML(Blank())",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L30",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-33-float",
+      "expression": "EncodeHTML(\"\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L33",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-33-decimal",
+      "expression": "EncodeHTML(\"\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L33",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-37-float",
+      "expression": "EncodeHTML(Char(-1))",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L37",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      }
+    },
+    {
+      "id": "html-EncodeHTML-37-decimal",
+      "expression": "EncodeHTML(Char(-1))",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L37",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      }
+    },
+    {
+      "id": "html-EncodeHTML-41-float",
+      "expression": "EncodeHTML(\"<ul><li>not a pair: ❤</li><li>a surrogate pair: 💩</li></ul>\")",
+      "expected": "&lt;ul&gt;&lt;li&gt;not a pair: ❤&lt;/li&gt;&lt;li&gt;a surrogate pair: &#128169;&lt;/li&gt;&lt;/ul&gt;",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L41",
+        "expected_powerfx": "\"&lt;ul&gt;&lt;li&gt;not a pair: ❤&lt;/li&gt;&lt;li&gt;a surrogate pair: &#128169;&lt;/li&gt;&lt;/ul&gt;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-41-decimal",
+      "expression": "EncodeHTML(\"<ul><li>not a pair: ❤</li><li>a surrogate pair: 💩</li></ul>\")",
+      "expected": "&lt;ul&gt;&lt;li&gt;not a pair: ❤&lt;/li&gt;&lt;li&gt;a surrogate pair: &#128169;&lt;/li&gt;&lt;/ul&gt;",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L41",
+        "expected_powerfx": "\"&lt;ul&gt;&lt;li&gt;not a pair: ❤&lt;/li&gt;&lt;li&gt;a surrogate pair: &#128169;&lt;/li&gt;&lt;/ul&gt;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-44-float",
+      "expression": "EncodeHTML(\"Osage alphabet (start): 𐒰𐒱𐒲𐒳𐒴𐒵𐒶\")",
+      "expected": "Osage alphabet (start): &#66736;&#66737;&#66738;&#66739;&#66740;&#66741;&#66742;",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L44",
+        "expected_powerfx": "\"Osage alphabet (start): &#66736;&#66737;&#66738;&#66739;&#66740;&#66741;&#66742;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-44-decimal",
+      "expression": "EncodeHTML(\"Osage alphabet (start): 𐒰𐒱𐒲𐒳𐒴𐒵𐒶\")",
+      "expected": "Osage alphabet (start): &#66736;&#66737;&#66738;&#66739;&#66740;&#66741;&#66742;",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L44",
+        "expected_powerfx": "\"Osage alphabet (start): &#66736;&#66737;&#66738;&#66739;&#66740;&#66741;&#66742;\""
+      }
+    },
+    {
+      "id": "html-EncodeHTML-48-float",
+      "expression": "EncodeHTML($\"Unpaired: {Mid(UniChar(Hex2Dec(\"1f600\")),1,1)} {Mid(UniChar(Hex2Dec(\"1f600\")),2,1)}\") = $\"Unpaired: {UniChar(65533)} {UniChar(65533)}\"",
+      "expected": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L48",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "html-EncodeHTML-48-decimal",
+      "expression": "EncodeHTML($\"Unpaired: {Mid(UniChar(Hex2Dec(\"1f600\")),1,1)} {Mid(UniChar(Hex2Dec(\"1f600\")),2,1)}\") = $\"Unpaired: {UniChar(65533)} {UniChar(65533)}\"",
+      "expected": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/EncodeHTML.txt#L48",
+        "expected_powerfx": "true"
+      }
+    },
+    {
+      "id": "html-PlainText-1-float",
+      "expression": "PlainText(\"\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L1",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-1-decimal",
+      "expression": "PlainText(\"\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L1",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-4-float",
+      "expression": "PlainText(\"<>\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L4",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-4-decimal",
+      "expression": "PlainText(\"<>\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L4",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-7-float",
+      "expression": "PlainText(\"</>\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L7",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-7-decimal",
+      "expression": "PlainText(\"</>\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L7",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-10-float",
+      "expression": "PlainText(\"No Tags in text\")",
+      "expected": "No Tags in text",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L10",
+        "expected_powerfx": "\"No Tags in text\""
+      }
+    },
+    {
+      "id": "html-PlainText-10-decimal",
+      "expression": "PlainText(\"No Tags in text\")",
+      "expected": "No Tags in text",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L10",
+        "expected_powerfx": "\"No Tags in text\""
+      }
+    },
+    {
+      "id": "html-PlainText-13-float",
+      "expression": "PlainText(\"Test <td valign=top style=\\'border:none;border-right:solid white 1.0pt;background:#DEE8F2;padding:1.45pt .05in 1.45pt .05in\\'>Input Text</td>\")",
+      "expected": "Test Input Text",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L13",
+        "expected_powerfx": "\"Test Input Text\""
+      }
+    },
+    {
+      "id": "html-PlainText-13-decimal",
+      "expression": "PlainText(\"Test <td valign=top style=\\'border:none;border-right:solid white 1.0pt;background:#DEE8F2;padding:1.45pt .05in 1.45pt .05in\\'>Input Text</td>\")",
+      "expected": "Test Input Text",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L13",
+        "expected_powerfx": "\"Test Input Text\""
+      }
+    },
+    {
+      "id": "html-PlainText-16-float",
+      "expression": "PlainText(\"<   header B=Test >Input \\n\\nText\\t <\\r\\n/>< /   header>\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L16",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-16-decimal",
+      "expression": "PlainText(\"<   header B=Test >Input \\n\\nText\\t <\\r\\n/>< /   header>\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L16",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-19-float",
+      "expression": "PlainText(\"<Script>Input Text</ Script      >\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L19",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-19-decimal",
+      "expression": "PlainText(\"<Script>Input Text</ Script      >\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L19",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-22-float",
+      "expression": "PlainText(\"<style >New style</ Style      >\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L22",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-22-decimal",
+      "expression": "PlainText(\"<style >New style</ Style      >\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L22",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-25-float",
+      "expression": "PlainText(\"<!-- Input Text <td></td> {}      -->\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L25",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-25-decimal",
+      "expression": "PlainText(\"<!-- Input Text <td></td> {}      -->\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L25",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-28-float",
+      "expression": "PlainText(\"<!-- \\r\\nInput \\n\\n Text\\t <td>\\r\\n</td> {}      -->\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L28",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-28-decimal",
+      "expression": "PlainText(\"<!-- \\r\\nInput \\n\\n Text\\t <td>\\r\\n</td> {}      -->\")",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L28",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-31-float",
+      "expression": "PlainText(\"< customTag  a=10, b=20   >                    Column1</   customTag >\")",
+      "expected": "Column1",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L31",
+        "expected_powerfx": "\"Column1\""
+      }
+    },
+    {
+      "id": "html-PlainText-31-decimal",
+      "expression": "PlainText(\"< customTag  a=10, b=20   >                    Column1</   customTag >\")",
+      "expected": "Column1",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L31",
+        "expected_powerfx": "\"Column1\""
+      }
+    },
+    {
+      "id": "html-PlainText-34-float",
+      "expression": "PlainText(\"1<td>2<td>3<td>4<td>5\")",
+      "expected": "12345",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L34",
+        "expected_powerfx": "\"12345\""
+      }
+    },
+    {
+      "id": "html-PlainText-34-decimal",
+      "expression": "PlainText(\"1<td>2<td>3<td>4<td>5\")",
+      "expected": "12345",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L34",
+        "expected_powerfx": "\"12345\""
+      }
+    },
+    {
+      "id": "html-PlainText-37-float",
+      "expression": "PlainText(\"  <  xml><p>Input<tr>  </xml>\")",
+      "expected": "Input",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L37",
+        "expected_powerfx": "\"Input\""
+      }
+    },
+    {
+      "id": "html-PlainText-37-decimal",
+      "expression": "PlainText(\"  <  xml><p>Input<tr>  </xml>\")",
+      "expected": "Input",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L37",
+        "expected_powerfx": "\"Input\""
+      }
+    },
+    {
+      "id": "html-PlainText-40-float",
+      "expression": "PlainText(\"http&#x3a;//microsoft.com\")",
+      "expected": "http://microsoft.com",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L40",
+        "expected_powerfx": "\"http://microsoft.com\""
+      }
+    },
+    {
+      "id": "html-PlainText-40-decimal",
+      "expression": "PlainText(\"http&#x3a;//microsoft.com\")",
+      "expected": "http://microsoft.com",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L40",
+        "expected_powerfx": "\"http://microsoft.com\""
+      }
+    },
+    {
+      "id": "html-PlainText-43-float",
+      "expression": "PlainText(\"http&#58;//microsoft.com\")",
+      "expected": "http://microsoft.com",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L43",
+        "expected_powerfx": "\"http://microsoft.com\""
+      }
+    },
+    {
+      "id": "html-PlainText-43-decimal",
+      "expression": "PlainText(\"http&#58;//microsoft.com\")",
+      "expected": "http://microsoft.com",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L43",
+        "expected_powerfx": "\"http://microsoft.com\""
+      }
+    },
+    {
+      "id": "html-PlainText-46-float",
+      "expression": "PlainText(Blank())",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L46",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-46-decimal",
+      "expression": "PlainText(Blank())",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L46",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-49-float",
+      "expression": "PlainText(12.34)",
+      "expected": "12.34",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L49",
+        "expected_powerfx": "\"12.34\""
+      }
+    },
+    {
+      "id": "html-PlainText-49-decimal",
+      "expression": "PlainText(12.34)",
+      "expected": "12.34",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L49",
+        "expected_powerfx": "\"12.34\""
+      }
+    },
+    {
+      "id": "html-PlainText-52-float",
+      "expression": "PlainText(-12.34)",
+      "expected": "-12.34",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L52",
+        "expected_powerfx": "\"-12.34\""
+      }
+    },
+    {
+      "id": "html-PlainText-52-decimal",
+      "expression": "PlainText(-12.34)",
+      "expected": "-12.34",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L52",
+        "expected_powerfx": "\"-12.34\""
+      }
+    },
+    {
+      "id": "html-PlainText-55-float",
+      "expression": "PlainText(Date(2023,1,1))",
+      "expected": "1/1/2023",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L55",
+        "expected_powerfx": "\"1/1/2023\""
+      }
+    },
+    {
+      "id": "html-PlainText-55-decimal",
+      "expression": "PlainText(Date(2023,1,1))",
+      "expected": "1/1/2023",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L55",
+        "expected_powerfx": "\"1/1/2023\""
+      }
+    },
+    {
+      "id": "html-PlainText-58-float",
+      "expression": "PlainText(DateTime(2023,1,1,12,34,56))",
+      "expected": "1/1/2023 12:34 PM",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L58",
+        "expected_powerfx": "\"1/1/2023 12:34 PM\""
+      }
+    },
+    {
+      "id": "html-PlainText-58-decimal",
+      "expression": "PlainText(DateTime(2023,1,1,12,34,56))",
+      "expected": "1/1/2023 12:34 PM",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L58",
+        "expected_powerfx": "\"1/1/2023 12:34 PM\""
+      }
+    },
+    {
+      "id": "html-PlainText-61-float",
+      "expression": "PlainText(Time(8,1,15))",
+      "expected": "8:01 AM",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L61",
+        "expected_powerfx": "\"8:01 AM\""
+      }
+    },
+    {
+      "id": "html-PlainText-61-decimal",
+      "expression": "PlainText(Time(8,1,15))",
+      "expected": "8:01 AM",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L61",
+        "expected_powerfx": "\"8:01 AM\""
+      }
+    },
+    {
+      "id": "html-PlainText-65-float",
+      "expression": "PlainText()",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L65",
+        "expected_powerfx": "Errors: Error 0-11: Invalid number of arguments: received 0, expected 1."
+      }
+    },
+    {
+      "id": "html-PlainText-65-decimal",
+      "expression": "PlainText()",
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L65",
+        "expected_powerfx": "Errors: Error 0-11: Invalid number of arguments: received 0, expected 1."
+      }
+    },
+    {
+      "id": "html-PlainText-69-float",
+      "expression": "PlainText(Error({Kind:ErrorKind.Div0}))",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L69",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      }
+    },
+    {
+      "id": "html-PlainText-69-decimal",
+      "expression": "PlainText(Error({Kind:ErrorKind.Div0}))",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      },
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L69",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      }
+    },
+    {
+      "id": "html-PlainText-72-float",
+      "expression": "PlainText(If(1<0, \"text\"))",
+      "expected": "",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L72",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-72-decimal",
+      "expression": "PlainText(If(1<0, \"text\"))",
+      "expected": "",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L72",
+        "expected_powerfx": "\"\""
+      }
+    },
+    {
+      "id": "html-PlainText-75-float",
+      "expression": "Substitute(Substitute(PlainText(\"Test<br id = 'br1'>break line</  BR>\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "Test\\r\\nbreak line",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L75",
+        "expected_powerfx": "\"Test\\r\\nbreak line\""
+      }
+    },
+    {
+      "id": "html-PlainText-75-decimal",
+      "expression": "Substitute(Substitute(PlainText(\"Test<br id = 'br1'>break line</  BR>\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "Test\\r\\nbreak line",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L75",
+        "expected_powerfx": "\"Test\\r\\nbreak line\""
+      }
+    },
+    {
+      "id": "html-PlainText-78-float",
+      "expression": "Substitute(Substitute(PlainText(\"1<br>2<li>3\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n2\\r\\n3",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L78",
+        "expected_powerfx": "\"1\\r\\n2\\r\\n3\""
+      }
+    },
+    {
+      "id": "html-PlainText-78-decimal",
+      "expression": "Substitute(Substitute(PlainText(\"1<br>2<li>3\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n2\\r\\n3",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L78",
+        "expected_powerfx": "\"1\\r\\n2\\r\\n3\""
+      }
+    },
+    {
+      "id": "html-PlainText-81-float",
+      "expression": "Substitute(Substitute(PlainText(\"1<BR/>2<li/>3\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n2\\r\\n3",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L81",
+        "expected_powerfx": "\"1\\r\\n2\\r\\n3\""
+      }
+    },
+    {
+      "id": "html-PlainText-81-decimal",
+      "expression": "Substitute(Substitute(PlainText(\"1<BR/>2<li/>3\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n2\\r\\n3",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L81",
+        "expected_powerfx": "\"1\\r\\n2\\r\\n3\""
+      }
+    },
+    {
+      "id": "html-PlainText-84-float",
+      "expression": "Substitute(Substitute(PlainText(\"Test<p >double</  p><div >break line</ Div>\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "Test\\r\\n\\r\\ndouble\\r\\n\\r\\nbreak line",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L84",
+        "expected_powerfx": "\"Test\\r\\n\\r\\ndouble\\r\\n\\r\\nbreak line\""
+      }
+    },
+    {
+      "id": "html-PlainText-84-decimal",
+      "expression": "Substitute(Substitute(PlainText(\"Test<p >double</  p><div >break line</ Div>\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "Test\\r\\n\\r\\ndouble\\r\\n\\r\\nbreak line",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L84",
+        "expected_powerfx": "\"Test\\r\\n\\r\\ndouble\\r\\n\\r\\nbreak line\""
+      }
+    },
+    {
+      "id": "html-PlainText-87-float",
+      "expression": "Substitute(Substitute(PlainText(\"1<div>2<p>3<tr>4\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L87",
+        "expected_powerfx": "\"1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4\""
+      }
+    },
+    {
+      "id": "html-PlainText-87-decimal",
+      "expression": "Substitute(Substitute(PlainText(\"1<div>2<p>3<tr>4\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L87",
+        "expected_powerfx": "\"1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4\""
+      }
+    },
+    {
+      "id": "html-PlainText-90-float",
+      "expression": "Substitute(Substitute(PlainText(\"1<Div>2<p>3<Tr>4\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L90",
+        "expected_powerfx": "\"1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4\""
+      }
+    },
+    {
+      "id": "html-PlainText-90-decimal",
+      "expression": "Substitute(Substitute(PlainText(\"1<Div>2<p>3<Tr>4\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L90",
+        "expected_powerfx": "\"1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4\""
+      }
+    },
+    {
+      "id": "html-PlainText-93-float",
+      "expression": "Substitute(Substitute(PlainText(\"1<  br  >2<  Li />3\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n2\\r\\n3",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L93",
+        "expected_powerfx": "\"1\\r\\n2\\r\\n3\""
+      }
+    },
+    {
+      "id": "html-PlainText-93-decimal",
+      "expression": "Substitute(Substitute(PlainText(\"1<  br  >2<  Li />3\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n2\\r\\n3",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L93",
+        "expected_powerfx": "\"1\\r\\n2\\r\\n3\""
+      }
+    },
+    {
+      "id": "html-PlainText-96-float",
+      "expression": "Substitute(Substitute(PlainText(\"1<div  class = 'div2'>2< P />3<  tr>4\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L96",
+        "expected_powerfx": "\"1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4\""
+      }
+    },
+    {
+      "id": "html-PlainText-96-decimal",
+      "expression": "Substitute(Substitute(PlainText(\"1<div  class = 'div2'>2< P />3<  tr>4\"), Char(13), \"\\r\"), Char(10), \"\\n\")",
+      "expected": "1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L96",
+        "expected_powerfx": "\"1\\r\\n\\r\\n2\\r\\n\\r\\n3\\r\\n\\r\\n4\""
+      }
+    },
+    {
+      "id": "html-PlainText-99-float",
+      "expression": "PlainText(\"Hello&lt;br/&gt;world\")",
+      "expected": "Hello<br/>world",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L99",
+        "expected_powerfx": "\"Hello<br/>world\""
+      }
+    },
+    {
+      "id": "html-PlainText-99-decimal",
+      "expression": "PlainText(\"Hello&lt;br/&gt;world\")",
+      "expected": "Hello<br/>world",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L99",
+        "expected_powerfx": "\"Hello<br/>world\""
+      }
+    },
+    {
+      "id": "html-PlainText-102-float",
+      "expression": "PlainText(\"Many character entities: &lt;&gt;&amp;&quot;&apos;&cent;&pound;&yen;&euro;&copy;&reg;&aacute;&egrave;&otilde;&ccedil;&ucirc;&alpha;&beta;&gamma;&delta;&Delta;\")",
+      "expected": "Many character entities: <>&\"'¢£¥€©®áèõçûαβγδΔ",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L102",
+        "expected_powerfx": "\"Many character entities: <>&\"\"'¢£¥€©®áèõçûαβγδΔ\""
+      }
+    },
+    {
+      "id": "html-PlainText-102-decimal",
+      "expression": "PlainText(\"Many character entities: &lt;&gt;&amp;&quot;&apos;&cent;&pound;&yen;&euro;&copy;&reg;&aacute;&egrave;&otilde;&ccedil;&ucirc;&alpha;&beta;&gamma;&delta;&Delta;\")",
+      "expected": "Many character entities: <>&\"'¢£¥€©®áèõçûαβγδΔ",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L102",
+        "expected_powerfx": "\"Many character entities: <>&\"\"'¢£¥€©®áèõçûαβγδΔ\""
+      }
+    },
+    {
+      "id": "html-PlainText-105-float",
+      "expression": "PlainText(\"More character references: &#X1f970; - &#x1F948;\")",
+      "expected": "More character references: 🥰 - 🥈",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L105",
+        "expected_powerfx": "\"More character references: 🥰 - 🥈\""
+      }
+    },
+    {
+      "id": "html-PlainText-105-decimal",
+      "expression": "PlainText(\"More character references: &#X1f970; - &#x1F948;\")",
+      "expected": "More character references: 🥰 - 🥈",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L105",
+        "expected_powerfx": "\"More character references: 🥰 - 🥈\""
+      }
+    },
+    {
+      "id": "html-PlainText-108-float",
+      "expression": "PlainText(\"<para>Not a <break>line break.</para><para>Also not a line break.</para>\")",
+      "expected": "Not a line break.Also not a line break.",
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L108",
+        "expected_powerfx": "\"Not a line break.Also not a line break.\""
+      }
+    },
+    {
+      "id": "html-PlainText-108-decimal",
+      "expression": "PlainText(\"<para>Not a <break>line break.</para><para>Also not a line break.</para>\")",
+      "expected": "Not a line break.Also not a line break.",
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/PlainText.txt#L108",
+        "expected_powerfx": "\"Not a line break.Also not a line break.\""
+      }
+    }
+  ]
+}

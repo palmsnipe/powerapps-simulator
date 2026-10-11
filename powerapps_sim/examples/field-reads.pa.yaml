@@ -1,0 +1,384 @@
+App:
+  Properties:
+    StartScreen: =ReactiveLab
+    OnStart: =Set(counter,0);Set(randomPick,false);Set(saved,false);Set(remembered,Blank());Clear(saves);Set(leftRecord,{Amount:11,Title:"Fictional left",Owner:{Email:"left@example.test",Name:"Fictional L"}});Set(rightRecord,{Amount:32,Title:"Fictional right",Owner:{Email:"right@example.test",Name:"Fictional R"}});Set(fieldRemembered,Blank());Clear(samples)
+    Formulas: =Seeded=Rand();
+Screens:
+  ReactiveLab:
+    Properties:
+      Width: =App.Width
+      Height: =App.Height
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Reactive cells and defaults"
+            X: =20
+            Y: =8
+            Width: =900
+            Height: =30
+      - ClassicLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Classic table"
+            X: =20
+            Y: =48
+            Width: =440
+            Height: =30
+      - GridLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Modern grid"
+            X: =510
+            Y: =48
+            Width: =440
+            Height: =30
+      - Classic:
+          Control: DataTable@1.0.2
+          Properties:
+            Items: =Cards
+            X: =20
+            Y: =84
+            Width: =460
+            Height: =176
+          Children:
+            - ClassicTitle:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  Text: =ThisItem.Title
+                  Width: =210
+                  FieldDisplayName: ="Card"
+                  FieldName: ="Title"
+                  Order: =1
+            - ClassicFixed:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  Text: =Text(Rand(),"0.000000")
+                  Width: =210
+                  FieldDisplayName: ="Fixed"
+                  FieldName: ="Amount"
+                  Order: =2
+            - ClassicRoll:
+                Control: DataTableColumn@1.0.1
+                Properties:
+                  Text: =Text(ThisItem.Amount+Rand(),"0.000000")
+                  Width: =210
+                  FieldDisplayName: ="Amount + Rand"
+                  FieldName: ="Amount"
+                  Order: =3
+      - Grid:
+          Control: ModernDataGrid@1.1.0
+          Properties:
+            Items: =Cards
+            X: =510
+            Y: =84
+            Width: =460
+            Height: =176
+            Searchable: =true
+            Sortable: =true
+            DefaultSelectedItems: =FirstN(Cards,1)
+          Children:
+            - GridTitle:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  Text: =ThisItem.Title
+                  Width: =210
+                  FieldDisplayName: ="Card"
+                Variant: Textual
+            - GridFixed:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  Text: =Text(Rand(),"0.000000")
+                  Width: =210
+                  FieldDisplayName: ="Fixed"
+                Variant: Textual
+            - GridRoll:
+                Control: ModernDataGridColumn@1.1.0
+                Properties:
+                  Text: =Text(ThisItem.Amount+Rand(),"0.000000")
+                  Width: =210
+                  FieldDisplayName: ="Amount + Rand"
+                Variant: Textual
+      - Unrelated:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Unrelated change"
+            OnSelect: =Set(counter,counter+1)
+            X: =20
+            Y: =280
+            Width: =160
+            Height: =36
+      - ChangeFirst:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase first budget"
+            OnSelect: =Patch(Cards,LookUp(Cards,ID=1),{Amount:LookUp(Cards,ID=1).Amount+1})
+            X: =200
+            Y: =280
+            Width: =220
+            Height: =36
+      - Remember:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remember defaults"
+            OnSelect: =Set(remembered,{Draft:AmountInput.Text,Item:Editor.Item.ID,Classic:Classic.Selected.ID,Fixed:GridFixed.Text,Roll:GridRoll.Text})
+            X: =440
+            Y: =280
+            Width: =210
+            Height: =36
+      - RandomPick:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Random item"
+            OnSelect: =Set(randomPick,true)
+            X: =670
+            Y: =280
+            Width: =160
+            Height: =36
+      - Editor:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Cards
+            Item: =If(randomPick,Index(Cards,RandBetween(1,CountRows(Cards))),Grid.Selected)
+            X: =20
+            Y: =340
+            Width: =360
+            Height: =100
+            NumberOfColumns: =1
+            OnSuccess: =Set(saved,true);Collect(saves,Self.LastSubmit)
+            OnFailure: =Set(saved,false)
+          Children:
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Amount"
+                  Default: =Text(ThisItem.Amount+Rand(),"0.000000")
+                  Update: =Value(AmountInput.Text)
+                  X: =0
+                  Y: =0
+                  Width: =360
+                  Height: =80
+                Children:
+                  - Label:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Budget"
+                        X: =12
+                        Y: =0
+                        Width: =320
+                        Height: =30
+                  - AmountInput:
+                      Control: Classic/TextInput@2.3.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Budget draft"
+                        X: =12
+                        Y: =34
+                        Width: =320
+                        Height: =36
+      - Item:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Item: " & Editor.Item.Title'
+            X: =400
+            Y: =342
+            Width: =560
+            Height: =30
+      - Draft:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Draft: " & AmountInput.Text'
+            X: =400
+            Y: =378
+            Width: =560
+            Height: =30
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save budget"
+            OnSelect: =SubmitForm(Editor)
+            X: =20
+            Y: =454
+            Width: =160
+            Height: =36
+      - Reset:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset draft"
+            OnSelect: =ResetForm(Editor)
+            X: =200
+            Y: =454
+            Width: =160
+            Height: =36
+      - Counter:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Unrelated changes: " & counter'
+            X: =400
+            Y: =458
+            Width: =440
+            Height: =30
+      - Decorations:
+          Control: Gallery@2.15.0
+          Properties:
+            Items: =Cards As card
+            X: =20
+            Y: =516
+            Width: =950
+            Height: =140
+            TemplateSize: =34
+            TemplateFill: =RGBA(245,RandBetween(230,245),245,1)
+            ItemAccessibleLabel: =card.Title & " " & Text(Rand(),"0.000000")
+          Variant: Vertical
+          Children:
+            - Title:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title
+                  X: =12
+                  Y: =0
+                  Width: =900
+                  Height: =30
+      - LeftFields:
+          Control: CanvasComponent
+          ComponentName: FieldPanel
+          Properties:
+            Entry: =leftRecord
+            X: =20
+            Y: =690
+            Width: =460
+            Height: =210
+            Changed: =Collect(samples,{Panel:"left",Roll:snapshot.Roll,Mail:snapshot.Mail})
+      - RightFields:
+          Control: CanvasComponent
+          ComponentName: FieldPanel
+          Properties:
+            Entry: =rightRecord
+            X: =510
+            Y: =690
+            Width: =460
+            Height: =210
+            Changed: =Collect(samples,{Panel:"right",Roll:snapshot.Roll,Mail:snapshot.Mail})
+      - RenameCard:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Rename first card"
+            OnSelect: =Patch(Cards,LookUp(Cards,ID=1),{Title:"Fictional renamed card"})
+            X: =840
+            Y: =280
+            Width: =150
+            Height: =36
+      - RenameOwner:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Rename left owner"
+            OnSelect: =Set(leftRecord,Patch(leftRecord,{Owner:Patch(leftRecord.Owner,{Name:"Fictional renamed owner"})}))
+            X: =20
+            Y: =916
+            Width: =220
+            Height: =36
+      - IncreaseLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Increase left amount"
+            OnSelect: =Set(leftRecord,Patch(leftRecord,{Amount:leftRecord.Amount+1}))
+            X: =260
+            Y: =916
+            Width: =220
+            Height: =36
+      - ChangeEmail:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Change left email"
+            OnSelect: =Set(leftRecord,Patch(leftRecord,{Owner:Patch(leftRecord.Owner,{Email:"changed@example.test"})}))
+            X: =510
+            Y: =916
+            Width: =220
+            Height: =36
+      - RememberFields:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Remember fields"
+            OnSelect: =Set(fieldRemembered,{L:LeftFields.Roll,R:RightFields.Roll,M:LeftFields.Mail,RM:RightFields.Mail,W:LeftFields.Whole})
+            X: =750
+            Y: =916
+            Width: =220
+            Height: =36
+ComponentDefinitions:
+  FieldPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Entry:
+        PropertyKind: Input
+        DataType: Record
+        Default: ={Amount:0,Title:"",Owner:{Email:"",Name:""}}
+      Roll:
+        PropertyKind: Output
+        DataType: Number
+        Default: =FieldPanel.Entry.Amount+Rand()
+      Mail:
+        PropertyKind: Output
+        DataType: Text
+        Default: =FieldPanel.Entry.Owner.Email & " " & Text(Rand(),"0.000000")
+      Whole:
+        PropertyKind: Output
+        DataType: Text
+        Default: =If(IsBlank(FieldPanel.Entry),"blank",Text(Rand(),"0.000000"))
+      Emit:
+        PropertyKind: Action
+        ReturnType: None
+        Default: =FieldPanel.Changed({Roll:FieldPanel.Roll,Mail:FieldPanel.Mail});Blank()
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - snapshot:
+              DataType: Record
+              Default: ={Roll:0,Mail:""}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =460
+      Height: =210
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =FieldPanel.Entry.Title
+            X: =12
+            Y: =0
+            Width: =430
+            Height: =28
+      - RollText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Amount: " & Text(FieldPanel.Roll,"0.000000")'
+            X: =12
+            Y: =32
+            Width: =430
+            Height: =28
+      - MailText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =FieldPanel.Mail
+            X: =12
+            Y: =64
+            Width: =430
+            Height: =28
+      - WholeText:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: '="Whole record: " & FieldPanel.Whole'
+            X: =12
+            Y: =96
+            Width: =430
+            Height: =28
+      - EmitButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Record callback"
+            X: =12
+            Y: =138
+            Width: =220
+            Height: =36
+            OnSelect: =FieldPanel.Emit()

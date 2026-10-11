@@ -1,0 +1,88 @@
+ComponentDefinitions:
+  InputPanel:
+    AccessAppScope: false
+    CustomProperties:
+      InitialText:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Fictional draft"
+      InitialChecked:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Input panel"
+      CurrentText:
+        PropertyKind: Output
+        DataType: Text
+        Default: =Draft.Value
+      CurrentChecked:
+        PropertyKind: Output
+        DataType: Boolean
+        Default: =Approved.Checked
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Text
+        Default: =Blank()
+      Toggled:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - checked:
+              DataType: Boolean
+        Default: =Blank()
+      StateChanged:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - checked:
+              DataType: Boolean
+        Default: =Blank()
+    Properties:
+      Width: =440
+      Height: =145
+      OnReset: =Clear(history);Reset(Draft);Reset(Approved)
+    Children:
+      - CaptionLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =InputPanel.Caption
+            X: =0
+            Y: =0
+            Width: =Parent.Width
+            Size: =18
+      - Draft:
+          Control: TextInput@0.0.53
+          Properties:
+            Y: =35
+            Width: =Parent.Width
+            Value: =InputPanel.InitialText
+            AccessibleLabel: =InputPanel.Caption&" text"
+            Placeholder: ="Fictional draft"
+            OnChange: =Collect(history,{Kind:"Text",Text:Self.Value,Checked:Approved.Checked});InputPanel.Changed(Self.Value)
+      - Approved:
+          Control: CheckBox@0.0.30
+          Properties:
+            Y: =80
+            Width: =Parent.Width
+            Checked: =InputPanel.InitialChecked
+            Label: =InputPanel.Caption&" approved"
+            OnSelect: =Collect(history,{Kind:"Check",Text:Draft.Value,Checked:Self.Checked});InputPanel.Toggled(Self.Checked)
+            OnCheck: =InputPanel.StateChanged(Self.Checked)
+            OnUncheck: =InputPanel.StateChanged(Self.Checked)
+      - Current:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =InputPanel.CurrentText&" · "&Text(InputPanel.CurrentChecked)&" · "&Text(CountRows(history))
+            X: =0
+            Y: =114
+            Width: =Parent.Width

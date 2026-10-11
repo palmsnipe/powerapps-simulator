@@ -1,0 +1,474 @@
+{
+  "modern-grid.workflow.json": {
+    "format_version": 1,
+    "name": "Modern grid search, sorting and selected draft editing",
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    },
+    "records": {
+      "Drafts": [
+        {
+          "ID": 1,
+          "Title": "Fictional draft 1",
+          "Amount": 10,
+          "Field1": "Fictional 1.1",
+          "Field2": "Fictional 1.2",
+          "Field3": "Fictional 1.3",
+          "Field4": "Fictional 1.4",
+          "Field5": "Fictional 1.5",
+          "Field6": "Fictional 1.6",
+          "Field7": "Fictional 1.7",
+          "Field8": "Fictional 1.8",
+          "Field9": "Fictional 1.9",
+          "Field10": "Fictional 1.10",
+          "Field11": "Fictional 1.11",
+          "Field12": "Fictional 1.12",
+          "Field13": "Fictional 1.13",
+          "Field14": "Fictional 1.14",
+          "Field15": "Fictional 1.15",
+          "Field16": "Fictional 1.16",
+          "Field17": "Fictional 1.17",
+          "Field18": "Fictional 1.18"
+        },
+        {
+          "ID": 2,
+          "Title": "Fictional draft 2",
+          "Amount": 20,
+          "Field1": "Fictional 2.1",
+          "Field2": "Fictional 2.2",
+          "Field3": "Fictional 2.3",
+          "Field4": "Fictional 2.4",
+          "Field5": "Fictional 2.5",
+          "Field6": "Fictional 2.6",
+          "Field7": "Fictional 2.7",
+          "Field8": "Fictional 2.8",
+          "Field9": "Fictional 2.9",
+          "Field10": "Fictional 2.10",
+          "Field11": "Fictional 2.11",
+          "Field12": "Fictional 2.12",
+          "Field13": "Fictional 2.13",
+          "Field14": "Fictional 2.14",
+          "Field15": "Fictional 2.15",
+          "Field16": "Fictional 2.16",
+          "Field17": "Fictional 2.17",
+          "Field18": "Fictional 2.18"
+        },
+        {
+          "ID": 3,
+          "Title": "Fictional draft 3",
+          "Amount": 30,
+          "Field1": "Fictional 3.1",
+          "Field2": "Fictional 3.2",
+          "Field3": "Fictional 3.3",
+          "Field4": "Fictional 3.4",
+          "Field5": "Fictional 3.5",
+          "Field6": "Fictional 3.6",
+          "Field7": "Fictional 3.7",
+          "Field8": "Fictional 3.8",
+          "Field9": "Fictional 3.9",
+          "Field10": "Fictional 3.10",
+          "Field11": "Fictional 3.11",
+          "Field12": "Fictional 3.12",
+          "Field13": "Fictional 3.13",
+          "Field14": "Fictional 3.14",
+          "Field15": "Fictional 3.15",
+          "Field16": "Fictional 3.16",
+          "Field17": "Fictional 3.17",
+          "Field18": "Fictional 3.18"
+        },
+        {
+          "ID": 4,
+          "Title": "Fictional draft 4",
+          "Amount": 40,
+          "Field1": "Fictional 4.1",
+          "Field2": "Fictional 4.2",
+          "Field3": "Fictional 4.3",
+          "Field4": "Fictional 4.4",
+          "Field5": "Fictional 4.5",
+          "Field6": "Fictional 4.6",
+          "Field7": "Fictional 4.7",
+          "Field8": "Fictional 4.8",
+          "Field9": "Fictional 4.9",
+          "Field10": "Fictional 4.10",
+          "Field11": "Fictional 4.11",
+          "Field12": "Fictional 4.12",
+          "Field13": "Fictional 4.13",
+          "Field14": "Fictional 4.14",
+          "Field15": "Fictional 4.15",
+          "Field16": "Fictional 4.16",
+          "Field17": "Fictional 4.17",
+          "Field18": "Fictional 4.18"
+        },
+        {
+          "ID": 5,
+          "Title": "Fictional draft 5",
+          "Amount": 50,
+          "Field1": "Fictional 5.1",
+          "Field2": "Fictional 5.2",
+          "Field3": "Fictional 5.3",
+          "Field4": "Fictional 5.4",
+          "Field5": "Fictional 5.5",
+          "Field6": "Fictional 5.6",
+          "Field7": "Fictional 5.7",
+          "Field8": "Fictional 5.8",
+          "Field9": "Fictional 5.9",
+          "Field10": "Fictional 5.10",
+          "Field11": "Fictional 5.11",
+          "Field12": "Fictional 5.12",
+          "Field13": "Fictional 5.13",
+          "Field14": "Fictional 5.14",
+          "Field15": "Fictional 5.15",
+          "Field16": "Fictional 5.16",
+          "Field17": "Fictional 5.17",
+          "Field18": "Fictional 5.18"
+        },
+        {
+          "ID": 6,
+          "Title": "Fictional draft 6",
+          "Amount": 60,
+          "Field1": "Fictional 6.1",
+          "Field2": "Fictional 6.2",
+          "Field3": "Fictional 6.3",
+          "Field4": "Fictional 6.4",
+          "Field5": "Fictional 6.5",
+          "Field6": "Fictional 6.6",
+          "Field7": "Fictional 6.7",
+          "Field8": "Fictional 6.8",
+          "Field9": "Fictional 6.9",
+          "Field10": "Fictional 6.10",
+          "Field11": "Fictional 6.11",
+          "Field12": "Fictional 6.12",
+          "Field13": "Fictional 6.13",
+          "Field14": "Fictional 6.14",
+          "Field15": "Fictional 6.15",
+          "Field16": "Fictional 6.16",
+          "Field17": "Fictional 6.17",
+          "Field18": "Fictional 6.18"
+        },
+        {
+          "ID": 7,
+          "Title": "Fictional draft 7",
+          "Amount": 70,
+          "Field1": "Fictional 7.1",
+          "Field2": "Fictional 7.2",
+          "Field3": "Fictional 7.3",
+          "Field4": "Fictional 7.4",
+          "Field5": "Fictional 7.5",
+          "Field6": "Fictional 7.6",
+          "Field7": "Fictional 7.7",
+          "Field8": "Fictional 7.8",
+          "Field9": "Fictional 7.9",
+          "Field10": "Fictional 7.10",
+          "Field11": "Fictional 7.11",
+          "Field12": "Fictional 7.12",
+          "Field13": "Fictional 7.13",
+          "Field14": "Fictional 7.14",
+          "Field15": "Fictional 7.15",
+          "Field16": "Fictional 7.16",
+          "Field17": "Fictional 7.17",
+          "Field18": "Fictional 7.18"
+        },
+        {
+          "ID": 8,
+          "Title": "Fictional draft 8",
+          "Amount": 80,
+          "Field1": "Fictional 8.1",
+          "Field2": "Fictional 8.2",
+          "Field3": "Fictional 8.3",
+          "Field4": "Fictional 8.4",
+          "Field5": "Fictional 8.5",
+          "Field6": "Fictional 8.6",
+          "Field7": "Fictional 8.7",
+          "Field8": "Fictional 8.8",
+          "Field9": "Fictional 8.9",
+          "Field10": "Fictional 8.10",
+          "Field11": "Fictional 8.11",
+          "Field12": "Fictional 8.12",
+          "Field13": "Fictional 8.13",
+          "Field14": "Fictional 8.14",
+          "Field15": "Fictional 8.15",
+          "Field16": "Fictional 8.16",
+          "Field17": "Fictional 8.17",
+          "Field18": "Fictional 8.18"
+        },
+        {
+          "ID": 9,
+          "Title": "Fictional draft 9",
+          "Amount": 90,
+          "Field1": "Fictional 9.1",
+          "Field2": "Fictional 9.2",
+          "Field3": "Fictional 9.3",
+          "Field4": "Fictional 9.4",
+          "Field5": "Fictional 9.5",
+          "Field6": "Fictional 9.6",
+          "Field7": "Fictional 9.7",
+          "Field8": "Fictional 9.8",
+          "Field9": "Fictional 9.9",
+          "Field10": "Fictional 9.10",
+          "Field11": "Fictional 9.11",
+          "Field12": "Fictional 9.12",
+          "Field13": "Fictional 9.13",
+          "Field14": "Fictional 9.14",
+          "Field15": "Fictional 9.15",
+          "Field16": "Fictional 9.16",
+          "Field17": "Fictional 9.17",
+          "Field18": "Fictional 9.18"
+        },
+        {
+          "ID": 10,
+          "Title": "Fictional draft 10",
+          "Amount": 100,
+          "Field1": "Fictional 10.1",
+          "Field2": "Fictional 10.2",
+          "Field3": "Fictional 10.3",
+          "Field4": "Fictional 10.4",
+          "Field5": "Fictional 10.5",
+          "Field6": "Fictional 10.6",
+          "Field7": "Fictional 10.7",
+          "Field8": "Fictional 10.8",
+          "Field9": "Fictional 10.9",
+          "Field10": "Fictional 10.10",
+          "Field11": "Fictional 10.11",
+          "Field12": "Fictional 10.12",
+          "Field13": "Fictional 10.13",
+          "Field14": "Fictional 10.14",
+          "Field15": "Fictional 10.15",
+          "Field16": "Fictional 10.16",
+          "Field17": "Fictional 10.17",
+          "Field18": "Fictional 10.18"
+        },
+        {
+          "ID": 11,
+          "Title": "Fictional draft 11",
+          "Amount": 110,
+          "Field1": "Fictional 11.1",
+          "Field2": "Fictional 11.2",
+          "Field3": "Fictional 11.3",
+          "Field4": "Fictional 11.4",
+          "Field5": "Fictional 11.5",
+          "Field6": "Fictional 11.6",
+          "Field7": "Fictional 11.7",
+          "Field8": "Fictional 11.8",
+          "Field9": "Fictional 11.9",
+          "Field10": "Fictional 11.10",
+          "Field11": "Fictional 11.11",
+          "Field12": "Fictional 11.12",
+          "Field13": "Fictional 11.13",
+          "Field14": "Fictional 11.14",
+          "Field15": "Fictional 11.15",
+          "Field16": "Fictional 11.16",
+          "Field17": "Fictional 11.17",
+          "Field18": "Fictional 11.18"
+        },
+        {
+          "ID": 12,
+          "Title": "Fictional draft 12",
+          "Amount": 120,
+          "Field1": "Fictional 12.1",
+          "Field2": "Fictional 12.2",
+          "Field3": "Fictional 12.3",
+          "Field4": "Fictional 12.4",
+          "Field5": "Fictional 12.5",
+          "Field6": "Fictional 12.6",
+          "Field7": "Fictional 12.7",
+          "Field8": "Fictional 12.8",
+          "Field9": "Fictional 12.9",
+          "Field10": "Fictional 12.10",
+          "Field11": "Fictional 12.11",
+          "Field12": "Fictional 12.12",
+          "Field13": "Fictional 12.13",
+          "Field14": "Fictional 12.14",
+          "Field15": "Fictional 12.15",
+          "Field16": "Fictional 12.16",
+          "Field17": "Fictional 12.17",
+          "Field18": "Fictional 12.18"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.Selection)=1 && LeftPanel.Current.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(RightPanel.Selection)=1 && CountRows(events)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/LeftPanel/Grid",
+        "event": "OnChange",
+        "selection": [
+          4
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.ID=5 && RightPanel.Current.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Item.ID=5 && CountRows(LeftPanel.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/LeftPanel/Grid",
+        "event": "OnChange",
+        "selection": [
+          6
+        ],
+        "value": {
+          "toggle": true
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(LeftPanel.Selection)=2 && LeftPanel.Current.ID=7",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/LeftPanel/Grid",
+        "event": "OnSearch",
+        "value": {
+          "query": "draft 1"
+        }
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Query=\"draft 1\" && CountRows(LeftPanel.Selection)=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/LeftPanel/Grid",
+        "event": "OnSort",
+        "value": {
+          "column": "GridLab/LeftPanel/Grid/AmountColumn",
+          "descending": true
+        }
+      },
+      {
+        "op": "event",
+        "path": "GridLab/LeftPanel/Grid",
+        "event": "OnChange",
+        "selection": [
+          11
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Current.ID=12 && RightPanel.Current.ID=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/RightPanel/Grid",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.ID=2 && LeftPanel.Current.ID=12 && DraftForm.Item.ID=2",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/DraftForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Fictional edited grid draft"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "GridLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.Unsaved && status=T(\"Save failed\",\"\u00c9chec\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Drafts,ID=2).Title=\"Fictional draft 2\"",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Drafts",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "GridLab/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "DraftForm.LastSubmit.ID=2 && !DraftForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.Title=\"Fictional edited grid draft\" && LookUp(Drafts,ID=2).Title=\"Fictional edited grid draft\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Query=\"\" && CountRows(LeftPanel.History)=0 && LeftPanel.Current.ID=1",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.ID=2 && CountRows(RightPanel.History)=1",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/RightPanel/Grid",
+        "event": "OnChange",
+        "selection": []
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(RightPanel.Current) && CountRows(RightPanel.Selection)=0",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "GridLab/ResetRight",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "RightPanel.Current.ID=1 && CountRows(RightPanel.History)=0",
+        "expect": true
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

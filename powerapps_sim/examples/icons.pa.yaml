@@ -1,0 +1,254 @@
+App:
+  Properties:
+    StartScreen: =IconsScreen
+    OnStart: =Set(leftValue,0);Set(rightValue,0);Set(status,"Ready");Set(angle,0);Set(filled,false);Clear(history)
+ComponentDefinitions:
+  IconPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      Seed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =0
+      Glyph:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Add"
+      Tint:
+        PropertyKind: Input
+        DataType: Color
+        Default: =RGBA(15,108,189,1)
+      Picture:
+        PropertyKind: Input
+        DataType: Image
+        Default: ="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgdmlld0JveD0iMCAwIDY0IDY0Ij48cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHJ4PSIxNCIgZmlsbD0iIzBmNmNiZCIvPjxwYXRoIGQ9Ik0xNyAzM2wxMCAxMCAyMS0yNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4="
+      CurrentPicture:
+        PropertyKind: Output
+        DataType: Image
+        Default: =IconPanel.Picture
+      Total:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Coalesce(current,IconPanel.Seed)
+      EchoPicture:
+        PropertyKind: Function
+        ReturnType: Image
+        Parameters:
+          - picture:
+              DataType: Image
+        Default: =picture
+      Increase:
+        PropertyKind: Action
+        ReturnType: Number
+        Parameters:
+          - amount:
+              DataType: Number
+              Default: =1
+              IsOptional: true
+        Default: =Set(current,IconPanel.Total+amount);IconPanel.Changed(IconPanel.Total);IconPanel.Total
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - total:
+              DataType: Number
+        Default: =Blank()
+    Properties:
+      Width: =360
+      Height: =140
+      OnReset: =Set(current,IconPanel.Seed)
+    Children:
+      - CaptionText:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =10
+            Y: =8
+            Width: =320
+            Height: =36
+            Text: =IconPanel.Caption & " · " & IconPanel.Total
+      - IncreaseIcon:
+          Control: ModernIcon@1.1.0
+          Properties:
+            X: =12
+            Y: =58
+            Width: =48
+            Height: =48
+            Icon: =IconPanel.Glyph
+            IconStyle: =IconStyle.Filled
+            IconColor: =IconPanel.Tint
+            PaddingTop: =10
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            Fill: =RGBA(235,243,252,1)
+            BorderColor: =IconPanel.Tint
+            BorderThickness: =1
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            AccessibleLabel: ="Increase " & IconPanel.Caption
+            Tooltip: ="Increase " & IconPanel.Caption
+            OnSelect: =IconPanel.Increase()
+      - PicturePreview:
+          Control: Image@2.2.3
+          Properties:
+            X: =80
+            Y: =58
+            Width: =48
+            Height: =48
+            Image: =IconPanel.EchoPicture(IconPanel.Picture)
+            AccessibleLabel: ="Fictional badge " & IconPanel.Caption
+      - ValueText:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =146
+            Y: =60
+            Width: =195
+            Height: =40
+            Text: ="Callback value " & IconPanel.Total
+Screens:
+  IconsScreen:
+    Children:
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =20
+            Y: =12
+            Width: =850
+            Height: =50
+            Text: ="Left " & leftValue & " · right " & rightValue & " · callbacks " & CountRows(history) & " · " & status
+      - LeftPanel:
+          Control: CanvasComponent
+          ComponentName: IconPanel
+          Properties:
+            X: =20
+            Y: =90
+            Caption: ="Left"
+            Seed: =10
+            Tint: =Color.Blue
+            Changed: =Set(leftValue,total);Collect(history,{Panel:"LeftPanel",Total:total})
+      - RightPanel:
+          Control: CanvasComponent
+          ComponentName: IconPanel
+          Properties:
+            X: =430
+            Y: =90
+            Caption: ="Right"
+            Seed: =100
+            Tint: =Color.Red
+            Changed: =Set(rightValue,total);Collect(history,{Panel:"RightPanel",Total:total})
+      - Rotate:
+          Control: ModernIcon@1.1.0
+          Properties:
+            X: =20
+            Y: =265
+            Width: =42
+            Height: =42
+            Icon: =Icon.Reload
+            IconStyle: =If(filled,IconStyle.Filled,IconStyle.Outline)
+            Rotation: =angle
+            IconColor: =Color.Blue
+            AccessibleLabel: ="Rotate icon"
+            OnSelect: =Set(angle,angle+45)
+      - Decorative:
+          Control: ModernIcon@1.1.0
+          Properties:
+            X: =100
+            Y: =265
+            Width: =42
+            Height: =42
+            Icon: ="CheckmarkCircle"
+            IconStyle: =IconStyle.Filled
+            IconColor: =RGBA(16,124,16,1)
+            AccessibleLabel: ="Ready status"
+      - HiddenFromAT:
+          Control: ModernIcon@1.1.0
+          Properties:
+            X: =170
+            Y: =265
+            Icon: ="Calendar"
+      - Disabled:
+          Control: ModernIcon@1.1.0
+          Properties:
+            X: =250
+            Y: =265
+            Icon: ="Delete"
+            DisplayMode: =DisplayMode.Disabled
+            AccessibleLabel: ="Disabled delete"
+            OnSelect: =Set(status,"Should remain blocked")
+      - ReadOnly:
+          Control: ModernIcon@1.1.0
+          Properties:
+            X: =315
+            Y: =265
+            Icon: ="Edit"
+            DisplayMode: =DisplayMode.View
+            AccessibleLabel: ="Read-only edit"
+            OnSelect: =Set(status,"Should remain blocked")
+      - ToggleStyle:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =400
+            Y: =260
+            Width: =160
+            Text: ="Toggle style"
+            Icon: ="Settings"
+            Layout: =ButtonLayout.IconBefore
+            OnSelect: =Set(filled,!filled)
+      - SaveSnapshot:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =585
+            Y: =260
+            Width: =200
+            Text: ="Save snapshot"
+            Icon: ="Save"
+            Layout: =ButtonLayout.IconAfter
+            OnSelect: =Patch(Snapshots,Defaults(Snapshots),{Title:"Fictional icon snapshot",LeftCount:LeftPanel.Total,RightCount:RightPanel.Total,Picture:LeftPanel.CurrentPicture});Set(status,"Saved")
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            X: =20
+            Y: =335
+            Width: =160
+            Text: ="Reset left"
+            Icon: ="ArrowClockwise"
+            OnSelect: =Reset(LeftPanel)
+      - IconsGallery:
+          Control: Gallery@2.15.0
+          Properties:
+            X: =20
+            Y: =400
+            Width: =850
+            Height: =145
+            Items: =Table({ID:1,Title:"Home",Glyph:"Home"},{ID:2,Title:"Search",Glyph:"Search"},{ID:3,Title:"Settings",Glyph:"Settings"},{ID:4,Title:"People",Glyph:"People"},{ID:5,Title:"Calendar",Glyph:"Calendar"})
+            TemplateSize: =64
+            WrapCount: =3
+            TemplateFill: =If(ThisItem.IsSelected,RGBA(225,239,255,1),Color.White)
+            OnSelect: =Set(status,"Selected " & ThisItem.Title)
+          Children:
+            - RowIcon:
+                Control: ModernIcon@1.1.0
+                Properties:
+                  X: =8
+                  Y: =12
+                  Width: =32
+                  Height: =32
+                  Icon: =ThisItem.Glyph
+                  IconColor: =Color.Blue
+                  IconStyle: =If(ThisItem.IsSelected,IconStyle.Filled,IconStyle.Outline)
+                  AccessibleLabel: ="Select " & ThisItem.Title
+                  OnSelect: =Select(Parent)
+            - RowCaption:
+                Control: ModernText@1.0.0
+                Properties:
+                  X: =56
+                  Y: =12
+                  Width: =180
+                  Height: =32
+                  Text: =ThisItem.Title

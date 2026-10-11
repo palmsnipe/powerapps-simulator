@@ -1,0 +1,21 @@
+{
+  "Projects": {
+    "fields": {
+      "ID": {
+        "type": "integer"
+      },
+      "Title": {
+        "type": "string",
+        "required": true
+      },
+      "Amount": {
+        "type": "number"
+      },
+      "Enabled": {
+        "type": "boolean"
+      }
+    },
+    "mapping": {},
+    "records": []
+  }
+}

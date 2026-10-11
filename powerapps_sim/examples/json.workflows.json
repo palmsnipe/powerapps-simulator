@@ -1,0 +1,164 @@
+{
+  "json.workflow.json": {
+    "format_version": 1,
+    "name": "JSON parsing, nested list writes, isolated components and errors",
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "CountRows(parsedRows)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Total(parsedRows)",
+        "expect": 30
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Value(Index(document.Projects,2).Amount)",
+        "expect": 20
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/Records",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "selected.Title",
+        "expect": "Fictional Alpha"
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/Save",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Projects)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(Projects).Status.Value",
+        "expect": "Draft"
+      },
+      {
+        "op": "assert",
+        "formula": "First(First(Projects).Owners).Email",
+        "expect": "admin@example.test"
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/Serialize",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "First(ParseJSON(encoded,TypeRows)).Title",
+        "expect": "Fictional Alpha"
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/Right/Pick",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "picked.Title",
+        "expect": "Fictional component peer"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(events)",
+        "expect": 1
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/ChangePeer",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Right.Count",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "Left.Count",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/PayloadInput",
+        "event": "OnChange",
+        "value": "not JSON"
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/Parse",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "StartsWith(status,\"Invalid JSON\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(parsedRows)",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/PayloadInput",
+        "event": "OnChange",
+        "value": "{\"Projects\":[{\"Amount\":\"wrong\"}]}"
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/Parse",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Schema mismatch"
+      },
+      {
+        "op": "assert",
+        "formula": "Total(parsedRows)",
+        "expect": 30
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/ResetPayload",
+        "event": "OnSelect"
+      },
+      {
+        "op": "event",
+        "path": "JsonScreen/Parse",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "status",
+        "expect": "Parsed"
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

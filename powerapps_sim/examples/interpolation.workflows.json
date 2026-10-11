@@ -1,0 +1,220 @@
+{
+  "interpolation.workflow.json": {
+    "format_version": 1,
+    "name": "Live interpolation, scoped functions and persisted snapshots",
+    "environment": {
+      "enum_mode": "strong"
+    },
+    "records": {
+      "Snapshots": []
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "Summary",
+        "expect": "Callbacks 0 · Ready"
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.TitleValue",
+        "expect": "Fictional LeftPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(RightPanel.Quantity)",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Preview=$\"LeftPanel → Fictional LeftPanel · {Text(1,\"0.00\",Language())} · {{draft}}\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/LeftPanel/Title",
+        "event": "OnInput",
+        "value": "Fictional river"
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/LeftPanel/Amount",
+        "event": "OnInput",
+        "value": "7"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(LeftPanel.Quantity)",
+        "expect": 7
+      },
+      {
+        "op": "assert",
+        "formula": "Float(RightPanel.Quantity)",
+        "expect": 10
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.Preview=$\"LeftPanel → Fictional river · {Text(7,\"0.00\",Language())} · {{draft}}\"",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/LeftPanel/CaptureButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.History))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Last(history).Panel",
+        "expect": "LeftPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(Last(history).Quantity)",
+        "expect": 7
+      },
+      {
+        "op": "assert",
+        "formula": "Summary",
+        "expect": "Callbacks 1 · LeftPanel · 1"
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/RightPanel/CaptureButton",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(RightPanel.History))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.History))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "Summary",
+        "expect": "Callbacks 2 · RightPanel · 1"
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Snapshots))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(Snapshots).Title",
+        "expect": "Fictional river"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(First(Snapshots).Quantity)",
+        "expect": 7
+      },
+      {
+        "op": "assert",
+        "formula": "Text(ParseJSON(First(Snapshots).Payload).Title)",
+        "expect": "Fictional river"
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Snapshots))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "status=If(StartsWith(Language(),\"fr\"),\"Échec\",\"Save failed\")",
+        "expect": true
+      },
+      {
+        "op": "failure",
+        "list": "Snapshots",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/SaveLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(Snapshots))",
+        "expect": 2
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/BuildTable",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(results))",
+        "expect": 8
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).NestedText",
+        "expect": "{1}"
+      },
+      {
+        "op": "assert",
+        "formula": "First(results).Label=If(StartsWith(Language(),\"fr\"),\"Row: 1,00\",\"Row: 1.00\")",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "Last(results).Nested.Label",
+        "expect": "Fictional river: 8"
+      },
+      {
+        "op": "event",
+        "path": "InterpolationLab/ResetLeft",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(LeftPanel.History))",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "Float(CountRows(RightPanel.History))",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "LeftPanel.TitleValue",
+        "expect": "Fictional LeftPanel"
+      },
+      {
+        "op": "assert",
+        "formula": "Float(LeftPanel.Quantity)",
+        "expect": 1
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  }
+}

@@ -1,0 +1,343 @@
+App:
+  Properties:
+    StartScreen: =ClassicScalars
+    OnStart: =Set(seed,false);Set(amountSeed,0);Set(blankDay,false);Set(status,"Ready");Clear(history);Clear(trace)
+ComponentDefinitions:
+  ScalarPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Panel"
+      EnabledSeed:
+        PropertyKind: Input
+        DataType: Boolean
+        Default: =false
+      AmountSeed:
+        PropertyKind: Input
+        DataType: Number
+        Default: =-5
+      DaySeed:
+        PropertyKind: Input
+        DataType: Date
+        Default: =Date(2026,1,15)
+      Current:
+        PropertyKind: Output
+        DataType: Record
+        Default: ={Enabled:Switch.Value,Amount:Amount.Value,Day:Day.SelectedDate}
+      Capture:
+        PropertyKind: Action
+        ReturnType: Record
+        Parameters:
+          - kind:
+              DataType: Text
+              Default: =""
+              IsOptional: true
+        Default: =Collect(captured,{Kind:kind,Enabled:Switch.Value,Amount:Amount.Value,Day:Day.SelectedDate});ScalarPanel.Changed(ScalarPanel.Current);ScalarPanel.Current
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - value:
+              DataType: Record
+              Default: ={Enabled:false,Amount:0,Day:Date(2026,1,1)}
+              IsOptional: true
+        Default: =Blank()
+    Properties:
+      Width: =420
+      Height: =222
+      OnReset: =Clear(captured);Clear(checks)
+    Children:
+      - Title:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =ScalarPanel.Caption
+            X: =12
+            Y: =0
+            Width: =380
+            Height: =32
+      - Switch:
+          Control: Classic/Toggle@2.1.0
+          Properties:
+            X: =12
+            Y: =40
+            Width: =360
+            Default: =ScalarPanel.EnabledSeed
+            TrueText: ="Enabled"
+            FalseText: ="Disabled"
+            AccessibleLabel: =ScalarPanel.Caption & " enabled"
+            OnCheck: =Collect(checks,{Enabled:Self.Value})
+            OnUncheck: =Collect(checks,{Enabled:Self.Value})
+            OnChange: =ScalarPanel.Capture("toggle")
+      - AmountLabel:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Amount " & Amount.Value
+            X: =12
+            Y: =74
+            Width: =380
+            Height: =32
+      - Amount:
+          Control: Classic/Slider@2.1.0
+          Properties:
+            X: =12
+            Y: =108
+            Width: =360
+            Min: =-20
+            Max: =20
+            Default: =ScalarPanel.AmountSeed
+            AccessibleLabel: =ScalarPanel.Caption & " amount"
+            OnChange: =ScalarPanel.Capture("slider")
+      - Day:
+          Control: Classic/DatePicker@2.6.0
+          Properties:
+            X: =12
+            Y: =164
+            Width: =360
+            DefaultDate: =ScalarPanel.DaySeed
+            StartYear: =2025
+            EndYear: =2027
+            Language: =Language()
+            IsEditable: =true
+            Format: ="dd/mm/yyyy"
+            AccessibleLabel: =ScalarPanel.Caption & " date"
+            OnChange: =ScalarPanel.Capture("date")
+Screens:
+  ClassicScalars:
+    Properties:
+      Fill: =Color.White
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Classic toggle, slider and date picker"
+            X: =16
+            Y: =8
+            Width: =900
+            Height: =32
+      - Summary:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Callbacks " & CountRows(history) & " · " & status & " · unsaved " & Text(DraftForm.Unsaved)
+            X: =16
+            Y: =44
+            Width: =900
+            Height: =32
+      - LeftPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =16
+            Y: =88
+            Caption: ="LeftPanel"
+            EnabledSeed: =false
+            AmountSeed: =-5
+            DaySeed: =Date(2026,1,15)
+            Changed: =Collect(history,{Panel:Self.Name,Enabled:value.Enabled,Amount:value.Amount,Day:value.Day});Set(status,Self.Name & " captured")
+          ComponentName: ScalarPanel
+      - RightPanel:
+          Control: CanvasComponent
+          Properties:
+            X: =470
+            Y: =88
+            Caption: ="RightPanel"
+            EnabledSeed: =true
+            AmountSeed: =10
+            DaySeed: =Date(2026,2,10)
+            Changed: =Collect(history,{Panel:Self.Name,Enabled:value.Enabled,Amount:value.Amount,Day:value.Day});Set(status,Self.Name & " captured")
+          ComponentName: ScalarPanel
+      - ResetLeft:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset left"
+            X: =16
+            Y: =328
+            Width: =136
+            OnSelect: =Reset(LeftPanel)
+      - ResetForm:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Reset form"
+            X: =170
+            Y: =328
+            Width: =136
+            OnSelect: =ResetForm(DraftForm)
+      - Save:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save form"
+            X: =324
+            Y: =328
+            Width: =136
+            OnSelect: =SubmitForm(DraftForm)
+      - ClearDate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Blank date"
+            X: =478
+            Y: =328
+            Width: =136
+            OnSelect: =Set(blankDay,true)
+      - RestoreDate:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Restore date"
+            X: =632
+            Y: =328
+            Width: =136
+            OnSelect: =Set(blankDay,false)
+      - ChangeSeed:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Change default"
+            X: =786
+            Y: =328
+            Width: =136
+            OnSelect: =Set(seed,!seed);Set(amountSeed,amountSeed+1)
+      - DraftForm:
+          Control: Form@2.4.4
+          Properties:
+            X: =16
+            Y: =390
+            Width: =900
+            Height: =130
+            DataSource: =Drafts
+            Item: =LookUp(Drafts,ID=1)
+            NumberOfColumns: =3
+            DefaultMode: =FormMode.Edit
+            OnSuccess: =Set(status,"Saved")
+            OnFailure: =Set(status,"Save failed")
+          Children:
+            - EnabledCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Is Enabled"
+                  Default: =ThisItem.'Is Enabled'
+                  Required: =true
+                  Update: =EnabledInput.Value
+                  Width: =300
+                  Height: =118
+                Children:
+                  - EnabledCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Required Boolean"
+                        X: =0
+                        Y: =0
+                        Width: =280
+                        Height: =32
+                  - EnabledInput:
+                      Control: Classic/Toggle@2.1.0
+                      Properties:
+                        Default: =Parent.Default
+                        TrueText: ="Enabled"
+                        FalseText: ="Disabled"
+                        AccessibleLabel: ="Saved enabled"
+                        X: =0
+                        Y: =36
+                        Width: =280
+                        DisplayMode: =Parent.DisplayMode
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Project Amount"
+                  Default: =ThisItem.'Project Amount'
+                  Required: =true
+                  Update: =AmountInput.Value
+                  Width: =300
+                  Height: =118
+                Children:
+                  - AmountCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Signed amount"
+                        X: =0
+                        Y: =0
+                        Width: =280
+                        Height: =32
+                  - AmountInput:
+                      Control: Classic/Slider@2.1.0
+                      Properties:
+                        Default: =Parent.Default
+                        Min: =-20
+                        Max: =20
+                        AccessibleLabel: ="Saved amount"
+                        X: =0
+                        Y: =36
+                        Width: =280
+                        DisplayMode: =Parent.DisplayMode
+            - DayCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Target Date"
+                  Default: =ThisItem.'Target Date'
+                  Required: =true
+                  Update: =DayInput.SelectedDate
+                  Width: =300
+                  Height: =118
+                Children:
+                  - DayCardLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Required date"
+                        X: =0
+                        Y: =0
+                        Width: =280
+                        Height: =32
+                  - DayInput:
+                      Control: Classic/DatePicker@2.6.0
+                      Properties:
+                        DefaultDate: =If(blankDay,Blank(),Parent.Default)
+                        Language: =Language()
+                        Format: ="dd/mm/yyyy"
+                        StartYear: =2025
+                        EndYear: =2027
+                        IsEditable: =true
+                        AccessibleLabel: ="Saved date"
+                        X: =0
+                        Y: =36
+                        Width: =280
+                        DisplayMode: =Parent.DisplayMode
+      - Limits:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Read-only and vertical slider · reset tokens reject stale events"
+            X: =16
+            Y: =546
+            Width: =900
+            Height: =32
+      - ReadOnly:
+          Control: Classic/Slider@2.1.0
+          Properties:
+            X: =16
+            Y: =592
+            Width: =280
+            Min: =-10
+            Max: =10
+            Default: =50
+            ReadOnly: =true
+            AccessibleLabel: ="Read only amount"
+      - Standalone:
+          Control: Classic/Toggle@2.1.0
+          Properties:
+            X: =330
+            Y: =592
+            Width: =280
+            Default: =seed
+            OnSelect: =Collect(trace,{Kind:"select",Enabled:Self.Value})
+            OnCheck: =Collect(trace,{Kind:"check",Enabled:Self.Value})
+            OnUncheck: =Collect(trace,{Kind:"uncheck",Enabled:Self.Value})
+            OnChange: =Collect(trace,{Kind:"change",Enabled:Self.Value})
+            AccessibleLabel: ="Standalone enabled"
+      - Vertical:
+          Control: Classic/Slider@2.1.0
+          Properties:
+            X: =760
+            Y: =550
+            Width: =70
+            Height: =140
+            Layout: =Layout.Vertical
+            Min: =-10
+            Max: =10
+            Default: =amountSeed
+            AccessibleLabel: ="Vertical amount"

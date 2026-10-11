@@ -1,0 +1,68 @@
+ComponentDefinitions:
+  RatingPanel:
+    AccessAppScope: false
+    CustomProperties:
+      Initial:
+        PropertyKind: Input
+        DataType: Number
+        Default: =2.5
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Rating"
+      Current:
+        PropertyKind: Output
+        DataType: Number
+        Default: =Score.Value
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - value:
+              DataType: Number
+              Default: =0
+              IsOptional: true
+      Tapped:
+        PropertyKind: Event
+        ReturnType: None
+        Default: =Blank()
+        Parameters:
+          - value:
+              DataType: Number
+    Properties:
+      Width: =440
+      Height: =145
+      OnReset: =Clear(history);Reset(Score)
+    Children:
+      - RatingCaption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =RatingPanel.Caption
+            Size: =18
+            Width: =Parent.Width
+            Height: =32
+      - Score:
+          Control: FluentV8/Rating@1.5.1
+          Properties:
+            Y: =35
+            Width: =220
+            AccessibleLabel: =RatingPanel.Caption
+            OnChange: =Collect(history,{Value:Self.Value});RatingPanel.Changed(Self.Value)
+            Value: =RatingPanel.Initial
+            CheckedFill: ="#0078d4"
+            UncheckedFill: ="#605e5c"
+            HoverFill: ="#005a9e"
+            DisabledFill: ="#a19f9d"
+            Size: =28
+            OnSelect: =RatingPanel.Tapped(Self.Value)
+      - RatingSummary:
+          Control: ModernText@1.0.0
+          Properties:
+            Y: =82
+            Width: =Parent.Width
+            Text: =Text(Score.Value)&" / 5 · "&Text(CountRows(history))

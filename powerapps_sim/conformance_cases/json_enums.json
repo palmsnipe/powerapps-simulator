@@ -1,0 +1,1691 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "All JSONFormat-only built-in enum cases with literal or binding-error oracles, excluding unrelated regex/color/trace namespaces and calculated enum displays; selected JSON scalar, formatting, record/table and flattening literal oracles. Expected Power Fx strings decoded by unquoting and doubled-quote replacement independently of the simulator. Both number profiles.",
+  "cases": [
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-54-float",
+      "expression": "JSON( [1,2,3], JSONFormat.FlattenValueTables )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L54",
+        "expected_powerfx": "\"[1,2,3]\""
+      },
+      "expected": "[1,2,3]"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-54-decimal",
+      "expression": "JSON( [1,2,3], JSONFormat.FlattenValueTables )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L54",
+        "expected_powerfx": "\"[1,2,3]\""
+      },
+      "expected": "[1,2,3]"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-68-float",
+      "expression": "Sort( [1,2,3], Value, JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L68",
+        "expected_powerfx": "Errors: Error 32-43: Invalid argument type (Enum (JSONFormat)). Expecting a Enum (SortOrder) value instead.|Error 0-4: The function 'Sort' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-68-decimal",
+      "expression": "Sort( [1,2,3], Value, JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L68",
+        "expected_powerfx": "Errors: Error 32-43: Invalid argument type (Enum (JSONFormat)). Expecting a Enum (SortOrder) value instead.|Error 0-4: The function 'Sort' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-113-float",
+      "expression": "Text( 12, JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L113",
+        "expected_powerfx": "Errors: Error 0-4: The function 'Text' has some invalid arguments.|Error 20-31: Expected text. We expect text at this point in the formula."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-113-decimal",
+      "expression": "Text( 12, JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L113",
+        "expected_powerfx": "Errors: Error 0-4: The function 'Text' has some invalid arguments.|Error 20-31: Expected text. We expect text at this point in the formula."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-122-float",
+      "expression": "Weekday( Date(1980,1,1), JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L122",
+        "expected_powerfx": "Errors: Error 35-46: Invalid argument type (Enum (JSONFormat)). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-122-decimal",
+      "expression": "Weekday( Date(1980,1,1), JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L122",
+        "expected_powerfx": "Errors: Error 35-46: Invalid argument type (Enum (JSONFormat)). Expecting a Enum (StartOfWeek) value instead."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-190-float",
+      "expression": "JSONFormat.IndentFour = JSONFormat.Compact",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L190",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-190-decimal",
+      "expression": "JSONFormat.IndentFour = JSONFormat.Compact",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L190",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-193-float",
+      "expression": "JSONFormat.IndentFour <> JSONFormat.Compact",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L193",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-193-decimal",
+      "expression": "JSONFormat.IndentFour <> JSONFormat.Compact",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L193",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-228-float",
+      "expression": "JSONFormat.IndentFour = SortOrder.Descending",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L228",
+        "expected_powerfx": "Errors: Error 22-23: Incompatible types for comparison. These types can't be compared: Enum (JSONFormat), Enum (SortOrder)."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-228-decimal",
+      "expression": "JSONFormat.IndentFour = SortOrder.Descending",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L228",
+        "expected_powerfx": "Errors: Error 22-23: Incompatible types for comparison. These types can't be compared: Enum (JSONFormat), Enum (SortOrder)."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-251-float",
+      "expression": "JSONFormat.IndentFour = \"4\"",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L251",
+        "expected_powerfx": "Errors: Error 22-23: Incompatible types for comparison. These types can't be compared: Enum (JSONFormat), Text."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-251-decimal",
+      "expression": "JSONFormat.IndentFour = \"4\"",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L251",
+        "expected_powerfx": "Errors: Error 22-23: Incompatible types for comparison. These types can't be compared: Enum (JSONFormat), Text."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-254-float",
+      "expression": "JSONFormat.IndentFour <> \"_\"",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L254",
+        "expected_powerfx": "Errors: Error 22-24: Incompatible types for comparison. These types can't be compared: Enum (JSONFormat), Text."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-254-decimal",
+      "expression": "JSONFormat.IndentFour <> \"_\"",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L254",
+        "expected_powerfx": "Errors: Error 22-24: Incompatible types for comparison. These types can't be compared: Enum (JSONFormat), Text."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-360-float",
+      "expression": "Text( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L360",
+        "expected_powerfx": "\"4\""
+      },
+      "expected": "4"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-360-decimal",
+      "expression": "Text( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L360",
+        "expected_powerfx": "\"4\""
+      },
+      "expected": "4"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-372-float",
+      "expression": "Value( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L372",
+        "expected_powerfx": "Errors: Error 0-5: The function 'Value' has some invalid arguments.|Error 17-28: Expected text or number. We expect text or a number at this point in the formula."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-372-decimal",
+      "expression": "Value( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L372",
+        "expected_powerfx": "Errors: Error 0-5: The function 'Value' has some invalid arguments.|Error 17-28: Expected text or number. We expect text or a number at this point in the formula."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-384-float",
+      "expression": "Float( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L384",
+        "expected_powerfx": "Errors: Error 0-5: The function 'Float' has some invalid arguments.|Error 17-28: Expected text or number. We expect text or a number at this point in the formula."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-384-decimal",
+      "expression": "Float( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L384",
+        "expected_powerfx": "Errors: Error 0-5: The function 'Float' has some invalid arguments.|Error 17-28: Expected text or number. We expect text or a number at this point in the formula."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-396-decimal",
+      "expression": "Decimal( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L396",
+        "expected_powerfx": "Errors: Error 0-7: The function 'Decimal' has some invalid arguments.|Error 19-30: Expected text or number. We expect text or a number at this point in the formula."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-408-float",
+      "expression": "Boolean( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L408",
+        "expected_powerfx": "Errors: Error 0-7: The function 'Boolean' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-408-decimal",
+      "expression": "Boolean( JSONFormat.IndentFour )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L408",
+        "expected_powerfx": "Errors: Error 0-7: The function 'Boolean' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-544-float",
+      "expression": "JSON( [1,2,3], JSONFormat.IgnoreBinaryData & JSONFormat.FlattenValueTables )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L544",
+        "expected_powerfx": "\"[1,2,3]\""
+      },
+      "expected": "[1,2,3]"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-544-decimal",
+      "expression": "JSON( [1,2,3], JSONFormat.IgnoreBinaryData & JSONFormat.FlattenValueTables )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L544",
+        "expected_powerfx": "\"[1,2,3]\""
+      },
+      "expected": "[1,2,3]"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-547-float",
+      "expression": "JSON( [1,2,3], Concatenate( JSONFormat.IgnoreBinaryData, JSONFormat.FlattenValueTables ) )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L547",
+        "expected_powerfx": "\"[1,2,3]\""
+      },
+      "expected": "[1,2,3]"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-547-decimal",
+      "expression": "JSON( [1,2,3], Concatenate( JSONFormat.IgnoreBinaryData, JSONFormat.FlattenValueTables ) )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L547",
+        "expected_powerfx": "\"[1,2,3]\""
+      },
+      "expected": "[1,2,3]"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-550-float",
+      "expression": "JSON( [1,2,3], JSONFormat.IgnoreBinaryData & \"_\" )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L550",
+        "expected_powerfx": "Errors: Error 43-44: Invalid argument type (Text). Expecting a Enum (JSONFormat) value instead.|Error 0-4: The function 'JSON' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-550-decimal",
+      "expression": "JSON( [1,2,3], JSONFormat.IgnoreBinaryData & \"_\" )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L550",
+        "expected_powerfx": "Errors: Error 43-44: Invalid argument type (Text). Expecting a Enum (JSONFormat) value instead.|Error 0-4: The function 'JSON' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-553-float",
+      "expression": "JSON( [1,2,3], Concatenate( JSONFormat.IgnoreBinaryData, \"_\" ) )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L553",
+        "expected_powerfx": "Errors: Error 15-62: Invalid argument type (Text). Expecting a Enum (JSONFormat) value instead.|Error 0-4: The function 'JSON' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-553-decimal",
+      "expression": "JSON( [1,2,3], Concatenate( JSONFormat.IgnoreBinaryData, \"_\" ) )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L553",
+        "expected_powerfx": "Errors: Error 15-62: Invalid argument type (Text). Expecting a Enum (JSONFormat) value instead.|Error 0-4: The function 'JSON' has some invalid arguments."
+      },
+      "expected_error": {
+        "kind": "Type",
+        "phase": "binding"
+      }
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-575-float",
+      "expression": "JSONFormat.IndentFour & JSONFormat.FlattenValueTables = JSONFormat.IgnoreBinaryData",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L575",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-575-decimal",
+      "expression": "JSONFormat.IndentFour & JSONFormat.FlattenValueTables = JSONFormat.IgnoreBinaryData",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L575",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-578-float",
+      "expression": "JSONFormat.IndentFour & JSONFormat.FlattenValueTables <> JSONFormat.IgnoreBinaryData",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L578",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-578-decimal",
+      "expression": "JSONFormat.IndentFour & JSONFormat.FlattenValueTables <> JSONFormat.IgnoreBinaryData",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L578",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-581-float",
+      "expression": "JSONFormat.IndentFour & JSONFormat.FlattenValueTables = JSONFormat.IndentFour & JSONFormat.FlattenValueTables",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L581",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-581-decimal",
+      "expression": "JSONFormat.IndentFour & JSONFormat.FlattenValueTables = JSONFormat.IndentFour & JSONFormat.FlattenValueTables",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L581",
+        "expected_powerfx": "true"
+      },
+      "expected": true
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-584-float",
+      "expression": "JSONFormat.IndentFour & JSONFormat.FlattenValueTables <> JSONFormat.IndentFour & JSONFormat.FlattenValueTables",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L584",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-584-decimal",
+      "expression": "JSONFormat.IndentFour & JSONFormat.FlattenValueTables <> JSONFormat.IndentFour & JSONFormat.FlattenValueTables",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L584",
+        "expected_powerfx": "false"
+      },
+      "expected": false
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-751-float",
+      "expression": "Concat( [\"String\", StartOfWeek.Tuesday, ErrorKind.Div0, JSONFormat.FlattenValueTables], Value )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L751",
+        "expected_powerfx": "\"StringTuesdayDiv0_\""
+      },
+      "expected": "StringTuesdayDiv0_"
+    },
+    {
+      "id": "json-enum-StronglyTypedEnum_BuiltInEnums-751-decimal",
+      "expression": "Concat( [\"String\", StartOfWeek.Tuesday, ErrorKind.Div0, JSONFormat.FlattenValueTables], Value )",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StronglyTypedEnum_BuiltInEnums.txt#L751",
+        "expected_powerfx": "\"StringTuesdayDiv0_\""
+      },
+      "expected": "StringTuesdayDiv0_"
+    },
+    {
+      "id": "json-enum-JSON-6-float",
+      "expression": "JSON(Blank())",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L6",
+        "expected_powerfx": "\"null\""
+      },
+      "expected": "null"
+    },
+    {
+      "id": "json-enum-JSON-6-decimal",
+      "expression": "JSON(Blank())",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L6",
+        "expected_powerfx": "\"null\""
+      },
+      "expected": "null"
+    },
+    {
+      "id": "json-enum-JSON-12-float",
+      "expression": "JSON(\"hello\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L12",
+        "expected_powerfx": "\"\"\"hello\"\"\""
+      },
+      "expected": "\"hello\""
+    },
+    {
+      "id": "json-enum-JSON-12-decimal",
+      "expression": "JSON(\"hello\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L12",
+        "expected_powerfx": "\"\"\"hello\"\"\""
+      },
+      "expected": "\"hello\""
+    },
+    {
+      "id": "json-enum-JSON-15-float",
+      "expression": "JSON(1.23)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L15",
+        "expected_powerfx": "\"1.23\""
+      },
+      "expected": "1.23"
+    },
+    {
+      "id": "json-enum-JSON-15-decimal",
+      "expression": "JSON(1.23)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L15",
+        "expected_powerfx": "\"1.23\""
+      },
+      "expected": "1.23"
+    },
+    {
+      "id": "json-enum-JSON-18-float",
+      "expression": "JSON(0)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L18",
+        "expected_powerfx": "\"0\""
+      },
+      "expected": "0"
+    },
+    {
+      "id": "json-enum-JSON-18-decimal",
+      "expression": "JSON(0)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L18",
+        "expected_powerfx": "\"0\""
+      },
+      "expected": "0"
+    },
+    {
+      "id": "json-enum-JSON-21-float",
+      "expression": "JSON(1)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L21",
+        "expected_powerfx": "\"1\""
+      },
+      "expected": "1"
+    },
+    {
+      "id": "json-enum-JSON-21-decimal",
+      "expression": "JSON(1)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L21",
+        "expected_powerfx": "\"1\""
+      },
+      "expected": "1"
+    },
+    {
+      "id": "json-enum-JSON-24-float",
+      "expression": "JSON(-1)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L24",
+        "expected_powerfx": "\"-1\""
+      },
+      "expected": "-1"
+    },
+    {
+      "id": "json-enum-JSON-24-decimal",
+      "expression": "JSON(-1)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L24",
+        "expected_powerfx": "\"-1\""
+      },
+      "expected": "-1"
+    },
+    {
+      "id": "json-enum-JSON-27-float",
+      "expression": "JSON(true)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L27",
+        "expected_powerfx": "\"true\""
+      },
+      "expected": "true"
+    },
+    {
+      "id": "json-enum-JSON-27-decimal",
+      "expression": "JSON(true)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L27",
+        "expected_powerfx": "\"true\""
+      },
+      "expected": "true"
+    },
+    {
+      "id": "json-enum-JSON-30-float",
+      "expression": "JSON(false)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L30",
+        "expected_powerfx": "\"false\""
+      },
+      "expected": "false"
+    },
+    {
+      "id": "json-enum-JSON-30-decimal",
+      "expression": "JSON(false)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L30",
+        "expected_powerfx": "\"false\""
+      },
+      "expected": "false"
+    },
+    {
+      "id": "json-enum-JSON-33-float",
+      "expression": "JSON(\"Back\\slash\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L33",
+        "expected_powerfx": "\"\"\"Back\\\\slash\"\"\""
+      },
+      "expected": "\"Back\\\\slash\""
+    },
+    {
+      "id": "json-enum-JSON-33-decimal",
+      "expression": "JSON(\"Back\\slash\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L33",
+        "expected_powerfx": "\"\"\"Back\\\\slash\"\"\""
+      },
+      "expected": "\"Back\\\\slash\""
+    },
+    {
+      "id": "json-enum-JSON-53-float",
+      "expression": "JSON(TimeUnit.Hours)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L53",
+        "expected_powerfx": "\"\"\"hours\"\"\""
+      },
+      "expected": "\"hours\""
+    },
+    {
+      "id": "json-enum-JSON-53-decimal",
+      "expression": "JSON(TimeUnit.Hours)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L53",
+        "expected_powerfx": "\"\"\"hours\"\"\""
+      },
+      "expected": "\"hours\""
+    },
+    {
+      "id": "json-enum-JSON-56-float",
+      "expression": "JSON(Date(2022,8,7))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L56",
+        "expected_powerfx": "\"\"\"2022-08-07\"\"\""
+      },
+      "expected": "\"2022-08-07\""
+    },
+    {
+      "id": "json-enum-JSON-56-decimal",
+      "expression": "JSON(Date(2022,8,7))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L56",
+        "expected_powerfx": "\"\"\"2022-08-07\"\"\""
+      },
+      "expected": "\"2022-08-07\""
+    },
+    {
+      "id": "json-enum-JSON-59-float",
+      "expression": "JSON(DateTimeValue(\"1970-01-01T00:00:00Z\"))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L59",
+        "expected_powerfx": "\"\"\"1970-01-01T00:00:00.000Z\"\"\""
+      },
+      "expected": "\"1970-01-01T00:00:00.000Z\""
+    },
+    {
+      "id": "json-enum-JSON-59-decimal",
+      "expression": "JSON(DateTimeValue(\"1970-01-01T00:00:00Z\"))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L59",
+        "expected_powerfx": "\"\"\"1970-01-01T00:00:00.000Z\"\"\""
+      },
+      "expected": "\"1970-01-01T00:00:00.000Z\""
+    },
+    {
+      "id": "json-enum-JSON-66-float",
+      "expression": "JSON({a:1,b:\"hello\",c:true})",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L66",
+        "expected_powerfx": "\"{\"\"a\"\":1,\"\"b\"\":\"\"hello\"\",\"\"c\"\":true}\""
+      },
+      "expected": "{\"a\":1,\"b\":\"hello\",\"c\":true}"
+    },
+    {
+      "id": "json-enum-JSON-66-decimal",
+      "expression": "JSON({a:1,b:\"hello\",c:true})",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L66",
+        "expected_powerfx": "\"{\"\"a\"\":1,\"\"b\"\":\"\"hello\"\",\"\"c\"\":true}\""
+      },
+      "expected": "{\"a\":1,\"b\":\"hello\",\"c\":true}"
+    },
+    {
+      "id": "json-enum-JSON-69-float",
+      "expression": "JSON({a:1,b:\"hello\",c:true}, JSONFormat.Compact)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L69",
+        "expected_powerfx": "\"{\"\"a\"\":1,\"\"b\"\":\"\"hello\"\",\"\"c\"\":true}\""
+      },
+      "expected": "{\"a\":1,\"b\":\"hello\",\"c\":true}"
+    },
+    {
+      "id": "json-enum-JSON-69-decimal",
+      "expression": "JSON({a:1,b:\"hello\",c:true}, JSONFormat.Compact)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L69",
+        "expected_powerfx": "\"{\"\"a\"\":1,\"\"b\"\":\"\"hello\"\",\"\"c\"\":true}\""
+      },
+      "expected": "{\"a\":1,\"b\":\"hello\",\"c\":true}"
+    },
+    {
+      "id": "json-enum-JSON-72-float",
+      "expression": "Substitute(Substitute(Substitute(JSON({a:1,b:\"hello\",c:true}, JSONFormat.IndentFour), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L72",
+        "expected_powerfx": "\"{*<t>\"\"a\"\": 1,*<t>\"\"b\"\": \"\"hello\"\",*<t>\"\"c\"\": true*}\""
+      },
+      "expected": "{*<t>\"a\": 1,*<t>\"b\": \"hello\",*<t>\"c\": true*}"
+    },
+    {
+      "id": "json-enum-JSON-72-decimal",
+      "expression": "Substitute(Substitute(Substitute(JSON({a:1,b:\"hello\",c:true}, JSONFormat.IndentFour), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L72",
+        "expected_powerfx": "\"{*<t>\"\"a\"\": 1,*<t>\"\"b\"\": \"\"hello\"\",*<t>\"\"c\"\": true*}\""
+      },
+      "expected": "{*<t>\"a\": 1,*<t>\"b\": \"hello\",*<t>\"c\": true*}"
+    },
+    {
+      "id": "json-enum-JSON-75-float",
+      "expression": "JSON(Table({a:1,b:\"hello\",c:true,e:Blank()},{a:-3,b:\"world\",c:false,d:GUID(\"01234567-89AB-CDEF-0123-456789ABCDEF\")}))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L75",
+        "expected_powerfx": "\"[{\"\"a\"\":1,\"\"b\"\":\"\"hello\"\",\"\"c\"\":true,\"\"d\"\":null,\"\"e\"\":null},{\"\"a\"\":-3,\"\"b\"\":\"\"world\"\",\"\"c\"\":false,\"\"d\"\":\"\"01234567-89ab-cdef-0123-456789abcdef\"\",\"\"e\"\":null}]\""
+      },
+      "expected": "[{\"a\":1,\"b\":\"hello\",\"c\":true,\"d\":null,\"e\":null},{\"a\":-3,\"b\":\"world\",\"c\":false,\"d\":\"01234567-89ab-cdef-0123-456789abcdef\",\"e\":null}]"
+    },
+    {
+      "id": "json-enum-JSON-75-decimal",
+      "expression": "JSON(Table({a:1,b:\"hello\",c:true,e:Blank()},{a:-3,b:\"world\",c:false,d:GUID(\"01234567-89AB-CDEF-0123-456789ABCDEF\")}))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L75",
+        "expected_powerfx": "\"[{\"\"a\"\":1,\"\"b\"\":\"\"hello\"\",\"\"c\"\":true,\"\"d\"\":null,\"\"e\"\":null},{\"\"a\"\":-3,\"\"b\"\":\"\"world\"\",\"\"c\"\":false,\"\"d\"\":\"\"01234567-89ab-cdef-0123-456789abcdef\"\",\"\"e\"\":null}]\""
+      },
+      "expected": "[{\"a\":1,\"b\":\"hello\",\"c\":true,\"d\":null,\"e\":null},{\"a\":-3,\"b\":\"world\",\"c\":false,\"d\":\"01234567-89ab-cdef-0123-456789abcdef\",\"e\":null}]"
+    },
+    {
+      "id": "json-enum-JSON-78-float",
+      "expression": "Substitute(Substitute(Substitute(JSON(Table({a:1,b:\"hello\",c:true},{a:-3,b:\"world\",c:false}), JSONFormat.IndentFour), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L78",
+        "expected_powerfx": "\"[*<t>{*<t><t>\"\"a\"\": 1,*<t><t>\"\"b\"\": \"\"hello\"\",*<t><t>\"\"c\"\": true*<t>},*<t>{*<t><t>\"\"a\"\": -3,*<t><t>\"\"b\"\": \"\"world\"\",*<t><t>\"\"c\"\": false*<t>}*]\""
+      },
+      "expected": "[*<t>{*<t><t>\"a\": 1,*<t><t>\"b\": \"hello\",*<t><t>\"c\": true*<t>},*<t>{*<t><t>\"a\": -3,*<t><t>\"b\": \"world\",*<t><t>\"c\": false*<t>}*]"
+    },
+    {
+      "id": "json-enum-JSON-78-decimal",
+      "expression": "Substitute(Substitute(Substitute(JSON(Table({a:1,b:\"hello\",c:true},{a:-3,b:\"world\",c:false}), JSONFormat.IndentFour), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L78",
+        "expected_powerfx": "\"[*<t>{*<t><t>\"\"a\"\": 1,*<t><t>\"\"b\"\": \"\"hello\"\",*<t><t>\"\"c\"\": true*<t>},*<t>{*<t><t>\"\"a\"\": -3,*<t><t>\"\"b\"\": \"\"world\"\",*<t><t>\"\"c\"\": false*<t>}*]\""
+      },
+      "expected": "[*<t>{*<t><t>\"a\": 1,*<t><t>\"b\": \"hello\",*<t><t>\"c\": true*<t>},*<t>{*<t><t>\"a\": -3,*<t><t>\"b\": \"world\",*<t><t>\"c\": false*<t>}*]"
+    },
+    {
+      "id": "json-enum-JSON-81-float",
+      "expression": "Substitute(Substitute(Substitute(JSON({a:1,b:\"hello\",c:true}, JSONFormat.IndentFour & JSONFormat.Compact), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L81",
+        "expected_powerfx": "\"{*<t>\"\"a\"\": 1,*<t>\"\"b\"\": \"\"hello\"\",*<t>\"\"c\"\": true*}\""
+      },
+      "expected": "{*<t>\"a\": 1,*<t>\"b\": \"hello\",*<t>\"c\": true*}"
+    },
+    {
+      "id": "json-enum-JSON-81-decimal",
+      "expression": "Substitute(Substitute(Substitute(JSON({a:1,b:\"hello\",c:true}, JSONFormat.IndentFour & JSONFormat.Compact), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L81",
+        "expected_powerfx": "\"{*<t>\"\"a\"\": 1,*<t>\"\"b\"\": \"\"hello\"\",*<t>\"\"c\"\": true*}\""
+      },
+      "expected": "{*<t>\"a\": 1,*<t>\"b\": \"hello\",*<t>\"c\": true*}"
+    },
+    {
+      "id": "json-enum-JSON-84-float",
+      "expression": "JSON(DateTimeValue(\"2022-08-07T12:34:56Z\"))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L84",
+        "expected_powerfx": "\"\"\"2022-08-07T12:34:56.000Z\"\"\""
+      },
+      "expected": "\"2022-08-07T12:34:56.000Z\""
+    },
+    {
+      "id": "json-enum-JSON-84-decimal",
+      "expression": "JSON(DateTimeValue(\"2022-08-07T12:34:56Z\"))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L84",
+        "expected_powerfx": "\"\"\"2022-08-07T12:34:56.000Z\"\"\""
+      },
+      "expected": "\"2022-08-07T12:34:56.000Z\""
+    },
+    {
+      "id": "json-enum-JSON-87-float",
+      "expression": "JSON(Table({a:GUID(\"01234567-89AB-CDEF-0123-456789ABCDEF\"),b:RGBA(18, 52, 86, 0.5),c:\"https://www.microsoft.com\",d:Sqrt(9)}))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L87",
+        "expected_powerfx": "\"[{\"\"a\"\":\"\"01234567-89ab-cdef-0123-456789abcdef\"\",\"\"b\"\":\"\"#12345680\"\",\"\"c\"\":\"\"https://www.microsoft.com\"\",\"\"d\"\":3}]\""
+      },
+      "expected": "[{\"a\":\"01234567-89ab-cdef-0123-456789abcdef\",\"b\":\"#12345680\",\"c\":\"https://www.microsoft.com\",\"d\":3}]"
+    },
+    {
+      "id": "json-enum-JSON-87-decimal",
+      "expression": "JSON(Table({a:GUID(\"01234567-89AB-CDEF-0123-456789ABCDEF\"),b:RGBA(18, 52, 86, 0.5),c:\"https://www.microsoft.com\",d:Sqrt(9)}))",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L87",
+        "expected_powerfx": "\"[{\"\"a\"\":\"\"01234567-89ab-cdef-0123-456789abcdef\"\",\"\"b\"\":\"\"#12345680\"\",\"\"c\"\":\"\"https://www.microsoft.com\"\",\"\"d\"\":3}]\""
+      },
+      "expected": "[{\"a\":\"01234567-89ab-cdef-0123-456789abcdef\",\"b\":\"#12345680\",\"c\":\"https://www.microsoft.com\",\"d\":3}]"
+    },
+    {
+      "id": "json-enum-JSON-90-float",
+      "expression": "Substitute(Substitute(Substitute(JSON(Table({a:1,b:\"hello\",c:Blank()},{a:-3,b:\"world\",c:{d: 1, h:\"test\"}}), JSONFormat.IndentFour), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L90",
+        "expected_powerfx": "\"[*<t>{*<t><t>\"\"a\"\": 1,*<t><t>\"\"b\"\": \"\"hello\"\",*<t><t>\"\"c\"\": null*<t>},*<t>{*<t><t>\"\"a\"\": -3,*<t><t>\"\"b\"\": \"\"world\"\",*<t><t>\"\"c\"\": {*<t><t><t>\"\"d\"\": 1,*<t><t><t>\"\"h\"\": \"\"test\"\"*<t><t>}*<t>}*]\""
+      },
+      "expected": "[*<t>{*<t><t>\"a\": 1,*<t><t>\"b\": \"hello\",*<t><t>\"c\": null*<t>},*<t>{*<t><t>\"a\": -3,*<t><t>\"b\": \"world\",*<t><t>\"c\": {*<t><t><t>\"d\": 1,*<t><t><t>\"h\": \"test\"*<t><t>}*<t>}*]"
+    },
+    {
+      "id": "json-enum-JSON-90-decimal",
+      "expression": "Substitute(Substitute(Substitute(JSON(Table({a:1,b:\"hello\",c:Blank()},{a:-3,b:\"world\",c:{d: 1, h:\"test\"}}), JSONFormat.IndentFour), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L90",
+        "expected_powerfx": "\"[*<t>{*<t><t>\"\"a\"\": 1,*<t><t>\"\"b\"\": \"\"hello\"\",*<t><t>\"\"c\"\": null*<t>},*<t>{*<t><t>\"\"a\"\": -3,*<t><t>\"\"b\"\": \"\"world\"\",*<t><t>\"\"c\"\": {*<t><t><t>\"\"d\"\": 1,*<t><t><t>\"\"h\"\": \"\"test\"\"*<t><t>}*<t>}*]\""
+      },
+      "expected": "[*<t>{*<t><t>\"a\": 1,*<t><t>\"b\": \"hello\",*<t><t>\"c\": null*<t>},*<t>{*<t><t>\"a\": -3,*<t><t>\"b\": \"world\",*<t><t>\"c\": {*<t><t><t>\"d\": 1,*<t><t><t>\"h\": \"test\"*<t><t>}*<t>}*]"
+    },
+    {
+      "id": "json-enum-JSON-95-float",
+      "expression": "Substitute(Substitute(Substitute(JSON(Table({a:1,b:\"hello\",c:Blank()},{a:-3,b:\"world\",c:Table({r:3.1,s:\"inner\",t:-7})}), JSONFormat.IndentFour), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L95",
+        "expected_powerfx": "\"[*<t>{*<t><t>\"\"a\"\": 1,*<t><t>\"\"b\"\": \"\"hello\"\",*<t><t>\"\"c\"\": null*<t>},*<t>{*<t><t>\"\"a\"\": -3,*<t><t>\"\"b\"\": \"\"world\"\",*<t><t>\"\"c\"\": [*<t><t><t>{*<t><t><t><t>\"\"r\"\": 3.1,*<t><t><t><t>\"\"s\"\": \"\"inner\"\",*<t><t><t><t>\"\"t\"\": -7*<t><t><t>}*<t><t>]*<t>}*]\""
+      },
+      "expected": "[*<t>{*<t><t>\"a\": 1,*<t><t>\"b\": \"hello\",*<t><t>\"c\": null*<t>},*<t>{*<t><t>\"a\": -3,*<t><t>\"b\": \"world\",*<t><t>\"c\": [*<t><t><t>{*<t><t><t><t>\"r\": 3.1,*<t><t><t><t>\"s\": \"inner\",*<t><t><t><t>\"t\": -7*<t><t><t>}*<t><t>]*<t>}*]"
+    },
+    {
+      "id": "json-enum-JSON-95-decimal",
+      "expression": "Substitute(Substitute(Substitute(JSON(Table({a:1,b:\"hello\",c:Blank()},{a:-3,b:\"world\",c:Table({r:3.1,s:\"inner\",t:-7})}), JSONFormat.IndentFour), Char(10), \"*\"), Char(13), \"\"), \"    \", \"<t>\")",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L95",
+        "expected_powerfx": "\"[*<t>{*<t><t>\"\"a\"\": 1,*<t><t>\"\"b\"\": \"\"hello\"\",*<t><t>\"\"c\"\": null*<t>},*<t>{*<t><t>\"\"a\"\": -3,*<t><t>\"\"b\"\": \"\"world\"\",*<t><t>\"\"c\"\": [*<t><t><t>{*<t><t><t><t>\"\"r\"\": 3.1,*<t><t><t><t>\"\"s\"\": \"\"inner\"\",*<t><t><t><t>\"\"t\"\": -7*<t><t><t>}*<t><t>]*<t>}*]\""
+      },
+      "expected": "[*<t>{*<t><t>\"a\": 1,*<t><t>\"b\": \"hello\",*<t><t>\"c\": null*<t>},*<t>{*<t><t>\"a\": -3,*<t><t>\"b\": \"world\",*<t><t>\"c\": [*<t><t><t>{*<t><t><t><t>\"r\": 3.1,*<t><t><t><t>\"s\": \"inner\",*<t><t><t><t>\"t\": -7*<t><t><t>}*<t><t>]*<t>}*]"
+    },
+    {
+      "id": "json-enum-JSON-120-float",
+      "expression": "JSON([1, 2, 3], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L120",
+        "expected_powerfx": "\"[1,2,3]\""
+      },
+      "expected": "[1,2,3]"
+    },
+    {
+      "id": "json-enum-JSON-120-decimal",
+      "expression": "JSON([1, 2, 3], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L120",
+        "expected_powerfx": "\"[1,2,3]\""
+      },
+      "expected": "[1,2,3]"
+    },
+    {
+      "id": "json-enum-JSON-123-float",
+      "expression": "JSON({a:[\"one\", \"two\"]}, JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L123",
+        "expected_powerfx": "\"{\"\"a\"\":[\"\"one\"\",\"\"two\"\"]}\""
+      },
+      "expected": "{\"a\":[\"one\",\"two\"]}"
+    },
+    {
+      "id": "json-enum-JSON-123-decimal",
+      "expression": "JSON({a:[\"one\", \"two\"]}, JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L123",
+        "expected_powerfx": "\"{\"\"a\"\":[\"\"one\"\",\"\"two\"\"]}\""
+      },
+      "expected": "{\"a\":[\"one\",\"two\"]}"
+    },
+    {
+      "id": "json-enum-JSON-126-float",
+      "expression": "JSON([true, false, true], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L126",
+        "expected_powerfx": "\"[true,false,true]\""
+      },
+      "expected": "[true,false,true]"
+    },
+    {
+      "id": "json-enum-JSON-126-decimal",
+      "expression": "JSON([true, false, true], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L126",
+        "expected_powerfx": "\"[true,false,true]\""
+      },
+      "expected": "[true,false,true]"
+    },
+    {
+      "id": "json-enum-JSON-130-float",
+      "expression": "JSON([{a:1}, {a:2}], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L130",
+        "expected_powerfx": "\"[{\"\"a\"\":1},{\"\"a\"\":2}]\""
+      },
+      "expected": "[{\"a\":1},{\"a\":2}]"
+    },
+    {
+      "id": "json-enum-JSON-130-decimal",
+      "expression": "JSON([{a:1}, {a:2}], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L130",
+        "expected_powerfx": "\"[{\"\"a\"\":1},{\"\"a\"\":2}]\""
+      },
+      "expected": "[{\"a\":1},{\"a\":2}]"
+    },
+    {
+      "id": "json-enum-JSON-134-float",
+      "expression": "JSON([{Value:1},Blank(),{Value:3},{Value:Blank()},{Value:5}], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L134",
+        "expected_powerfx": "\"[1,null,3,null,5]\""
+      },
+      "expected": "[1,null,3,null,5]"
+    },
+    {
+      "id": "json-enum-JSON-134-decimal",
+      "expression": "JSON([{Value:1},Blank(),{Value:3},{Value:Blank()},{Value:5}], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L134",
+        "expected_powerfx": "\"[1,null,3,null,5]\""
+      },
+      "expected": "[1,null,3,null,5]"
+    },
+    {
+      "id": "json-enum-JSON-138-float",
+      "expression": "JSON([[1,2,3],[4,5],[6]], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "float",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L138",
+        "expected_powerfx": "\"[[1,2,3],[4,5],[6]]\""
+      },
+      "expected": "[[1,2,3],[4,5],[6]]"
+    },
+    {
+      "id": "json-enum-JSON-138-decimal",
+      "expression": "JSON([[1,2,3],[4,5],[6]], JSONFormat.FlattenValueTables)",
+      "behavior": true,
+      "environment": {
+        "number_mode": "decimal",
+        "language": "en-US",
+        "enum_mode": "strong",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/JSON.txt#L138",
+        "expected_powerfx": "\"[[1,2,3],[4,5],[6]]\""
+      },
+      "expected": "[[1,2,3],[4,5],[6]]"
+    }
+  ]
+}

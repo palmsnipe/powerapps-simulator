@@ -1,0 +1,906 @@
+{
+  "revision": "df4ceba5e08220db670c25afead342ce699c50b5",
+  "selection": "Every expression in pinned StdevP.txt and VarP.txt, with literal independently decoded expected values. Both Float and Decimal input profiles return Float population statistics. Float expectations use the pinned BaseRunner.NumberCompare tolerance. No exclusions.",
+  "cases": [
+    {
+      "id": "statistics-stdevp-1-float",
+      "expression": "StdevP(1,2,3)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L1",
+        "expected_powerfx": "0.81649658093"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.81649658093
+    },
+    {
+      "id": "statistics-stdevp-1-decimal",
+      "expression": "StdevP(1,2,3)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L1",
+        "expected_powerfx": "0.81649658093"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.81649658093
+    },
+    {
+      "id": "statistics-stdevp-4-float",
+      "expression": "StdevP([1,2,3], Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L4",
+        "expected_powerfx": "0.81649658093"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.81649658093
+    },
+    {
+      "id": "statistics-stdevp-4-decimal",
+      "expression": "StdevP([1,2,3], Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L4",
+        "expected_powerfx": "0.81649658093"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.81649658093
+    },
+    {
+      "id": "statistics-stdevp-7-float",
+      "expression": "StdevP(1, 2/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L7",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-7-decimal",
+      "expression": "StdevP(1, 2/0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L7",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-10-float",
+      "expression": "StdevP(-1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L10",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-10-decimal",
+      "expression": "StdevP(-1)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L10",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-13-float",
+      "expression": "StdevP(0, Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L13",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-13-decimal",
+      "expression": "StdevP(0, Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L13",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-16-float",
+      "expression": "StdevP(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L16",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-16-decimal",
+      "expression": "StdevP(Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L16",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-19-float",
+      "expression": "StdevP(\"NaN\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L19",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-19-decimal",
+      "expression": "StdevP(\"NaN\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L19",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-22-float",
+      "expression": "StdevP(\"NaN\", Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L22",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-22-decimal",
+      "expression": "StdevP(\"NaN\", Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L22",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-25-float",
+      "expression": "StdevP(Sort([-2, -1, 0, 1, 2], 1 / Value), Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L25",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-25-decimal",
+      "expression": "StdevP(Sort([-2, -1, 0, 1, 2], 1 / Value), Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L25",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-28-float",
+      "expression": "StdevP(CountIf([1,2,3], true))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L28",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-28-decimal",
+      "expression": "StdevP(CountIf([1,2,3], true))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L28",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-31-float",
+      "expression": "StdevP(CountIf([\"1\",\"2\",\"3\"], true))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L31",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-31-decimal",
+      "expression": "StdevP(CountIf([\"1\",\"2\",\"3\"], true))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L31",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-34-float",
+      "expression": "StdevP(\"100\", \"AB\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L34",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-34-decimal",
+      "expression": "StdevP(\"100\", \"AB\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L34",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-stdevp-37-float",
+      "expression": "StdevP(false, false)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L37",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-37-decimal",
+      "expression": "StdevP(false, false)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L37",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-stdevp-40-float",
+      "expression": "StdevP(false, true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L40",
+        "expected_powerfx": "0.5"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.5
+    },
+    {
+      "id": "statistics-stdevp-40-decimal",
+      "expression": "StdevP(false, true)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/StdevP.txt#L40",
+        "expected_powerfx": "0.5"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.5
+    },
+    {
+      "id": "statistics-varp-1-float",
+      "expression": "VarP(1, 3, 5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L1",
+        "expected_powerfx": "2.6666666666666665"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.6666666666666665
+    },
+    {
+      "id": "statistics-varp-1-decimal",
+      "expression": "VarP(1, 3, 5)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L1",
+        "expected_powerfx": "2.6666666666666665"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.6666666666666665
+    },
+    {
+      "id": "statistics-varp-4-float",
+      "expression": "VarP(1,3, Blank(), 5)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L4",
+        "expected_powerfx": "2.6666666666666665"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.6666666666666665
+    },
+    {
+      "id": "statistics-varp-4-decimal",
+      "expression": "VarP(1,3, Blank(), 5)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L4",
+        "expected_powerfx": "2.6666666666666665"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.6666666666666665
+    },
+    {
+      "id": "statistics-varp-7-float",
+      "expression": "VarP([1,3,5], Value * Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L7",
+        "expected_powerfx": "99.555555556"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 99.555555556
+    },
+    {
+      "id": "statistics-varp-7-decimal",
+      "expression": "VarP([1,3,5], Value * Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L7",
+        "expected_powerfx": "99.555555556"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 99.555555556
+    },
+    {
+      "id": "statistics-varp-10-float",
+      "expression": "VarP([1,3,5,Blank()], Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L10",
+        "expected_powerfx": "2.6666666666666665"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.6666666666666665
+    },
+    {
+      "id": "statistics-varp-10-decimal",
+      "expression": "VarP([1,3,5,Blank()], Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L10",
+        "expected_powerfx": "2.6666666666666665"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.6666666666666665
+    },
+    {
+      "id": "statistics-varp-13-float",
+      "expression": "VarP(Blank())",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L13",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-varp-13-decimal",
+      "expression": "VarP(Blank())",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L13",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-varp-16-float",
+      "expression": "VarP(1, 2, 1/0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L16",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-varp-16-decimal",
+      "expression": "VarP(1, 2, 1/0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L16",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-varp-19-float",
+      "expression": "VarP(1, 1, 1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L19",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-19-decimal",
+      "expression": "VarP(1, 1, 1)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L19",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-22-float",
+      "expression": "VarP(1)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L22",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-22-decimal",
+      "expression": "VarP(1)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L22",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-25-float",
+      "expression": "VarP(0)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L25",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-25-decimal",
+      "expression": "VarP(0)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L25",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-28-float",
+      "expression": "VarP(\"10\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L28",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-28-decimal",
+      "expression": "VarP(\"10\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L28",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-31-float",
+      "expression": "VarP(\"1\",\"3\",\"5\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L31",
+        "expected_powerfx": "2.6666666666666665"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.6666666666666665
+    },
+    {
+      "id": "statistics-varp-31-decimal",
+      "expression": "VarP(\"1\",\"3\",\"5\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L31",
+        "expected_powerfx": "2.6666666666666665"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 2.6666666666666665
+    },
+    {
+      "id": "statistics-varp-35-float",
+      "expression": "VarP(\"NaN\")",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L35",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-varp-35-decimal",
+      "expression": "VarP(\"NaN\")",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L35",
+        "expected_powerfx": "Error({Kind:ErrorKind.InvalidArgument})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "InvalidArgument",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-varp-38-float",
+      "expression": "VarP(CountIf([1,2,3], true))",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L38",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-38-decimal",
+      "expression": "VarP(CountIf([1,2,3], true))",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L38",
+        "expected_powerfx": "0"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.0
+    },
+    {
+      "id": "statistics-varp-41-float",
+      "expression": "VarP(Sort([-2, -1, 0, 1, 2], 1 / Value), Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L41",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-varp-41-decimal",
+      "expression": "VarP(Sort([-2, -1, 0, 1, 2], 1 / Value), Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L41",
+        "expected_powerfx": "Error({Kind:ErrorKind.Div0})"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected_error": {
+        "kind": "Div0",
+        "phase": "runtime"
+      }
+    },
+    {
+      "id": "statistics-varp-44-float",
+      "expression": "VarP([\"1\", \"2\", \"3\"], Value)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L44",
+        "expected_powerfx": "0.6666666666666666"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.6666666666666666
+    },
+    {
+      "id": "statistics-varp-44-decimal",
+      "expression": "VarP([\"1\", \"2\", \"3\"], Value)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L44",
+        "expected_powerfx": "0.6666666666666666"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.6666666666666666
+    },
+    {
+      "id": "statistics-varp-47-float",
+      "expression": "VarP(false, true)",
+      "environment": {
+        "number_mode": "float",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L47",
+        "expected_powerfx": "0.25"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.25
+    },
+    {
+      "id": "statistics-varp-47-decimal",
+      "expression": "VarP(false, true)",
+      "environment": {
+        "number_mode": "decimal",
+        "date_numeric_mode": "powerfx-days"
+      },
+      "source": {
+        "url": "https://github.com/microsoft/Power-Fx/blob/df4ceba5e08220db670c25afead342ce699c50b5/src/tests/Microsoft.PowerFx.Core.Tests.Shared/ExpressionTestCases/VarP.txt#L47",
+        "expected_powerfx": "0.25"
+      },
+      "numeric_comparison": "upstream-float",
+      "expected": 0.25
+    }
+  ]
+}

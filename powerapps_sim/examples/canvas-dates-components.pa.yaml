@@ -1,0 +1,60 @@
+ComponentDefinitions:
+  DatePanel:
+    AccessAppScope: false
+    CustomProperties:
+      InitialDay:
+        PropertyKind: Input
+        DataType: DateAndTime
+        Default: =Blank()
+      Caption:
+        PropertyKind: Input
+        DataType: Text
+        Default: ="Date"
+      Day:
+        PropertyKind: Output
+        DataType: DateAndTime
+        Default: =Picker.SelectedDate
+      History:
+        PropertyKind: Output
+        DataType: Table
+        Default: =history
+      Changed:
+        PropertyKind: Event
+        ReturnType: None
+        Parameters:
+          - day:
+              DataType: DateAndTime
+        Default: =Blank()
+    Properties:
+      Width: =440
+      Height: =155
+      OnReset: =Clear(history)
+    Children:
+      - Caption:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =DatePanel.Caption
+            X: =12
+            Y: =8
+            Width: =Parent.Width-24
+      - Picker:
+          Control: DatePicker@0.0.42
+          Properties:
+            X: =12
+            Y: =48
+            Width: =Parent.Width-24
+            SelectedDate: =DatePanel.InitialDay
+            StartDate: =Date(2026,1,1)
+            EndDate: =Date(2026,12,31)
+            IsEditable: =true
+            Format: =DatePickerCanvas.Format.Short
+            StartOfWeek: =DatePickerCanvas.StartOfWeek.Monday
+            AccessibleLabel: =DatePanel.Caption
+            OnChange: =Collect(history,{Day:Self.SelectedDate});DatePanel.Changed(Self.SelectedDate)
+      - Value:
+          Control: ModernText@1.0.0
+          Properties:
+            X: =12
+            Y: =95
+            Width: =Parent.Width-24
+            Text: =Coalesce(Text(DatePanel.Day,"yyyy-mm-dd"),"—") & " · " & CountRows(history)

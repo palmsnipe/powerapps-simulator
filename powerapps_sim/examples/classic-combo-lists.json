@@ -1,0 +1,92 @@
+{
+  "People": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "DisplayName": {
+        "type": "string",
+        "required": true
+      },
+      "Email": {
+        "type": "string",
+        "required": true
+      }
+    },
+    "records": [
+      {
+        "ID": 1,
+        "DisplayName": "Fictional River Adams",
+        "Email": "river@example.test"
+      },
+      {
+        "ID": 2,
+        "DisplayName": "Fictional Casey Martin",
+        "Email": "casey@example.test"
+      },
+      {
+        "ID": 3,
+        "DisplayName": "Fictional Camille Roy",
+        "Email": "camille@example.test"
+      },
+      {
+        "ID": 4,
+        "DisplayName": "Fictional Morgan Lee",
+        "Email": "morgan@example.test"
+      }
+    ],
+    "required": [
+      "DisplayName",
+      "Email"
+    ]
+  },
+  "Drafts": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readonly": true
+      },
+      "Title": {
+        "type": "string",
+        "required": true,
+        "maxLength": 120
+      },
+      "Owners": {
+        "type": "array",
+        "required": true,
+        "items": {
+          "type": "object",
+          "properties": {
+            "ID": {
+              "type": "number"
+            },
+            "DisplayName": {
+              "type": "string"
+            },
+            "Email": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "records": [
+      {
+        "ID": 1,
+        "Title": "Fictional team draft",
+        "Owners": [
+          {
+            "ID": 1,
+            "DisplayName": "Fictional River Adams",
+            "Email": "river@example.test"
+          }
+        ]
+      }
+    ],
+    "required": [
+      "Title",
+      "Owners"
+    ]
+  }
+}

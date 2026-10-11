@@ -1,0 +1,40 @@
+{
+  "Calendars": {
+    "fields": {
+      "ID": {
+        "type": "integer",
+        "readOnly": true
+      },
+      "Title": {
+        "type": "string",
+        "maxLength": 255
+      },
+      "Month": {
+        "type": "string"
+      },
+      "Day": {
+        "type": "string"
+      },
+      "Language": {
+        "type": "string"
+      },
+      "Is24": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "Title",
+      "Month",
+      "Day",
+      "Language",
+      "Is24"
+    ],
+    "mapping": {
+      "Month": "Month name",
+      "Day": "Weekday name",
+      "Language": "Input language",
+      "Is24": "24-hour clock"
+    },
+    "records": []
+  }
+}
