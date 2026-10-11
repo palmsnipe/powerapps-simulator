@@ -44,6 +44,7 @@ To install the package and its `powerapps-sim` command, run `python -m pip insta
 - Simulates users, language, time, numeric profiles, and fictional list data.
 - Runs isolated workflow scenarios and supports reviewed source/schema changes with undo.
 - Offers an optional local MCP adapter for AI clients.
+- Lets AI clients discover controls, stage targeted property/control edits, verify workflow batches, and explicitly restart the local preview.
 
 ## Compatibility
 
@@ -63,6 +64,7 @@ Start with the [documentation index](docs/README.md), or go directly to:
 - [Controls](docs/controls.md) and [archived canvas versions](docs/archived-controls.md)
 - [Components, scopes, and lifecycle](docs/components.md)
 - [MCP, workflows, and reviewed changes](docs/ai-workflows.md)
+- [Local AI development benchmark](docs/ai-development.md)
 - [Development and verification](docs/development.md)
 
 Local projects, databases, drafts, and verification artifacts are ignored by Git. Existing workspace storage names (`emulator.json` and `.emu/`) are retained for compatibility.

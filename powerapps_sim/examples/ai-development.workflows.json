@@ -1,0 +1,425 @@
+{
+  "status-filter.workflow.json": {
+    "format_version": 1,
+    "name": "Filter project statuses",
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    },
+    "records": {
+      "Projects": [
+        {
+          "ID": 1,
+          "Title": "Bridge study",
+          "Status": "Draft",
+          "Amount": 125
+        },
+        {
+          "ID": 2,
+          "Title": "Park survey",
+          "Status": "Active",
+          "Amount": 75
+        },
+        {
+          "ID": 3,
+          "Title": "Water assessment",
+          "Status": "Draft",
+          "Amount": 200
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "assert",
+        "formula": "StatusFilter.Selected.Value",
+        "expect": "All"
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(ProjectGallery.Items)",
+        "expect": 3
+      },
+      {
+        "op": "event",
+        "path": "Workspace/StatusFilter",
+        "event": "OnChange",
+        "selection": [
+          1
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(ProjectGallery.Items)",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "CountIf(ProjectGallery.Items, Status <> \"Draft\")",
+        "expect": 0
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectCount.Text",
+        "expect": "2 projects"
+      },
+      {
+        "op": "event",
+        "path": "Workspace/StatusFilter",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(ProjectGallery.Items)",
+        "expect": 1
+      },
+      {
+        "op": "assert",
+        "formula": "First(ProjectGallery.Items).Title",
+        "expect": "Park survey"
+      },
+      {
+        "op": "event",
+        "path": "Workspace/StatusFilter",
+        "event": "OnChange",
+        "selection": [
+          0
+        ]
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(ProjectGallery.Items)",
+        "expect": 3
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectCount.Text",
+        "expect": "3 projects"
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  },
+  "edit-selected.workflow.json": {
+    "format_version": 1,
+    "name": "Edit the selected filtered record",
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    },
+    "records": {
+      "Projects": [
+        {
+          "ID": 1,
+          "Title": "Bridge study",
+          "Status": "Draft",
+          "Amount": 125
+        },
+        {
+          "ID": 2,
+          "Title": "Park survey",
+          "Status": "Active",
+          "Amount": 75
+        },
+        {
+          "ID": 3,
+          "Title": "Water assessment",
+          "Status": "Draft",
+          "Amount": 200
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "event",
+        "path": "Workspace/StatusFilter",
+        "event": "OnChange",
+        "selection": [
+          2
+        ]
+      },
+      {
+        "op": "event",
+        "target": "First(ProjectGallery.AllItems).EditProject",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "selectedId",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "TitleInput.Text",
+        "expect": "Park survey"
+      },
+      {
+        "op": "event",
+        "path": "Workspace/ProjectForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Park survey updated"
+      },
+      {
+        "op": "event",
+        "path": "Workspace/ProjectForm/AmountCard/AmountInput",
+        "event": "OnChange",
+        "value": 320
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Workspace/SaveProject",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.LastSubmit.ID",
+        "expect": 2
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects, ID = 2).Title",
+        "expect": "Park survey updated"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects, ID = 2).Amount",
+        "expect": 320
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects, ID = 1).Title",
+        "expect": "Bridge study"
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Projects)",
+        "expect": 3
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  },
+  "failed-save-retry.workflow.json": {
+    "format_version": 1,
+    "name": "Preserve both inputs after failure and retry",
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    },
+    "records": {
+      "Projects": [
+        {
+          "ID": 1,
+          "Title": "Bridge study",
+          "Status": "Draft",
+          "Amount": 125
+        },
+        {
+          "ID": 2,
+          "Title": "Park survey",
+          "Status": "Active",
+          "Amount": 75
+        },
+        {
+          "ID": 3,
+          "Title": "Water assessment",
+          "Status": "Draft",
+          "Amount": 200
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "event",
+        "path": "Workspace/ProjectForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Bridge study updated"
+      },
+      {
+        "op": "event",
+        "path": "Workspace/ProjectForm/AmountCard/AmountInput",
+        "event": "OnChange",
+        "value": 450
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": "write"
+      },
+      {
+        "op": "event",
+        "path": "Workspace/SaveProject",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "TitleInput.Text",
+        "expect": "Bridge study updated"
+      },
+      {
+        "op": "assert",
+        "formula": "AmountInput.Value",
+        "expect": 450
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Unsaved",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(ProjectForm.Error)",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(ProjectForm.LastSubmit)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects, ID = 1).Title",
+        "expect": "Bridge study"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects, ID = 1).Amount",
+        "expect": 125
+      },
+      {
+        "op": "failure",
+        "list": "Projects",
+        "mode": null
+      },
+      {
+        "op": "event",
+        "path": "Workspace/SaveProject",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.LastSubmit.Title",
+        "expect": "Bridge study updated"
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects, ID = 1).Amount",
+        "expect": 450
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Unsaved",
+        "expect": false
+      },
+      {
+        "op": "assert",
+        "formula": "IsBlank(ProjectForm.Error)",
+        "expect": true
+      },
+      {
+        "op": "assert",
+        "formula": "CountRows(Projects)",
+        "expect": 3
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ]
+  },
+  "required-title.workflow.json": {
+    "format_version": 1,
+    "name": "Required title blocks saving in narrow preview",
+    "environment": {
+      "clock": "2026-01-01T12:00:00+00:00"
+    },
+    "records": {
+      "Projects": [
+        {
+          "ID": 1,
+          "Title": "Bridge study",
+          "Status": "Draft",
+          "Amount": 125
+        },
+        {
+          "ID": 2,
+          "Title": "Park survey",
+          "Status": "Active",
+          "Amount": 75
+        },
+        {
+          "ID": 3,
+          "Title": "Water assessment",
+          "Status": "Draft",
+          "Amount": 200
+        }
+      ]
+    },
+    "steps": [
+      {
+        "op": "event",
+        "path": "Workspace/ProjectForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": ""
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Valid",
+        "expect": false
+      },
+      {
+        "op": "event",
+        "path": "Workspace/SaveProject",
+        "event": "OnSelect",
+        "expect_blocked": true
+      },
+      {
+        "op": "assert",
+        "formula": "LookUp(Projects, ID = 1).Title",
+        "expect": "Bridge study"
+      },
+      {
+        "op": "event",
+        "path": "Workspace/ProjectForm/TitleCard/TitleInput",
+        "event": "OnChange",
+        "value": "Valid title"
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.Valid",
+        "expect": true
+      },
+      {
+        "op": "event",
+        "path": "Workspace/SaveProject",
+        "event": "OnSelect"
+      },
+      {
+        "op": "assert",
+        "formula": "ProjectForm.LastSubmit.Title",
+        "expect": "Valid title"
+      },
+      {
+        "op": "diagnostics",
+        "expect": 0
+      }
+    ],
+    "viewport": {
+      "width": 400,
+      "height": 900
+    }
+  }
+}

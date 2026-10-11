@@ -18,8 +18,10 @@ from .syntax import FxError
 
 OPERATIONS = ('describe_project', 'read_source', 'read_list', 'read_diagnostics', 'read_analysis',
               'read_runtime', 'read_dependencies', 'evaluate_formula', 'export_source', 'list_changes', 'stage_change',
-              'apply_change', 'undo_change', 'list_workflows', 'run_workflow', 'read_workflow_report')
-WRITES = {'stage_change', 'apply_change', 'undo_change', 'run_workflow'}
+              'apply_change', 'undo_change', 'list_workflows', 'run_workflow', 'read_workflow_report',
+              'read_controls', 'read_control', 'read_list_schema', 'stage_control_edits', 'run_workflows', 'restart_preview')
+WRITES = {'stage_change', 'apply_change', 'undo_change', 'run_workflow',
+          'stage_control_edits', 'run_workflows', 'restart_preview'}
 
 
 class AIService:
@@ -80,6 +82,17 @@ class AIService:
             text = p.export_control(control_name)
         return {'text': text, 'revision': revision(p.root), 'source': name, 'app_property': app_property, 'control_name': control_name}
 
+    def read_controls(self, query='', source=None, offset=0, limit=50, include_properties=False):
+        from .ai_authoring import read_controls
+        p = Project(self.workspace.project.root)
+        return {**read_controls(p, query, source, offset, limit, include_properties),
+                'revision': revision(p.root), 'category': 'saved source'}
+
+    def read_control(self, path, source=None):
+        from .ai_authoring import read_control
+        p = Project(self.workspace.project.root)
+        return {**read_control(p, path, source), 'revision': revision(p.root), 'category': 'saved source'}
+
     def read_list(self, name, offset=0, limit=50):
         if not isinstance(name, str):
             raise ValueError('List name must be text')
@@ -95,6 +108,16 @@ class AIService:
             'next_offset': offset + limit if offset + limit < len(rows) else None,
             'revision': revision(self.workspace.project.root), 'data_revision': data_revision(r.store),
             'failure': r.store.failures.get(name)}
+
+    def read_list_schema(self, name):
+        if not isinstance(name, str):
+            raise ValueError('List name must be text')
+        store = self.workspace.runtime.store
+        store.source(name)
+        definition = store.catalog.read().get(name)
+        return {'name': name, 'definition': definition[1] if definition else store.definitions[name],
+                'revision': revision(self.workspace.project.root),
+                'note': 'Local list schema and name mappings; no records were fetched.'}
 
     def read_diagnostics(self, historical=False):
         if type(historical) is not bool:
@@ -171,14 +194,32 @@ class AIService:
         return self.workspace.authoring.stage(expected_revision=expected_revision, sources=sources, lists=lists,
             migrations=migrations, title=title, strict=strict)
 
+    def stage_control_edits(self, expected_revision, edits, lists=None, migrations=None,
+                            title='AI control edits', strict=False):
+        from .ai_authoring import edit_sources
+        self.workspace.authoring.check_revision(expected_revision)
+        sources = edit_sources(Project(self.workspace.project.root), edits)
+        change = self.workspace.authoring.stage(expected_revision=expected_revision, sources=sources,
+            lists=lists, migrations=migrations, title=title, strict=strict)
+        # The agent already sent the edits; return their diff, not entire YAML documents.
+        return {**{k: v for k, v in change.items() if k not in ('sources', 'lists')},
+                'changed_sources': list(change['sources']), 'changed_lists': list(change['lists'])}
+
     def apply_change(self, change_id, expected_revision):
         return self.workspace.authoring.apply(change_id, expected_revision=expected_revision)
 
     def undo_change(self, change_id, expected_revision):
         return self.workspace.authoring.undo(change_id, expected_revision=expected_revision)
 
-    def list_workflows(self):
-        return self.workspace.workflows.catalog()
+    def list_workflows(self, include_scenarios=True):
+        if type(include_scenarios) is not bool:
+            raise ValueError('include_scenarios must be Boolean')
+        catalog = self.workspace.workflows.catalog()
+        if not include_scenarios:
+            catalog['scenarios'] = [{**{k: v for k, v in e.items() if k != 'scenario'},
+                **({'name': e['scenario']['name'], 'step_count': len(e['scenario']['steps'])}
+                   if 'scenario' in e else {})} for e in catalog['scenarios']]
+        return catalog
 
     def run_workflow(self, expected_revision, scenario=None, scenario_file=None, change_id=None):
         if (scenario is None) == (scenario_file is None):
@@ -192,3 +233,45 @@ class AIService:
 
     def read_workflow_report(self, run_id):
         return self.workspace.workflows.report(run_id)
+
+    def run_workflows(self, expected_revision, workflows, change_id=None):
+        from .workflows import validate, summarize
+        if not isinstance(workflows, list) or not 1 <= len(workflows) <= 20:
+            raise ValueError('Provide between 1 and 20 workflows')
+        self.workspace.authoring.check_revision(expected_revision)
+        catalog = {e['file']: e for e in self.workspace.workflows.catalog()['scenarios']}
+        scenarios = []
+        for entry in workflows:
+            if not isinstance(entry, dict) or set(entry) not in ({'scenario'}, {'scenario_file'}):
+                raise ValueError('Each workflow needs exactly one scenario or scenario_file')
+            if 'scenario_file' in entry:
+                name = entry['scenario_file']
+                if not isinstance(name, str) or name not in catalog or catalog[name].get('error'):
+                    raise ValueError('Valid workflow file not found in the project catalog')
+                scenario = catalog[name]['scenario']
+            else:
+                scenario = entry['scenario']
+            scenarios.append(validate(scenario))
+        # Validate all definitions before creating any reports. Each run has its
+        # own disposable runtime/database, even when a prior assertion fails.
+        reports = [summarize(self.workspace.workflows.run(scenario,
+            expected_revision=expected_revision, change_id=change_id)) for scenario in scenarios]
+        return {'status': 'passed' if all(r['status'] == 'passed' for r in reports) else 'failed',
+                'revision': expected_revision, 'change_id': change_id, 'runs': reports,
+                'passed': sum(r['status'] == 'passed' for r in reports),
+                'failed': sum(r['status'] == 'failed' for r in reports)}
+
+    def restart_preview(self, expected_revision):
+        w = self.workspace
+        w.authoring.check_revision(expected_revision)
+        project = Project(w.project.root)
+        if project.source_errors:
+            raise ValueError('Saved source has errors; repair it before restarting the preview')
+        w.open(project)
+        if not w.start_simulation:
+            w.runtime.restart()
+        return {'revision': revision(w.project.root), 'data_revision': data_revision(w.runtime.store),
+                'active_screen': w.runtime.active_screen, 'started': w.runtime.started,
+                'pending_source': w.runtime.pending_source, 'diagnostics': w.runtime.diagnostics,
+                'running_source': self._running_revision_note(),
+                'note': 'Preview restarted: unsaved control state was reset and startup/visibility behavior ran.'}

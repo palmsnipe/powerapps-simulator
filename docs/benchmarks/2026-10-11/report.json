@@ -1,0 +1,2245 @@
+{
+  "format_version": 1,
+  "timestamp": "2026-10-11T20:24:21.075988+00:00",
+  "status": "passed",
+  "task": "Status filtering and failed-save recovery through the local Power Apps simulator",
+  "environment": {
+    "python": "3.14.8",
+    "platform": "Darwin",
+    "machine": "arm64"
+  },
+  "methodology": "Actual Codex generation through local simulator MCP. Independent fresh contexts; reference edits removed. One trial per mode, not a statistical estimate. Token usage is client-reported, cached input is a subset of input. No model tokens are estimated from bytes. Manual interventions count human corrections during the task; automatic fixture setup and post-run verification/undo are excluded from agent metrics. Raw client and simulator logs remain local in the output directory. Usage excludes the coordinating chat. Full-document ran before focused; model prefix caching and sampling vary between runs. Existing workflows and reference edits were not modified.",
+  "completed_trials": [
+    {
+      "mode": "full_document",
+      "status": "passed",
+      "client": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high",
+        "codex_version": "codex-cli 0.161.0",
+        "simulator_approval_mode": "approve"
+      },
+      "elapsed_seconds": 60.278964542085305,
+      "exit_code": 0,
+      "timed_out": false,
+      "simulator_calls": 20,
+      "simulator_failures": 1,
+      "operations": {
+        "read_source": 2,
+        "describe_project": 1,
+        "list_workflows": 1,
+        "read_diagnostics": 2,
+        "read_list": 2,
+        "stage_change": 1,
+        "run_workflow": 7,
+        "apply_change": 1,
+        "restart_preview": 1,
+        "export_source": 1,
+        "evaluate_formula": 1
+      },
+      "request_bytes": 14643,
+      "response_bytes": 110214,
+      "tool_elapsed_seconds": 3.4061650439398363,
+      "client_metrics": {
+        "usage": {
+          "output_tokens": 1872,
+          "cached_input_tokens": 299520,
+          "cache_write_input_tokens": 0,
+          "input_tokens": 340599,
+          "reasoning_output_tokens": 364,
+          "total_tokens": 342471
+        },
+        "completed_turns": 1,
+        "items": {
+          "error": 1,
+          "agent_message": 4,
+          "mcp_tool_call": 20
+        },
+        "mcp_tool_calls": 20,
+        "mcp_failures": 1,
+        "shell_calls": 0,
+        "file_changes": 0,
+        "web_searches": 0,
+        "other_mcp_servers": [],
+        "errors": []
+      },
+      "manual_interventions": 0,
+      "corrective_prompts": 0,
+      "calls": [
+        {
+          "operation": "read_source",
+          "status": "failed",
+          "elapsed_seconds": 0.00014620902948081493,
+          "request_bytes": 216,
+          "response_bytes": 78
+        },
+        {
+          "operation": "describe_project",
+          "status": "completed",
+          "elapsed_seconds": 0.018401083070784807,
+          "request_bytes": 144,
+          "response_bytes": 5417
+        },
+        {
+          "operation": "list_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.019890083000063896,
+          "request_bytes": 177,
+          "response_bytes": 11465
+        },
+        {
+          "operation": "read_source",
+          "status": "completed",
+          "elapsed_seconds": 0.01705516700167209,
+          "request_bytes": 240,
+          "response_bytes": 6294
+        },
+        {
+          "operation": "read_diagnostics",
+          "status": "completed",
+          "elapsed_seconds": 0.03716108400840312,
+          "request_bytes": 171,
+          "response_bytes": 328
+        },
+        {
+          "operation": "read_list",
+          "status": "completed",
+          "elapsed_seconds": 0.03753441700246185,
+          "request_bytes": 204,
+          "response_bytes": 1245
+        },
+        {
+          "operation": "stage_change",
+          "status": "completed",
+          "elapsed_seconds": 0.0570529589895159,
+          "request_bytes": 7017,
+          "response_bytes": 9354
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.6007185420021415,
+          "request_bytes": 366,
+          "response_bytes": 11964
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.6924879580037668,
+          "request_bytes": 370,
+          "response_bytes": 13541
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.44614008406642824,
+          "request_bytes": 367,
+          "response_bytes": 8369
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.4245820000069216,
+          "request_bytes": 366,
+          "response_bytes": 9181
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.18665566702838987,
+          "request_bytes": 549,
+          "response_bytes": 2449
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.3088724169647321,
+          "request_bytes": 1553,
+          "response_bytes": 5632
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.2696782909333706,
+          "request_bytes": 1555,
+          "response_bytes": 5636
+        },
+        {
+          "operation": "apply_change",
+          "status": "completed",
+          "elapsed_seconds": 0.07237704191356897,
+          "request_bytes": 292,
+          "response_bytes": 9588
+        },
+        {
+          "operation": "restart_preview",
+          "status": "completed",
+          "elapsed_seconds": 0.04437799996230751,
+          "request_bytes": 239,
+          "response_bytes": 540
+        },
+        {
+          "operation": "read_diagnostics",
+          "status": "completed",
+          "elapsed_seconds": 0.028489000047557056,
+          "request_bytes": 171,
+          "response_bytes": 328
+        },
+        {
+          "operation": "export_source",
+          "status": "completed",
+          "elapsed_seconds": 0.039491457981057465,
+          "request_bytes": 144,
+          "response_bytes": 6955
+        },
+        {
+          "operation": "evaluate_formula",
+          "status": "completed",
+          "elapsed_seconds": 0.05228058295324445,
+          "request_bytes": 298,
+          "response_bytes": 605
+        },
+        {
+          "operation": "read_list",
+          "status": "completed",
+          "elapsed_seconds": 0.05277299997396767,
+          "request_bytes": 204,
+          "response_bytes": 1245
+        }
+      ],
+      "baseline": [
+        {
+          "id": "5a6c6fb3990c4509abb6c3d29ea077ba",
+          "name": "Edit the selected filtered record",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 0,
+          "steps_failed": 1,
+          "steps_skipped": 14,
+          "failures": [
+            {
+              "index": 1,
+              "op": "event",
+              "label": "",
+              "status": "failed",
+              "error": "Control path does not exist in the rendered app",
+              "error_kind": "Scenario",
+              "active_screen": "Workspace",
+              "writes": [],
+              "path": "Workspace/StatusFilter"
+            }
+          ],
+          "diagnostics": [],
+          "writes": [],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "2ded2c7b1ec64863ba0e36313c4e8238",
+          "name": "Preserve both inputs after failure and retry",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 13,
+          "steps_failed": 6,
+          "steps_skipped": 0,
+          "failures": [
+            {
+              "index": 5,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "TitleInput.Text",
+              "actual": "Bridge study",
+              "expected": "Bridge study updated",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 6,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "AmountInput.Value",
+              "actual": 125.0,
+              "expected": 450,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 7,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "ProjectForm.Unsaved",
+              "actual": false,
+              "expected": true,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 8,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "IsBlank(ProjectForm.Error)",
+              "actual": true,
+              "expected": false,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 14,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "ProjectForm.LastSubmit.Title",
+              "actual": "Bridge study",
+              "expected": "Bridge study updated",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 15,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "LookUp(Projects, ID = 1).Amount",
+              "actual": 125.0,
+              "expected": 450,
+              "active_screen": "Workspace",
+              "writes": []
+            }
+          ],
+          "diagnostics": [],
+          "writes": [
+            {
+              "list": "Projects",
+              "id": 1,
+              "operation": "update"
+            }
+          ],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "94ba27bb833643deb3ce1e683b3c1861",
+          "name": "Required title blocks saving in narrow preview",
+          "status": "passed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 9,
+          "steps_failed": 0,
+          "steps_skipped": 0,
+          "failures": [],
+          "diagnostics": [],
+          "writes": [
+            {
+              "list": "Projects",
+              "id": 1,
+              "operation": "update"
+            }
+          ],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "3b65d3e7fd6248349bea7ff57c21db2a",
+          "name": "Filter project statuses",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 1,
+          "steps_failed": 2,
+          "steps_skipped": 10,
+          "failures": [
+            {
+              "index": 1,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "StatusFilter.Selected.Value",
+              "actual": {
+                "$error": {
+                  "Kind": 18,
+                  "Message": "Unknown identifier StatusFilter",
+                  "Source": "",
+                  "Observed": ""
+                }
+              },
+              "expected": "All",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 3,
+              "op": "event",
+              "label": "",
+              "status": "failed",
+              "error": "Control path does not exist in the rendered app",
+              "error_kind": "Scenario",
+              "active_screen": "Workspace",
+              "writes": [],
+              "path": "Workspace/StatusFilter"
+            }
+          ],
+          "diagnostics": [],
+          "writes": [],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        }
+      ],
+      "verification": {
+        "acceptance": [
+          {
+            "id": "5367f6ee7ef64f50987d589ecdc70477",
+            "name": "Edit the selected filtered record",
+            "status": "passed",
+            "base_revision": "ce91d8030d46ac2a57f594800aa515fa3e11ceb78ad6c8e87f820da6dda2d324",
+            "candidate_revision": "ce91d8030d46ac2a57f594800aa515fa3e11ceb78ad6c8e87f820da6dda2d324",
+            "steps_passed": 15,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 2,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "fe6a912fb11f4220998b0b80e8e09468",
+            "name": "Preserve both inputs after failure and retry",
+            "status": "passed",
+            "base_revision": "ce91d8030d46ac2a57f594800aa515fa3e11ceb78ad6c8e87f820da6dda2d324",
+            "candidate_revision": "ce91d8030d46ac2a57f594800aa515fa3e11ceb78ad6c8e87f820da6dda2d324",
+            "steps_passed": 19,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 1,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "8bfe23d57c544b57aa2fd9a90e583c8d",
+            "name": "Required title blocks saving in narrow preview",
+            "status": "passed",
+            "base_revision": "ce91d8030d46ac2a57f594800aa515fa3e11ceb78ad6c8e87f820da6dda2d324",
+            "candidate_revision": "ce91d8030d46ac2a57f594800aa515fa3e11ceb78ad6c8e87f820da6dda2d324",
+            "steps_passed": 9,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 1,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "45b93e0b1e944853ae5ac83cd435279b",
+            "name": "Filter project statuses",
+            "status": "passed",
+            "base_revision": "ce91d8030d46ac2a57f594800aa515fa3e11ceb78ad6c8e87f820da6dda2d324",
+            "candidate_revision": "ce91d8030d46ac2a57f594800aa515fa3e11ceb78ad6c8e87f820da6dda2d324",
+            "steps_passed": 13,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          }
+        ],
+        "applied_changes": 1,
+        "diffs": [
+          [
+            {
+              "path": "Src/ai-development.pa.yaml",
+              "diff": "--- Src/ai-development.pa.yaml\n+++ Src/ai-development.pa.yaml\n@@ -1,5 +1,4 @@\n # Fictional AI development benchmark starter. See examples/ai-development.task.json.\n-# The requested status filter is absent; failed submission currently resets the form.\n App:\n   Properties:\n     StartScreen: =Workspace\n@@ -19,6 +18,16 @@\n             Height: =36\n             Size: =26\n             FontWeight: =FontWeight.Semibold\n+      - StatusFilter:\n+          Control: Classic/DropDown@2.3.1\n+          Properties:\n+            Items: =[\"All\", \"Draft\", \"Active\"]\n+            Default: =\"All\"\n+            AccessibleLabel: =\"Filter projects by status\"\n+            X: =24\n+            Y: =70\n+            Width: =192\n+            Height: =32\n       - ProjectCount:\n           Control: ModernText@1.0.0\n           Properties:\n@@ -31,7 +40,7 @@\n           Control: Gallery@2.15.0\n           Variant: Vertical\n           Properties:\n-            Items: =Projects\n+            Items: =Filter(Projects, StatusFilter.Selected.Value = \"All\" Or Status = StatusFilter.Selected.Value)\n             X: =24\n             Y: =120\n             Width: =If(App.Width < 700, Parent.Width - 48, Parent.Width * 0.46 - 24)\n@@ -88,7 +97,7 @@\n             Height: =224\n             NumberOfColumns: =1\n             OnSuccess: =Set(selectedId, Self.LastSubmit.ID); Notify(\"Project saved\", NotificationType.Success)\n-            OnFailure: =ResetForm(ProjectForm)\n+            OnFailure: =Notify(\"Could not save project. Your changes are preserved; please retry. \" & Self.Error, NotificationType.Error)\n           Children:\n             - TitleCard:\n                 Control: TypedDataCard@1.0.7\n@@ -154,7 +163,7 @@\n       - SaveFeedback:\n           Control: ModernText@1.0.0\n           Properties:\n-            Text: =Coalesce(ProjectForm.Error, If(ProjectForm.Unsaved, \"Unsaved changes\", \"Ready to edit\"))\n+            Text: =If(IsBlank(ProjectForm.Error), If(ProjectForm.Unsaved, \"Unsaved changes\", \"Ready to edit\"), ProjectForm.Error & \" Please retry; your changes are preserved.\")\n             X: =ProjectForm.X\n             Y: =SaveProject.Y + 44\n             Width: =ProjectForm.Width\n"
+            }
+          ]
+        ],
+        "export_verified": true,
+        "records_unchanged": true,
+        "preview_clean": true,
+        "geometry": [
+          {
+            "width": 1000,
+            "height": 740,
+            "controls_fit": {
+              "StatusFilter": true,
+              "ProjectGallery": true,
+              "ProjectForm": true,
+              "SaveProject": true,
+              "SaveFeedback": true
+            }
+          },
+          {
+            "width": 400,
+            "height": 900,
+            "controls_fit": {
+              "StatusFilter": true,
+              "ProjectGallery": true,
+              "ProjectForm": true,
+              "SaveProject": true,
+              "SaveFeedback": true
+            }
+          }
+        ],
+        "undo_verified": true,
+        "passed": true
+      },
+      "browser_verification": {
+        "status": "passed",
+        "checks": [
+          "status filtering",
+          "selected record editing",
+          "failed save retains title and budget",
+          "successful retry",
+          "required title gate",
+          "400x900 geometry",
+          "no JavaScript errors"
+        ]
+      },
+      "source_file": "full_document.pa.yaml",
+      "audit_sha256": {
+        "client.jsonl": "b848a58aa345cddfa66beb09d49e059c106be0a2e45d2baba6959a7b1d89edae",
+        "simulator.jsonl": "b597084aca6c4e6e91f72dcf36f88be780d6c0379dbeb6b7753f866b734025c2",
+        "prompt.txt": "7fe69317a0f6f34004f8528c7a8de2311746156a6e5599235dc211b987bd5079",
+        "export.json": "49f91509d6c3df6037eb4ef4daac75ef3ae7579a7f5044d49e1f6276ba92d58f"
+      }
+    },
+    {
+      "mode": "focused",
+      "status": "passed",
+      "client": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high",
+        "codex_version": "codex-cli 0.161.0",
+        "simulator_approval_mode": "approve"
+      },
+      "elapsed_seconds": 62.651161124929786,
+      "exit_code": 0,
+      "timed_out": false,
+      "simulator_calls": 13,
+      "simulator_failures": 0,
+      "operations": {
+        "list_workflows": 2,
+        "describe_project": 1,
+        "read_controls": 1,
+        "read_list_schema": 1,
+        "read_diagnostics": 2,
+        "stage_control_edits": 1,
+        "run_workflows": 2,
+        "apply_change": 1,
+        "restart_preview": 1,
+        "export_source": 1
+      },
+      "request_bytes": 7721,
+      "response_bytes": 51634,
+      "tool_elapsed_seconds": 3.121201166883111,
+      "client_metrics": {
+        "usage": {
+          "output_tokens": 1765,
+          "cached_input_tokens": 231680,
+          "cache_write_input_tokens": 0,
+          "input_tokens": 257830,
+          "reasoning_output_tokens": 443,
+          "total_tokens": 259595
+        },
+        "completed_turns": 1,
+        "items": {
+          "error": 1,
+          "agent_message": 4,
+          "mcp_tool_call": 13
+        },
+        "mcp_tool_calls": 13,
+        "mcp_failures": 0,
+        "shell_calls": 0,
+        "file_changes": 0,
+        "web_searches": 0,
+        "other_mcp_servers": [],
+        "errors": []
+      },
+      "manual_interventions": 0,
+      "corrective_prompts": 0,
+      "calls": [
+        {
+          "operation": "list_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.0016738330014050007,
+          "request_bytes": 172,
+          "response_bytes": 859
+        },
+        {
+          "operation": "describe_project",
+          "status": "completed",
+          "elapsed_seconds": 0.015830499934963882,
+          "request_bytes": 138,
+          "response_bytes": 5411
+        },
+        {
+          "operation": "read_controls",
+          "status": "completed",
+          "elapsed_seconds": 0.0238674160791561,
+          "request_bytes": 243,
+          "response_bytes": 9900
+        },
+        {
+          "operation": "read_list_schema",
+          "status": "completed",
+          "elapsed_seconds": 0.0010758750140666962,
+          "request_bytes": 164,
+          "response_bytes": 815
+        },
+        {
+          "operation": "list_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.002418917021714151,
+          "request_bytes": 171,
+          "response_bytes": 11465
+        },
+        {
+          "operation": "read_diagnostics",
+          "status": "completed",
+          "elapsed_seconds": 0.017999624949879944,
+          "request_bytes": 165,
+          "response_bytes": 328
+        },
+        {
+          "operation": "stage_control_edits",
+          "status": "completed",
+          "elapsed_seconds": 0.05570937495213002,
+          "request_bytes": 1378,
+          "response_bytes": 1927
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 2.207126541994512,
+          "request_bytes": 604,
+          "response_bytes": 2977
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.6168991669546813,
+          "request_bytes": 3864,
+          "response_bytes": 1394
+        },
+        {
+          "operation": "apply_change",
+          "status": "completed",
+          "elapsed_seconds": 0.07040199998300523,
+          "request_bytes": 286,
+          "response_bytes": 8739
+        },
+        {
+          "operation": "restart_preview",
+          "status": "completed",
+          "elapsed_seconds": 0.04572762502357364,
+          "request_bytes": 233,
+          "response_bytes": 540
+        },
+        {
+          "operation": "read_diagnostics",
+          "status": "completed",
+          "elapsed_seconds": 0.02652787498664111,
+          "request_bytes": 165,
+          "response_bytes": 328
+        },
+        {
+          "operation": "export_source",
+          "status": "completed",
+          "elapsed_seconds": 0.035942416987381876,
+          "request_bytes": 138,
+          "response_bytes": 6951
+        }
+      ],
+      "baseline": [
+        {
+          "id": "ee51fabda61042b2802e5b704dfcd8d1",
+          "name": "Edit the selected filtered record",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 0,
+          "steps_failed": 1,
+          "steps_skipped": 14,
+          "failures": [
+            {
+              "index": 1,
+              "op": "event",
+              "label": "",
+              "status": "failed",
+              "error": "Control path does not exist in the rendered app",
+              "error_kind": "Scenario",
+              "active_screen": "Workspace",
+              "writes": [],
+              "path": "Workspace/StatusFilter"
+            }
+          ],
+          "diagnostics": [],
+          "writes": [],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "c425385b0ec949418a18fb2063695ce7",
+          "name": "Preserve both inputs after failure and retry",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 13,
+          "steps_failed": 6,
+          "steps_skipped": 0,
+          "failures": [
+            {
+              "index": 5,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "TitleInput.Text",
+              "actual": "Bridge study",
+              "expected": "Bridge study updated",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 6,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "AmountInput.Value",
+              "actual": 125.0,
+              "expected": 450,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 7,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "ProjectForm.Unsaved",
+              "actual": false,
+              "expected": true,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 8,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "IsBlank(ProjectForm.Error)",
+              "actual": true,
+              "expected": false,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 14,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "ProjectForm.LastSubmit.Title",
+              "actual": "Bridge study",
+              "expected": "Bridge study updated",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 15,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "LookUp(Projects, ID = 1).Amount",
+              "actual": 125.0,
+              "expected": 450,
+              "active_screen": "Workspace",
+              "writes": []
+            }
+          ],
+          "diagnostics": [],
+          "writes": [
+            {
+              "list": "Projects",
+              "id": 1,
+              "operation": "update"
+            }
+          ],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "565a52bba37c47f3aefd293435d3e27d",
+          "name": "Required title blocks saving in narrow preview",
+          "status": "passed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 9,
+          "steps_failed": 0,
+          "steps_skipped": 0,
+          "failures": [],
+          "diagnostics": [],
+          "writes": [
+            {
+              "list": "Projects",
+              "id": 1,
+              "operation": "update"
+            }
+          ],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "a0a47a979a3d4e76bfbceb75424fb988",
+          "name": "Filter project statuses",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 1,
+          "steps_failed": 2,
+          "steps_skipped": 10,
+          "failures": [
+            {
+              "index": 1,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "StatusFilter.Selected.Value",
+              "actual": {
+                "$error": {
+                  "Kind": 18,
+                  "Message": "Unknown identifier StatusFilter",
+                  "Source": "",
+                  "Observed": ""
+                }
+              },
+              "expected": "All",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 3,
+              "op": "event",
+              "label": "",
+              "status": "failed",
+              "error": "Control path does not exist in the rendered app",
+              "error_kind": "Scenario",
+              "active_screen": "Workspace",
+              "writes": [],
+              "path": "Workspace/StatusFilter"
+            }
+          ],
+          "diagnostics": [],
+          "writes": [],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        }
+      ],
+      "verification": {
+        "acceptance": [
+          {
+            "id": "d152e34950ca4f79aa92a0641e6d1204",
+            "name": "Edit the selected filtered record",
+            "status": "passed",
+            "base_revision": "20e389ff5283797113f0f38549707349c19d13b91ce80933cad2586e1b0612db",
+            "candidate_revision": "20e389ff5283797113f0f38549707349c19d13b91ce80933cad2586e1b0612db",
+            "steps_passed": 15,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 2,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "042a11b3a6b84b5895f57d9941fcea0a",
+            "name": "Preserve both inputs after failure and retry",
+            "status": "passed",
+            "base_revision": "20e389ff5283797113f0f38549707349c19d13b91ce80933cad2586e1b0612db",
+            "candidate_revision": "20e389ff5283797113f0f38549707349c19d13b91ce80933cad2586e1b0612db",
+            "steps_passed": 19,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 1,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "acf5fb3b89664066bd7eddd57632aa3d",
+            "name": "Required title blocks saving in narrow preview",
+            "status": "passed",
+            "base_revision": "20e389ff5283797113f0f38549707349c19d13b91ce80933cad2586e1b0612db",
+            "candidate_revision": "20e389ff5283797113f0f38549707349c19d13b91ce80933cad2586e1b0612db",
+            "steps_passed": 9,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 1,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "fb9aa27773fb495c82a11757645e1bad",
+            "name": "Filter project statuses",
+            "status": "passed",
+            "base_revision": "20e389ff5283797113f0f38549707349c19d13b91ce80933cad2586e1b0612db",
+            "candidate_revision": "20e389ff5283797113f0f38549707349c19d13b91ce80933cad2586e1b0612db",
+            "steps_passed": 13,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          }
+        ],
+        "applied_changes": 1,
+        "diffs": [
+          [
+            {
+              "path": "Src/ai-development.pa.yaml",
+              "diff": "--- Src/ai-development.pa.yaml\n+++ Src/ai-development.pa.yaml\n@@ -27,11 +27,21 @@\n             Y: =70\n             Width: =Parent.Width - 264\n             Height: =32\n+      - StatusFilter:\n+          Control: Classic/DropDown@2.3.1\n+          Properties:\n+            Items: =[\"All\", \"Draft\", \"Active\"]\n+            Default: =\"All\"\n+            AccessibleLabel: =\"Filter projects by status\"\n+            X: =24\n+            Y: =70\n+            Width: =192\n+            Height: =32\n       - ProjectGallery:\n           Control: Gallery@2.15.0\n           Variant: Vertical\n           Properties:\n-            Items: =Projects\n+            Items: =Filter(Projects, StatusFilter.Selected.Value = \"All\" Or Status = StatusFilter.Selected.Value)\n             X: =24\n             Y: =120\n             Width: =If(App.Width < 700, Parent.Width - 48, Parent.Width * 0.46 - 24)\n@@ -88,7 +98,7 @@\n             Height: =224\n             NumberOfColumns: =1\n             OnSuccess: =Set(selectedId, Self.LastSubmit.ID); Notify(\"Project saved\", NotificationType.Success)\n-            OnFailure: =ResetForm(ProjectForm)\n+            OnFailure: =Notify(Coalesce(Self.Error, \"Unable to save project. Please retry.\"), NotificationType.Error)\n           Children:\n             - TitleCard:\n                 Control: TypedDataCard@1.0.7\n"
+            }
+          ]
+        ],
+        "export_verified": true,
+        "records_unchanged": true,
+        "preview_clean": true,
+        "geometry": [
+          {
+            "width": 1000,
+            "height": 740,
+            "controls_fit": {
+              "StatusFilter": true,
+              "ProjectGallery": true,
+              "ProjectForm": true,
+              "SaveProject": true,
+              "SaveFeedback": true
+            }
+          },
+          {
+            "width": 400,
+            "height": 900,
+            "controls_fit": {
+              "StatusFilter": true,
+              "ProjectGallery": true,
+              "ProjectForm": true,
+              "SaveProject": true,
+              "SaveFeedback": true
+            }
+          }
+        ],
+        "undo_verified": true,
+        "passed": true
+      },
+      "browser_verification": {
+        "status": "passed",
+        "checks": [
+          "status filtering",
+          "selected record editing",
+          "failed save retains title and budget",
+          "successful retry",
+          "required title gate",
+          "400x900 geometry",
+          "no JavaScript errors"
+        ]
+      },
+      "source_file": "focused.pa.yaml",
+      "audit_sha256": {
+        "client.jsonl": "d6c5c992e6afcf55614fa8bd05ce03edb30c0962c12487fb0ba9bedd358cc83d",
+        "simulator.jsonl": "88b59b0ccf6ceb397d2a82b3aee0f40e1295da2e35650e3b4b7fa33bfef50aba",
+        "prompt.txt": "417b36c76fed4cd18db576cafb2eecdb3d7081fb66537d601e984c6d32d56d4b",
+        "export.json": "be5b1fc6f86303d74b0d39ae4c0e167b07cbd2022dc7e8581e8eadb9c3d06721"
+      }
+    }
+  ],
+  "setup_attempts": [
+    {
+      "mode": "full_document",
+      "status": "failed",
+      "client": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high",
+        "codex_version": "codex-cli 0.161.0",
+        "simulator_approval_mode": "auto (default)"
+      },
+      "elapsed_seconds": 81.26124754198827,
+      "exit_code": 0,
+      "timed_out": false,
+      "simulator_calls": 16,
+      "simulator_failures": 1,
+      "operations": {
+        "describe_project": 2,
+        "list_workflows": 1,
+        "read_source": 2,
+        "read_list": 1,
+        "stage_change": 1,
+        "run_workflow": 7,
+        "read_diagnostics": 1,
+        "export_source": 1
+      },
+      "request_bytes": 12756,
+      "response_bytes": 100227,
+      "tool_elapsed_seconds": 3.2969719981774688,
+      "client_metrics": {
+        "usage": {
+          "cached_input_tokens": 194560,
+          "input_tokens": 250998,
+          "reasoning_output_tokens": 960,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2391,
+          "total_tokens": 253389
+        },
+        "completed_turns": 1,
+        "items": {
+          "error": 1,
+          "agent_message": 5,
+          "mcp_tool_call": 17
+        },
+        "mcp_tool_calls": 17,
+        "shell_calls": 0,
+        "file_changes": 0,
+        "web_searches": 0,
+        "other_mcp_servers": [],
+        "errors": [],
+        "mcp_failures": 2
+      },
+      "manual_interventions": 0,
+      "corrective_prompts": 0,
+      "calls": [
+        {
+          "operation": "describe_project",
+          "status": "completed",
+          "elapsed_seconds": 0.02544629096519202,
+          "request_bytes": 133,
+          "response_bytes": 5406
+        },
+        {
+          "operation": "list_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.027601165929809213,
+          "request_bytes": 166,
+          "response_bytes": 11465
+        },
+        {
+          "operation": "read_source",
+          "status": "failed",
+          "elapsed_seconds": 0.02651283296290785,
+          "request_bytes": 205,
+          "response_bytes": 78
+        },
+        {
+          "operation": "read_list",
+          "status": "completed",
+          "elapsed_seconds": 0.0019338750280439854,
+          "request_bytes": 194,
+          "response_bytes": 1245
+        },
+        {
+          "operation": "read_source",
+          "status": "completed",
+          "elapsed_seconds": 0.016613250016234815,
+          "request_bytes": 229,
+          "response_bytes": 6294
+        },
+        {
+          "operation": "stage_change",
+          "status": "completed",
+          "elapsed_seconds": 0.03701954206917435,
+          "request_bytes": 6792,
+          "response_bytes": 8552
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.7885567080229521,
+          "request_bytes": 359,
+          "response_bytes": 13468
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.6562148330267519,
+          "request_bytes": 355,
+          "response_bytes": 11964
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.4779485840117559,
+          "request_bytes": 356,
+          "response_bytes": 8369
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.43209416698664427,
+          "request_bytes": 355,
+          "response_bytes": 9181
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.19291245809290558,
+          "request_bytes": 538,
+          "response_bytes": 2449
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.3012600829824805,
+          "request_bytes": 1325,
+          "response_bytes": 4780
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.23758720804471523,
+          "request_bytes": 1323,
+          "response_bytes": 4776
+        },
+        {
+          "operation": "describe_project",
+          "status": "completed",
+          "elapsed_seconds": 0.014118084101937711,
+          "request_bytes": 133,
+          "response_bytes": 5406
+        },
+        {
+          "operation": "read_diagnostics",
+          "status": "completed",
+          "elapsed_seconds": 0.02708320796955377,
+          "request_bytes": 160,
+          "response_bytes": 328
+        },
+        {
+          "operation": "export_source",
+          "status": "completed",
+          "elapsed_seconds": 0.034069707966409624,
+          "request_bytes": 133,
+          "response_bytes": 6466
+        }
+      ],
+      "baseline": [
+        {
+          "id": "0e94c536605a433b90ddc46908d222ff",
+          "name": "Edit the selected filtered record",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 0,
+          "steps_failed": 1,
+          "steps_skipped": 14,
+          "failures": [
+            {
+              "index": 1,
+              "op": "event",
+              "label": "",
+              "status": "failed",
+              "error": "Control path does not exist in the rendered app",
+              "error_kind": "Scenario",
+              "active_screen": "Workspace",
+              "writes": [],
+              "path": "Workspace/StatusFilter"
+            }
+          ],
+          "diagnostics": [],
+          "writes": [],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "3a2398d88965411191c6ba45200a677f",
+          "name": "Preserve both inputs after failure and retry",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 13,
+          "steps_failed": 6,
+          "steps_skipped": 0,
+          "failures": [
+            {
+              "index": 5,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "TitleInput.Text",
+              "actual": "Bridge study",
+              "expected": "Bridge study updated",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 6,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "AmountInput.Value",
+              "actual": 125.0,
+              "expected": 450,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 7,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "ProjectForm.Unsaved",
+              "actual": false,
+              "expected": true,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 8,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "IsBlank(ProjectForm.Error)",
+              "actual": true,
+              "expected": false,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 14,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "ProjectForm.LastSubmit.Title",
+              "actual": "Bridge study",
+              "expected": "Bridge study updated",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 15,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "LookUp(Projects, ID = 1).Amount",
+              "actual": 125.0,
+              "expected": 450,
+              "active_screen": "Workspace",
+              "writes": []
+            }
+          ],
+          "diagnostics": [],
+          "writes": [
+            {
+              "list": "Projects",
+              "id": 1,
+              "operation": "update"
+            }
+          ],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "cc864efbd658407391d746560cef0117",
+          "name": "Required title blocks saving in narrow preview",
+          "status": "passed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 9,
+          "steps_failed": 0,
+          "steps_skipped": 0,
+          "failures": [],
+          "diagnostics": [],
+          "writes": [
+            {
+              "list": "Projects",
+              "id": 1,
+              "operation": "update"
+            }
+          ],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "bea9bbbe40624be784b9e7fe3aa5c224",
+          "name": "Filter project statuses",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 1,
+          "steps_failed": 2,
+          "steps_skipped": 10,
+          "failures": [
+            {
+              "index": 1,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "StatusFilter.Selected.Value",
+              "actual": {
+                "$error": {
+                  "Kind": 18,
+                  "Message": "Unknown identifier StatusFilter",
+                  "Source": "",
+                  "Observed": ""
+                }
+              },
+              "expected": "All",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 3,
+              "op": "event",
+              "label": "",
+              "status": "failed",
+              "error": "Control path does not exist in the rendered app",
+              "error_kind": "Scenario",
+              "active_screen": "Workspace",
+              "writes": [],
+              "path": "Workspace/StatusFilter"
+            }
+          ],
+          "diagnostics": [],
+          "writes": [],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        }
+      ],
+      "verification": {
+        "acceptance": [
+          {
+            "id": "ba4d06f7fff843fc8a919dc7bcb958ae",
+            "name": "Edit the selected filtered record",
+            "status": "failed",
+            "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "steps_passed": 0,
+            "steps_failed": 1,
+            "steps_skipped": 14,
+            "failures": [
+              {
+                "index": 1,
+                "op": "event",
+                "label": "",
+                "status": "failed",
+                "error": "Control path does not exist in the rendered app",
+                "error_kind": "Scenario",
+                "active_screen": "Workspace",
+                "writes": [],
+                "path": "Workspace/StatusFilter"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "28e0871a6ef1491b8c57d0a5846d7ea3",
+            "name": "Preserve both inputs after failure and retry",
+            "status": "failed",
+            "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "steps_passed": 13,
+            "steps_failed": 6,
+            "steps_skipped": 0,
+            "failures": [
+              {
+                "index": 5,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "TitleInput.Text",
+                "actual": "Bridge study",
+                "expected": "Bridge study updated",
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 6,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "AmountInput.Value",
+                "actual": 125.0,
+                "expected": 450,
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 7,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "ProjectForm.Unsaved",
+                "actual": false,
+                "expected": true,
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 8,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "IsBlank(ProjectForm.Error)",
+                "actual": true,
+                "expected": false,
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 14,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "ProjectForm.LastSubmit.Title",
+                "actual": "Bridge study",
+                "expected": "Bridge study updated",
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 15,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "LookUp(Projects, ID = 1).Amount",
+                "actual": 125.0,
+                "expected": 450,
+                "active_screen": "Workspace",
+                "writes": []
+              }
+            ],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 1,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "3bba50b5e6794c36be86621a86d14374",
+            "name": "Required title blocks saving in narrow preview",
+            "status": "passed",
+            "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "steps_passed": 9,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 1,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "1c51f1d4b3414ed8ab8aeb1b90cd8c9b",
+            "name": "Filter project statuses",
+            "status": "failed",
+            "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "steps_passed": 1,
+            "steps_failed": 2,
+            "steps_skipped": 10,
+            "failures": [
+              {
+                "index": 1,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "StatusFilter.Selected.Value",
+                "actual": {
+                  "$error": {
+                    "Kind": 18,
+                    "Message": "Unknown identifier StatusFilter",
+                    "Source": "",
+                    "Observed": ""
+                  }
+                },
+                "expected": "All",
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 3,
+                "op": "event",
+                "label": "",
+                "status": "failed",
+                "error": "Control path does not exist in the rendered app",
+                "error_kind": "Scenario",
+                "active_screen": "Workspace",
+                "writes": [],
+                "path": "Workspace/StatusFilter"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          }
+        ],
+        "applied_changes": 0,
+        "diffs": [],
+        "export_verified": true,
+        "records_unchanged": true,
+        "preview_clean": true,
+        "geometry": [
+          {
+            "width": 1000,
+            "height": 740,
+            "controls_fit": {
+              "StatusFilter": false,
+              "ProjectGallery": true,
+              "ProjectForm": true,
+              "SaveProject": true,
+              "SaveFeedback": true
+            }
+          },
+          {
+            "width": 400,
+            "height": 900,
+            "controls_fit": {
+              "StatusFilter": false,
+              "ProjectGallery": false,
+              "ProjectForm": false,
+              "SaveProject": false,
+              "SaveFeedback": false
+            }
+          }
+        ],
+        "undo_verified": true,
+        "passed": false
+      },
+      "blocker": "CLI rejected apply_change: MCP tool call requires approval, but approval policy is never",
+      "audit_sha256": {
+        "client.jsonl": "e1bb35692e803617d753534f87165707d217a11434c9c4c95ef8ecd402814934",
+        "simulator.jsonl": "b0669608e556bbd2c16c27920ab4142be57b446e4e17b9a64a09e975c1f8166b",
+        "prompt.txt": "7fe69317a0f6f34004f8528c7a8de2311746156a6e5599235dc211b987bd5079"
+      },
+      "staged_candidates": [
+        {
+          "id": "440d692f08524b128259ab5f9a80ef83",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "diagnostics": [],
+          "diffs": [
+            {
+              "path": "Src/ai-development.pa.yaml",
+              "diff": "--- Src/ai-development.pa.yaml\n+++ Src/ai-development.pa.yaml\n@@ -1,5 +1,3 @@\n-# Fictional AI development benchmark starter. See examples/ai-development.task.json.\n-# The requested status filter is absent; failed submission currently resets the form.\n App:\n   Properties:\n     StartScreen: =Workspace\n@@ -19,6 +17,16 @@\n             Height: =36\n             Size: =26\n             FontWeight: =FontWeight.Semibold\n+      - StatusFilter:\n+          Control: Classic/DropDown@2.3.1\n+          Properties:\n+            Items: =[\"All\", \"Draft\", \"Active\"]\n+            Default: =\"All\"\n+            AccessibleLabel: =\"Filter projects by status\"\n+            X: =24\n+            Y: =70\n+            Width: =200\n+            Height: =32\n       - ProjectCount:\n           Control: ModernText@1.0.0\n           Properties:\n@@ -31,7 +39,7 @@\n           Control: Gallery@2.15.0\n           Variant: Vertical\n           Properties:\n-            Items: =Projects\n+            Items: =Filter(Projects, StatusFilter.Selected.Value = \"All\" || Status = StatusFilter.Selected.Value)\n             X: =24\n             Y: =120\n             Width: =If(App.Width < 700, Parent.Width - 48, Parent.Width * 0.46 - 24)\n@@ -88,7 +96,7 @@\n             Height: =224\n             NumberOfColumns: =1\n             OnSuccess: =Set(selectedId, Self.LastSubmit.ID); Notify(\"Project saved\", NotificationType.Success)\n-            OnFailure: =ResetForm(ProjectForm)\n+            OnFailure: =Notify(Self.Error, NotificationType.Error)\n           Children:\n             - TitleCard:\n                 Control: TypedDataCard@1.0.7\n"
+            }
+          ]
+        }
+      ],
+      "agent_workflow_results": [
+        {
+          "name": "Preserve both inputs after failure and retry",
+          "status": "passed",
+          "scenario_file": "failed-save-retry.workflow.json"
+        },
+        {
+          "name": "Edit the selected filtered record",
+          "status": "passed",
+          "scenario_file": "edit-selected.workflow.json"
+        },
+        {
+          "name": "Required title blocks saving in narrow preview",
+          "status": "passed",
+          "scenario_file": "required-title.workflow.json"
+        },
+        {
+          "name": "Filter project statuses",
+          "status": "passed",
+          "scenario_file": "status-filter.workflow.json"
+        },
+        {
+          "name": "Startup smoke",
+          "status": "passed",
+          "scenario_file": null
+        },
+        {
+          "name": "Layout fits 1000px preview",
+          "status": "passed",
+          "scenario_file": null
+        },
+        {
+          "name": "Layout fits 400px preview",
+          "status": "passed",
+          "scenario_file": null
+        }
+      ]
+    },
+    {
+      "mode": "focused",
+      "status": "failed",
+      "client": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high",
+        "codex_version": "codex-cli 0.161.0",
+        "simulator_approval_mode": "auto (default)"
+      },
+      "elapsed_seconds": 69.06551424995996,
+      "exit_code": 0,
+      "timed_out": false,
+      "simulator_calls": 11,
+      "simulator_failures": 0,
+      "operations": {
+        "describe_project": 1,
+        "list_workflows": 2,
+        "read_list_schema": 1,
+        "read_controls": 1,
+        "stage_control_edits": 1,
+        "run_workflows": 2,
+        "export_source": 1,
+        "read_diagnostics": 1,
+        "list_changes": 1
+      },
+      "request_bytes": 6396,
+      "response_bytes": 50223,
+      "tool_elapsed_seconds": 2.977887041051872,
+      "client_metrics": {
+        "usage": {
+          "cached_input_tokens": 171904,
+          "input_tokens": 198336,
+          "reasoning_output_tokens": 714,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2005,
+          "total_tokens": 200341
+        },
+        "completed_turns": 1,
+        "items": {
+          "error": 1,
+          "agent_message": 5,
+          "mcp_tool_call": 12
+        },
+        "mcp_tool_calls": 12,
+        "shell_calls": 0,
+        "file_changes": 0,
+        "web_searches": 0,
+        "other_mcp_servers": [],
+        "errors": [],
+        "mcp_failures": 1
+      },
+      "manual_interventions": 0,
+      "corrective_prompts": 0,
+      "calls": [
+        {
+          "operation": "describe_project",
+          "status": "completed",
+          "elapsed_seconds": 0.014644333044998348,
+          "request_bytes": 127,
+          "response_bytes": 5400
+        },
+        {
+          "operation": "list_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.01563174999319017,
+          "request_bytes": 161,
+          "response_bytes": 859
+        },
+        {
+          "operation": "read_list_schema",
+          "status": "completed",
+          "elapsed_seconds": 0.0020995410159230232,
+          "request_bytes": 153,
+          "response_bytes": 815
+        },
+        {
+          "operation": "read_controls",
+          "status": "completed",
+          "elapsed_seconds": 0.017893083044327796,
+          "request_bytes": 241,
+          "response_bytes": 9900
+        },
+        {
+          "operation": "list_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.019967750064097345,
+          "request_bytes": 160,
+          "response_bytes": 11465
+        },
+        {
+          "operation": "stage_control_edits",
+          "status": "completed",
+          "elapsed_seconds": 0.06859849998727441,
+          "request_bytes": 1360,
+          "response_bytes": 1920
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 2.208270958974026,
+          "request_bytes": 593,
+          "response_bytes": 2977
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.5401106670033187,
+          "request_bytes": 3193,
+          "response_bytes": 1398
+        },
+        {
+          "operation": "export_source",
+          "status": "completed",
+          "elapsed_seconds": 0.01653116592206061,
+          "request_bytes": 127,
+          "response_bytes": 6466
+        },
+        {
+          "operation": "read_diagnostics",
+          "status": "completed",
+          "elapsed_seconds": 0.03697870799805969,
+          "request_bytes": 154,
+          "response_bytes": 328
+        },
+        {
+          "operation": "list_changes",
+          "status": "completed",
+          "elapsed_seconds": 0.037160584004595876,
+          "request_bytes": 127,
+          "response_bytes": 8695
+        }
+      ],
+      "baseline": [
+        {
+          "id": "9cd7816ee4a34cf190ba5e631da39810",
+          "name": "Edit the selected filtered record",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 0,
+          "steps_failed": 1,
+          "steps_skipped": 14,
+          "failures": [
+            {
+              "index": 1,
+              "op": "event",
+              "label": "",
+              "status": "failed",
+              "error": "Control path does not exist in the rendered app",
+              "error_kind": "Scenario",
+              "active_screen": "Workspace",
+              "writes": [],
+              "path": "Workspace/StatusFilter"
+            }
+          ],
+          "diagnostics": [],
+          "writes": [],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "0920dbbaae914bcaa4128b0b6d27cad2",
+          "name": "Preserve both inputs after failure and retry",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 13,
+          "steps_failed": 6,
+          "steps_skipped": 0,
+          "failures": [
+            {
+              "index": 5,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "TitleInput.Text",
+              "actual": "Bridge study",
+              "expected": "Bridge study updated",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 6,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "AmountInput.Value",
+              "actual": 125.0,
+              "expected": 450,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 7,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "ProjectForm.Unsaved",
+              "actual": false,
+              "expected": true,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 8,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "IsBlank(ProjectForm.Error)",
+              "actual": true,
+              "expected": false,
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 14,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "ProjectForm.LastSubmit.Title",
+              "actual": "Bridge study",
+              "expected": "Bridge study updated",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 15,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "LookUp(Projects, ID = 1).Amount",
+              "actual": 125.0,
+              "expected": 450,
+              "active_screen": "Workspace",
+              "writes": []
+            }
+          ],
+          "diagnostics": [],
+          "writes": [
+            {
+              "list": "Projects",
+              "id": 1,
+              "operation": "update"
+            }
+          ],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "3fa8686ab5ed4f90b706c5c543f7c733",
+          "name": "Required title blocks saving in narrow preview",
+          "status": "passed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 9,
+          "steps_failed": 0,
+          "steps_skipped": 0,
+          "failures": [],
+          "diagnostics": [],
+          "writes": [
+            {
+              "list": "Projects",
+              "id": 1,
+              "operation": "update"
+            }
+          ],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        },
+        {
+          "id": "b5309cde01ed4f2f882616d71cd44968",
+          "name": "Filter project statuses",
+          "status": "failed",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "steps_passed": 1,
+          "steps_failed": 2,
+          "steps_skipped": 10,
+          "failures": [
+            {
+              "index": 1,
+              "op": "assert",
+              "label": "",
+              "status": "failed",
+              "formula": "StatusFilter.Selected.Value",
+              "actual": {
+                "$error": {
+                  "Kind": 18,
+                  "Message": "Unknown identifier StatusFilter",
+                  "Source": "",
+                  "Observed": ""
+                }
+              },
+              "expected": "All",
+              "active_screen": "Workspace",
+              "writes": []
+            },
+            {
+              "index": 3,
+              "op": "event",
+              "label": "",
+              "status": "failed",
+              "error": "Control path does not exist in the rendered app",
+              "error_kind": "Scenario",
+              "active_screen": "Workspace",
+              "writes": [],
+              "path": "Workspace/StatusFilter"
+            }
+          ],
+          "diagnostics": [],
+          "writes": [],
+          "trace_truncated": false,
+          "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+        }
+      ],
+      "verification": {
+        "acceptance": [
+          {
+            "id": "4913123a3d0147659f7630dcfc61cd81",
+            "name": "Edit the selected filtered record",
+            "status": "failed",
+            "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "steps_passed": 0,
+            "steps_failed": 1,
+            "steps_skipped": 14,
+            "failures": [
+              {
+                "index": 1,
+                "op": "event",
+                "label": "",
+                "status": "failed",
+                "error": "Control path does not exist in the rendered app",
+                "error_kind": "Scenario",
+                "active_screen": "Workspace",
+                "writes": [],
+                "path": "Workspace/StatusFilter"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "36d7d6d8af284b0295b1320f2a2a4452",
+            "name": "Preserve both inputs after failure and retry",
+            "status": "failed",
+            "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "steps_passed": 13,
+            "steps_failed": 6,
+            "steps_skipped": 0,
+            "failures": [
+              {
+                "index": 5,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "TitleInput.Text",
+                "actual": "Bridge study",
+                "expected": "Bridge study updated",
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 6,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "AmountInput.Value",
+                "actual": 125.0,
+                "expected": 450,
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 7,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "ProjectForm.Unsaved",
+                "actual": false,
+                "expected": true,
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 8,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "IsBlank(ProjectForm.Error)",
+                "actual": true,
+                "expected": false,
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 14,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "ProjectForm.LastSubmit.Title",
+                "actual": "Bridge study",
+                "expected": "Bridge study updated",
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 15,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "LookUp(Projects, ID = 1).Amount",
+                "actual": 125.0,
+                "expected": 450,
+                "active_screen": "Workspace",
+                "writes": []
+              }
+            ],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 1,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "2b5d1fd129354ed78e7cb3a43594d201",
+            "name": "Required title blocks saving in narrow preview",
+            "status": "passed",
+            "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "steps_passed": 9,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Projects",
+                "id": 1,
+                "operation": "update"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "be58ed0ab2b44dd4a194edc66c35fbbf",
+            "name": "Filter project statuses",
+            "status": "failed",
+            "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "candidate_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+            "steps_passed": 1,
+            "steps_failed": 2,
+            "steps_skipped": 10,
+            "failures": [
+              {
+                "index": 1,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "StatusFilter.Selected.Value",
+                "actual": {
+                  "$error": {
+                    "Kind": 18,
+                    "Message": "Unknown identifier StatusFilter",
+                    "Source": "",
+                    "Observed": ""
+                  }
+                },
+                "expected": "All",
+                "active_screen": "Workspace",
+                "writes": []
+              },
+              {
+                "index": 3,
+                "op": "event",
+                "label": "",
+                "status": "failed",
+                "error": "Control path does not exist in the rendered app",
+                "error_kind": "Scenario",
+                "active_screen": "Workspace",
+                "writes": [],
+                "path": "Workspace/StatusFilter"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          }
+        ],
+        "applied_changes": 0,
+        "diffs": [],
+        "export_verified": true,
+        "records_unchanged": true,
+        "preview_clean": true,
+        "geometry": [
+          {
+            "width": 1000,
+            "height": 740,
+            "controls_fit": {
+              "StatusFilter": false,
+              "ProjectGallery": true,
+              "ProjectForm": true,
+              "SaveProject": true,
+              "SaveFeedback": true
+            }
+          },
+          {
+            "width": 400,
+            "height": 900,
+            "controls_fit": {
+              "StatusFilter": false,
+              "ProjectGallery": false,
+              "ProjectForm": false,
+              "SaveProject": false,
+              "SaveFeedback": false
+            }
+          }
+        ],
+        "undo_verified": true,
+        "passed": false
+      },
+      "blocker": "CLI rejected apply_change: MCP tool call requires approval, but approval policy is never",
+      "audit_sha256": {
+        "client.jsonl": "2e12c51798da59fe963b88b4b9c7e8a9465803642746e913b5f8ab31a1ec8ddc",
+        "simulator.jsonl": "fe2705039ea8197a4476e64f16af8a99681907fc753a2c79197624b05f613849",
+        "prompt.txt": "417b36c76fed4cd18db576cafb2eecdb3d7081fb66537d601e984c6d32d56d4b"
+      },
+      "staged_candidates": [
+        {
+          "id": "34acab02e2a3418c9a7402b269e35981",
+          "base_revision": "6ea5eae7b29fe164932b10bcadcdf45cd6fca5b10aafb409b6b549292b1746c2",
+          "diagnostics": [],
+          "diffs": [
+            {
+              "path": "Src/ai-development.pa.yaml",
+              "diff": "--- Src/ai-development.pa.yaml\n+++ Src/ai-development.pa.yaml\n@@ -27,11 +27,21 @@\n             Y: =70\n             Width: =Parent.Width - 264\n             Height: =32\n+      - StatusFilter:\n+          Control: Classic/DropDown@2.3.1\n+          Properties:\n+            Items: =[\"All\", \"Draft\", \"Active\"]\n+            Default: =\"All\"\n+            AccessibleLabel: =\"Filter projects by status\"\n+            X: =24\n+            Y: =70\n+            Width: =192\n+            Height: =32\n       - ProjectGallery:\n           Control: Gallery@2.15.0\n           Variant: Vertical\n           Properties:\n-            Items: =Projects\n+            Items: =Filter(Projects, StatusFilter.Selected.Value = \"All\" || Status = StatusFilter.Selected.Value)\n             X: =24\n             Y: =120\n             Width: =If(App.Width < 700, Parent.Width - 48, Parent.Width * 0.46 - 24)\n@@ -88,7 +98,7 @@\n             Height: =224\n             NumberOfColumns: =1\n             OnSuccess: =Set(selectedId, Self.LastSubmit.ID); Notify(\"Project saved\", NotificationType.Success)\n-            OnFailure: =ResetForm(ProjectForm)\n+            OnFailure: =Notify(Coalesce(Self.Error, \"Project could not be saved. Please retry.\"), NotificationType.Error)\n           Children:\n             - TitleCard:\n                 Control: TypedDataCard@1.0.7\n"
+            }
+          ]
+        }
+      ],
+      "agent_workflow_results": [
+        {
+          "name": "Edit the selected filtered record",
+          "status": "passed"
+        },
+        {
+          "name": "Preserve both inputs after failure and retry",
+          "status": "passed"
+        },
+        {
+          "name": "Required title blocks saving in narrow preview",
+          "status": "passed"
+        },
+        {
+          "name": "Filter project statuses",
+          "status": "passed"
+        },
+        {
+          "name": "400-pixel layout bounds",
+          "status": "passed"
+        },
+        {
+          "name": "Desktop layout bounds",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "setup_corrections": [
+    {
+      "actor": "coordinating AI",
+      "human_input_required": false,
+      "change": "Set invocation-local approval_mode=approve on the disposable simulator server, then rerun both modes with fresh app/context. Stored user config and simulator annotations unchanged."
+    }
+  ],
+  "aggregate_including_setup_attempts": {
+    "client_mcp_tool_calls": 62,
+    "simulator_service_invocations": 60,
+    "usage": {
+      "input_tokens": 1047763,
+      "cached_input_tokens": 897664,
+      "output_tokens": 8033,
+      "total_tokens": 1055796
+    },
+    "human_interventions": 0,
+    "corrective_prompts": 0
+  },
+  "completed_trial_comparison": {
+    "tool_calls_saved": 7,
+    "tool_calls_reduction_percent": 35.0,
+    "total_tokens_saved": 82876,
+    "total_tokens_reduction_percent": 24.199421264866228,
+    "response_bytes_reduction_percent": 53.151142323116844,
+    "focused_elapsed_seconds_minus_full": 2.372196582844481
+  },
+  "local_raw_artifacts": [
+    "test-results/ai-agent-benchmark",
+    "test-results/ai-agent-benchmark-authorized"
+  ],
+  "repository_validation": {
+    "focused_pytest": {
+      "passed": 72,
+      "elapsed_seconds": 30.15
+    },
+    "wheel_build": "passed",
+    "packaged_benchmark_help": "passed",
+    "wheel_sha256": "ddd26017a92e8c7e3569095ac83475950d9e55824a4eb834e92959ea19ecf10a"
+  }
+}

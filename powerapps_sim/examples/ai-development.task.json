@@ -1,0 +1,38 @@
+{
+  "format_version": 1,
+  "name": "Status filter and reliable record editing",
+  "request": "Add a status filter with All, Draft and Active options, defaulting to All. Filter the gallery and keep the visible project count correct. Preserve entered title and budget values and show an error when a save fails, so the user can retry without retyping. Keep record selection and required-title validation working. The app must fit desktop and 400-pixel-wide previews.",
+  "reference_edits": [
+    {
+      "op": "add_control",
+      "parent": "Workspace",
+      "name": "StatusFilter",
+      "index": 1,
+      "control": {
+        "Control": "ModernDropdown@1.0.0",
+        "Properties": {
+          "Items": "=Table({Value: \"All\"}, {Value: \"Draft\"}, {Value: \"Active\"})",
+          "Default": "=\"All\"",
+          "ItemDisplayText": "=ThisItem.Value",
+          "AccessibleLabel": "=\"Filter projects by status\"",
+          "X": "=24",
+          "Y": "=68",
+          "Width": "=200",
+          "Height": "=32"
+        }
+      }
+    },
+    {
+      "op": "set_property",
+      "path": "Workspace/ProjectGallery",
+      "property": "Items",
+      "value": "=Filter(Projects, StatusFilter.Selected.Value = \"All\" || Status = StatusFilter.Selected.Value)"
+    },
+    {
+      "op": "set_property",
+      "path": "Workspace/ProjectForm",
+      "property": "OnFailure",
+      "value": "=Notify(Self.Error, NotificationType.Error)"
+    }
+  ]
+}

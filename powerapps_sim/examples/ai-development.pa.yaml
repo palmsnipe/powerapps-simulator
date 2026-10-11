@@ -1,0 +1,161 @@
+# Fictional AI development benchmark starter. See examples/ai-development.task.json.
+# The requested status filter is absent; failed submission currently resets the form.
+App:
+  Properties:
+    StartScreen: =Workspace
+    OnStart: =Set(selectedId, 1)
+Screens:
+  Workspace:
+    Properties:
+      Fill: =RGBA(247, 249, 252, 1)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Project desk"
+            X: =24
+            Y: =16
+            Width: =Parent.Width - 48
+            Height: =36
+            Size: =26
+            FontWeight: =FontWeight.Semibold
+      - ProjectCount:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Text(CountRows(ProjectGallery.Items)) & " projects"
+            X: =240
+            Y: =70
+            Width: =Parent.Width - 264
+            Height: =32
+      - ProjectGallery:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            Items: =Projects
+            X: =24
+            Y: =120
+            Width: =If(App.Width < 700, Parent.Width - 48, Parent.Width * 0.46 - 24)
+            Height: =If(App.Width < 700, 230, Parent.Height - 144)
+            TemplateSize: =92
+            TemplatePadding: =8
+            TemplateFill: =Color.White
+          Children:
+            - ProjectTitle:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title
+                  X: =12
+                  Y: =8
+                  Width: =Parent.TemplateWidth - 120
+                  Height: =40
+                  FontWeight: =FontWeight.Semibold
+            - ProjectStatus:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Status & " · " & Text(ThisItem.Amount, "$#,##0.00")
+                  X: =12
+                  Y: =48
+                  Width: =Parent.TemplateWidth - 120
+                  Height: =32
+                  Color: =RGBA(97, 97, 97, 1)
+            - EditProject:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: ="Edit"
+                  AccessibleLabel: ="Edit " & ThisItem.Title
+                  X: =Parent.TemplateWidth - 100
+                  Y: =24
+                  Width: =88
+                  OnSelect: =Set(selectedId, ThisItem.ID); EditForm(ProjectForm)
+      - EditorHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Edit project"
+            X: =If(App.Width < 700, 24, Parent.Width * 0.48)
+            Y: =If(App.Width < 700, 374, 120)
+            Width: =If(App.Width < 700, Parent.Width - 48, Parent.Width * 0.52 - 24)
+            Height: =32
+            Size: =20
+      - ProjectForm:
+          Control: Form@2.4.4
+          Properties:
+            DataSource: =Projects
+            Item: =LookUp(Projects, ID = selectedId)
+            DefaultMode: =FormMode.Edit
+            X: =EditorHeading.X
+            Y: =EditorHeading.Y + 44
+            Width: =EditorHeading.Width
+            Height: =224
+            NumberOfColumns: =1
+            OnSuccess: =Set(selectedId, Self.LastSubmit.ID); Notify("Project saved", NotificationType.Success)
+            OnFailure: =ResetForm(ProjectForm)
+          Children:
+            - TitleCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  Update: =TitleInput.Text
+                  Required: =true
+                  Width: =Parent.Width
+                  Height: =110
+                Children:
+                  - TitleLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Project title"
+                        X: =0
+                        Y: =4
+                        Width: =Parent.Width
+                  - TitleInput:
+                      Control: ModernTextInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Project title"
+                        X: =0
+                        Y: =44
+                        Width: =Parent.Width
+            - AmountCard:
+                Control: TypedDataCard@1.0.7
+                Properties:
+                  DataField: ="Amount"
+                  Default: =ThisItem.Amount
+                  Update: =AmountInput.Value
+                  Required: =true
+                  Width: =Parent.Width
+                  Height: =110
+                  Y: =1
+                Children:
+                  - AmountLabel:
+                      Control: ModernText@1.0.0
+                      Properties:
+                        Text: ="Budget"
+                        X: =0
+                        Y: =4
+                        Width: =Parent.Width
+                  - AmountInput:
+                      Control: ModernNumberInput@1.1.2
+                      Properties:
+                        Default: =Parent.Default
+                        AccessibleLabel: ="Project budget"
+                        Min: =0
+                        X: =0
+                        Y: =44
+                        Width: =Parent.Width
+      - SaveProject:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Save project"
+            X: =ProjectForm.X
+            Y: =ProjectForm.Y + ProjectForm.Height + 12
+            Width: =160
+            DisplayMode: =If(ProjectForm.Valid, DisplayMode.Edit, DisplayMode.Disabled)
+            OnSelect: =SubmitForm(ProjectForm)
+      - SaveFeedback:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =Coalesce(ProjectForm.Error, If(ProjectForm.Unsaved, "Unsaved changes", "Ready to edit"))
+            X: =ProjectForm.X
+            Y: =SaveProject.Y + 44
+            Width: =ProjectForm.Width
+            Height: =72

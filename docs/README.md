@@ -12,6 +12,7 @@
 | [Archived controls](archived-controls.md) | Versioned canvas controls recovered from pinned Microsoft archives |
 | [Components](components.md) | Typed properties, callbacks, scopes, resets, and lifecycle |
 | [AI and workflows](ai-workflows.md) | Optional MCP transport, isolated scenarios, staged changes, and undo |
+| [AI development benchmark](ai-development.md) | Local feature development, focused tools, acceptance workflows, and tool-overhead measurement |
 | [Development](development.md) | Code structure, tests, conformance, packaging, and contribution checks |
 | [Licensing](licensing.md) | Project licence and bundled third-party notices |
 | [History](history.md) | Earlier milestone reports and development proposals |

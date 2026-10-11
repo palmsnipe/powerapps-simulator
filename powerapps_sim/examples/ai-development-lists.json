@@ -1,0 +1,17 @@
+{
+  "Projects": {
+    "fields": {
+      "ID": {"type": "integer", "x-ms-permission": "read-only"},
+      "Title": {"type": "string", "maxLength": 80},
+      "Status": {"type": "string", "default": "Draft"},
+      "Amount": {"type": "number", "minimum": 0, "default": 0}
+    },
+    "mapping": {"ID": "ID", "Title": "Title", "Status": "Status", "Amount": "Amount"},
+    "required": ["Title", "Status", "Amount"],
+    "records": [
+      {"ID": 1, "Title": "Bridge study", "Status": "Draft", "Amount": 125},
+      {"ID": 2, "Title": "Park survey", "Status": "Active", "Amount": 75},
+      {"ID": 3, "Title": "Water assessment", "Status": "Draft", "Amount": 200}
+    ]
+  }
+}

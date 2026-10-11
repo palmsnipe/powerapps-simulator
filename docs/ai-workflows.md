@@ -30,20 +30,54 @@ For headless authoring while the project's browser server is stopped:
 python -m powerapps_sim.mcp_server --project "/absolute/path/to/project"
 ```
 
-Headless mode owns the same OS project lock and does not execute OnStart or visibility events. Isolated workflows execute startup inside their disposable snapshots. The server writes protocol messages to stdout and diagnostics to stderr; it has no HTTP MCP listener.
+Headless mode owns the same OS project lock and does not execute OnStart or visibility events on connection. Isolated workflows execute startup inside their disposable snapshots; `restart_preview` can explicitly start the owned runtime. The server writes protocol messages to stdout and diagnostics to stderr; it has no HTTP MCP listener.
 
-The 16 tools are:
+The 22 tools are:
 
 | Purpose | Tools |
 | --- | --- |
-| Inspect | `describe_project`, `read_source`, `read_list`, `read_diagnostics`, `read_analysis`, `read_runtime`, `read_dependencies` |
+| Inspect | `describe_project`, `read_source`, `read_list`, `read_list_schema`, `read_controls`, `read_control`, `read_diagnostics`, `read_analysis`, `read_runtime`, `read_dependencies` |
 | Evaluate/export | `evaluate_formula`, `export_source` |
-| Author | `list_changes`, `stage_change`, `apply_change`, `undo_change` |
-| Verify | `list_workflows`, `run_workflow`, `read_workflow_report` |
+| Author | `list_changes`, `stage_change`, `stage_control_edits`, `apply_change`, `undo_change` |
+| Verify | `list_workflows`, `run_workflow`, `run_workflows`, `read_workflow_report` |
+| Preview | `restart_preview` |
 
 Seven JSON resources expose `powerapps://project`, `diagnostics`, `analysis`, `runtime`, `dependencies`, `changes` and `workflows`. Source reads return saved YAML/App properties/control exports; runtime/type reads and pure evaluation observe the running source. Responses identify when saved and running source differ. Formula language errors are typed values; invalid arguments, ownership and revision conflicts are tool errors. Reading runtime state does not render controls or drain queued events. List reads are paged (1–500 records).
 
-Recommended client sequence: read project/revision, source and schemas; stage combined replacements/migrations; inspect the diff and diagnostics; run named or inline workflows against the returned change ID; explicitly apply using its base revision. Review and undo use the same browser services. Source changes still need **Restart app** before the preview uses them. Workflow results are evidence for their assertions, not Studio certification. These tools expose local simulation only; they do not authenticate to Microsoft or write to SharePoint.
+Recommended client sequence: read project/revision; discover relevant controls and schemas; stage targeted edits or combined replacements/migrations; inspect the diff and diagnostics; run named or inline workflows against the returned change ID; explicitly apply using its base revision. Review and undo use the same browser services. Source changes need **Restart app** or an explicit `restart_preview` before the preview uses them. Workflow results are evidence for their assertions, not Studio certification. These tools expose local simulation only; they do not authenticate to Microsoft or write to SharePoint.
+
+## Focused local AI authoring
+
+`read_controls(query, source?, offset=0, limit=50, include_properties=false)` searches saved control paths, versions, property names and authored formulas using a case-insensitive substring. It returns source files, one-based line locations, parent/child paths and matching properties. Empty queries list all controls; pages accept 1–500 entries. `read_control(path, source?)` returns one control's authored definition without its descendant source, child paths, property locations, local version support, public output names, contract findings and component custom properties. These reads use **saved source**, including applied changes awaiting restart. They do not render, evaluate formulas, drain events or establish gallery state. Paths are source tree paths, such as `Workspace/ProjectGallery/EditProject`; workflow events use rendered instance paths or a `target` formula instead. Supply `source` when a source path is ambiguous.
+
+`read_list_schema(name)` exposes local field types, constraints and internal/display mappings without fetching records. Use `read_list` when sample records are needed. Control inspection reports local simulator support; defaults, timing and native rendering still depend on the control version and context.
+
+`stage_control_edits` accepts `expected_revision`, 1–100 `edits`, optional `lists`/`migrations`, `title`, and `strict`. Each edit can specify `source` to disambiguate its path:
+
+```json
+{
+  "expected_revision": "REVISION_FROM_DESCRIBE_PROJECT",
+  "strict": true,
+  "edits": [
+    {"op": "set_property", "path": "Workspace/ProjectForm", "property": "OnFailure", "value": "=Notify(Self.Error, NotificationType.Error)"},
+    {"op": "remove_property", "path": "Workspace/Heading", "property": "Size"},
+    {"op": "add_control", "parent": "Workspace", "name": "Caption", "index": 1,
+      "control": {"Control": "ModernText@1.0.0", "Properties": {"Text": "=\"Projects\""}}}
+  ]
+}
+```
+
+Property values must be Power Fx strings beginning with `=`. `remove_property` removes an authored property, allowing its default to apply. `add_control` inserts a named control tree at a zero-based child index, or appends when `index` is omitted. New names must be unique across the project and contain no whitespace or slash. Later edits can address controls added earlier in the same request. Unsupported versions/properties are subject to existing candidate diagnostics and strict validation. App properties and broader source restructuring continue to use `stage_change`.
+
+Edits use the round-trip YAML writer on affected documents: comments, quoted formulas, multiline formula values and control versions are retained, but formatting can normalize. Unedited documents remain byte-for-byte unchanged. Staging is atomic with respect to live source/data and returns diffs, diagnostics, impacts and changed file/list names without returning complete replacement source/schema payloads. `list_changes` can retrieve the full staged request. Apply, migration, undo and revision conflict rules are identical to `stage_change`.
+
+`list_workflows(include_scenarios=false)` returns compact file names, scenario names and step counts, retaining invalid-definition findings. The default still includes full definitions for clients that need to edit scenarios.
+
+`run_workflows(expected_revision, workflows, change_id?)` accepts 1–20 entries, each containing exactly one `scenario_file` from the workflow catalog or an inline `scenario`. All definitions are validated before any run. Every scenario starts in its own disposable runtime/database; failures do not contaminate subsequent scenarios. Results include batch pass/fail counts, failed assertions/actions with source control paths or scopes, diagnostics, writes, skipped-step counts and report IDs. Complete resolved environment and ordered traces remain available through `read_workflow_report`. Passing assertions and app diagnostics remain separate evidence.
+
+`restart_preview(expected_revision)` explicitly reloads saved source in the owned workspace. It **discards unsaved control/variable state and runs OnStart/OnVisible**, which can write local records. It is a mutating tool, requires project identity and revision checks, and is never called automatically by staging, applying or testing. It can also start a headless session explicitly; ordinary headless reads still run no startup behavior. The next browser state refresh displays the new runtime; use the browser's Refresh values or Restart app action if its current view is stale.
+
+For a repeatable starter app, reference tool comparison and an AI development task, see [the local development benchmark](ai-development.md).
 
 Optional offline MCP packaging includes native SDK dependencies, so build it on a connected computer matching the destination OS, architecture and Python minor:
 

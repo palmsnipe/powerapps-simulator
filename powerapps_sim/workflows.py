@@ -158,6 +158,23 @@ def _equal(actual, expected):
     return actual == expected
 
 
+def summarize(report):
+    """Small agent-facing result; the existing report ID retains full evidence."""
+    failures = []
+    for step in report['steps']:
+        if step['status'] != 'failed':
+            continue
+        definition = report['scenario']['steps'][step['index'] - 1]
+        failures.append({**step, **{k: definition[k] for k in ('path', 'scope', 'target') if k in definition}})
+    return {'id': report['id'], 'name': report['name'], 'status': report['status'],
+            'base_revision': report['base_revision'], 'candidate_revision': report['candidate_revision'],
+            'steps_passed': sum(s['status'] == 'passed' for s in report['steps']),
+            'steps_failed': len(failures), 'steps_skipped': report['steps_skipped'],
+            'failures': failures, 'diagnostics': report['diagnostics'], 'writes': report['writes'],
+            'trace_truncated': report['trace_truncated'],
+            'note': 'Retrieve full assertions, resolved environment and ordered trace with read_workflow_report.'}
+
+
 class WorkflowService:
     def __init__(self, workspace):
         self.workspace = workspace
