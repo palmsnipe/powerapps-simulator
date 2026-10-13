@@ -12,7 +12,7 @@ from .ownership import ProjectLease
 
 
 class Workspace:
-    def __init__(self, root, initial=None, *, start=True):
+    def __init__(self, root, initial=None, *, start=True, empty=False):
         self.root = Path(root).resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
@@ -29,7 +29,7 @@ class Workspace:
                 self.open(Project(path))
             else:
                 self.import_file(path.name, path.read_bytes())
-        else:
+        elif not empty:
             demo = self.root / "demo"
             if not (demo / "Src").exists():
                 source = Path(__file__).parent / "examples" / "demo.pa.yaml"
@@ -42,11 +42,11 @@ class Workspace:
                 seed(self.runtime.store)
             self.runtime.invalidate()
 
-    def open(self, project):
+    def open(self, project, *, start=None):
         with self.lock:
-            return self._open(project)
+            return self._open(project, start=start)
 
-    def _open(self, project):
+    def _open(self, project, *, start=None):
         same = self.runtime and self.project.root == project.root and getattr(self.runtime, 'workspace_lease', None)
         lease = self.runtime.workspace_lease if same else ProjectLease(project.root)
         try:
@@ -65,7 +65,7 @@ class Workspace:
             self.runtime.close()
         self.project, self.runtime = project, runtime
         runtime.workspace_lease = lease
-        if self.start_simulation:
+        if (self.start_simulation if start is None else start):
             self.runtime.restart()
 
     def import_file(self, name, payload):

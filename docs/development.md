@@ -22,9 +22,10 @@ Use the virtual environment's Python for all commands below. The MCP dependency 
 | `syntax.py`, `binding.py`, `fx.py`, `runtime.py` | Power Fx parsing, type binding, evaluation, and runtime state |
 | Other modules under `powerapps_sim/` | Formula families, control contracts, scopes, layout, and reactivity |
 | `application.py`, `ownership.py` | Workspace ownership, locking, and runtime lifecycle |
+| `project_creation.py` | Validated new app scaffolding, local sample data and saved acceptance workflows |
 | `store.py`, `sharepoint.py`, `catalog.py` | SQLite data, SharePoint-shaped values, and authored schemas |
 | `authoring.py`, `workflows.py`, `ai_service.py` | Reviewed changes, isolated scenarios, and shared AI operations |
-| `ai_authoring.py`, `benchmark.py`, `agent_benchmark.py` | Focused source discovery/control edits, reference tool-overhead replay and measured real AI authoring |
+| `ai_authoring.py`, `benchmark.py`, `agent_benchmark.py`, `creation_benchmark.py` | Focused source edits, reference tool-overhead replay, measured AI authoring and creation from empty workspaces |
 | `web.py`, `static/` | Flask endpoints and the browser editor/preview |
 | `mcp_server.py` | Optional stdio MCP adapter using the same workspace services |
 | `examples/`, `fixtures.py` | Public fictional source, datasets, and comparison projects |
@@ -37,8 +38,8 @@ The Python runtime is authoritative. The browser and MCP adapter share one works
 ## Verification
 
 ```sh
-python -m pytest -q --ignore=tests/test_browser.py --ignore=tests/test_ai_development_browser.py
-python -m pytest -q tests/test_browser.py tests/test_ai_development_browser.py
+python -m pytest -q --ignore=tests/test_browser.py --ignore=tests/test_ai_development_browser.py --ignore=tests/test_project_creation_browser.py
+python -m pytest -q tests/test_browser.py tests/test_ai_development_browser.py tests/test_project_creation_browser.py
 python -m powerapps_sim.conformance --json compatibility-report.json
 ```
 

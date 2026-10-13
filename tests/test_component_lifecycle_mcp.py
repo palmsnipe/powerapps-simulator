@@ -16,7 +16,7 @@ def test_stdio_feedback_workflow_and_candidate_preserve_owner(tmp_path):
         params = StdioServerParameters(command=sys.executable,
             args=['-m', 'powerapps_sim.mcp_server', '--project', str(p.root)])
         async with sdk.Client(params, raise_exceptions=True) as client:
-            assert len((await client.list_tools()).tools) == 22
+            assert len((await client.list_tools()).tools) == 23
             assert len((await client.list_resources()).resources) == 7
 
             async def call(operation, **arguments):

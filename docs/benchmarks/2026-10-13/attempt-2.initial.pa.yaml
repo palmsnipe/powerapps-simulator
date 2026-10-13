@@ -1,0 +1,77 @@
+Screens:
+  Main:
+    Properties:
+      Fill: =RGBA(248, 250, 252, 1)
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="AI task desk"
+            X: =24
+            Y: =20
+            Width: =Parent.Width - 48
+            Height: =40
+            Size: =28
+      - TaskCount:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =CountRows(TaskGallery.AllItems) & " tasks"
+            X: =24
+            Y: =64
+            Width: =Parent.Width - 48
+            Height: =28
+            Size: =16
+      - NewTitle:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: =""
+            AccessibleLabel: ="New task title"
+            Placeholder: ="New task title"
+            X: =24
+            Y: =112
+            Width: =Parent.Width - 168
+            Height: =44
+      - AddTask:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Add task"
+            AccessibleLabel: ="Add task"
+            DisplayMode: =If(IsBlank(Trim(NewTitle.Text)), DisplayMode.Disabled, DisplayMode.Edit)
+            OnSelect: |-
+              =If(!IsBlank(Trim(NewTitle.Text)), If(IfError(Patch(Tasks, Defaults(Tasks), {Title: Trim(NewTitle.Text), Done: false}); true, false), Reset(NewTitle), Notify("Could not add task. Try again.", NotificationType.Error)))
+            X: =Parent.Width - 132
+            Y: =112
+            Width: =108
+            Height: =44
+      - TaskGallery:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            Items: =Tasks
+            X: =24
+            Y: =176
+            Width: =Parent.Width - 48
+            Height: =Parent.Height - 200
+            TemplateSize: =76
+            TemplateWidth: =Self.Width
+          Children:
+            - TaskTitle:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title
+                  X: =12
+                  Y: =12
+                  Width: =Parent.TemplateWidth - 128
+                  Height: =52
+                  Size: =16
+            - ToggleTask:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: =If(ThisItem.Done, "Reopen", "Complete")
+                  AccessibleLabel: ="Toggle " & ThisItem.Title
+                  OnSelect: |-
+                    =IfError(Patch(Tasks, ThisItem, {Done: !ThisItem.Done}), Notify("Could not update task. Try again.", NotificationType.Error))
+                  X: =Parent.TemplateWidth - 108
+                  Y: =16
+                  Width: =96
+                  Height: =44

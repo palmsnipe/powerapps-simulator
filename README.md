@@ -44,6 +44,7 @@ To install the package and its `powerapps-sim` command, run `python -m pip insta
 - Simulates users, language, time, numeric profiles, and fictional list data.
 - Runs isolated workflow scenarios and supports reviewed source/schema changes with undo.
 - Offers an optional local MCP adapter for AI clients.
+- Creates apps from an empty MCP workspace with YAML source, local schemas, sample records and saved acceptance workflows.
 - Lets AI clients discover controls, stage targeted property/control edits, verify workflow batches, and explicitly restart the local preview.
 
 ## Compatibility

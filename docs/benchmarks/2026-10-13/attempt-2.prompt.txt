@@ -1,0 +1,60 @@
+Build a new local task app AUTONOMOUSLY using ONLY the simulator MCP tools.
+The workspace is initially empty: no app, source, data, schemas or tests have been prepared.
+Do both phases in order in this single session. No reference source or edits are provided.
+
+Phase 1: call describe_project, then create_project(name="task-desk", title="AI task desk")
+with your own complete Power Apps YAML source, local schema, seed rows and at least THREE
+saved acceptance workflows. Use a single screen named Main. The local list Tasks must have
+ID (read-only integer), Title (required string) and Done (Boolean). Seed exactly these rows:
+ID 1, Title "Plan release", Done false; ID 2, Title "Review prototype", Done true;
+ID 3, Title "Write guide", Done false. Do not write records during startup.
+Create these top-level controls: Heading, TaskCount, NewTitle, AddTask and TaskGallery.
+NewTitle is an accessible text input named "New task title". AddTask is a button labelled
+"Add task", disabled when the title is empty or whitespace. Adding creates exactly one
+local record with a trimmed Title and Done false, and clears the input only on success.
+A failed write must preserve the input so a retry creates one record without duplicates.
+TaskGallery initially shows all tasks, with TaskTitle and ToggleTask children in each row.
+ToggleTask is a button with AccessibleLabel "Toggle " followed by the row's title; it toggles
+that row's Done value without changing other records. TaskCount displays the visible count
+as e.g. "3 tasks". Make everything fit both 1000x740 and 400x900 previews, with readable
+labels and no overlapping top-level controls. Use viewport 1000x740 and a fixed clock
+2026-10-13T12:00:00+00:00. No filter in this initial source.
+Write meaningful saved workflows covering add/required title, toggle and failure/retry.
+Run ALL your saved workflows against the created app and fix failures autonomously.
+
+Phase 2: implement a NEW feature through staged edits: add StatusFilter, a dropdown labelled
+"Task status" with options in order All, Open, Done and default All. Open shows Done=false;
+Done shows Done=true. TaskCount must track the currently visible rows, including after a
+toggle changes a row's status. Keep add, validation, failure/retry and row identity correct.
+Stage changes, inspect the diff/diagnostics, run ALL saved workflows plus INLINE workflows
+covering All/Open/Done filtering, correct counts and toggling a filtered row. Apply only a
+passing candidate. Explicitly restart_preview, check diagnostics and export_source.
+Leave the final feature applied. Do not modify schemas, seeded records or saved workflows
+after creation; test writes must remain isolated inside workflows. Do not create another app.
+
+Simulator interface hints (contracts, not a solution): supported controls include
+ModernText@1.0.0, ModernTextInput@1.1.2 (Default/Text), ModernButton@1.0.0,
+ModernDropdown@1.0.0 (Items/DefaultSelectedItems/Selected.Value), Gallery@2.15.0
+with Variant Vertical, Items, TemplateSize/TemplateWidth and ThisItem in its children.
+Formula property strings start with '='. Workflow format_version is 1, with a name and
+steps: event(path or target, event OnChange/OnSelect, value or zero-based selection),
+assert(formula, expect), failure(list, mode write or null), diagnostics(expect 0).
+Gallery actions can use target="First(TaskGallery.AllItems).ToggleTask"; ordinary paths
+are Main/NewTitle, Main/AddTask and Main/StatusFilter. An assert with a scope can evaluate
+row controls. Use the tools' JSON schemas and results to investigate any errors.
+
+Exact serialization contracts: local schema definitions use a fields OBJECT (not an array
+or JSON Schema properties), e.g. {"fields":{"Label":{"type":"string"}},"required":["Label"]}.
+Each workflow step requires the key "op", e.g. {"op":"assert","formula":"1+1","expect":2}.
+An intentionally disabled-button event MUST include "expect_blocked":true, otherwise
+the runner considers the blocked event a failure. Gallery children have runtime instance
+paths, so a static scope such as Main/TaskGallery/ToggleTask does not identify a row.
+Use target formulas via TaskGallery.AllItems for row actions; assert row records or an
+actual instantiated control. Quote YAML formula scalars containing ': ' or use a block
+scalar. Validate these details before committing the saved workflows at creation.
+
+You are authorized to create, stage, test, apply and restart this disposable local app.
+Do not use shell, direct file edits, web, other MCP servers, delegation, repository reads
+or external Microsoft services. Only simulator tools are allowed. A separate scorer will
+run independent acceptance workflows, verify schema/data preservation and undo, and test
+the actual generated app in a browser. Finish with a brief result and any obstacles.

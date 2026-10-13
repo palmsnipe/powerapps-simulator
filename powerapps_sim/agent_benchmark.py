@@ -133,7 +133,7 @@ def trial_prompt(task, mode):
     )
 
 
-def codex_command(root, mode, executable):
+def codex_command(root, mode, executable, *, workspace=False, server_module='powerapps_sim.agent_benchmark'):
     # Retain the user's model/provider settings, while disabling unrelated integrations.
     home = Path(os.environ.get('CODEX_HOME', Path.home() / '.codex'))
     config_path = home / 'config.toml'
@@ -147,8 +147,8 @@ def codex_command(root, mode, executable):
         command += ['-c', f'mcp_servers.{name}.enabled=false']
     # -c is subprocess argv, not a shell command: source paths cannot execute code.
     package_root = str(Path(__file__).resolve().parent.parent)
-    script = f'import sys; sys.path.insert(0, {package_root!r}); from powerapps_sim.agent_benchmark import main; main()'
-    server_args = ['-c', script, '--serve', '--project', str(root / 'app'),
+    script = f'import sys; sys.path.insert(0, {package_root!r}); from {server_module} import main; main()'
+    server_args = ['-c', script, '--serve', '--workspace' if workspace else '--project', str(root / ('projects' if workspace else 'app')),
                    '--log', str(root / 'simulator.jsonl'), '--mode', mode]
     # Authoring is explicitly authorized on this disposable project. This policy
     # is invocation-local and never changes the user's stored MCP configuration.

@@ -1,0 +1,280 @@
+{
+  "name": "task-desk",
+  "title": "AI task desk",
+  "lists": {
+    "Tasks": {
+      "fields": {
+        "ID": {
+          "type": "integer",
+          "read_only": true
+        },
+        "Title": {
+          "type": "string",
+          "required": true
+        },
+        "Done": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "records": {
+    "Tasks": [
+      {
+        "ID": 1,
+        "Title": "Plan release",
+        "Done": false
+      },
+      {
+        "ID": 2,
+        "Title": "Review prototype",
+        "Done": true
+      },
+      {
+        "ID": 3,
+        "Title": "Write guide",
+        "Done": false
+      }
+    ]
+  },
+  "workflows": {
+    "add-required.workflow.json": {
+      "format_version": 1,
+      "name": "Required title and trimmed add",
+      "steps": [
+        {
+          "formula": "CountRows(Tasks)",
+          "expect": 3,
+          "op": "assert"
+        },
+        {
+          "formula": "TaskCount.Text",
+          "expect": "3 tasks",
+          "op": "assert"
+        },
+        {
+          "formula": "AddTask.DisplayMode",
+          "expect": "Disabled",
+          "op": "assert"
+        },
+        {
+          "path": "Main/NewTitle",
+          "event": "OnChange",
+          "value": "   ",
+          "op": "event"
+        },
+        {
+          "formula": "AddTask.DisplayMode",
+          "expect": "Disabled",
+          "op": "assert"
+        },
+        {
+          "path": "Main/AddTask",
+          "event": "OnSelect",
+          "op": "event"
+        },
+        {
+          "formula": "CountRows(Tasks)",
+          "expect": 3,
+          "op": "assert"
+        },
+        {
+          "path": "Main/NewTitle",
+          "event": "OnChange",
+          "value": "  Ship release  ",
+          "op": "event"
+        },
+        {
+          "formula": "AddTask.DisplayMode",
+          "expect": "Edit",
+          "op": "assert"
+        },
+        {
+          "path": "Main/AddTask",
+          "event": "OnSelect",
+          "op": "event"
+        },
+        {
+          "formula": "CountRows(Tasks)",
+          "expect": 4,
+          "op": "assert"
+        },
+        {
+          "formula": "CountRows(Filter(Tasks, Title = \"Ship release\" && Done = false))",
+          "expect": 1,
+          "op": "assert"
+        },
+        {
+          "formula": "NewTitle.Text",
+          "expect": "",
+          "op": "assert"
+        },
+        {
+          "formula": "TaskCount.Text",
+          "expect": "4 tasks",
+          "op": "assert"
+        },
+        {
+          "formula": "AddTask.DisplayMode",
+          "expect": "Disabled",
+          "op": "assert"
+        },
+        {
+          "expect": 0,
+          "op": "diagnostics"
+        }
+      ]
+    },
+    "toggle.workflow.json": {
+      "format_version": 1,
+      "name": "Toggle preserves row identity",
+      "steps": [
+        {
+          "formula": "First(TaskGallery.AllItems).ID",
+          "expect": 1,
+          "op": "assert"
+        },
+        {
+          "formula": "ToggleTask.AccessibleLabel",
+          "expect": "Toggle Plan release",
+          "scope": "Main/TaskGallery/ToggleTask",
+          "op": "assert"
+        },
+        {
+          "target": "First(TaskGallery.AllItems).ToggleTask",
+          "event": "OnSelect",
+          "op": "event"
+        },
+        {
+          "formula": "LookUp(Tasks, ID = 1).Done",
+          "expect": true,
+          "op": "assert"
+        },
+        {
+          "formula": "LookUp(Tasks, ID = 2).Done",
+          "expect": true,
+          "op": "assert"
+        },
+        {
+          "formula": "LookUp(Tasks, ID = 3).Done",
+          "expect": false,
+          "op": "assert"
+        },
+        {
+          "formula": "LookUp(Tasks, ID = 1).Title",
+          "expect": "Plan release",
+          "op": "assert"
+        },
+        {
+          "formula": "CountRows(Tasks)",
+          "expect": 3,
+          "op": "assert"
+        },
+        {
+          "formula": "TaskCount.Text",
+          "expect": "3 tasks",
+          "op": "assert"
+        },
+        {
+          "target": "First(TaskGallery.AllItems).ToggleTask",
+          "event": "OnSelect",
+          "op": "event"
+        },
+        {
+          "formula": "LookUp(Tasks, ID = 1).Done",
+          "expect": false,
+          "op": "assert"
+        },
+        {
+          "expect": 0,
+          "op": "diagnostics"
+        }
+      ]
+    },
+    "failure-retry.workflow.json": {
+      "format_version": 1,
+      "name": "Write failure preserves input and retry adds once",
+      "steps": [
+        {
+          "path": "Main/NewTitle",
+          "event": "OnChange",
+          "value": "  Retry task  ",
+          "op": "event"
+        },
+        {
+          "list": "Tasks",
+          "mode": "write",
+          "op": "failure"
+        },
+        {
+          "path": "Main/AddTask",
+          "event": "OnSelect",
+          "op": "event"
+        },
+        {
+          "formula": "CountRows(Tasks)",
+          "expect": 3,
+          "op": "assert"
+        },
+        {
+          "formula": "NewTitle.Text",
+          "expect": "  Retry task  ",
+          "op": "assert"
+        },
+        {
+          "formula": "TaskCount.Text",
+          "expect": "3 tasks",
+          "op": "assert"
+        },
+        {
+          "list": "Tasks",
+          "mode": null,
+          "op": "failure"
+        },
+        {
+          "path": "Main/AddTask",
+          "event": "OnSelect",
+          "op": "event"
+        },
+        {
+          "formula": "CountRows(Tasks)",
+          "expect": 4,
+          "op": "assert"
+        },
+        {
+          "formula": "CountRows(Filter(Tasks, Title = \"Retry task\" && Done = false))",
+          "expect": 1,
+          "op": "assert"
+        },
+        {
+          "formula": "NewTitle.Text",
+          "expect": "",
+          "op": "assert"
+        },
+        {
+          "path": "Main/AddTask",
+          "event": "OnSelect",
+          "op": "event"
+        },
+        {
+          "formula": "CountRows(Tasks)",
+          "expect": 4,
+          "op": "assert"
+        },
+        {
+          "expect": 0,
+          "op": "diagnostics"
+        }
+      ]
+    }
+  },
+  "viewport": {
+    "width": 1000,
+    "height": 740
+  },
+  "environment": {
+    "clock": "2026-10-13T12:00:00+00:00"
+  },
+  "strict": true,
+  "expected_revision": null
+}

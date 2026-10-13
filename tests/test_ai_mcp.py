@@ -204,7 +204,7 @@ def test_mcp_discovery_annotations_structured_results_and_resources(tmp_path):
     async def exercise():
         async with sdk.Client(create_server(backend), raise_exceptions=True) as client:
             tools = (await client.list_tools()).tools
-            assert len(tools) == 22 and all(t.output_schema for t in tools)
+            assert len(tools) == 23 and all(t.output_schema for t in tools)
             by_name = {t.name:t for t in tools}
             assert by_name['read_source'].annotations.read_only_hint
             assert by_name['apply_change'].annotations.destructive_hint

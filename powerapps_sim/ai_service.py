@@ -19,9 +19,10 @@ from .syntax import FxError
 OPERATIONS = ('describe_project', 'read_source', 'read_list', 'read_diagnostics', 'read_analysis',
               'read_runtime', 'read_dependencies', 'evaluate_formula', 'export_source', 'list_changes', 'stage_change',
               'apply_change', 'undo_change', 'list_workflows', 'run_workflow', 'read_workflow_report',
-              'read_controls', 'read_control', 'read_list_schema', 'stage_control_edits', 'run_workflows', 'restart_preview')
+              'read_controls', 'read_control', 'read_list_schema', 'stage_control_edits', 'run_workflows', 'restart_preview',
+              'create_project')
 WRITES = {'stage_change', 'apply_change', 'undo_change', 'run_workflow',
-          'stage_control_edits', 'run_workflows', 'restart_preview'}
+          'stage_control_edits', 'run_workflows', 'restart_preview', 'create_project'}
 
 
 class AIService:
@@ -35,11 +36,13 @@ class AIService:
         if not isinstance(arguments, dict):
             raise ValueError('Operation arguments must be an object')
         with self.workspace.lock:
-            current = str(self.workspace.project.root)
+            current = str(self.workspace.project.root) if self.workspace.project else None
             if expected_project is not None and expected_project != current:
                 raise RevisionConflict('The workspace now owns a different project. Reconnect the adapter explicitly.')
-            if operation in WRITES and expected_project is None:
+            if operation in WRITES and expected_project is None and not (operation == 'create_project' and current is None):
                 raise ValueError('Mutating AI operations require expected_project')
+            if current is None and operation not in ('create_project', 'describe_project'):
+                raise ValueError('No project is open; call create_project first')
             method = getattr(self, operation)
             try:
                 inspect.signature(method).bind(**arguments)
@@ -50,11 +53,26 @@ class AIService:
             return deepcopy(serial(result))
 
     def describe_project(self):
+        if self.workspace.project is None:
+            return {'api_version': 1, 'workspace_root': str(self.workspace.root), 'project_path': None,
+                    'revision': None, 'runtime_started': False, 'operations': ['describe_project', 'create_project'],
+                    'note': 'Empty local workspace. Call create_project to create and bind an app.'}
         result = self.workspace.summary()
-        result.update(api_version=1, operations=list(OPERATIONS), data_revision=data_revision(self.workspace.runtime.store),
+        result.update(api_version=1, workspace_root=str(self.workspace.root), operations=list(OPERATIONS), data_revision=data_revision(self.workspace.runtime.store),
             runtime_started=self.workspace.runtime.started, pending_source=self.workspace.runtime.pending_source,
             running_revision=self._running_revision_note())
         return result
+
+    def create_project(self, name, title=None, sources=None, lists=None, records=None, workflows=None,
+                       viewport=None, environment=None, strict=True, expected_revision=None):
+        if self.workspace.project is not None:
+            self.workspace.authoring.check_revision(expected_revision)
+        elif expected_revision is not None:
+            raise RevisionConflict('An empty workspace has no project revision; omit expected_revision')
+        from .project_creation import create_project
+        return create_project(self.workspace, name=name, title=title, sources=sources, lists=lists,
+                              records=records, workflows=workflows, viewport=viewport,
+                              environment=environment, strict=strict)
 
     def _running_revision_note(self):
         r = self.workspace.runtime

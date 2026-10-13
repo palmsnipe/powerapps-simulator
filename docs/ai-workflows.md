@@ -22,7 +22,7 @@ HTTP attachment uses the existing browser session and database:
 python -m powerapps_sim.mcp_server --url http://127.0.0.1:8766 --expect-project "/absolute/path/to/project"
 ```
 
-The adapter pins the project identity at connection. If the browser switches projects, calls fail until explicitly reconnected. Only loopback HTTP is supported; environment proxies and HTTP redirects are disabled. Failed writes are never retried automatically. The editor's generated settings include the project check from the first request.
+The adapter pins the project identity at connection. If the browser switches projects, calls fail until explicitly reconnected. An explicit `create_project` rebinds only the calling adapter to its new app; other connections remain pinned. Only loopback HTTP is supported; environment proxies and HTTP redirects are disabled. Failed writes are never retried automatically. The editor's generated settings include the project check from the first request.
 
 For headless authoring while the project's browser server is stopped:
 
@@ -32,10 +32,19 @@ python -m powerapps_sim.mcp_server --project "/absolute/path/to/project"
 
 Headless mode owns the same OS project lock and does not execute OnStart or visibility events on connection. Isolated workflows execute startup inside their disposable snapshots; `restart_preview` can explicitly start the owned runtime. The server writes protocol messages to stdout and diagnostics to stderr; it has no HTTP MCP listener.
 
-The 22 tools are:
+To create an app from scratch without importing anything or starting a browser:
+
+```sh
+python -m powerapps_sim.mcp_server --workspace "/absolute/path/to/projects"
+```
+
+The AI client launches this command as a stdio server. No demo or initial app is created. `describe_project` reports the workspace root and null project/revision; call `create_project` before using project-bound tools. Once created, the same connection supports the complete authoring loop. Stop the headless server before opening its project in the browser.
+
+The 23 tools are:
 
 | Purpose | Tools |
 | --- | --- |
+| Create | `create_project` |
 | Inspect | `describe_project`, `read_source`, `read_list`, `read_list_schema`, `read_controls`, `read_control`, `read_diagnostics`, `read_analysis`, `read_runtime`, `read_dependencies` |
 | Evaluate/export | `evaluate_formula`, `export_source` |
 | Author | `list_changes`, `stage_change`, `stage_control_edits`, `apply_change`, `undo_change` |
@@ -45,6 +54,56 @@ The 22 tools are:
 Seven JSON resources expose `powerapps://project`, `diagnostics`, `analysis`, `runtime`, `dependencies`, `changes` and `workflows`. Source reads return saved YAML/App properties/control exports; runtime/type reads and pure evaluation observe the running source. Responses identify when saved and running source differ. Formula language errors are typed values; invalid arguments, ownership and revision conflicts are tool errors. Reading runtime state does not render controls or drain queued events. List reads are paged (1–500 records).
 
 Recommended client sequence: read project/revision; discover relevant controls and schemas; stage targeted edits or combined replacements/migrations; inspect the diff and diagnostics; run named or inline workflows against the returned change ID; explicitly apply using its base revision. Review and undo use the same browser services. Source changes need **Restart app** or an explicit `restart_preview` before the preview uses them. Workflow results are evidence for their assertions, not Studio certification. These tools expose local simulation only; they do not authenticate to Microsoft or write to SharePoint.
+
+## Create an app, local data and acceptance workflows
+
+`create_project(name, title?, sources?, lists?, records?, workflows?, viewport?, environment?, strict=true, expected_revision?)` creates a new directory under the server's configured workspace root and binds the caller to it. It never accepts an arbitrary destination path or replaces an existing directory, including an empty directory or a symlink. Project names contain 1–64 letters, digits, underscores or hyphens, beginning with a letter or digit; Windows device names are rejected.
+
+- `sources` maps up to 100 `Src/*.yaml` or `.yml` paths to YAML text. Supply complete screen/component/App documents to generate the app in one call. Omit it for a responsive `Main` screen with a title control; then use targeted edits to build the app. At least one screen and valid YAML are required.
+- `lists` maps up to 100 local list names to schema definitions using the same fields, mappings, required constraints, choice options and lookup contracts as reviewed authoring.
+- `records` maps declared list names to arrays of up to 10,000 sample records each. Schema types, constraints, choice options and lookup references are checked before publication. Records may use internal or display field names. Explicit IDs must be unique positive integers; omitted IDs are allocated above supplied IDs. All lists are seeded before validating references, so forward and cyclic lookup records work.
+- `workflows` maps up to 100 portable `NAME.workflow.json` basenames to version-one scenario objects. Definitions are validated and saved in `tests/`; they are not executed by creation. Their assertions may deliberately describe unfinished behavior. Run them explicitly to establish acceptance.
+- `viewport` supplies both `width` and `height`, integer values from 200 to 4000. `environment` accepts the same fields as workflow environment overrides, such as language, simulated user and a clock with a time zone.
+
+For example, this request creates a starter screen, persistent fictional records and a saved acceptance scenario:
+
+```json
+{
+  "name": "project-desk",
+  "title": "Project desk",
+  "lists": {
+    "Projects": {
+      "fields": {
+        "ID": {"type": "integer", "x-ms-permission": "read-only"},
+        "Title": {"type": "string", "maxLength": 80},
+        "Amount": {"type": "number", "minimum": 0}
+      },
+      "required": ["Title"]
+    }
+  },
+  "records": {"Projects": [{"ID": 1, "Title": "Fictional project", "Amount": 125}]},
+  "workflows": {
+    "seed.workflow.json": {
+      "format_version": 1,
+      "name": "Seeded project",
+      "steps": [
+        {"op": "assert", "formula": "CountRows(Projects)", "expect": 1},
+        {"op": "diagnostics", "expect": 0}
+      ]
+    }
+  },
+  "viewport": {"width": 1000, "height": 740},
+  "environment": {"clock": "2026-10-13T12:00:00+00:00"}
+}
+```
+
+In an empty `--workspace` session, omit `expected_revision`. If a project is already bound, first call `describe_project` and supply its revision: creating another app explicitly switches the active workspace and discards its unsaved preview state. HTTP writes still require the bound project identity. The creating adapter updates its binding only after success; browser switches and other clients cannot silently redirect it.
+
+Creation builds and validates the source, schemas, records and workflow definitions in a private temporary directory. `strict=true` rejects binding/source diagnostics; `strict=false` permits valid YAML with findings for later repair. Validation failures leave no new app and preserve the previous workspace. A validated app is published by directory rename, then opened without running OnStart/OnVisible. An unexpected activation failure preserves the complete new directory and previous binding, with its location in the error; reopen that directory explicitly rather than overwriting it.
+
+The result includes project/workspace paths, revision, screens, source names, list names, sample record counts, workflow files and diagnostics. Continue with `run_workflows`, `stage_control_edits` or `stage_change`, then `apply_change` and `restart_preview`. Refresh the browser after an HTTP creation to load the new project title/source. Creation has the destructive annotation because it can switch the active project; configure approval for this explicitly authorized action in the AI client as appropriate.
+
+Source export includes the app YAML/formulas; local schemas, SQLite records and acceptance workflows remain simulator project files. Everything in this flow uses the local simulator, without Microsoft authentication or deployment.
 
 ## Focused local AI authoring
 

@@ -1,0 +1,1099 @@
+{
+  "format_version": 1,
+  "date": "2026-10-13",
+  "status": "passed",
+  "measurement": "Two actual AI attempts from empty local workspaces. No source/edits replayed. Human interventions mean corrective prompts/edits during a trial. Native usage excludes coordinating chat, setup and automated scoring/browser; cached input and reasoning are subsets, not added to totals. Both attempts and all failures retained.",
+  "experiment_adjustments": [
+    {
+      "kind": "prompt clarification",
+      "between": "attempt-1 and attempt-2",
+      "actor": "coordinating AI",
+      "reason": "Saved workflows in attempt-1 used invalid blocked-event/gallery-scope conventions; cannot alter immutable tests afterward.",
+      "change": "Added exact workflow op-key/blocked-event/gallery-instance contracts, a generic schema example and YAML quoting guidance. No reference source or feature edits supplied. Fresh context/workspace; no follow-up prompt during either trial."
+    },
+    {
+      "kind": "independent scorer correction",
+      "actor": "coordinating AI",
+      "change": "Canonicalize cloned project identity for internal API calls; reran scoring without model calls."
+    },
+    {
+      "kind": "independent scorer correction",
+      "actor": "coordinating AI",
+      "change": "Check read-only ID behavior by rejected Patch, because simulator IDs are intrinsically protected independent of optional metadata. Both original reports rescored; no model rerun for scoring."
+    }
+  ],
+  "totals": {
+    "attempts": 2,
+    "completed_apps": 1,
+    "client_mcp_calls": 50,
+    "simulator_calls": 50,
+    "client_failed_calls": 12,
+    "simulator_failures": 12,
+    "model_invocation_seconds": 520.1640526249539,
+    "manual_interventions": 0,
+    "corrective_prompts": 0,
+    "request_bytes": 210249,
+    "response_bytes": 90913,
+    "usage": {
+      "input_tokens": 1127096,
+      "cached_input_tokens": 1010560,
+      "output_tokens": 15886,
+      "reasoning_output_tokens": 4865,
+      "total_tokens": 1142982
+    },
+    "operations": {
+      "describe_project": 3,
+      "create_project": 12,
+      "run_workflows": 7,
+      "read_list_schema": 2,
+      "read_source": 2,
+      "read_workflow_report": 1,
+      "restart_preview": 4,
+      "stage_control_edits": 4,
+      "read_control": 1,
+      "run_workflow": 2,
+      "read_diagnostics": 2,
+      "export_source": 2,
+      "read_list": 3,
+      "list_workflows": 2,
+      "apply_change": 1,
+      "evaluate_formula": 2
+    }
+  },
+  "results": [
+    {
+      "format_version": 1,
+      "timestamp": "2026-10-13T05:06:58.129565+00:00",
+      "mode": "from_scratch",
+      "status": "failed",
+      "measurement": "One actual AI session, initially empty workspace. AI authors source, schema, records, saved workflows and staged edits. No reference app/edits replayed. Native client token counts; cached input included in input, not added again. Setup, scoring, browser and coordinating chat excluded from model metrics. Human interventions are corrective prompts/edits after launch. Raw client and service logs retained locally; this is one trial, not a general speed estimate.",
+      "client": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high",
+        "codex_version": "codex-cli 0.162.1",
+        "simulator_approval_mode": "approve"
+      },
+      "elapsed_seconds": 319.75912391697057,
+      "exit_code": 0,
+      "timed_out": false,
+      "client_metrics": {
+        "usage": {
+          "output_tokens": 9543,
+          "cached_input_tokens": 612864,
+          "reasoning_output_tokens": 3326,
+          "cache_write_input_tokens": 0,
+          "input_tokens": 671158,
+          "total_tokens": 680701
+        },
+        "completed_turns": 1,
+        "items": {
+          "error": 1,
+          "agent_message": 5,
+          "mcp_tool_call": 28
+        },
+        "mcp_tool_calls": 28,
+        "mcp_failures": 9,
+        "shell_calls": 0,
+        "file_changes": 0,
+        "web_searches": 0,
+        "other_mcp_servers": [],
+        "errors": []
+      },
+      "manual_interventions": 0,
+      "corrective_prompts": 0,
+      "simulator_calls": 28,
+      "simulator_failures": 9,
+      "operations": {
+        "describe_project": 2,
+        "create_project": 9,
+        "run_workflows": 4,
+        "read_list_schema": 1,
+        "read_source": 1,
+        "read_workflow_report": 1,
+        "restart_preview": 2,
+        "stage_control_edits": 2,
+        "read_control": 1,
+        "run_workflow": 1,
+        "read_diagnostics": 1,
+        "export_source": 1,
+        "read_list": 1,
+        "list_workflows": 1
+      },
+      "request_bytes": 141340,
+      "response_bytes": 54864,
+      "tool_elapsed_seconds": 5.231149125262164,
+      "calls": [
+        {
+          "operation": "describe_project",
+          "status": "completed",
+          "elapsed_seconds": 0.00011866702698171139,
+          "request_bytes": 50,
+          "response_bytes": 360
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.005617958959192038,
+          "request_bytes": 9533,
+          "response_bytes": 87
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.00021683296654373407,
+          "request_bytes": 9617,
+          "response_bytes": 87
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.00021162501070648432,
+          "request_bytes": 10039,
+          "response_bytes": 87
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.00018658291082829237,
+          "request_bytes": 9533,
+          "response_bytes": 87
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.006583499955013394,
+          "request_bytes": 9449,
+          "response_bytes": 287
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.010412750067189336,
+          "request_bytes": 9489,
+          "response_bytes": 44
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.008682833053171635,
+          "request_bytes": 9436,
+          "response_bytes": 44
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.007486207992769778,
+          "request_bytes": 9548,
+          "response_bytes": 64
+        },
+        {
+          "operation": "create_project",
+          "status": "completed",
+          "elapsed_seconds": 0.031131583964452147,
+          "request_bytes": 9488,
+          "response_bytes": 3941
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.4015509579330683,
+          "request_bytes": 499,
+          "response_bytes": 3085
+        },
+        {
+          "operation": "read_list_schema",
+          "status": "completed",
+          "elapsed_seconds": 0.0007697920082136989,
+          "request_bytes": 171,
+          "response_bytes": 594
+        },
+        {
+          "operation": "read_source",
+          "status": "completed",
+          "elapsed_seconds": 0.005838209064677358,
+          "request_bytes": 234,
+          "response_bytes": 2729
+        },
+        {
+          "operation": "read_workflow_report",
+          "status": "completed",
+          "elapsed_seconds": 0.0034907920053228736,
+          "request_bytes": 200,
+          "response_bytes": 8404
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.50458508299198,
+          "request_bytes": 6423,
+          "response_bytes": 2286
+        },
+        {
+          "operation": "restart_preview",
+          "status": "completed",
+          "elapsed_seconds": 0.014871875056996942,
+          "request_bytes": 243,
+          "response_bytes": 535
+        },
+        {
+          "operation": "stage_control_edits",
+          "status": "completed",
+          "elapsed_seconds": 0.038637832971289754,
+          "request_bytes": 1876,
+          "response_bytes": 2193
+        },
+        {
+          "operation": "read_control",
+          "status": "completed",
+          "elapsed_seconds": 0.004322791006416082,
+          "request_bytes": 199,
+          "response_bytes": 1036
+        },
+        {
+          "operation": "stage_control_edits",
+          "status": "completed",
+          "elapsed_seconds": 0.04468862502835691,
+          "request_bytes": 1860,
+          "response_bytes": 1833
+        },
+        {
+          "operation": "run_workflows",
+          "status": "failed",
+          "elapsed_seconds": 0.004991124966181815,
+          "request_bytes": 19516,
+          "response_bytes": 71
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 3.644018458086066,
+          "request_bytes": 19856,
+          "response_bytes": 8119
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.36220175004564226,
+          "request_bytes": 2980,
+          "response_bytes": 10020
+        },
+        {
+          "operation": "restart_preview",
+          "status": "completed",
+          "elapsed_seconds": 0.016590583021752536,
+          "request_bytes": 243,
+          "response_bytes": 535
+        },
+        {
+          "operation": "read_diagnostics",
+          "status": "completed",
+          "elapsed_seconds": 0.015049792011268437,
+          "request_bytes": 175,
+          "response_bytes": 328
+        },
+        {
+          "operation": "export_source",
+          "status": "completed",
+          "elapsed_seconds": 0.020902667078189552,
+          "request_bytes": 148,
+          "response_bytes": 2872
+        },
+        {
+          "operation": "read_list",
+          "status": "completed",
+          "elapsed_seconds": 0.02148433297406882,
+          "request_bytes": 205,
+          "response_bytes": 948
+        },
+        {
+          "operation": "list_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.023495417088270187,
+          "request_bytes": 182,
+          "response_bytes": 710
+        },
+        {
+          "operation": "describe_project",
+          "status": "completed",
+          "elapsed_seconds": 0.03301050001755357,
+          "request_bytes": 148,
+          "response_bytes": 3478
+        }
+      ],
+      "phases": {
+        "successful_creations": 1,
+        "saved_workflows": 3,
+        "baseline_workflows_tested": [],
+        "applied_after_candidate_tests": false,
+        "initially_no_filter": true,
+        "restarted_after_apply": false,
+        "exported_after_apply": false,
+        "passed": false
+      },
+      "verification": {
+        "acceptance": [
+          {
+            "id": "183305e0f9984b8c82f4a618171f8317",
+            "name": "required-and-add",
+            "status": "passed",
+            "base_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "candidate_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "steps_passed": 11,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Tasks",
+                "id": 4,
+                "operation": "insert"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "4eb6409c81fe43b18940337fbc3b4988",
+            "name": "failure-and-retry",
+            "status": "passed",
+            "base_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "candidate_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "steps_passed": 11,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Tasks",
+                "id": 4,
+                "operation": "insert"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "36fed14b5ec444378afa252742bca553",
+            "name": "filter-and-count",
+            "status": "failed",
+            "base_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "candidate_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "steps_passed": 1,
+            "steps_failed": 2,
+            "steps_skipped": 10,
+            "failures": [
+              {
+                "index": 1,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "formula": "StatusFilter.Selected.Value",
+                "actual": {
+                  "$error": {
+                    "Kind": 18,
+                    "Message": "Unknown identifier StatusFilter",
+                    "Source": "",
+                    "Observed": ""
+                  }
+                },
+                "expected": "All",
+                "active_screen": "Main",
+                "writes": []
+              },
+              {
+                "index": 3,
+                "op": "event",
+                "label": "",
+                "status": "failed",
+                "error": "Control path does not exist in the rendered app",
+                "error_kind": "Scenario",
+                "active_screen": "Main",
+                "writes": [],
+                "path": "Main/StatusFilter"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "9867e6d584c3458681957168028d83b3",
+            "name": "toggle-filtered-row",
+            "status": "failed",
+            "base_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "candidate_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "steps_passed": 0,
+            "steps_failed": 1,
+            "steps_skipped": 13,
+            "failures": [
+              {
+                "index": 1,
+                "op": "event",
+                "label": "",
+                "status": "failed",
+                "error": "Control path does not exist in the rendered app",
+                "error_kind": "Scenario",
+                "active_screen": "Main",
+                "writes": [],
+                "path": "Main/StatusFilter"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          }
+        ],
+        "agent_saved_acceptance": [
+          {
+            "id": "6d45c39f655940c2a3334835c2ed4f63",
+            "name": "Required title and trimmed add",
+            "status": "failed",
+            "base_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "candidate_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "steps_passed": 5,
+            "steps_failed": 1,
+            "steps_skipped": 10,
+            "failures": [
+              {
+                "index": 6,
+                "op": "event",
+                "label": "",
+                "status": "failed",
+                "error": "Control is hidden or disabled by the app",
+                "error_kind": "Scenario",
+                "active_screen": "Main",
+                "writes": [],
+                "path": "Main/AddTask"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "cfa91a0aca31469586d4144a49c62558",
+            "name": "Write failure preserves input and retry adds once",
+            "status": "failed",
+            "base_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "candidate_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "steps_passed": 11,
+            "steps_failed": 1,
+            "steps_skipped": 2,
+            "failures": [
+              {
+                "index": 12,
+                "op": "event",
+                "label": "",
+                "status": "failed",
+                "error": "Control is hidden or disabled by the app",
+                "error_kind": "Scenario",
+                "active_screen": "Main",
+                "writes": [],
+                "path": "Main/AddTask"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Tasks",
+                "id": 4,
+                "operation": "insert"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "44eecee5351c49cdaa45b11fbbb98d62",
+            "name": "Toggle preserves row identity",
+            "status": "failed",
+            "base_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "candidate_revision": "bf7f2d06e1e074ee8cfe37757c5150e8e6e22d58c5030778405a6013dcb797b7",
+            "steps_passed": 11,
+            "steps_failed": 1,
+            "steps_skipped": 0,
+            "failures": [
+              {
+                "index": 2,
+                "op": "assert",
+                "label": "",
+                "status": "failed",
+                "error": "Assertion scope control does not exist",
+                "error_kind": "Scenario",
+                "active_screen": "Main",
+                "writes": [],
+                "scope": "Main/TaskGallery/ToggleTask"
+              }
+            ],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          }
+        ],
+        "schema_verified": false,
+        "id_readonly_verified": true,
+        "schemas_unchanged": true,
+        "saved_workflow_coverage": {
+          "add": true,
+          "toggle": true,
+          "required_title": false,
+          "failed_write": true,
+          "assertions": true
+        },
+        "records_preserved": true,
+        "saved_workflows_unchanged": true,
+        "export_verified": true,
+        "preview_clean": true,
+        "geometry": [
+          {
+            "width": 1000,
+            "height": 740,
+            "controls_fit": {
+              "Heading": true,
+              "TaskCount": true,
+              "NewTitle": true,
+              "AddTask": true,
+              "TaskGallery": true,
+              "StatusFilter": false
+            },
+            "overlap": []
+          },
+          {
+            "width": 400,
+            "height": 900,
+            "controls_fit": {
+              "Heading": true,
+              "TaskCount": true,
+              "NewTitle": true,
+              "AddTask": true,
+              "TaskGallery": true,
+              "StatusFilter": false
+            },
+            "overlap": []
+          }
+        ],
+        "applied_changes": 0,
+        "diffs": [],
+        "undo_verified": false,
+        "passed": false
+      },
+      "initial_scoring_error": "The workspace now owns a different project. Reconnect the adapter explicitly.",
+      "scoring_correction": "Canonicalize cloned-project identity; reran independent scoring without model calls. Model trial remains failed.",
+      "scoring_corrections": [
+        {
+          "change": "Use the canonical cloned-project identity for internal API calls",
+          "model_calls": 0
+        },
+        {
+          "change": "Verify read-only ID behavior with a rejected Patch; IDs are intrinsically protected independent of metadata spelling",
+          "model_calls": 0
+        }
+      ],
+      "attempt": "attempt-1",
+      "raw_evidence": {
+        "attempt-1/client.jsonl": {
+          "sha256": "32164ada7a829146a68437aef5f0f222a8e073164cd2f45e879567b79c77756c",
+          "bytes": 278786
+        },
+        "attempt-1/client.stderr": {
+          "sha256": "109a1af657166c86e81e820de57bfd9cb9f05ef3f1e1716442a0411962eda5cd",
+          "bytes": 4034
+        },
+        "attempt-1/simulator.jsonl": {
+          "sha256": "fa8a39b0c98cd957a91b6d72f1b719f95232dff9691e449abb47a17f7391a595",
+          "bytes": 135893
+        },
+        "attempt-1/prompt.txt": {
+          "sha256": "4cc08d5e7dfce6aeab3bfa57db97ffe293b4ae79a8d2addd964606158a4ffaec",
+          "bytes": 4015
+        },
+        "attempt-1/export.json": {
+          "sha256": "664ca7155df68dfcb693562fdb82794e0882024c338c4212b2df2b78566e9132",
+          "bytes": 2872
+        }
+      }
+    },
+    {
+      "format_version": 1,
+      "timestamp": "2026-10-13T05:10:57.187362+00:00",
+      "mode": "from_scratch",
+      "status": "passed",
+      "measurement": "One actual AI session, initially empty workspace. AI authors source, schema, records, saved workflows and staged edits. No reference app/edits replayed. Native client token counts; cached input included in input, not added again. Setup, scoring, browser and coordinating chat excluded from model metrics. Human interventions are corrective prompts/edits after launch. Raw client and service logs retained locally; this is one trial, not a general speed estimate.",
+      "client": {
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high",
+        "codex_version": "codex-cli 0.162.1",
+        "simulator_approval_mode": "approve"
+      },
+      "elapsed_seconds": 200.40492870798334,
+      "exit_code": 0,
+      "timed_out": false,
+      "client_metrics": {
+        "usage": {
+          "cache_write_input_tokens": 0,
+          "input_tokens": 455938,
+          "reasoning_output_tokens": 1539,
+          "output_tokens": 6343,
+          "cached_input_tokens": 397696,
+          "total_tokens": 462281
+        },
+        "completed_turns": 1,
+        "items": {
+          "error": 1,
+          "agent_message": 5,
+          "mcp_tool_call": 22
+        },
+        "mcp_tool_calls": 22,
+        "mcp_failures": 3,
+        "shell_calls": 0,
+        "file_changes": 0,
+        "web_searches": 0,
+        "other_mcp_servers": [],
+        "errors": []
+      },
+      "manual_interventions": 0,
+      "corrective_prompts": 0,
+      "simulator_calls": 22,
+      "simulator_failures": 3,
+      "operations": {
+        "describe_project": 1,
+        "create_project": 3,
+        "run_workflows": 3,
+        "restart_preview": 2,
+        "read_source": 1,
+        "read_list_schema": 1,
+        "read_list": 2,
+        "list_workflows": 1,
+        "stage_control_edits": 2,
+        "run_workflow": 1,
+        "apply_change": 1,
+        "export_source": 1,
+        "read_diagnostics": 1,
+        "evaluate_formula": 2
+      },
+      "request_bytes": 68909,
+      "response_bytes": 36049,
+      "tool_elapsed_seconds": 3.5880232502240688,
+      "calls": [
+        {
+          "operation": "describe_project",
+          "status": "completed",
+          "elapsed_seconds": 0.0001979588996618986,
+          "request_bytes": 50,
+          "response_bytes": 360
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.0023103749845176935,
+          "request_bytes": 10292,
+          "response_bytes": 52
+        },
+        {
+          "operation": "create_project",
+          "status": "failed",
+          "elapsed_seconds": 0.0072627910412848,
+          "request_bytes": 10294,
+          "response_bytes": 287
+        },
+        {
+          "operation": "create_project",
+          "status": "completed",
+          "elapsed_seconds": 0.03460854198783636,
+          "request_bytes": 10336,
+          "response_bytes": 3941
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 1.0596412919694558,
+          "request_bytes": 499,
+          "response_bytes": 2228
+        },
+        {
+          "operation": "restart_preview",
+          "status": "completed",
+          "elapsed_seconds": 0.014164666994474828,
+          "request_bytes": 243,
+          "response_bytes": 535
+        },
+        {
+          "operation": "read_source",
+          "status": "completed",
+          "elapsed_seconds": 0.005165292066521943,
+          "request_bytes": 234,
+          "response_bytes": 2930
+        },
+        {
+          "operation": "read_list_schema",
+          "status": "completed",
+          "elapsed_seconds": 0.005653749918565154,
+          "request_bytes": 171,
+          "response_bytes": 586
+        },
+        {
+          "operation": "read_list",
+          "status": "completed",
+          "elapsed_seconds": 0.006089166039600968,
+          "request_bytes": 205,
+          "response_bytes": 940
+        },
+        {
+          "operation": "list_workflows",
+          "status": "completed",
+          "elapsed_seconds": 0.006624417030252516,
+          "request_bytes": 182,
+          "response_bytes": 718
+        },
+        {
+          "operation": "stage_control_edits",
+          "status": "completed",
+          "elapsed_seconds": 0.046147708082571626,
+          "request_bytes": 1882,
+          "response_bytes": 2199
+        },
+        {
+          "operation": "run_workflow",
+          "status": "completed",
+          "elapsed_seconds": 0.13689337496180087,
+          "request_bytes": 684,
+          "response_bytes": 2778
+        },
+        {
+          "operation": "stage_control_edits",
+          "status": "completed",
+          "elapsed_seconds": 0.05702291603665799,
+          "request_bytes": 1898,
+          "response_bytes": 1871
+        },
+        {
+          "operation": "run_workflows",
+          "status": "failed",
+          "elapsed_seconds": 0.0027204169891774654,
+          "request_bytes": 15097,
+          "response_bytes": 71
+        },
+        {
+          "operation": "run_workflows",
+          "status": "completed",
+          "elapsed_seconds": 2.0556974170031026,
+          "request_bytes": 15301,
+          "response_bytes": 4787
+        },
+        {
+          "operation": "apply_change",
+          "status": "completed",
+          "elapsed_seconds": 0.05518175009638071,
+          "request_bytes": 296,
+          "response_bytes": 5569
+        },
+        {
+          "operation": "restart_preview",
+          "status": "completed",
+          "elapsed_seconds": 0.018900458002462983,
+          "request_bytes": 243,
+          "response_bytes": 535
+        },
+        {
+          "operation": "export_source",
+          "status": "completed",
+          "elapsed_seconds": 0.005746209062635899,
+          "request_bytes": 148,
+          "response_bytes": 3798
+        },
+        {
+          "operation": "read_diagnostics",
+          "status": "completed",
+          "elapsed_seconds": 0.013787791016511619,
+          "request_bytes": 175,
+          "response_bytes": 328
+        },
+        {
+          "operation": "read_list",
+          "status": "completed",
+          "elapsed_seconds": 0.014161916100420058,
+          "request_bytes": 205,
+          "response_bytes": 940
+        },
+        {
+          "operation": "evaluate_formula",
+          "status": "completed",
+          "elapsed_seconds": 0.019830208970233798,
+          "request_bytes": 281,
+          "response_bytes": 286
+        },
+        {
+          "operation": "evaluate_formula",
+          "status": "completed",
+          "elapsed_seconds": 0.0202148329699412,
+          "request_bytes": 193,
+          "response_bytes": 310
+        }
+      ],
+      "phases": {
+        "successful_creations": 1,
+        "saved_workflows": 3,
+        "baseline_workflows_tested": [
+          "add-required.workflow.json",
+          "failure-retry.workflow.json",
+          "toggle.workflow.json"
+        ],
+        "applied_after_candidate_tests": true,
+        "initially_no_filter": true,
+        "restarted_after_apply": true,
+        "exported_after_apply": true,
+        "passed": true
+      },
+      "verification": {
+        "acceptance": [
+          {
+            "id": "4b7bf54da74943d5a2d96f0f26e1176a",
+            "name": "required-and-add",
+            "status": "passed",
+            "base_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "candidate_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "steps_passed": 11,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Tasks",
+                "id": 4,
+                "operation": "insert"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "3d718cfcc94a4986af1558a2541af0e6",
+            "name": "failure-and-retry",
+            "status": "passed",
+            "base_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "candidate_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "steps_passed": 11,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Tasks",
+                "id": 4,
+                "operation": "insert"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "666aac93583f4cedb6cdfa3c589b9c17",
+            "name": "filter-and-count",
+            "status": "passed",
+            "base_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "candidate_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "steps_passed": 13,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "90a1bd34e1c94479b6d87576f7a7748d",
+            "name": "toggle-filtered-row",
+            "status": "passed",
+            "base_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "candidate_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "steps_passed": 14,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          }
+        ],
+        "agent_saved_acceptance": [
+          {
+            "id": "a4c7f265ebf94c0493611c8f088d779a",
+            "name": "Required title and trimmed single add",
+            "status": "passed",
+            "base_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "candidate_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "steps_passed": 17,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Tasks",
+                "id": 4,
+                "operation": "insert"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "b8be735ec2db4246a9694721f8625a6a",
+            "name": "Failed add preserves input and retry writes once",
+            "status": "passed",
+            "base_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "candidate_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "steps_passed": 15,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [
+              {
+                "list": "Tasks",
+                "id": 4,
+                "operation": "insert"
+              }
+            ],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          },
+          {
+            "id": "bb834d448a01493c9cdcaa153fe433ba",
+            "name": "Toggle row identity and restore",
+            "status": "passed",
+            "base_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "candidate_revision": "402e35d8176ec124d5e787848091a2cf76dffbd800e0bf9442fabf9b5ce1a6d2",
+            "steps_passed": 14,
+            "steps_failed": 0,
+            "steps_skipped": 0,
+            "failures": [],
+            "diagnostics": [],
+            "writes": [],
+            "trace_truncated": false,
+            "note": "Retrieve full assertions, resolved environment and ordered trace with read_workflow_report."
+          }
+        ],
+        "schema_verified": true,
+        "id_readonly_verified": true,
+        "schemas_unchanged": true,
+        "saved_workflow_coverage": {
+          "add": true,
+          "toggle": true,
+          "required_title": true,
+          "failed_write": true,
+          "assertions": true
+        },
+        "records_preserved": true,
+        "saved_workflows_unchanged": true,
+        "export_verified": true,
+        "preview_clean": true,
+        "geometry": [
+          {
+            "width": 1000,
+            "height": 740,
+            "controls_fit": {
+              "Heading": true,
+              "TaskCount": true,
+              "NewTitle": true,
+              "AddTask": true,
+              "TaskGallery": true,
+              "StatusFilter": true
+            },
+            "overlap": []
+          },
+          {
+            "width": 400,
+            "height": 900,
+            "controls_fit": {
+              "Heading": true,
+              "TaskCount": true,
+              "NewTitle": true,
+              "AddTask": true,
+              "TaskGallery": true,
+              "StatusFilter": true
+            },
+            "overlap": []
+          }
+        ],
+        "applied_changes": 1,
+        "diffs": [
+          [
+            {
+              "path": "Src/Main.pa.yaml",
+              "diff": "--- Src/Main.pa.yaml\n+++ Src/Main.pa.yaml\n@@ -43,15 +43,34 @@\n             Y: =112\n             Width: =108\n             Height: =44\n+      - StatusFilterLabel:\n+          Control: ModernText@1.0.0\n+          Properties:\n+            Text: =\"Task status\"\n+            X: =24\n+            Y: =172\n+            Width: =Parent.Width - 48\n+            Height: =24\n+            Size: =16\n+      - StatusFilter:\n+          Control: ModernDropdown@1.0.0\n+          Properties:\n+            Items: =[\"All\", \"Open\", \"Done\"]\n+            Default: =\"All\"\n+            AccessibleLabel: =\"Task status\"\n+            X: =24\n+            Y: =204\n+            Width: =Parent.Width - 48\n+            Height: =44\n       - TaskGallery:\n           Control: Gallery@2.15.0\n           Variant: Vertical\n           Properties:\n-            Items: =Tasks\n+            Items: =Filter(Tasks, StatusFilter.Selected.Value = \"All\" || (StatusFilter.Selected.Value = \"Open\" && !Done) || (StatusFilter.Selected.Value = \"Done\" && Done))\n             X: =24\n-            Y: =176\n+            Y: =268\n             Width: =Parent.Width - 48\n-            Height: =Parent.Height - 200\n+            Height: =Parent.Height - 292\n             TemplateSize: =76\n             TemplateWidth: =Self.Width\n           Children:\n"
+            }
+          ]
+        ],
+        "undo_verified": true,
+        "passed": true
+      },
+      "browser": {
+        "passed": true,
+        "filter_toggle": true,
+        "required_title": true,
+        "failed_write_retry": true,
+        "trimmed_add": true,
+        "narrow_preview": true,
+        "other_records_preserved": true,
+        "javascript_errors": [],
+        "screenshots": [
+          "browser/desktop.png",
+          "browser/narrow.png"
+        ]
+      },
+      "scoring_corrections": [
+        {
+          "change": "Use the canonical cloned-project identity for internal API calls",
+          "model_calls": 0
+        },
+        {
+          "change": "Verify read-only ID behavior with a rejected Patch; IDs are intrinsically protected independent of metadata spelling",
+          "model_calls": 0
+        }
+      ],
+      "initial_scoring_error": "The workspace now owns a different project. Reconnect the adapter explicitly.",
+      "attempt": "attempt-2",
+      "raw_evidence": {
+        "attempt-2/client.jsonl": {
+          "sha256": "0954a0087e0f6c44c481c1373dec4b5ec0065c6a47aa565a9d1cee3be69b6b19",
+          "bytes": 157564
+        },
+        "attempt-2/client.stderr": {
+          "sha256": "47351dc232ec6aa30b4f0b9fbc736e89fb7830085f54fb312ebab2b0f2732934",
+          "bytes": 4034
+        },
+        "attempt-2/simulator.jsonl": {
+          "sha256": "10eaf39e61373d1024b416d37cb220d4ab991ce504f1517b082684f73424b8b6",
+          "bytes": 76697
+        },
+        "attempt-2/prompt.txt": {
+          "sha256": "d5d9e749adfa508ea3996e978c6a9b42dd0b152a10df4981e1aa99d7d72568d4",
+          "bytes": 4807
+        },
+        "attempt-2/export.json": {
+          "sha256": "0028530e407025959a0c03820e54039016f6a6d7190fa1378ba69c3d54ca7990",
+          "bytes": 3798
+        },
+        "attempt-2/browser/desktop.png": {
+          "sha256": "d387ed1fc002a2111f47866d3e40acdcdc708d372b3dccf0e1500c58fb936cc1",
+          "bytes": 133797
+        },
+        "attempt-2/browser/narrow.png": {
+          "sha256": "2763aeb28c67951095caa4367ba2f39d2086cb5696d7ec05e4d76e38cb3c490f",
+          "bytes": 132225
+        }
+      }
+    }
+  ]
+}

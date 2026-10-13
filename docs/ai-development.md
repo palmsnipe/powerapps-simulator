@@ -13,6 +13,8 @@ The benchmark exercises one complete simulator development loop: discover the re
 
 The fixture generator requires an empty destination. The starter has a project gallery and title/budget editor. Its status filter is deliberately absent and its OnFailure handler deliberately resets the form. These are the development task, not simulator defects. `benchmark.task.json` records the request and a reference edit plan; `tests/*.workflow.json` contain independently isolated acceptance scenarios. A real agent trial should receive the request and acceptance scenarios, keeping `reference_edits` hidden until evaluation.
 
+For a new app without a benchmark fixture, launch MCP with `--workspace /absolute/path/to/projects` and call `create_project` with the AI-generated source, local schemas, sample records and acceptance workflows. It creates and binds the app without startup; continue with the verification/authoring loop below. See [create-project inputs and an example](ai-workflows.md#create-an-app-local-data-and-acceptance-workflows).
+
 The request is:
 
 > Add a status filter with All, Draft and Active options, defaulting to All. Filter the gallery and keep the visible project count correct. Preserve entered title and budget values and show an error when a save fails, so the user can retry without retyping. Keep record selection and required-title validation working. The app must fit desktop and 400-pixel-wide previews.
@@ -60,5 +62,19 @@ The output directory must not contain an earlier trial with the same mode. Use a
 Manual interventions mean human corrective prompts or edits after a trial starts. The harness sends one initial task, has no interactive follow-up, and records zero corrective prompts. Automated fixture setup, independent scoring and undo are excluded from agent call/token metrics. A setup correction between attempts must be reported separately, alongside the failed attempt's usage. The scorer reruns acceptance scenarios, checks source export and desktop/narrow geometry, confirms records were preserved and verifies undo. Browser interaction remains a separate check. One sample per mode demonstrates feasibility and measured cost for this task; it does not establish a general speedup.
 
 The [11 October 2026 actual AI trial](benchmarks/2026-10-11/README.md) retains measured results, setup failures and both AI-authored source exports.
+
+## Benchmark creation from an empty workspace
+
+```sh
+.venv/bin/python -m powerapps_sim.creation_benchmark --output test-results/ai-creation-benchmark --browser
+```
+
+This launches one fresh Codex CLI session with only measured simulator MCP tools. Its workspace initially contains no app, source, schemas, records or tests. The AI must call `create_project` to author a task app, its local `Tasks` schema, three fictional seed rows and at least three acceptance workflows. It tests the initial app, then stages a status filter, tests the candidate, applies it, restarts the preview and exports the result. The task specifies stable control names and observable behavior for scoring, but provides no reference source or edits. The CLI retains the configured model and uses the same invocation-local approval policy and disabled integrations as the authoring benchmark above.
+
+The scorer independently checks adding a trimmed title, blocking blank/whitespace input, retaining input after a failed write and retrying once, All/Open/Done filtering, and toggling the correct filtered row. It also checks the schema and seeds, saved workflow coverage/preservation, source export, clean diagnostics, desktop/narrow geometry and undo back to the AI-created initial source. Scoring and undo run on copies; the final app remains in the trial's `projects/task-desk` directory. `--browser` adds actual Chromium interaction, screenshots and a separate browser result, also on a copy. This requires Playwright and Chromium; without the flag, the report makes no browser-verification claim.
+
+`report.json`, `client.jsonl`, `simulator.jsonl`, `prompt.txt`, `export.json` and optional `browser/*.png` retain the evidence. Native client token usage, client MCP calls, simulator service calls (including failures), operation counts, payload bytes and invocation wall time are measured. Phase scoring requires a successful creation, saved workflow verification before the feature, candidate verification before apply, restart and export. No replay or direct source editing substitutes for model activity. Human interventions count corrective prompts/edits after launch; setup, independent scoring and coordinating-chat usage are excluded. Preserve failed attempts and report any automated setup/prompt adjustments between fresh trials separately. A single task establishes feasibility and cost for that task, not a general development speedup.
+
+The [13 October 2026 AI creation trial](benchmarks/2026-10-13/README.md) retains both attempts, native usage, independent/browser results, prompt adjustments and the AI-authored source, schemas, records and workflows.
 
 The simulator exports source rather than an importable `.msapp`. These checks establish local behavior for the tested flows; they do not certify native Power Apps compatibility.
