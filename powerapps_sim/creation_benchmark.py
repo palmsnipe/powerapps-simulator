@@ -76,7 +76,7 @@ after creation; test writes must remain isolated inside workflows. Do not create
 
 Simulator interface hints (contracts, not a solution): supported controls include
 ModernText@1.0.0, ModernTextInput@1.1.2 (Default/Text), ModernButton@1.0.0,
-ModernDropdown@1.0.0 (Items/DefaultSelectedItems/Selected.Value), Gallery@2.15.0
+ModernDropdown@1.0.0 (Items and Selected.Value; see MCP authoring guidance), Gallery@2.15.0
 with Variant Vertical, Items, TemplateSize/TemplateWidth and ThisItem in its children.
 Formula property strings start with '='. Workflow format_version is 1, with a name and
 steps: event(path or target, event OnChange/OnSelect, value or zero-based selection),

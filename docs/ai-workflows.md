@@ -135,6 +135,8 @@ Source export includes the app YAML/formulas; local schemas, SQLite records and 
 
 Property values must be Power Fx strings beginning with `=`. `remove_property` removes an authored property, allowing its default to apply. `add_control` inserts a named control tree at a zero-based child index, or appends when `index` is omitted. New names must be unique across the project and contain no whitespace or slash. Later edits can address controls added earlier in the same request. Unsupported versions/properties are subject to existing candidate diagnostics and strict validation. App properties and broader source restructuring continue to use `stage_change`.
 
+For the simulator's `ModernDropdown@1.0.0`, set `Default` to the item that should be selected initially. For `Items =["First","Second"]`, use `Default ="First"` and read `Selected.Value`. Record items can use a matching record as the default. Check the contract for other dropdown and combo box versions.
+
 Edits use the round-trip YAML writer on affected documents: comments, quoted formulas, multiline formula values and control versions are retained, but formatting can normalize. Unedited documents remain byte-for-byte unchanged. Staging is atomic with respect to live source/data and returns diffs, diagnostics, impacts and changed file/list names without returning complete replacement source/schema payloads. `list_changes` can retrieve the full staged request. Apply, migration, undo and revision conflict rules are identical to `stage_change`.
 
 `list_workflows(include_scenarios=false)` returns compact file names, scenario names and step counts, retaining invalid-definition findings. The default still includes full definitions for clients that need to edit scenarios.

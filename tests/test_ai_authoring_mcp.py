@@ -1,5 +1,6 @@
 """Exercise focused authoring over the real optional stdio MCP transport."""
 import asyncio
+from copy import deepcopy
 import sys
 
 import pytest
@@ -24,6 +25,8 @@ def test_focused_tools_over_stdio(tmp_path):
             assert tools['read_controls'].annotations.read_only_hint
             assert tools['restart_preview'].annotations.destructive_hint
             assert not tools['stage_control_edits'].annotations.read_only_hint
+            assert 'ModernDropdown@1.0.0, author Default' in tools['stage_control_edits'].description
+            assert 'Default ="First"' in tools['stage_control_edits'].description
             assert not tools['run_workflows'].annotations.read_only_hint
             entry = tools['run_workflows'].input_schema['properties']['workflows']['items']['oneOf'][1]
             scenario_schema = entry['properties']['scenario']
@@ -45,6 +48,14 @@ def test_focused_tools_over_stdio(tmp_path):
             assert schema['definition']['fields']['Title']['maxLength'] == 80
             assert (await client.call_tool('read_controls', {'limit': True})).is_error
             owner = await call('read_runtime')
+            unsupported = deepcopy(task['reference_edits'])
+            dropdown = next(edit['control'] for edit in unsupported if edit.get('name') == 'StatusFilter')
+            dropdown['Properties'].pop('Default')
+            dropdown['Properties']['DefaultSelectedItems'] = '=["All"]'
+            rejected_default = await call('stage_control_edits', expected_revision=described['revision'], edits=unsupported)
+            assert any(finding['member'] == 'StatusFilter.DefaultSelectedItems'
+                       and 'author Default for the initial selection' in finding['message']
+                       for finding in rejected_default['diagnostics'])
             change = await call('stage_control_edits', expected_revision=described['revision'], edits=task['reference_edits'], strict=True)
             catalog = await call('list_workflows', include_scenarios=False)
             assert all('scenario' not in e and e['step_count'] > 0 for e in catalog['scenarios'])
@@ -65,6 +76,8 @@ def test_focused_tools_over_stdio(tmp_path):
             assert batch['passed'] == 5 and batch['status'] == 'passed'
             assert await call('read_runtime') == owner
             applied = await call('apply_change', change_id=change['id'], expected_revision=described['revision'])
+            contract = await call('read_control', path='Workspace/StatusFilter')
+            assert 'author Default for the initial selection' in contract['contract']['note']
             restarted = await call('restart_preview', expected_revision=applied['after_revision'])
             assert restarted['started'] and not restarted['diagnostics']
             assert (await call('evaluate_formula', formula='selectedId'))['value'] == 1

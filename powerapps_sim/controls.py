@@ -136,6 +136,12 @@ from .canvas_scalars import catalog as canvas_scalar_catalog
 DEFAULTS.update({f:dict(next(iter(v.values()))['defaults']) for f,v in canvas_scalar_catalog().items()})
 SINGLE_SELECT = frozenset(('ModernDropdown', 'ModernRadio','Classic/DropDown','Classic/Radio'))
 
+MODERN_DROPDOWN_AUTHORING = (
+    'For ModernDropdown@1.0.0, author Default for the initial selection. With '
+    'Items =["First","Second"], set Default ="First" and read Selected.Value. '
+    'For record items, Default can be a matching record. DefaultSelectedItems is unsupported for this version.'
+)
+
 
 def contract_errors(control):
     if control.family in ('Text', 'FluentV8/Label'):
@@ -274,7 +280,9 @@ def contract_errors(control):
     if family in SINGLE_SELECT:
         if 'Selected' in props:
             errors['Selected'] = f'{family}.Selected is an output; author Default'
-        for name in ('DefaultSelectedItems', 'SelectedItems', 'TriggerOutput'):
+        if 'DefaultSelectedItems' in props:
+            errors['DefaultSelectedItems'] = f'{family}.DefaultSelectedItems is unsupported; author Default for the initial selection'
+        for name in ('SelectedItems', 'TriggerOutput'):
             if name in props:
                 errors[name] = f'{family}.{name} is not implemented for this control version'
     if family == 'ModernIcon' and control.version == '1.1.0':

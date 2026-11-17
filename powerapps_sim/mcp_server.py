@@ -139,6 +139,7 @@ def create_server(backend):
     from mcp.types import ToolAnnotations
     from pydantic import Field, WithJsonSchema
     from typing import Annotated, Any, Literal
+    from .controls import MODERN_DROPDOWN_AUTHORING
     from .source import YAML_FORMULA_HINT
     from .workflows import WORKFLOW_INPUT_SCHEMA
 
@@ -317,6 +318,7 @@ def create_server(backend):
                       examples=[yaml_source_example])]
         if function is stage_control_edits:
             function.__annotations__['edits'] = list[dict[str, Any]]
+            function.__doc__ += ' ' + MODERN_DROPDOWN_AUTHORING
         if function is run_workflow:
             function.__annotations__['scenario'] = workflow_input | None
         if function is run_workflows:

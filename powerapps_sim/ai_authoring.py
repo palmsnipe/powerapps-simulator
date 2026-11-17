@@ -8,7 +8,7 @@ import re
 
 from ruamel.yaml.scalarstring import LiteralScalarString
 
-from .controls import SUPPORTED, INSPECT_OUTPUTS, contract_errors
+from .controls import SUPPORTED, INSPECT_OUTPUTS, MODERN_DROPDOWN_AUTHORING, contract_errors
 from .source import Project, dump_yaml, yaml_engine
 
 
@@ -87,13 +87,17 @@ def read_control(project, path, source=None):
     c = resolve(project, path, source)
     versions = sorted(SUPPORTED.get(c.family, ()))
     component = project.components.get(c.raw.get('ComponentName')) if c.family == 'CanvasComponent' else c if c.family == 'Component' else None
+    note = ('Local simulator contract; authored properties are formulas, not evaluated values. '
+            'Defaults and runtime timing depend on the control version and context.')
+    if c.kind == 'ModernDropdown@1.0.0':
+        note += ' ' + MODERN_DROPDOWN_AUTHORING
     return {**describe(c), 'definition': {k: v for k, v in c.raw.items() if k != 'Children'},
             'property_lines': {k: location(c.properties, k) for k in c.properties},
             'contract': {'supported': c.version in versions, 'supported_versions': versions,
                          'outputs': list(INSPECT_OUTPUTS.get(c.family, ())),
                          'findings': contract_errors(c),
                          'custom_properties': component.raw.get('CustomProperties', {}) if component else {},
-                         'note': 'Local simulator contract; authored properties are formulas, not evaluated values. Defaults and runtime timing depend on the control version and context.'}}
+                         'note': note}}
 
 
 def _name(value, label):

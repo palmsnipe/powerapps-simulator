@@ -14,6 +14,7 @@ def test_prompt_requires_ai_authored_creation_then_edits_without_reference_sourc
     assert 'create_project' in prompt and 'initially empty' in prompt
     assert 'at least THREE' in prompt and 'Phase 2' in prompt and 'staged edits' in prompt
     assert 'Screens:' not in prompt and 'Children:' not in prompt and '=Patch(' not in prompt
+    assert 'DefaultSelectedItems' not in prompt  # The simulator's ModernDropdown uses Default.
     assert 'Do not use shell' in prompt
     workflows = acceptance_workflows()
     assert len(workflows) == 4
