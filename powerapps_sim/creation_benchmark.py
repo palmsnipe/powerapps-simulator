@@ -374,10 +374,17 @@ def verify_browser(root):
             workspace.runtime.close()
 
 
-def run_trial(root, executable='codex', timeout=900, *, browser=False):
+def run_trial(root, executable='codex', timeout=900, *, browser=False, skill=None):
+    prompt = trial_prompt()
+    if skill is not None:
+        guidance = skill.read_text(encoding='utf-8').strip()
+        if not guidance:
+            raise ValueError('The benchmark skill file is empty')
+        # Host skill discovery is disabled for every trial. Give the model the
+        # selected skill directly so it needs no extra tools or file access.
+        prompt += '\nUse the following simulator authoring skill for this task.\n\n' + guidance + '\n'
     root.mkdir(parents=True, exist_ok=False)
     (root / 'projects').mkdir()
-    prompt = trial_prompt()
     atomic_write(root / 'prompt.txt', prompt)
     command, client = codex_command(root, 'from_scratch', executable, workspace=True,
                                    server_module='powerapps_sim.creation_benchmark')
@@ -416,7 +423,8 @@ def run_trial(root, executable='codex', timeout=900, *, browser=False):
                   'cached input included in input, not added again. Setup, scoring, browser and coordinating chat '
                   'excluded from model metrics. Human interventions are corrective prompts/edits after launch. '
                   'Raw client and service logs retained locally; this is one trial, not a general speed estimate.',
-              'client': client, 'elapsed_seconds': elapsed, 'exit_code': exit_code, 'timed_out': timed_out,
+              'client': client, 'skill': str(skill.resolve()) if skill is not None else None,
+              'elapsed_seconds': elapsed, 'exit_code': exit_code, 'timed_out': timed_out,
               'client_metrics': metrics, 'manual_interventions': 0, 'corrective_prompts': 0,
               'simulator_calls': len(calls), 'simulator_failures': sum(c['status'] == 'failed' for c in calls),
               'operations': dict(Counter(c['operation'] for c in calls)),
@@ -445,11 +453,12 @@ def main():
     parser.add_argument('--codex', default='codex')
     parser.add_argument('--timeout', type=int, default=900)
     parser.add_argument('--browser', action='store_true', help='Also score the generated app in Chromium on a private copy')
+    parser.add_argument('--skill', type=Path, help='Include this SKILL.md in the prompt while keeping host skill discovery disabled')
     args = parser.parse_args()
     if args.serve:
         serve(args.workspace, args.log)
         return
-    result = run_trial(args.output.resolve(), args.codex, args.timeout, browser=args.browser)
+    result = run_trial(args.output.resolve(), args.codex, args.timeout, browser=args.browser, skill=args.skill)
     print(json.dumps({k: result[k] for k in ('status', 'simulator_calls', 'elapsed_seconds', 'manual_interventions')}
                      | {'usage': result['client_metrics']['usage'], 'verification': result['verification']['passed']}), flush=True)
     raise SystemExit(0 if result['status'] == 'passed' else 1)
