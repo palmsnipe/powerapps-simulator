@@ -29,7 +29,7 @@ from .workflows import summarize
 
 TOOLS = {'describe_project', 'create_project', 'read_source', 'read_list', 'read_list_schema',
          'read_controls', 'read_control', 'read_diagnostics', 'read_runtime', 'evaluate_formula',
-         'list_workflows', 'run_workflow', 'run_workflows', 'read_workflow_report',
+         'list_workflows', 'run_workflow', 'run_workflows', 'validate_workflows', 'read_workflow_report',
          'stage_control_edits', 'stage_change', 'list_changes', 'apply_change',
          'restart_preview', 'export_source'}
 SEEDS = [{'ID': 1, 'Title': 'Plan release', 'Done': False},
@@ -173,12 +173,15 @@ def phase_evidence(calls):
     base_files = set(creation['arguments'].get('workflows') or {})
     baseline_files = set()
     for i, c in completed:
-        if c['operation'] not in ('run_workflow', 'run_workflows'):
+        if c['operation'] not in ('run_workflow', 'run_workflows', 'validate_workflows'):
             continue
         result, args = c['result'], c['arguments']
         if result.get('status') != 'passed':
             continue
-        files = {e.get('scenario_file') for e in args.get('workflows', [args])} - {None}
+        if c['operation'] == 'validate_workflows':
+            files = {run['file'] for run in result['runs'] if run['status'] == 'passed'}
+        else:
+            files = {e.get('scenario_file') for e in args.get('workflows', [args])} - {None}
         if args.get('change_id'):
             tested.setdefault(args['change_id'], []).append((i, files))
         elif create_index < i < feature_stage_index:

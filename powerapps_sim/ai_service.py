@@ -20,9 +20,10 @@ OPERATIONS = ('describe_project', 'read_source', 'read_list', 'read_diagnostics'
               'read_runtime', 'read_dependencies', 'evaluate_formula', 'export_source', 'list_changes', 'stage_change',
               'apply_change', 'undo_change', 'list_workflows', 'run_workflow', 'read_workflow_report',
               'read_controls', 'read_control', 'read_list_schema', 'stage_control_edits', 'run_workflows', 'restart_preview',
-              'create_project')
+              'create_project', 'list_projects', 'open_project', 'validate_workflows')
+WORKSPACE_OPERATIONS = {'list_projects', 'open_project'}
 WRITES = {'stage_change', 'apply_change', 'undo_change', 'run_workflow',
-          'stage_control_edits', 'run_workflows', 'restart_preview', 'create_project'}
+          'stage_control_edits', 'run_workflows', 'restart_preview', 'create_project', 'validate_workflows'}
 
 
 class AIService:
@@ -37,12 +38,12 @@ class AIService:
             raise ValueError('Operation arguments must be an object')
         with self.workspace.lock:
             current = str(self.workspace.project.root) if self.workspace.project else None
-            if expected_project is not None and expected_project != current:
-                raise RevisionConflict('The workspace now owns a different project. Reconnect the adapter explicitly.')
+            if operation not in WORKSPACE_OPERATIONS and expected_project is not None and expected_project != current:
+                raise RevisionConflict('The workspace now owns a different project. Call list_projects and explicitly open_project to rebind.')
             if operation in WRITES and expected_project is None and not (operation == 'create_project' and current is None):
                 raise ValueError('Mutating AI operations require expected_project')
-            if current is None and operation not in ('create_project', 'describe_project'):
-                raise ValueError('No project is open; call create_project first')
+            if current is None and operation not in WORKSPACE_OPERATIONS | {'create_project', 'describe_project'}:
+                raise ValueError('No project is open; call open_project or create_project first')
             method = getattr(self, operation)
             try:
                 inspect.signature(method).bind(**arguments)
@@ -53,15 +54,29 @@ class AIService:
             return deepcopy(serial(result))
 
     def describe_project(self):
+        from .workflows import workflow_revision
+
         if self.workspace.project is None:
             return {'api_version': 1, 'workspace_root': str(self.workspace.root), 'project_path': None,
-                    'revision': None, 'runtime_started': False, 'operations': ['describe_project', 'create_project'],
-                    'note': 'Empty local workspace. Call create_project to create and bind an app.'}
+                    'revision': None, 'workflow_revision': None, 'runtime_started': False,
+                    'operations': ['describe_project', 'list_projects', 'open_project', 'create_project'],
+                    'note': 'Call list_projects and open_project, or create_project to create and bind an app.'}
         result = self.workspace.summary()
         result.update(api_version=1, workspace_root=str(self.workspace.root), operations=list(OPERATIONS), data_revision=data_revision(self.workspace.runtime.store),
+            workflow_revision=workflow_revision(self.workspace.project.root),
             runtime_started=self.workspace.runtime.started, pending_source=self.workspace.runtime.pending_source,
             running_revision=self._running_revision_note())
         return result
+
+    def list_projects(self):
+        w = self.workspace
+        current = w.project.root if w.project else None
+        return {'workspace_root': str(w.root), 'active_project_id': current.name if current and current.parent == w.root else None,
+                'projects': w.list_projects()}
+
+    def open_project(self, project_id):
+        self.workspace.open_project(project_id, start=False)
+        return {'status': 'opened', **self.describe_project()}
 
     def create_project(self, name, title=None, sources=None, lists=None, records=None, workflows=None,
                        viewport=None, environment=None, strict=True, expected_revision=None):
@@ -208,20 +223,24 @@ class AIService:
     def list_changes(self):
         return {'revision': revision(self.workspace.project.root), 'changes': self.workspace.authoring.history()}
 
-    def stage_change(self, expected_revision, sources=None, lists=None, migrations=None, title='AI project change', strict=False):
+    def stage_change(self, expected_revision, sources=None, lists=None, migrations=None, title='AI project change',
+                     strict=False, workflows=None, expected_workflow_revision=None):
         return self.workspace.authoring.stage(expected_revision=expected_revision, sources=sources, lists=lists,
-            migrations=migrations, title=title, strict=strict)
+            migrations=migrations, title=title, strict=strict, workflows=workflows,
+            expected_workflow_revision=expected_workflow_revision)
 
     def stage_control_edits(self, expected_revision, edits, lists=None, migrations=None,
-                            title='AI control edits', strict=False):
+                            title='AI control edits', strict=False, workflows=None, expected_workflow_revision=None):
         from .ai_authoring import edit_sources
         self.workspace.authoring.check_revision(expected_revision)
         sources = edit_sources(Project(self.workspace.project.root), edits)
         change = self.workspace.authoring.stage(expected_revision=expected_revision, sources=sources,
-            lists=lists, migrations=migrations, title=title, strict=strict)
+            lists=lists, migrations=migrations, title=title, strict=strict, workflows=workflows,
+            expected_workflow_revision=expected_workflow_revision)
         # The agent already sent the edits; return their diff, not entire YAML documents.
-        return {**{k: v for k, v in change.items() if k not in ('sources', 'lists')},
-                'changed_sources': list(change['sources']), 'changed_lists': list(change['lists'])}
+        return {**{k: v for k, v in change.items() if k not in ('sources', 'lists', 'workflows')},
+                'changed_sources': list(change['sources']), 'changed_lists': list(change['lists']),
+                'changed_workflows': list(change.get('workflows', {}))}
 
     def apply_change(self, change_id, expected_revision):
         return self.workspace.authoring.apply(change_id, expected_revision=expected_revision)
@@ -243,7 +262,7 @@ class AIService:
         if (scenario is None) == (scenario_file is None):
             raise ValueError('Provide exactly one inline scenario or scenario_file from list_workflows')
         if scenario_file is not None:
-            entry = next((e for e in self.workspace.workflows.catalog()['scenarios'] if e['file'] == scenario_file), None)
+            entry = next((e for e in self.workspace.workflows.catalog(change_id)['scenarios'] if e['file'] == scenario_file), None)
             if entry is None or entry.get('error'):
                 raise ValueError('Valid workflow file not found in the project catalog')
             scenario = entry['scenario']
@@ -257,7 +276,7 @@ class AIService:
         if not isinstance(workflows, list) or not 1 <= len(workflows) <= 20:
             raise ValueError('Provide between 1 and 20 workflows')
         self.workspace.authoring.check_revision(expected_revision)
-        catalog = {e['file']: e for e in self.workspace.workflows.catalog()['scenarios']}
+        catalog = {e['file']: e for e in self.workspace.workflows.catalog(change_id)['scenarios']}
         scenarios = []
         for entry in workflows:
             if not isinstance(entry, dict) or set(entry) not in ({'scenario'}, {'scenario_file'}):
@@ -278,6 +297,9 @@ class AIService:
                 'revision': expected_revision, 'change_id': change_id, 'runs': reports,
                 'passed': sum(r['status'] == 'passed' for r in reports),
                 'failed': sum(r['status'] == 'failed' for r in reports)}
+
+    def validate_workflows(self, expected_revision, change_id=None):
+        return self.workspace.workflows.validate_saved(expected_revision, change_id)
 
     def restart_preview(self, expected_revision):
         w = self.workspace

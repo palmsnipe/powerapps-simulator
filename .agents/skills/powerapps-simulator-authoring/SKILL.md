@@ -5,7 +5,7 @@ description: Create or edit local canvas apps through the Power Apps Simulator M
 
 # Power Apps simulator authoring
 
-Use the simulator's versioned control contracts. Call `describe_project` for the bound project and revision. Use `read_controls` to locate existing controls, `read_control` for a specific version and its authored properties, and `read_list_schema` for field names and types. Read full source or sample rows when the change needs them.
+Use the simulator's versioned control contracts. Call `describe_project` for the bound project and revisions. To switch to an existing app, call `list_projects` and then `open_project` with the selected ID. This also rebinds a stale MCP connection after a browser project switch. Use `read_controls` to locate existing controls, `read_control` for a specific version and its authored properties, and `read_list_schema` for field names and types. Read full source or sample rows when the change needs them.
 
 ## Create a project
 
@@ -56,7 +56,16 @@ Before sending source to `create_project` or `stage_change`, scan all property f
 }
 ```
 
-Run the saved workflows after creation to establish a baseline. For a scenario that simulates a failed write, use a step with `"op": "failure", "list": "<declared list name>", "mode": "write"`, then clear it with another step using `"mode": null`. Use `"expect_blocked": true` when testing a deliberately disabled control. For dropdown events, use `OnChange` and `"selection": [1]` for the second option, including on single-select controls. For gallery rows, resolve the rendered control with a `target` formula such as `First(ProjectGallery.AllItems).EditButton`.
+**Use control paths in `event.path` and Power Fx expressions in `assert.formula`.** To type into `NewTitle` on the `Main` screen and check the resulting text, use these steps.
+
+```json
+[
+  {"op": "event", "path": "Main/NewTitle", "event": "OnChange", "value": "Draft title"},
+  {"op": "assert", "formula": "NewTitle.Text", "expect": "Draft title"}
+]
+```
+
+Run `validate_workflows` with the returned revision to establish the saved baseline. For a scenario that simulates a failed write, use a step with `"op": "failure", "list": "<declared list name>", "mode": "write"`, then clear it with another step using `"mode": null`. Use `"expect_blocked": true` when testing a deliberately disabled control. For dropdown events, use `OnChange` and `"selection": [1]` for the second option, including on single-select controls. For gallery rows, resolve the rendered control with a `target` formula such as `First(ProjectGallery.AllItems).EditButton`.
 
 ## Stage, test, and verify
 
@@ -81,8 +90,8 @@ Use `stage_control_edits` for focused control edits and `stage_change` for broad
 
 Inspect the candidate diff and diagnostics before testing it. Batch relevant saved and inline tests with `run_workflows`, passing the base revision, candidate `change_id`, and entries containing either `scenario_file` or `scenario`. Scenario writes run in isolated snapshots. Test the visible behavior and resulting records, including defaults before any interaction.
 
-Apply the passing candidate when authorized. `apply_change` reruns every saved workflow and blocks on any failure.
+To repair a saved test, stage the full corrected scenario with `stage_change`. Pass `workflows` as a map from the exact filename to the scenario, plus `expected_workflow_revision` from `describe_project` or `list_workflows`. Call `validate_workflows` with the candidate ID to test the resulting suite by filename. Apply the passing candidate when authorized. `apply_change` repeats the suite check before publishing the changes.
 
-**When repairing a failing baseline**, stage and test the repair by itself. After applying it, explicitly call `run_workflows` on all saved scenarios with `expected_revision` set to the apply result's `after_revision`. Omit `change_id` so the run targets the newly saved baseline. Wait for this run to pass before staging the next feature.
+**When repairing a failing baseline**, stage and test the repair by itself. After applying it, call `validate_workflows` with `expected_revision` set to the apply result's `after_revision`. Omit `change_id` so the run targets the newly saved baseline. Wait for this run to pass before staging the next feature.
 
 After the final apply, use the returned `after_revision` to restart the preview when the task calls for live verification. Restart resets unsaved runtime state and runs startup and screen visibility formulas. Check diagnostics and verify the changed value or interaction.

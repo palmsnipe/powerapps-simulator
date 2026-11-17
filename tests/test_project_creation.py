@@ -215,7 +215,85 @@ def test_apply_checks_current_saved_files_instead_of_prior_passing_reports(backe
     (backend.workspace.project.root / 'tests/create.workflow.json').write_text('{', encoding='utf-8')
     with pytest.raises(ValueError, match=r'invalid saved workflows.*create\.workflow\.json'):
         backend.call('apply_change', change_id=change['id'], expected_revision=base)
+
+
+def test_saved_workflow_repairs_are_reviewable_atomic_and_revision_checked(backend):
+    supplied = payload()
+    supplied['workflows']['create.workflow.json']['steps'][0]['expect'] = 99
+    supplied['workflows']['other.workflow.json'] = deepcopy(SCENARIO)
+    created = backend.call('create_project', **supplied)
+    base = created['revision']
+    tests = backend.workspace.project.root / 'tests'
+    malformed = tests / 'other.workflow.json'
+    malformed.write_text('{ broken', encoding='utf-8')
+    initial = backend.call('validate_workflows', expected_revision=base)
+    assert [(r['file'], r['status']) for r in initial['runs']] == [
+        ('create.workflow.json', 'failed'), ('other.workflow.json', 'invalid')]
+    original_workflows = {file.name: file.read_bytes() for file in tests.iterdir()}
+
+    def stage(workflows):
+        return backend.call('stage_change', expected_revision=base,
+            expected_workflow_revision=initial['workflow_revision'], workflows=workflows)
+
+    partial = stage({'create.workflow.json': SCENARIO})
+    checked = backend.call('validate_workflows', expected_revision=base, change_id=partial['id'])
+    assert [r['status'] for r in checked['runs']] == ['passed', 'invalid']
+    with pytest.raises(ValueError, match='invalid saved workflows.*other.workflow.json'):
+        backend.call('apply_change', expected_revision=base, change_id=partial['id'])
+    assert {file.name: file.read_bytes() for file in tests.iterdir()} == original_workflows
+    with pytest.raises(ValueError, match='Scenario must be an object'):
+        stage({'other.workflow.json': None})
+
+    repaired = stage({'create.workflow.json': SCENARIO, 'other.workflow.json': SCENARIO,
+                      'added.workflow.json': SCENARIO})
+    assert {d['path'] for d in repaired['diffs']} == {
+        'tests/create.workflow.json', 'tests/other.workflow.json', 'tests/added.workflow.json'}
+    checked = backend.call('validate_workflows', expected_revision=base, change_id=repaired['id'])
+    assert checked['status'] == 'passed' and checked['passed'] == 3
+    added = backend.call('run_workflow', expected_revision=base, change_id=repaired['id'],
+                         scenario_file='added.workflow.json')
+    assert added['status'] == 'passed'
+    assert not (tests / 'added.workflow.json').exists()
+
+    applied = backend.call('apply_change', expected_revision=base, change_id=repaired['id'])
+    assert applied['after_revision'] == base
+    assert applied['after_workflow_revision'] != initial['workflow_revision']
+    assert not backend.call('read_runtime')['pending_source']
+    assert backend.call('validate_workflows', expected_revision=base)['passed'] == 3
+    with pytest.raises(RevisionConflict, match='workflows changed'):
+        backend.call('apply_change', expected_revision=base, change_id=partial['id'])
+
+    changed = malformed.read_bytes()
+    malformed.write_bytes(changed + b'\n')
+    with pytest.raises(RevisionConflict, match='Undo would overwrite'):
+        backend.call('undo_change', expected_revision=base, change_id=repaired['id'])
+    malformed.write_bytes(changed)
+    assert backend.call('undo_change', expected_revision=base, change_id=repaired['id'])['status'] == 'undone'
+    assert {file.name: file.read_bytes() for file in tests.iterdir()} == original_workflows
     assert revision(backend.project) == base
+
+
+def test_workflow_and_control_edits_are_validated_as_one_candidate(backend):
+    supplied = payload()
+    original_source = deepcopy(supplied['sources'])
+    supplied['workflows']['protected.workflow.json'] = deepcopy(SCENARIO)
+    supplied['workflows']['protected.workflow.json']['steps'].append(
+        {'op': 'assert', 'formula': 'Count.Text', 'expect': '3'})
+    created = backend.call('create_project', **supplied)
+    revision_args = {'expected_revision': created['revision']}
+    change = backend.call('stage_control_edits', **revision_args,
+        expected_workflow_revision=created['workflow_revision'],
+        edits=[{'op': 'set_property', 'path': 'Home/Count', 'property': 'Text', 'value': '="New title"'}],
+        workflows={'title.workflow.json': {'format_version': 1, 'name': 'Verify title', 'steps': [
+            {'op': 'assert', 'formula': 'Count.Text', 'expect': 'New title'}]}})
+    gate = backend.call('validate_workflows', **revision_args, change_id=change['id'])
+    assert {r['file']: r['status'] for r in gate['runs']} == {
+        'create.workflow.json': 'passed', 'protected.workflow.json': 'failed', 'title.workflow.json': 'passed'}
+    with pytest.raises(ValueError, match='failing saved workflows.*protected.workflow.json'):
+        backend.call('apply_change', **revision_args, change_id=change['id'])
+    assert backend.call('export_source')['documents'] == original_source
+    assert {w['file'] for w in backend.call('list_workflows')['scenarios']} == {
+        'create.workflow.json', 'protected.workflow.json'}
 
 
 @pytest.mark.parametrize('arguments', [

@@ -14,7 +14,7 @@ from .ownership import ProjectLease
 from .runtime import Runtime
 from .source import Project, YAML_FORMULA_HINT, dump_yaml
 from .store import ListStore
-from .workflows import STARTER, validate
+from .workflows import STARTER, validate, validate_workflow_changes
 
 
 def project_name(name):
@@ -71,14 +71,7 @@ def create_project(workspace, *, name, title=None, sources=None, lists=None, rec
             not isinstance(rows, list) or len(rows) > 10000 or any(not isinstance(row, dict) for row in rows)
             for rows in records.values()):
         raise ValueError('records must map declared list names to arrays of at most 10,000 sample records')
-    if not isinstance(workflows, dict) or len(workflows) > 100:
-        raise ValueError('workflows must map up to 100 workflow filenames to scenario objects')
-    if any(not isinstance(filename, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,63}\.workflow\.json', filename)
-           for filename in workflows) or len({n.casefold() for n in workflows}) != len(workflows):
-        raise ValueError('Workflow filenames must be unique portable basenames ending in .workflow.json')
-    for filename in workflows:
-        project_name(filename.removesuffix('.workflow.json'))
-    workflows = {filename: validate(scenario) for filename, scenario in workflows.items()}
+    workflows = validate_workflow_changes(workflows)
     viewport = {'width': 1366, 'height': 768} if viewport is None else deepcopy(viewport)
     if not isinstance(viewport, dict) or set(viewport) != {'width', 'height'} or any(
             type(v) is not int or not 200 <= v <= 4000 for v in viewport.values()):
@@ -163,6 +156,6 @@ def create_project(workspace, *, name, title=None, sources=None, lists=None, rec
     result.update(status='created', created_sources=list(normalized),
                   sample_record_counts={n: len(records.get(n, [])) for n in lists},
                   workflow_files=list(workflows), diagnostics=diagnostics,
-                  note='Project created and bound without startup. Acceptance workflows are saved, not executed. '
-                       'Run workflows, then explicitly restart_preview; refresh the browser after switching projects.')
+                  note='Project created and bound without startup. Call validate_workflows with the returned revision '
+                       'to check the saved suite, then explicitly restart_preview when ready.')
     return result

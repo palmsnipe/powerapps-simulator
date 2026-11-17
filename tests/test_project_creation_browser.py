@@ -1,5 +1,6 @@
 """Create through real attached MCP, then interact with the new app in a browser."""
 import asyncio
+import json
 from pathlib import Path
 import sys
 import threading
@@ -78,7 +79,9 @@ def test_attached_mcp_creation_is_visible_and_editable_in_browser(tmp_path):
                     records={'Projects': [{'ID': 1, 'Title': 'Seeded example'}]},
                     workflows={'add.workflow.json': {'format_version': 1, 'name': 'Add a local project', 'steps': [
                         {'op': 'event', 'path': 'Main/AddProject', 'event': 'OnSelect'},
-                        {'op': 'assert', 'formula': 'CountRows(Projects)', 'expect': 2}, {'op': 'diagnostics', 'expect': 0}]}},
+                        {'op': 'assert', 'formula': 'CountRows(Projects)', 'expect': 2}, {'op': 'diagnostics', 'expect': 0}]},
+                        'repair.workflow.json': {'format_version': 1, 'name': 'Check the initial count', 'steps': [
+                            {'op': 'assert', 'formula': 'CountRows(Projects)', 'expect': 99}]}},
                     viewport={'width': 1000, 'height': 740})
                 assert not created['runtime_started']
                 tested = await call('run_workflows', expected_revision=created['revision'],
@@ -105,6 +108,29 @@ def test_attached_mcp_creation_is_visible_and_editable_in_browser(tmp_path):
                 page.on('pageerror', lambda error: errors.append(str(error)))
                 page.goto(url)
                 expect(page.locator('#project-title')).to_have_text('MCP scratch app')
+                page.get_by_role('button', name='Workflows', exact=True).click()
+                page.get_by_label('Workflow scenario').select_option('repair.workflow.json')
+                page.get_by_role('button', name='Validate saved suite').click()
+                expect(page.locator('#workflow-report h2')).to_have_text('1 passed · 1 failed')
+                editor = page.get_by_label('Scenario · JSON')
+                definition = json.loads(editor.input_value())
+                definition['steps'][0]['expect'] = 1
+                editor.fill(json.dumps(definition))
+                page.get_by_role('button', name='Stage saved workflow').click()
+                expect(page.locator('#change-diff')).to_contain_text('tests/repair.workflow.json')
+                page.get_by_role('button', name='Close', exact=True).click()
+                page.get_by_role('button', name='Validate saved suite').click()
+                expect(page.locator('#workflow-report h2')).to_have_text('2 passed · 0 failed')
+                page.get_by_role('button', name='Changes', exact=True).click()
+                page.locator('.change-row').filter(has_text='Edit saved workflow repair.workflow.json').get_by_role(
+                    'button', name='Review change').click()
+                page.get_by_role('button', name='Apply reviewed change').click()
+                expect(page.locator('#change-dialog')).to_be_hidden()
+                page.get_by_role('button', name='Workflows', exact=True).click()
+                page.get_by_label('Workflow source').select_option('')
+                page.get_by_role('button', name='Validate saved suite').click()
+                expect(page.locator('#workflow-report h2')).to_have_text('2 passed · 0 failed')
+                page.get_by_role('button', name='Editor & preview', exact=True).click()
                 count = page.locator('[data-control=Count]')
                 count.get_by_text('1 projects', exact=True).wait_for()
                 page.get_by_role('button', name='Add project', exact=True).click()

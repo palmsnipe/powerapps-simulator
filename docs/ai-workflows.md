@@ -24,7 +24,7 @@ HTTP attachment uses the existing browser session and database:
 python -m powerapps_sim.mcp_server --url http://127.0.0.1:8766 --expect-project "/absolute/path/to/project"
 ```
 
-The adapter pins the project identity at connection. If the browser switches projects, calls fail until explicitly reconnected. An explicit `create_project` rebinds only the calling adapter to its new app; other connections remain pinned. Only loopback HTTP is supported; environment proxies and HTTP redirects are disabled. Failed writes are never retried automatically. The editor's generated settings include the project check from the first request.
+The adapter pins the project identity at connection. If the browser switches projects, use `list_projects` to discover the active ID, then `open_project(project_id)` to rebind the same connection. Opening a different app replaces the shared preview and opens the selected app without startup. Selecting the active app preserves its preview. `open_project` and `create_project` only rebind the calling adapter. Other connections keep their pins and reject ordinary calls while the workspace is on a different project. The editor's generated command works from any working directory and checks the expected project on initial connection. Only loopback HTTP is supported, and failed writes are never retried automatically.
 
 For headless authoring while the project's browser server is stopped:
 
@@ -40,17 +40,17 @@ To create an app from scratch without importing anything or starting a browser:
 python -m powerapps_sim.mcp_server --workspace "/absolute/path/to/projects"
 ```
 
-The AI client launches this command as a stdio server. No demo or initial app is created. `describe_project` reports the workspace root and null project/revision; call `create_project` before using project-bound tools. Once created, the same connection supports the complete authoring loop. Stop the headless server before opening its project in the browser.
+The AI client launches this command as a stdio server. It starts with no app selected. Use `list_projects` and `open_project` for an existing app in that workspace, or call `create_project` to scaffold one. Stop the headless server before opening its active project in the browser.
 
-The 23 tools are:
+The 26 tools are:
 
 | Purpose | Tools |
 | --- | --- |
-| Create | `create_project` |
+| Select or create | `list_projects`, `open_project`, `create_project` |
 | Inspect | `describe_project`, `read_source`, `read_list`, `read_list_schema`, `read_controls`, `read_control`, `read_diagnostics`, `read_analysis`, `read_runtime`, `read_dependencies` |
 | Evaluate/export | `evaluate_formula`, `export_source` |
 | Author | `list_changes`, `stage_change`, `stage_control_edits`, `apply_change`, `undo_change` |
-| Verify | `list_workflows`, `run_workflow`, `run_workflows`, `read_workflow_report` |
+| Verify | `list_workflows`, `validate_workflows`, `run_workflow`, `run_workflows`, `read_workflow_report` |
 | Preview | `restart_preview` |
 
 Seven JSON resources expose `powerapps://project`, `diagnostics`, `analysis`, `runtime`, `dependencies`, `changes` and `workflows`. Source reads return saved YAML/App properties/control exports; runtime/type reads and pure evaluation observe the running source. Responses identify when saved and running source differ. Formula language errors are typed values; invalid arguments, ownership and revision conflicts are tool errors. Reading runtime state does not render controls or drain queued events. List reads are paged (1–500 records).
@@ -110,7 +110,7 @@ OnSelect: >-
   =Set(settings, {Enabled: true})
 ```
 
-The result includes project/workspace paths, revision, screens, source names, list names, sample record counts, workflow files and diagnostics. Continue with `run_workflows`, `stage_control_edits` or `stage_change`, then `apply_change` and `restart_preview`. Refresh the browser after an HTTP creation to load the new project title/source. Creation has the destructive annotation because it can switch the active project; configure approval for this explicitly authorized action in the AI client as appropriate.
+The result includes project/workspace paths, revisions, screens, source names, list names, sample record counts, workflow files and diagnostics. Call `validate_workflows(expected_revision)` to check the saved baseline before staging a feature. Refresh the browser after an MCP create or switch to load the new project title and source. Creation and switching can replace the shared preview and are annotated as destructive operations in MCP.
 
 Source export includes the app YAML/formulas; local schemas, SQLite records and acceptance workflows remain simulator project files. Everything in this flow uses the local simulator, without Microsoft authentication or deployment.
 
@@ -145,7 +145,11 @@ Edits use the round-trip YAML writer on affected documents: comments, quoted for
 
 `run_workflows(expected_revision, workflows, change_id?)` accepts 1–20 entries, each containing exactly one `scenario_file` from the workflow catalog or an inline `scenario`. All definitions are validated before any run. Every scenario starts in its own disposable runtime/database; failures do not contaminate subsequent scenarios. Results include batch pass/fail counts, failed assertions/actions with source control paths or scopes, diagnostics, writes, skipped-step counts and report IDs. Complete resolved environment and ordered traces remain available through `read_workflow_report`. Passing assertions and app diagnostics remain separate evidence.
 
-Apply reruns every project-saved `tests/*.workflow.json` against the staged candidate in disposable snapshots. An invalid definition or failed run blocks the apply and leaves the candidate staged. A failure names the saved file and its report ID. Earlier passes and inline checks do not replace the current saved suite. Bundled example scenarios remain available for manual testing.
+`validate_workflows(expected_revision, change_id?)` runs the entire saved suite and returns each filename, failed steps or definition errors, and report IDs. With a change ID, both source/schema changes and staged workflow edits participate in the run. In the browser, select the saved project or a staged change under **Workflows**, then choose **Validate saved suite**.
+
+To repair or add a saved definition, use `stage_change` with `workflows` mapping exact `NAME.workflow.json` filenames to complete scenario objects. Send `expected_revision` and `expected_workflow_revision` from `describe_project` or `list_workflows`. Use the same fields with `stage_control_edits` to review a control edit and its tests together. In the browser, select a scenario, edit its JSON, and choose **Stage saved workflow** to review the diff.
+
+Apply reruns every resulting project-saved `tests/*.workflow.json` against the candidate in disposable snapshots. An invalid definition or failed run blocks publication and leaves the candidate staged. A passing inline scenario leaves the stored definition in place. Workflow patches support additions and replacements, and undo restores the previous files. The workflow revision prevents a stale repair or undo from overwriting newer test edits.
 
 `restart_preview(expected_revision)` explicitly reloads saved source in the owned workspace. It **discards unsaved control/variable state and runs OnStart/OnVisible**, which can write local records. It is a mutating tool, requires project identity and revision checks, and is never called automatically by staging, applying or testing. It can also start a headless session explicitly; ordinary headless reads still run no startup behavior. The next browser state refresh displays the new runtime; use the browser's Refresh values or Restart app action if its current view is stale.
 
@@ -262,7 +266,7 @@ A coding agent can use the current HTTP API against the running workspace:
 | Review history | `GET /api/changes` |
 | Apply / undo | `POST /api/changes/<id>/apply` / `POST /api/changes/<id>/undo` |
 
-POST uses JSON and the existing `X-Emulator-Request: 1` header. A staged request has `expected_revision`, optional `title`, `sources` (path to full text, or null for deletion), `lists` (list name to full definition), `migrations` (list name to rename/drop instructions), and optional `strict`. Apply/undo send the expected revision: base_revision for apply, after_revision for undo. Re-read/restage after a conflict rather than blindly retrying. Power Apps **Export source** still excludes schemas, configuration, database and history.
+POST uses JSON and the existing `X-Emulator-Request: 1` header. A staged request has `expected_revision`, optional `title`, `sources` (path to full text, or null for deletion), `lists` (list name to full definition), `migrations` (list name to rename/drop instructions), and optional `strict`. For saved workflow edits, include `workflows` and `expected_workflow_revision`. Apply uses `base_revision`, and undo uses `after_revision`. Re-read the current project and restage after a conflict. Power Apps **Export source** contains source and assets.
 
 When the browser server is stopped, use the headless CLI:
 

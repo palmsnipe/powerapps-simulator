@@ -8,7 +8,7 @@ let requestQueue=Promise.resolve();
 const json = value => JSON.stringify(value, null, 2);
 const status = (message,error=false) => {$('status').textContent=message;$('status').classList.toggle('error',error);};
 function element(tag, attrs={}, content){const e=document.createElement(tag);for(const [k,v] of Object.entries(attrs)){if(k==='class')e.className=v;else e.setAttribute(k,v);}if(content!==undefined)e.textContent=content;return e;}
-async function api(path, data, form){const options=data===undefined?{}:{method:'POST',headers:{'X-Emulator-Request':'1'},body:form?data:JSON.stringify(data)};if(data!==undefined&&!form)options.headers['Content-Type']='application/json';const response=await fetch(path,options);const result=await response.json();if(!response.ok){const error=new Error(result.error||response.statusText);error.conflict=!!result.conflict;error.draftSaved=!!result.draft_saved;throw error;}if(inspectorMode==='dependencies'&&result&&Object.hasOwn(result,'tree')&&Object.hasOwn(result,'globals'))await loadDependencies();if(inspectorMode==='components'&&result&&Object.hasOwn(result,'tree')&&Object.hasOwn(result,'globals'))result.component_contracts=await api('/api/component-inspection');return result;}
+async function api(path, data, form){const options=data===undefined?{}:{method:'POST',headers:{'X-Emulator-Request':'1'},body:form?data:JSON.stringify(data)};if(data!==undefined){if(!form)options.headers['Content-Type']='application/json';if(project?.project_path)options.headers['X-Emulator-Project']=encodeURIComponent(project.project_path);}const response=await fetch(path,options);const result=await response.json();if(!response.ok){const error=new Error(result.error||response.statusText);error.conflict=!!result.conflict;error.draftSaved=!!result.draft_saved;throw error;}if(inspectorMode==='dependencies'&&result&&Object.hasOwn(result,'tree')&&Object.hasOwn(result,'globals'))await loadDependencies();if(inspectorMode==='components'&&result&&Object.hasOwn(result,'tree')&&Object.hasOwn(result,'globals'))result.component_contracts=await api('/api/component-inspection');return result;}
 function action(fn){return async (...args)=>{try{return await fn(...args);}catch(error){status(error.message,true);}};}
 function enqueue(fn){requestQueue=requestQueue.then(action(fn));return requestQueue;}
 let pressedButton=null;
@@ -152,9 +152,9 @@ $('number-mode').onchange=action(async()=>{const env=JSON.parse($('environment-e
 
 $('round-table-mode').onchange=action(async()=>{const env=JSON.parse($('environment-editor').value);env.round_table_mode=$('round-table-mode').value;$('environment-editor').value=json(env);});
 
-function reviewChange(change){reviewedChange=change;$('change-title').textContent=change.title;$('change-impact').textContent=(change.impacts||[]).map(i=>`${i.list}: ${i.records_checked} records checked, ${i.records_changed} records changed; added ${i.added_columns.join(', ')||'none'}; removed ${i.removed_columns.join(', ')||'none'}`).join('\n')||'Source-only change. Simulation loads source on explicit restart.';$('change-diff').textContent=change.diffs.map(d=>d.diff||d.path+' (unchanged)').join('\n');$('change-diagnostics').textContent=change.diagnostics.length?json(change.diagnostics):'No current binding/source diagnostics in the candidate.';$('apply-change').hidden=change.status!=='staged';$('undo-change').hidden=change.status!=='applied';$('change-dialog').showModal();}
+function reviewChange(change){reviewedChange=change;$('change-title').textContent=change.title;$('change-impact').textContent=(change.impacts||[]).map(i=>`${i.list}: ${i.records_checked} records checked, ${i.records_changed} records changed; added ${i.added_columns.join(', ')||'none'}; removed ${i.removed_columns.join(', ')||'none'}`).join('\n')||(change.workflows?'Apply checks the resulting saved workflow suite in isolation.':'Source edits load on explicit preview restart.');$('change-diff').textContent=change.diffs.map(d=>d.diff||d.path+' (unchanged)').join('\n');$('change-diagnostics').textContent=change.diagnostics.length?json(change.diagnostics):'No current binding/source diagnostics in the candidate.';$('apply-change').hidden=change.status!=='staged';$('undo-change').hidden=change.status!=='applied';$('change-dialog').showModal();}
 async function loadChanges(){const result=await api('/api/changes');const target=$('changes-list');target.replaceChildren();if(!result.changes.length){target.append(element('p',{},'No staged or applied changes yet. Source edits and reviewed schema changes will appear here.'));return;}for(const change of result.changes){const row=element('div',{class:'change-row'});row.append(element('strong',{},change.title),element('span',{},change.status+' · '+change.created_at));const review=element('button',{},'Review change');review.onclick=()=>reviewChange(change);row.append(review);target.append(row);}}
-async function finishChange(actionName){if(!reviewedChange)return;const current=reviewedChange;await api('/api/changes/'+current.id+'/'+actionName,{expected_revision:actionName==='apply'?current.base_revision:current.after_revision});$('change-dialog').close();await refreshProject();if(!dirty&&editorSelection)await selectEditor(editorSelection);if(currentList&&project.lists.includes(currentList))await loadList();await loadChanges();state=await api('/api/state');renderState();status(actionName==='apply'?'Local change applied with an undo backup. Restart to load source edits.':'Local change undone. Restart to load restored source.');}
+async function finishChange(actionName){if(!reviewedChange)return;const current=reviewedChange;await api('/api/changes/'+current.id+'/'+actionName,{expected_revision:actionName==='apply'?current.base_revision:current.after_revision});$('change-dialog').close();await refreshProject();if(!dirty&&editorSelection)await selectEditor(editorSelection);if(currentList&&project.lists.includes(currentList))await loadList();await loadChanges();if(!$('workflows-view').hidden)await loadWorkflows();state=await api('/api/state');renderState();let message=actionName==='apply'?'Local change applied with an undo backup.':'Local change undone.';if(Object.keys(current.sources||{}).length)message+=' Restart to load source changes.';status(message);}
 $('apply-change').onclick=action(()=>finishChange('apply'));$('undo-change').onclick=action(()=>finishChange('undo'));
 
 $('ai-button').onclick=action(async()=>{const connection=await api('/api/ai-connection');$('ai-project').textContent='Project: '+connection.project_path;$('ai-sdk-status').textContent=connection.sdk_version===connection.required_sdk?'MCP SDK '+connection.sdk_version+' is installed in this Python environment.':'Install the optional MCP SDK for this Python environment (required '+connection.required_sdk+').';$('ai-install').textContent=connection.sdk_version===connection.required_sdk?'':connection.install_command;$('ai-config').value=json({command:connection.command,args:connection.args});$('ai-dialog').showModal();});
@@ -165,8 +165,9 @@ async function loadWorkflows(){
   const [catalog,changes]=await Promise.all([api('/api/workflows'),api('/api/changes')]);
   const switched=workflowCatalog?.projectPath!==project.project_path;
   workflowCatalog={...catalog,projectPath:project.project_path};workflowRevision=catalog.revision;
-  const selector=$('workflow-selector');selector.replaceChildren(element('option',{value:''},'Startup smoke / custom JSON'));
-  for(const entry of catalog.scenarios){const option=element('option',{value:entry.file},entry.scenario?.name||entry.file+' · invalid');option.disabled=!!entry.error;selector.append(option);}
+  const selector=$('workflow-selector'), selected=switched?'':selector.value;selector.replaceChildren(element('option',{value:''},'Startup smoke / custom JSON'));
+  for(const entry of catalog.scenarios)selector.append(element('option',{value:entry.file},entry.scenario?.name||entry.file+' · invalid'));
+  if(catalog.scenarios.some(entry=>entry.file===selected))selector.value=selected;
   const candidate=$('workflow-candidate');candidate.replaceChildren(element('option',{value:''},'Saved project source'));
   for(const change of changes.changes.filter(c=>c.status==='staged'))candidate.append(element('option',{value:change.id},'Staged: '+change.title));
   if(switched||!$('workflow-editor').value){$('workflow-editor').value=json(catalog.starter);lastWorkflowReport=null;$('workflow-report').replaceChildren();$('download-workflow-report').disabled=true;}
@@ -186,6 +187,43 @@ $('run-workflow').onclick=action(async()=>{
   finally{button.disabled=false;}
 });
 $('download-workflow-report').onclick=()=>{if(!lastWorkflowReport)return;const url=URL.createObjectURL(new Blob([json(lastWorkflowReport)],{type:'application/json'}));const link=element('a',{href:url,download:'workflow-'+lastWorkflowReport.id+'.json'});link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+
+$('stage-workflow').onclick=action(async()=>{
+  const selected=$('workflow-selector').value;
+  const filename=selected&&!selected.startsWith('bundled:')?selected:window.prompt('Save as workflow filename', 'new.workflow.json');
+  if(!filename)return;
+  const change=await api('/api/ai/stage_change',{
+    expected_project:workflowCatalog.projectPath,
+    arguments:{expected_revision:workflowRevision,expected_workflow_revision:workflowCatalog.workflow_revision,
+      workflows:{[filename]:JSON.parse($('workflow-editor').value)},title:'Edit saved workflow '+filename},
+  });
+  await loadWorkflows();
+  $('workflow-candidate').value=change.id;
+  reviewChange(change);
+});
+
+$('validate-workflows').onclick=action(async()=>{
+  const button=$('validate-workflows');
+  button.disabled=true;
+  try{
+    const suite=await api('/api/ai/validate_workflows',{
+      expected_project:workflowCatalog.projectPath,
+      arguments:{expected_revision:workflowRevision,change_id:$('workflow-candidate').value||null},
+    });
+    const target=$('workflow-report');
+    target.replaceChildren(element('h2',{},suite.runs.length?`${suite.passed} passed · ${suite.failed} failed`:'No saved workflows'));
+    for(const run of suite.runs){
+      const row=element('div',{class:'workflow-step '+run.status});
+      row.append(element('strong',{},run.file+' · '+run.status));
+      if(run.error)row.append(element('p',{},run.error));
+      if(run.failures?.length)row.append(element('pre',{},json(run.failures)));
+      target.append(row);
+    }
+    lastWorkflowReport=null;
+    $('download-workflow-report').disabled=true;
+    status(suite.status==='failed'?'Saved workflow validation failed.':'Saved workflow validation complete.',suite.status==='failed');
+  }finally{button.disabled=false;}
+});
 
 $('enum-mode').onchange=action(async()=>{const env=JSON.parse($('environment-editor').value);env.enum_mode=$('enum-mode').value;$('environment-editor').value=json(env);});
 

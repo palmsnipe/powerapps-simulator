@@ -42,12 +42,12 @@ WORKFLOW_INPUT_SCHEMA = {
             'required': ['op'],
             'properties': {
                 'op': {'enum': ['event', 'assert', 'failure', 'advance', 'scroll', 'diagnostics']},
-                'path': {'type': 'string', 'description': 'Control path. Event steps can use target instead.'},
+                'path': {'type': 'string', 'description': 'Control path such as Main/NewTitle. Event steps can use target instead.'},
                 'target': {'type': 'string', 'description': 'Power Fx formula that resolves an event control.'},
                 'event': {'type': 'string', 'description': 'Use OnChange for dropdown selections.'},
                 'selection': {'type': 'array', 'items': {'type': 'integer', 'minimum': 0},
                               'description': SELECTION_DESCRIPTION, 'examples': [[1]]},
-                'formula': {'type': 'string', 'description': 'Power Fx formula for an assertion.'},
+                'formula': {'type': 'string', 'description': 'Power Fx assertion such as NewTitle.Text or AddTask.DisplayMode = DisplayMode.Disabled.'},
                 'expect': {'description': 'Expected assertion value or diagnostic count.'},
             },
             'examples': [{'op': 'event', 'path': 'Main/StatusFilter', 'event': 'OnChange', 'selection': [1]}],
@@ -157,6 +157,45 @@ def validate(scenario):
     return deepcopy(scenario)
 
 
+def validate_workflow_changes(workflows):
+    from .project_creation import project_name
+
+    if not isinstance(workflows, dict) or len(workflows) > 100:
+        raise ValueError('workflows must map up to 100 workflow filenames to scenario objects')
+    if any(not isinstance(name, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,63}\.workflow\.json', name)
+           for name in workflows) or len({name.casefold() for name in workflows}) != len(workflows):
+        raise ValueError('Workflow filenames must be unique portable basenames ending in .workflow.json')
+    result = {}
+    for name, scenario in workflows.items():
+        project_name(name.removesuffix('.workflow.json'))
+        try:
+            result[name] = validate(scenario)
+        except ValueError as error:
+            raise ValueError(f'{name}: {error}') from None
+        if len(json_text(result[name]).encode('utf-8')) > 1024 * 1024:
+            raise ValueError(f'{name}: Scenario must be under 1 MB')
+    return result
+
+
+def workflow_files(root):
+    directory = Path(root) / 'tests'
+    if directory.is_symlink() or (directory.exists() and not directory.is_dir()):
+        raise ValueError('Scenario directory must be a local directory')
+    return sorted(directory.glob('*.workflow.json'))
+
+
+def workflow_revision(root):
+    digest = hashlib.sha256()
+    for path in workflow_files(root):
+        digest.update(json_text(path.name).encode())
+        if path.is_symlink() or not path.is_file():
+            digest.update(b'invalid')
+        else:
+            with path.open('rb') as source:
+                digest.update(hashlib.file_digest(source, 'sha256').digest())
+    return digest.hexdigest()
+
+
 def _copy_project(source, target, store):
     # The caller supplies the scenario. Do not copy saved tests into the
     # disposable project, where applying the candidate would run them again.
@@ -215,11 +254,8 @@ class WorkflowService:
         self.workspace = workspace
 
     def _saved_scenarios(self):
-        directory = self.workspace.project.root / 'tests'
-        if directory.is_symlink() or (directory.exists() and not directory.is_dir()):
-            raise ValueError('Scenario directory must be a local directory')
         result = []
-        for path in sorted(directory.glob('*.workflow.json')):
+        for path in workflow_files(self.workspace.project.root):
             entry = {'file': path.name}
             try:
                 if path.is_symlink() or not path.is_file() or path.stat().st_size > 1024 * 1024:
@@ -230,31 +266,51 @@ class WorkflowService:
             result.append(entry)
         return result
 
-    def verify_saved_candidate(self, change_id, expected_revision):
-        """Run the current saved suite against this candidate before publishing it."""
+    def _candidate_scenarios(self, change_id):
+        entries = {entry['file']: entry for entry in self._saved_scenarios()}
+        if change_id is not None:
+            _, candidate = self.workspace.authoring._entry(change_id)
+            entries.update({name: {'file': name, 'scenario': scenario}
+                            for name, scenario in candidate.get('workflows', {}).items()})
+        return [entries[name] for name in sorted(entries)]
+
+    def validate_saved(self, expected_revision, change_id=None):
+        """Run the exact suite that Apply would require, with concise per-file results."""
         w = self.workspace
         with w.lock:
-            saved = self._saved_scenarios()
-            if not saved:
-                return
-            invalid = [f"{entry['file']}: {entry['error']}" for entry in saved if 'error' in entry]
-            if invalid:
-                raise ValueError('Apply blocked by invalid saved workflows. ' + '\n'.join(invalid))
-
-            base_data = data_revision(w.runtime.store)
-            failures = []
+            w.authoring.check_revision(expected_revision)
+            base_workflows = workflow_revision(w.project.root)
+            if change_id is not None:
+                w.authoring.check_candidate(change_id, expected_revision, base_workflows=base_workflows)
+            saved = self._candidate_scenarios(change_id)
+            base_data = data_revision(w.runtime.store) if saved else None
+            runs = []
             for entry in saved:
-                report = self.run(entry['scenario'], expected_revision=expected_revision, change_id=change_id)
-                if report['status'] != 'passed':
-                    failures.append(f"{entry['file']} (report {report['id']})")
-            if self._saved_scenarios() != saved or data_revision(w.runtime.store) != base_data:
+                if 'error' in entry:
+                    runs.append({'file': entry['file'], 'status': 'invalid', 'error': entry['error']})
+                    continue
+                report = summarize(self.run(entry['scenario'], expected_revision=expected_revision, change_id=change_id))
+                runs.append({'file': entry['file'], **report})
+            if workflow_revision(w.project.root) != base_workflows or (saved and data_revision(w.runtime.store) != base_data):
                 raise RevisionConflict('Saved workflows or records changed during apply verification. Retry against the current project.')
-            if failures:
-                raise ValueError('Apply blocked by failing saved workflows. ' + ', '.join(failures))
+            w.authoring.check_revision(expected_revision)
+            passed = sum(run['status'] == 'passed' for run in runs)
+            return {'status': 'passed' if passed == len(runs) else 'failed', 'revision': expected_revision,
+                    'workflow_revision': base_workflows, 'change_id': change_id, 'runs': runs,
+                    'passed': passed, 'failed': len(runs) - passed}
 
-    def catalog(self):
+    def verify_saved_candidate(self, change_id, expected_revision):
+        report = self.validate_saved(expected_revision, change_id)
+        invalid = [f"{run['file']}: {run['error']}" for run in report['runs'] if run['status'] == 'invalid']
+        if invalid:
+            raise ValueError('Apply blocked by invalid saved workflows. ' + '\n'.join(invalid))
+        failures = [f"{run['file']} (report {run['id']})" for run in report['runs'] if run['status'] == 'failed']
+        if failures:
+            raise ValueError('Apply blocked by failing saved workflows. ' + ', '.join(failures))
+
+    def catalog(self, change_id=None):
         with self.workspace.lock:
-            result = self._saved_scenarios()
+            result = self._candidate_scenarios(change_id)
             examples = Path(__file__).parent / 'examples'
             stored = {entry['file'] for entry in result}
             for name in ('forms', 'lifecycle', 'demo'):
@@ -263,7 +319,9 @@ class WorkflowService:
                     for filename, scenario in json.loads((examples / f'{name}.workflows.json').read_text(encoding='utf-8')).items():
                         if filename not in stored:
                             result.append({'file': 'bundled:' + filename, 'scenario': validate(scenario), 'origin': 'bundled fixture'})
-            return {'scenarios': result, 'starter': deepcopy(STARTER), 'revision': revision(self.workspace.project.root)}
+            root = self.workspace.project.root
+            return {'scenarios': result, 'starter': deepcopy(STARTER), 'revision': revision(root),
+                    'workflow_revision': workflow_revision(root)}
 
     def report(self, run_id):
         with self.workspace.lock:
@@ -282,11 +340,7 @@ class WorkflowService:
             data_base = data_revision(w.runtime.store)
             candidate = None
             if change_id is not None:
-                _, candidate = w.authoring._entry(change_id)
-                if candidate['status'] != 'staged':
-                    raise ValueError('Workflow candidate must be a staged change')
-                if candidate['base_revision'] != base or (candidate['data_revision'] is not None and candidate['data_revision'] != data_base):
-                    raise RevisionConflict('Staged change is stale; stage it again before testing')
+                _, candidate = w.authoring.check_candidate(change_id, base, base_data=data_base)
             root = Path(temporary) / 'project'
             root.mkdir()
             _copy_project(w.project.root, root, w.runtime.store)
@@ -294,7 +348,7 @@ class WorkflowService:
             from .application import Workspace
             isolated = Workspace(Path(temporary), root, start=False)
             try:
-                if candidate:
+                if candidate and (candidate['sources'] or candidate['lists']):
                     change = isolated.authoring.stage(expected_revision=revision(root), sources=candidate['sources'],
                         lists=candidate['lists'], migrations=candidate['migrations'], strict=candidate['strict'], title=candidate['title'])
                     isolated.authoring.apply(change['id'], expected_revision=change['base_revision'])

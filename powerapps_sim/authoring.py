@@ -127,6 +127,23 @@ class AuthoringService:
             raise ValueError('Change not found in this project')
         return target, json.loads(target.read_text(encoding='utf-8'))
 
+    def check_candidate(self, change_id, base, *, base_data=None, base_workflows=None):
+        manifest, entry = self._entry(change_id)
+        if entry['status'] != 'staged':
+            raise ValueError('Only staged changes can be applied or tested')
+        if entry['base_revision'] != base:
+            raise RevisionConflict('Staged change is stale. Create a new review against the current project.')
+        if entry['data_revision'] is not None:
+            actual = data_revision(self.store) if base_data is None else base_data
+            if entry['data_revision'] != actual:
+                raise RevisionConflict('List records changed after staging. The migration is stale and must be reviewed against current records.')
+        if entry.get('base_workflow_revision') is not None:
+            from .workflows import workflow_revision
+            actual = workflow_revision(self.root) if base_workflows is None else base_workflows
+            if entry['base_workflow_revision'] != actual:
+                raise RevisionConflict('Saved workflows changed after staging. Review the current workflows and stage again.')
+        return manifest, entry
+
     def _snapshot(self, names):
         return {name: base64.b64encode(safe_path(self.root, name).read_bytes()).decode() if safe_path(self.root, name).exists() else None for name in names}
 
@@ -134,18 +151,32 @@ class AuthoringService:
         with sqlite3.connect(target) as destination:
             self.store.db.backup(destination)
 
-    def stage(self, *, expected_revision, sources=None, lists=None, migrations=None, title='Project change', strict=False):
+    def stage(self, *, expected_revision, sources=None, lists=None, migrations=None, title='Project change',
+              strict=False, workflows=None, expected_workflow_revision=None):
+        from .workflows import validate_workflow_changes, workflow_files, workflow_revision
+
         with self.workspace.lock:
             current = self.check_revision(expected_revision)
             sources = {} if sources is None else sources
             lists = {} if lists is None else lists
             migrations = {} if migrations is None else migrations
+            workflows = validate_workflow_changes({} if workflows is None else workflows)
             if not isinstance(sources, dict) or not isinstance(lists, dict) or not isinstance(migrations, dict):
                 raise ValueError('sources, lists and migrations must be objects')
             if not isinstance(strict, bool):
                 raise ValueError('strict must be Boolean')
-            if not sources and not lists:
-                raise ValueError('A change needs source or list definitions')
+            if not sources and not lists and not workflows:
+                raise ValueError('A change needs source, list definitions or saved workflows')
+            workflow_base = None
+            if workflows:
+                workflow_base = workflow_revision(self.root)
+                if expected_workflow_revision != workflow_base:
+                    raise RevisionConflict('Read the current workflow_revision before staging saved workflow edits.')
+                existing = {path.name.casefold(): path for path in workflow_files(self.root)}
+                for name in workflows:
+                    path = existing.get(name.casefold())
+                    if path is not None and (path.name != name or path.is_symlink() or not path.is_file()):
+                        raise ValueError(f'{name}: Workflow must match the exact filename of a regular local file')
             normalized = {_source_name(self.root, n): v for n, v in sources.items()}
             if len(normalized) != len(sources):
                 raise ValueError('Two source paths refer to the same document')
@@ -156,6 +187,8 @@ class AuthoringService:
             lists = {n: definitions[n] for n in lists}
             diagnostics = self._validate(sources, lists, migrations)
             self.check_revision(current)
+            if workflows and workflow_revision(self.root) != workflow_base:
+                raise RevisionConflict('Saved workflows changed while staging. Refresh and review your edits.')
             if strict and diagnostics:
                 raise ValueError('Strict validation requires a project without current binding/source diagnostics')
             diffs = []
@@ -169,12 +202,21 @@ class AuthoringService:
                 previous = self.store.definitions.get(name)
                 diffs.append({'path': target.relative_to(self.root).as_posix(), 'diff': ''.join(difflib.unified_diff(
                     (_schema_text(previous) if previous else '').splitlines(True), _schema_text(definition).splitlines(True), fromfile=name, tofile=name))})
+            for name, scenario in workflows.items():
+                relative = 'tests/' + name
+                target = safe_path(self.root, relative)
+                previous = target.read_text(encoding='utf-8', errors='replace') if target.exists() else ''
+                diff = ''.join(difflib.unified_diff(previous.splitlines(True), json_text(scenario).splitlines(True),
+                                                   fromfile=relative, tofile=relative))
+                diffs.append({'path': relative, 'diff': diff})
             change_id = uuid.uuid4().hex
             entry = {'id': change_id, 'title': str(title), 'created_at': datetime.now(timezone.utc).isoformat(),
                 'status': 'staged', 'base_revision': current,
                 'data_revision': data_revision(self.store) if lists else None,
                 'sources': sources, 'lists': lists, 'migrations': migrations,
                 'diffs': diffs, 'impacts': impacts, 'diagnostics': diagnostics, 'strict': bool(strict)}
+            if workflows:
+                entry.update(workflows=workflows, base_workflow_revision=workflow_base)
             atomic_write(self.root / '.emu/changes' / change_id / 'change.json', json_text(entry))
             return self._public(entry)
 
@@ -223,15 +265,12 @@ class AuthoringService:
             return [self._public(e) for e in sorted(entries, key=lambda e: e['created_at'], reverse=True)]
 
     def apply(self, change_id, *, expected_revision):
+        from .workflows import workflow_revision
+
         with self.workspace.lock:
             current = self.check_revision(expected_revision)
-            manifest, entry = self._entry(change_id)
-            if entry['status'] != 'staged':
-                raise ValueError('Only staged changes can be applied')
-            if entry['base_revision'] != current:
-                raise RevisionConflict('Staged change is stale. Create a new review against the current project.')
-            if entry['data_revision'] is not None and entry['data_revision'] != data_revision(self.store):
-                raise RevisionConflict('List records changed after staging. Revalidate the migration against the current records.')
+            manifest, entry = self.check_candidate(change_id, current)
+            workflows = entry.get('workflows', {})
             definitions, rows, _ = self.store.plan_schemas(entry['lists'], entry['migrations'])
             entry['diagnostics'] = self._validate(entry['sources'], entry['lists'], entry['migrations'])
             if entry['strict'] and entry['diagnostics']:
@@ -239,6 +278,7 @@ class AuthoringService:
             self.workspace.workflows.verify_saved_candidate(change_id, current)
             self.check_revision(current)
             names = [*entry['sources'], *(self.store.catalog.path(n).relative_to(self.root).as_posix() for n in entry['lists'])]
+            names.extend('tests/' + name for name in workflows)
             if entry['lists']:
                 names.append('metadata/schema-catalog.json')
                 self._database_backup(manifest.parent / 'before.sqlite')
@@ -254,6 +294,8 @@ class AuthoringService:
                         target.unlink(missing_ok=True)
                     else:
                         atomic_write(target, content)
+                for name, scenario in workflows.items():
+                    atomic_write(safe_path(self.root, 'tests/' + name), json_text(scenario))
                 for name in entry['lists']:
                     self.store.db.execute('INSERT OR REPLACE INTO lists VALUES(?,?)', (name, json.dumps(definitions[name])))
                     for item_id, record in rows[name]:
@@ -268,6 +310,8 @@ class AuthoringService:
                     p.save_config()
                 self.store.db.commit()
                 entry.update(status='applied', applied_at=datetime.now(timezone.utc).isoformat(), after_revision=revision(self.root), after_data_revision=data_revision(self.store))
+                if workflows:
+                    entry['after_workflow_revision'] = workflow_revision(self.root)
                 atomic_write(manifest, json_text(entry))
             except Exception:
                 self.store.db.rollback()
@@ -283,6 +327,8 @@ class AuthoringService:
             return self._public(entry)
 
     def undo(self, change_id, *, expected_revision):
+        from .workflows import workflow_revision
+
         with self.workspace.lock:
             current = self.check_revision(expected_revision)
             manifest, entry = self._entry(change_id)
@@ -291,6 +337,8 @@ class AuthoringService:
                 raise ValueError('Undo the latest applied change first')
             if current != entry['after_revision']:
                 raise RevisionConflict('Project changed after this change. Undo would overwrite newer edits.')
+            if entry.get('after_workflow_revision') is not None and workflow_revision(self.root) != entry['after_workflow_revision']:
+                raise RevisionConflict('Saved workflows changed after this change. Undo would overwrite newer edits.')
             if entry['lists'] and data_revision(self.store) != entry['after_data_revision']:
                 raise RevisionConflict('Records changed after this migration. Undo would discard newer data; review a new migration instead.')
             before = {n: v for n, v in entry['before_files'].items() if n != 'emulator.json'}
@@ -317,6 +365,8 @@ class AuthoringService:
             return self._public(entry)
 
     def _refresh(self, sources, lists):
+        if not sources and not lists:
+            return
         self.workspace.project = Project(self.root)
         r = self.workspace.runtime
         if sources:

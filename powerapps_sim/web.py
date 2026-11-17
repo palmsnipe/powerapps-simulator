@@ -8,10 +8,11 @@ import re
 import sys
 from importlib.metadata import version, PackageNotFoundError
 from pathlib import Path
+from urllib.parse import unquote
 from zipfile import BadZipFile
 from uuid import uuid4
 
-from flask import Flask, jsonify, request, send_file, send_from_directory
+from flask import Flask, g, jsonify, request, send_file, send_from_directory
 
 from .runtime import Runtime, serial
 from .scenarios import PEOPLE, demo_definitions, seed
@@ -35,8 +36,22 @@ def create_app(workspace_root=None, initial=None):
 
     @app.before_request
     def local_write():
-        if request.method in ("POST", "PUT", "DELETE") and request.headers.get("X-Emulator-Request") != "1":
+        if request.method not in ("POST", "PUT", "DELETE"):
+            return
+        if request.headers.get("X-Emulator-Request") != "1":
             return jsonify(error="Use the local simulator interface"), 403
+        expected = request.headers.get("X-Emulator-Project")
+        if expected is not None:
+            # A browser tab can outlive a project switch made in another client.
+            workspace.lock.acquire()
+            g.workspace_project_lock = True
+            if unquote(expected) != str(workspace.project.root):
+                raise RevisionConflict("The workspace now owns a different project. Refresh the browser before editing.")
+
+    @app.teardown_request
+    def release_project_lock(_error):
+        if g.pop("workspace_project_lock", False):
+            workspace.lock.release()
 
     @app.errorhandler(ValueError)
     @app.errorhandler(FxError)
@@ -63,12 +78,7 @@ def create_app(workspace_root=None, initial=None):
 
     @app.get("/api/projects")
     def projects():
-        found = []
-        for path in workspace.root.iterdir():
-            config = path / "emulator.json"
-            if path.is_dir() and config.exists():
-                found.append({"id": path.name, "title": json.loads(config.read_text(encoding="utf-8"))["title"]})
-        return jsonify(found)
+        return jsonify(workspace.list_projects())
 
     @app.get('/api/ai-connection')
     def ai_connection():
@@ -77,8 +87,13 @@ def create_app(workspace_root=None, initial=None):
                 sdk = version('mcp')
             except PackageNotFoundError:
                 sdk = None
+            # A checkout can start the browser without installing the package.
+            # Make the generated stdio command independent of the client's cwd.
+            package_root = str(Path(__file__).resolve().parent.parent)
+            bootstrap = (f'import sys; sys.path.insert(0, {package_root!r}); '
+                         'from powerapps_sim.mcp_server import main; raise SystemExit(main())')
             return jsonify(command=sys.executable,
-                args=['-m', 'powerapps_sim.mcp_server', '--url', request.host_url.rstrip('/'),
+                args=['-c', bootstrap, '--url', request.host_url.rstrip('/'),
                       '--expect-project', str(workspace.project.root)],
                 transport='stdio', sdk_version=sdk, required_sdk='2.3.0',
                 install_command=f'"{sys.executable}" -m pip install "mcp==2.3.0"',
@@ -109,10 +124,7 @@ def create_app(workspace_root=None, initial=None):
     @app.post("/api/project/open")
     def open_project():
         with workspace.lock:
-            directory = safe_path(workspace.root, request.json["id"])
-            if not (directory / "emulator.json").exists():
-                raise ValueError("Project not found")
-            workspace.open(Project(directory))
+            workspace.open_project(request.json["id"], restart_current=True)
             return jsonify(workspace.summary())
 
     @app.post("/api/project/create")
@@ -181,7 +193,8 @@ def create_app(workspace_root=None, initial=None):
         payload = request.json
         if not isinstance(payload, dict):
             raise ValueError('Change request must be an object')
-        if payload.keys() - {'expected_revision', 'sources', 'lists', 'migrations', 'title', 'strict'}:
+        if payload.keys() - {'expected_revision', 'sources', 'lists', 'migrations', 'title', 'strict',
+                             'workflows', 'expected_workflow_revision'}:
             raise ValueError('Unknown change fields')
         payload.setdefault('expected_revision', None)
         return jsonify(workspace.authoring.stage(**payload))

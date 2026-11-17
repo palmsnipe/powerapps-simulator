@@ -48,6 +48,12 @@ def test_phase_scoring_requires_creation_baseline_tests_candidate_tests_apply_re
     no_candidate = deepcopy(calls)
     no_candidate[4]['arguments'].pop('change_id')
     assert not phase_evidence(no_candidate)['passed']
+    for index in (2, 4):
+        call = calls[index]
+        files = call['arguments'].pop('workflows')
+        call['operation'] = 'validate_workflows'
+        call['result']['runs'] = [{'file': file['scenario_file'], 'status': 'passed'} for file in files]
+    assert phase_evidence(calls)['passed']
 
 
 def test_no_created_app_fails_scoring_without_creating_fixture(tmp_path):

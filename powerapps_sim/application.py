@@ -5,7 +5,7 @@ from pathlib import Path
 import threading
 import uuid
 from .runtime import Runtime
-from .source import Project
+from .source import Project, safe_path
 from .scenarios import PEOPLE, demo_definitions, seed
 from .authoring import AuthoringService, revision, recover_changes
 from .ownership import ProjectLease
@@ -45,6 +45,31 @@ class Workspace:
     def open(self, project, *, start=None):
         with self.lock:
             return self._open(project, start=start)
+
+    def list_projects(self):
+        with self.lock:
+            projects = []
+            for directory in sorted(self.root.iterdir()):
+                if directory.is_symlink() or not directory.is_dir():
+                    continue
+                config = directory / 'emulator.json'
+                if config.is_file():
+                    projects.append({'id': directory.name,
+                                     'title': json.loads(config.read_text(encoding='utf-8'))['title']})
+            return projects
+
+    def open_project(self, project_id, *, start=None, restart_current=False):
+        with self.lock:
+            if not isinstance(project_id, str) or not project_id or Path(project_id).name != project_id or \
+                    project_id in ('.', '..') or '\\' in project_id:
+                raise ValueError('Choose a project ID from the workspace')
+            if (self.root / project_id).is_symlink():
+                raise ValueError('Choose a project directory in the workspace')
+            directory = safe_path(self.root, project_id)
+            if not (directory / 'emulator.json').is_file():
+                raise ValueError('Project not found')
+            if restart_current or not self.project or self.project.root != directory:
+                self._open(Project(directory), start=start)
 
     def _open(self, project, *, start=None):
         same = self.runtime and self.project.root == project.root and getattr(self.runtime, 'workspace_lease', None)
