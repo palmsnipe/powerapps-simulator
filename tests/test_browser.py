@@ -1257,6 +1257,9 @@ def test_live_powerfx_types_nested_paging_and_refresh_focus(page,app,tmp_path):
     page.reload()
     for name in ('Source','Structure'):
         page.get_by_role('button',name=name,exact=True).click()
+    live = page.get_by_role('checkbox',name='Live inspector',exact=True)
+    assert not live.is_checked()
+    live.check()
     page.get_by_role('button',name='Variables',exact=True).click()
     fields=page.get_by_role('searchbox',name='Filter runtime values',exact=True)
     fields.fill('photo')
@@ -1290,6 +1293,7 @@ def test_typed_collection_headers_empty_shapes_and_horizontal_scroll(page,app,tm
     page.reload()
     for name in ('Source','Structure'):
         page.get_by_role('button',name=name,exact=True).click()
+    page.get_by_role('checkbox',name='Live inspector',exact=True).check()
     page.get_by_role('button',name='Capture Left',exact=True).click()
     page.get_by_role('button',name='Capture Right',exact=True).click()
     page.get_by_role('button',name='Collections',exact=True).click()

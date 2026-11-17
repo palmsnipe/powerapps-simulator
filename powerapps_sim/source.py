@@ -4,6 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from io import BytesIO, StringIO
 import json
+from functools import lru_cache
 from pathlib import Path, PurePosixPath
 from zipfile import ZipFile
 
@@ -48,6 +49,11 @@ def safe_path(root, name):
     return target
 
 
+@lru_cache(maxsize=256)
+def _split_control_kind(kind):
+    return kind.partition("@")
+
+
 @dataclass
 class Control:
     name: str
@@ -63,11 +69,11 @@ class Control:
 
     @property
     def version(self):
-        return self.kind.partition("@")[2]
+        return _split_control_kind(self.kind)[2]
 
     @property
     def family(self):
-        return self.kind.partition("@")[0]
+        return _split_control_kind(self.kind)[0]
 
 
 class Project:
@@ -100,13 +106,14 @@ class Project:
     def save_config(self):
         self.write_json("emulator.json", self.config)
 
+    def source_paths(self):
+        src = self.root / "Src"
+        return sorted([*src.rglob("*.yaml"), *src.rglob("*.yml")])
+
     def reload(self):
         self.documents, self.parsed, self.source_errors = {}, {}, []
         self.screens, self.components, self.controls, self.app = {}, {}, {}, {}
-        src = self.root / "Src"
-        if not src.exists():
-            return
-        for path in sorted([*src.rglob("*.yaml"), *src.rglob("*.yml")]):
+        for path in self.source_paths():
             name = path.relative_to(self.root).as_posix()
             text = path.read_text(encoding="utf-8-sig")
             self.documents[name] = text

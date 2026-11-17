@@ -23,6 +23,42 @@ from .store import DataSource, ListStore
 from .syntax import FxError, call_name, walk
 
 
+INPUT_PROPERTIES = {
+    'TabList': 'Selected',
+    'Slider': 'Value',
+    'DatePicker': 'SelectedDate',
+    'ComboBox': 'Selected',
+    'DropDown': 'Selected',
+    'Radio': 'Selected',
+    'TextInput': 'Value',
+    'CheckBox': 'Checked',
+    'Toolbar': 'Selected',
+    'FluentV8/Rating': 'Value',
+    'ModernRating': 'Value',
+    'ListBox': 'Selected',
+    'Classic/ListBox': 'Selected',
+    'RichTextEditor': 'HtmlText',
+    'Classic/Toggle': 'Value',
+    'Classic/Slider': 'Value',
+    'Classic/DatePicker': 'SelectedDate',
+    'Classic/CheckBox': 'Value',
+    'Classic/Radio': 'Selected',
+    'Classic/TextInput': 'Text',
+    'Classic/DropDown': 'Selected',
+    'ModernDropdown': 'Selected',
+    'ModernRadio': 'Selected',
+    'ModernCheckbox': 'Checked',
+    'ModernSlider': 'Value',
+    'ModernTextInput': 'Text',
+    'ModernNumberInput': 'Value',
+    'Toggle': 'Checked',
+    'ModernDatePicker': 'SelectedDate',
+    'Classic/ComboBox': 'Selected',
+    'ModernCombobox': 'Selected',
+    'ModernTabList': 'Selected',
+}
+
+
 def serial(value):
     from .enum_fx import EnumValue
     if isinstance(value,EnumValue):return value.json()
@@ -174,7 +210,8 @@ class Ref:
             lambda:repr(self.raw_property(name)))
 
     def raw_property(self, name):
-        if self.family == 'ModernLink' and name in ('URL','Url'):
+        family = self.family
+        if family == 'ModernLink' and name in ('URL','Url'):
             from .modern_link import source_property
             return self.control.properties.get(source_property(self,name), DEFAULTS['ModernLink']['URL'])
         definition = component_definition(self.runtime.project, self.control)
@@ -183,62 +220,60 @@ class Ref:
             return definition.properties.get(name, custom.get("Default", "=Blank()"))
         if custom and validate_kind(custom) == "Function" and custom.get("PropertyDefinition", custom.get("Direction", "Output")) != "Input" and custom.get("PropertyKind") != "InputFunction":
             return definition.properties.get(name, custom.get("Default", "=Blank()"))
-        if name in self.control.properties:
-            return self.control.properties[name]
-        if self.family in ('Label','Rectangle','Circle','Star'):
+        properties = self.control.properties
+        if name in properties:
+            return properties[name]
+        if family in ('Label','Rectangle','Circle','Star'):
             from .classic_display import default
             value=default(self,name)
             if value is not None:return value
-        if self.family=='Classic/Button':
+        if family=='Classic/Button':
             from .classic_button import variant
             value=variant(self,name)
             if value is not None:return value
-        if self.family=='ModernBadge' and self.control.version=='1.0.0' and self.runtime.project.config.get('form_factor')=='phone':
+        if family=='ModernBadge' and self.control.version=='1.0.0' and self.runtime.project.config.get('form_factor')=='phone':
             if name in ('Width','LayoutMinWidth'):return '=88'
             if name in ('Height','LayoutMinHeight'):return '=44'
-        if self.family == "CanvasComponent":
-            definition = self.runtime.project.components.get(self.control.raw.get("ComponentName"))
-            if definition:
-                prop = definition.raw.get("CustomProperties", {}).get(name)
-                if prop:
-                    return prop.get("Default", "=Blank()")
-                if name in definition.properties:
-                    return definition.properties[name]
-        if self.family in ('ComboBox','DropDown','Radio','ComboBoxDataField'):
+        if family == "CanvasComponent" and definition:
+            if custom:
+                return custom.get("Default", "=Blank()")
+            if name in definition.properties:
+                return definition.properties[name]
+        if family in ('ComboBox','DropDown','Radio','ComboBoxDataField'):
             from .canvas_selectors import catalog
-            versions=catalog()[self.family];defaults=versions.get(self.control.version,next(iter(versions.values())))['defaults']
+            versions=catalog()[family];defaults=versions.get(self.control.version,next(iter(versions.values())))['defaults']
             return defaults.get(name, '=false' if name=='Reset' else COMMON.get(name))
-        if self.family in ('Text', 'FluentV8/Label'):
+        if family in ('Text', 'FluentV8/Label'):
             from .canvas_text import catalog, LAYOUT
-            versions = catalog()[self.family]
+            versions = catalog()[family]
             defaults = versions.get(self.control.version, next(iter(versions.values())))['defaults']
-            if self.family == 'FluentV8/Label' and name == 'OnSelect':
+            if family == 'FluentV8/Label' and name == 'OnSelect':
                 from .galleries import implicit_select
                 if implicit_select(self):return '=Select(Parent)'
             if self.automatic_parent:
                 responsive = responsive_default(self.control, name)
                 if responsive is not None:return responsive
             return defaults.get(name, COMMON.get(name) if name in LAYOUT else None)
-        if self.family == 'Button':
+        if family == 'Button':
             from .canvas_buttons import catalog
             versions = catalog();defaults = versions.get(self.control.version, next(iter(versions.values())))['defaults']
             if self.automatic_parent:
                 responsive = responsive_default(self.control, name)
                 if responsive is not None:return responsive
             return defaults.get(name, COMMON.get(name) if name in {'LayoutMinWidth','LayoutMinHeight','LayoutMaxWidth','LayoutMaxHeight','FillPortions','AlignInContainer'} else None)
-        if self.family == 'TabList':
+        if family == 'TabList':
             from .canvas_tabs import catalog
             versions = catalog();defaults = versions.get(self.control.version, next(iter(versions.values())))['defaults']
             return defaults.get(name, '=false' if name == 'Reset' else COMMON.get(name))
-        if self.family in ('Slider','Toggle'):
+        if family in ('Slider','Toggle'):
             from .canvas_scalars import catalog
-            versions=catalog()[self.family];defaults=versions.get(self.control.version,next(iter(versions.values())))['defaults']
+            versions=catalog()[family];defaults=versions.get(self.control.version,next(iter(versions.values())))['defaults']
             return defaults.get(name, '=false' if name=='Reset' else COMMON.get(name))
-        if self.family in ('TextInput','CheckBox'):
+        if family in ('TextInput','CheckBox'):
             from .canvas_inputs import catalog
-            versions=catalog()[self.family];defaults=versions.get(self.control.version,next(iter(versions.values())))['defaults']
+            versions=catalog()[family];defaults=versions.get(self.control.version,next(iter(versions.values())))['defaults']
             return defaults.get(name, '=false' if name=='Reset' else COMMON.get(name))
-        if self.family == 'DatePicker':
+        if family == 'DatePicker':
             from .canvas_dates import catalog
             versions = catalog();defaults = versions.get(self.control.version, next(iter(versions.values())))['defaults']
             return defaults.get(name, '=false' if name == 'Reset' else COMMON.get(name))
@@ -247,29 +282,29 @@ class Ref:
             if implicit_select(self):
                 if name == 'OnSelect':
                     return '=Select(Parent)'
-                if name == 'AcceptsFocus' and self.family.startswith('Modern'):
+                if name == 'AcceptsFocus' and family.startswith('Modern'):
                     return '=true'
-                if name == 'TabIndex' and self.family in ('Classic/Button', 'Label', 'Image', 'Toggle'):
+                if name == 'TabIndex' and family in ('Classic/Button', 'Label', 'Image', 'Toggle'):
                     return '=0'
-        if self.family == 'ModernTextInput':
+        if family == 'ModernTextInput':
             if name == 'TriggerOutput' and any(a.family == 'Form' for a in self.runtime.ancestors(self)):
                 return '=TriggerOutput.Delayed'
             if self.control.version == '1.0.0' and name == 'Type':
                 return '=TextInputType.SingleLine'
-        if self.family=='TypedDataCard' and self.parent and self.parent.family=='Form' and name=='Width':
+        if family=='TypedDataCard' and self.parent and self.parent.family=='Form' and name=='Width':
             return '=Parent.Width/Max(1,Parent.NumberOfColumns)'
         if self.automatic_parent:
             responsive = responsive_default(self.control, name)
             if responsive is not None:
                 return responsive
-        if self.family=='ModernTabList':
+        if family=='ModernTabList':
             from .tablist import VERSION_DEFAULTS
             if name in VERSION_DEFAULTS.get(self.control.version,{}):return VERSION_DEFAULTS[self.control.version][name]
-        if self.family=='Classic/ComboBox':
+        if family=='Classic/ComboBox':
             from .classic_combobox import catalog
             override=catalog().get('version_default_overrides',{}).get(self.control.version,{})
             if name in override:return override[name]
-        return DEFAULTS.get(self.family, {}).get(name, COMMON.get(name))
+        return DEFAULTS.get(family, {}).get(name, COMMON.get(name))
 
     @property
     def automatic_parent(self):
@@ -308,7 +343,6 @@ class Ref:
             chars = max(1, int(width / max(1, font_size * .55)))
             lines = sum(max(1, math.ceil(len(line) / chars)) for line in label.split("\n")) if self.property("Wrap") else 1
             return max(24, math.ceil(lines * font_size * 1.45 + self.property("PaddingTop") + self.property("PaddingBottom")))
-        raw = self.raw_property(name)
         if name == "Height" and self.family == "HtmlViewer" and self.property("AutoHeight"):
             from .html_controls import auto_height,validate
             ctx = self.context()
@@ -2492,8 +2526,7 @@ class Runtime:
 
     @staticmethod
     def input_property(ref):
-        return {'TabList':'Selected','Slider':'Value','DatePicker':'SelectedDate','ComboBox':'Selected','DropDown':'Selected','Radio':'Selected','TextInput':'Value','CheckBox':'Checked','Toolbar':'Selected','FluentV8/Rating':'Value','ModernRating':'Value','ListBox':'Selected','Classic/ListBox':'Selected','RichTextEditor':'HtmlText','Classic/Toggle':'Value','Classic/Slider':'Value','Classic/DatePicker':'SelectedDate','Classic/CheckBox':'Value','Classic/Radio':'Selected','Classic/TextInput':'Text','Classic/DropDown':'Selected','ModernDropdown': 'Selected', 'ModernRadio': 'Selected', 'ModernCheckbox': 'Checked', 'ModernSlider': 'Value', 'ModernTextInput': 'Text', 'ModernNumberInput': 'Value', 'Toggle': 'Checked',
-            'ModernDatePicker': 'SelectedDate', 'Classic/ComboBox':'Selected', 'ModernCombobox': 'Selected', 'ModernTabList': 'Selected'}.get(ref.family)
+        return INPUT_PROPERTIES.get(ref.family)
 
     def render_property(self,ref,name):
         observed=ref.path+'.'+name

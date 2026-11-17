@@ -20,12 +20,13 @@ function showTimerClock(){
   $('timer-pause').setAttribute('aria-pressed',String(!info.playing));
 }
 setInterval(()=>{
-  if(!state?.timers||timerPolling||pressedButton)return;
-  const token=state.timers.token,playing=!state.inspection&&!$('inspect-toggle').checked;
+  if(!state?.timers?.playing||timerPolling||pressedButton)return;
+  const token=state.timers.token;
   timerPolling=true;
   enqueue(async()=>{
     try{
-      if(state?.timers?.token!==token)return;
+      if(state?.timers?.token!==token||!state.timers.playing)return;
+      const playing=!state.inspection&&!$('inspect-toggle').checked;
       const reply=await api('/api/time/pulse',{token,playing});
       if(reply.stale)return;state=reply;renderState();
     }finally{timerPolling=false;}

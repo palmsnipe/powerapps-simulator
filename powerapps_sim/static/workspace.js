@@ -13,7 +13,7 @@ for(const handle of document.querySelectorAll('[data-resize]')){const name=handl
 applyPanes();
 window.addEventListener('resize',scalePreview);
 let polling=false;
-async function refreshValues(){if(polling)return;polling=true;try{await enqueue(async()=>{if(inspectorMode==='dependencies'){await loadDependencies();renderInspector();return;}state=await api('/api/state');if(selectedPath)selectedControl=await api('/api/control?path='+escapePath(selectedPath));renderState();});}finally{polling=false;}}
+async function refreshValues(){if(polling)return;polling=true;try{await enqueue(async()=>{if(inspectorMode==='dependencies'){await loadDependencies();renderInspector();return;}state=await api('/api/state');if(inspectorMode==='control'&&selectedPath)selectedControl=await api('/api/control?path='+escapePath(selectedPath));renderState();});}finally{polling=false;}}
 $('refresh-runtime').onclick=action(refreshValues);
 setInterval(()=>{if(document.hidden||!$('live-values').checked||$('build-view').hidden||!paneState.inspector||!['globals','collections','components','dependencies'].includes(inspectorMode)||polling||pressedButton)return;refreshValues().catch(error=>status(error.message,true));},2000);
 let listSnapshot=null,recordEditing=null,recordInputs=[],dataPage=0;

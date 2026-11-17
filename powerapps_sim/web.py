@@ -127,14 +127,15 @@ def create_app(workspace_root=None, initial=None):
     def source():
         with workspace.lock:
             name = request.args["name"]
-            current = Project(workspace.project.root)
-            if name not in current.documents:
+            current = workspace.project
+            if not any(path.relative_to(current.root).as_posix() == name for path in current.source_paths()):
                 raise ValueError("Source not found")
             draft = safe_path(workspace.project.root, "drafts/" + name)
             current_revision = revision(current.root)
             draft_base = current.read_json('drafts/revisions.json', {}).get(name)
             stale = bool(draft_base and draft_base != current_revision)
-            return jsonify(text=current.documents[name], draft=draft.read_text(encoding="utf-8") if draft.exists() and not stale else None,
+            return jsonify(text=safe_path(current.root, name).read_text(encoding="utf-8-sig"),
+                draft=draft.read_text(encoding="utf-8") if draft.exists() and not stale else None,
                 draft_stale=stale and draft.exists(), revision=current_revision)
 
     @app.post("/api/source")
