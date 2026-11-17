@@ -19,7 +19,9 @@ def test_native_types_stdio_candidate_and_undo(tmp_path):
                 assert not response.is_error,response.content
                 return response.structured_content
             state=await call('describe_project')
-            catalog=await call('list_workflows');scenario=catalog['scenarios'][0]['scenario']
+            catalog=await call('list_workflows')
+            saved = catalog['scenarios'][0]
+            scenario = saved['scenario']
             app='Src/native-types.pa.yaml';master='Src/Components/NativeCard.pa.yaml'
             originals={name:(await call('read_source',name=name))['text'] for name in (app,master)}
             assert (await call('evaluate_formula',formula='Left.Total'))['type']['kind']=='Currency'
@@ -46,6 +48,8 @@ def test_native_types_stdio_candidate_and_undo(tmp_path):
             assert result['status']=='passed' and len(result['steps'])==20 and not result['diagnostics'],result['steps']
             assert await call('read_runtime')==owner and await call('read_dependencies')==deps
             assert (await call('describe_project'))['data_revision']==state['data_revision']
+            # This change intentionally updates the behavior asserted by the saved test.
+            project.write_json('tests/' + saved['file'], candidate)
             applied=await call('apply_change',change_id=staged['id'],expected_revision=state['revision'])
             assert (await call('read_list',name='Snapshots'))['definition']['mapping']['Reviewed']=='Review note'
             await call('undo_change',change_id=staged['id'],expected_revision=applied['after_revision'])

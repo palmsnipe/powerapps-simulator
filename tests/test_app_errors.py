@@ -182,8 +182,9 @@ def test_ai_read_source_export_and_authoring_onerror(tmp_path):
         exported=ai('export_source');assert exported['app']['OnError']==original
         assert all('error_reports' not in document for document in exported['documents'].values())
         current=revision(p.root)
-        entry=w.authoring.save_source(expected_revision=current,property='OnError',text='Collect(reports,AllErrors)')
-        assert ai('read_source',app_property='OnError')['text']=='=Collect(reports,AllErrors)'
+        updated = original.rstrip() + ';Blank()'
+        entry=w.authoring.save_source(expected_revision=current,property='OnError',text=updated)
+        assert ai('read_source',app_property='OnError')['text']==updated
         assert w.runtime.pending_source and w.runtime.project.app['OnError']==original
         w.authoring.undo(entry['id'],expected_revision=entry['after_revision'])
         assert ai('read_source',app_property='OnError')['text']==original

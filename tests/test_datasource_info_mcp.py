@@ -28,7 +28,8 @@ def test_mcp_metadata_candidate_and_undo(tmp_path):
             definition['fields']['Percentage']['maximum'] = 75
             staged = await call('stage_change',expected_revision=description['revision'],strict=True,
                 sources={name:source},lists={'Scores':definition})
-            scenario = deepcopy((await call('list_workflows'))['scenarios'][0]['scenario'])
+            saved = (await call('list_workflows'))['scenarios'][0]
+            scenario = deepcopy(saved['scenario'])
             scenario['environment'] = {'language':'fr-CA','number_mode':'decimal','enum_mode':'strong'}
             for step in scenario['steps']:
                 if step.get('op') == 'event' and step.get('value') == 100: step['value'] = 75
@@ -38,6 +39,8 @@ def test_mcp_metadata_candidate_and_undo(tmp_path):
             assert result['status'] == 'passed' and len(result['steps']) == 30 and not result['diagnostics'], ([step for step in result['steps'] if step['status'] != 'passed'],result['diagnostics'])
             assert await call('read_runtime') == owner
             assert (await call('read_list',name='Scores')) == data
+            # This change intentionally updates the behavior asserted by the saved test.
+            project.write_json('tests/' + saved['file'], scenario)
             applied = await call('apply_change',change_id=staged['id'],expected_revision=description['revision'])
             evaluated = await call('evaluate_formula',formula='DataSourceInfo(Scores,DataSourceInfo.DisplayName,Percentage)')
             assert evaluated['status'] == 'ok' and evaluated['value'] == 'Progress score'

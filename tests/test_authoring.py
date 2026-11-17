@@ -102,12 +102,16 @@ def test_explicit_rename_preserves_values_ids_and_display_mapping(workspace):
 def test_drop_is_explicit_and_undo_restores_removed_values(workspace):
     w = workspace
     d = deepcopy(w.runtime.store.definitions['Drafts'])
-    del d['fields']['Amount']; del d['mapping']['Amount']; d['required'].remove('Amount')
-    change = stage(w, lists={'Drafts':d}, migrations={'Drafts':{'drop_columns':['Amount']}})
+    d['fields']['Legacy'] = {'type': 'string', 'default': 'Retained value'}
+    d['mapping']['Legacy'] = 'Legacy'
+    apply(w, stage(w, lists={'Drafts': d}))
+    del d['fields']['Legacy']
+    del d['mapping']['Legacy']
+    change = stage(w, lists={'Drafts':d}, migrations={'Drafts':{'drop_columns':['Legacy']}})
     applied = apply(w, change)
-    assert 'Amount' not in w.runtime.store.rows('Drafts')[0]
+    assert 'Legacy' not in w.runtime.store.rows('Drafts')[0]
     w.authoring.undo(change['id'], expected_revision=applied['after_revision'])
-    assert w.runtime.store.rows('Drafts')[0]['Amount'] == 125
+    assert w.runtime.store.rows('Drafts')[0]['Legacy'] == 'Retained value'
 
 
 @pytest.mark.parametrize('alter', ['required', 'length', 'type', 'id', 'mapping', 'default'])
@@ -191,8 +195,9 @@ def test_malformed_draft_retained_and_invalid_powerfx_remains_reviewable(workspa
     assert any('MissingOriginalControl' in d['message'] for d in change['diagnostics'])
     with pytest.raises(ValueError, match='Strict'):
         stage(w, sources={'Src/forms.pa.yaml':text}, strict=True)
-    apply(w, change)
-    assert 'MissingOriginalControl' in w.project.documents['Src/forms.pa.yaml']
+    with pytest.raises(ValueError, match='Apply blocked by failing saved workflows'):
+        apply(w, change)
+    assert revision(w.project.root) == old
 
 
 def test_file_edited_catalog_loads_explicitly_and_rejects_invalid_changes(workspace):

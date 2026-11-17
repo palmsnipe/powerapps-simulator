@@ -184,7 +184,9 @@ def test_edits_keep_comments_multiline_formulas_versions_and_unedited_documents(
 
 def test_add_nested_controls_then_edit_new_child_in_same_candidate(workspace):
     w = workspace
+    starter_fixes = w.project.read_json('benchmark.task.json', {})['reference_edits']
     change = call(w, 'stage_control_edits', expected_revision=revision(w.project.root), edits=[
+        *starter_fixes,
         {'op': 'add_control', 'parent': 'Workspace', 'name': 'Panel', 'control': {
             'Control': 'GroupContainer@1.5.0', 'Children': [{'Caption': {
                 'Control': 'ModernText@1.0.0', 'Properties': {'Text': '="Original"'}}}]}},

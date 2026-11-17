@@ -243,7 +243,7 @@ def create_server(backend):
                     lists=lists, migrations=migrations, title=title, strict=strict)
 
     def apply_change(change_id: str, expected_revision: str) -> dict:
-        """Explicitly apply a reviewed staged change using its base_revision. Creates an undo backup; source loads on browser restart."""
+        """Apply a staged change using its base_revision after all saved workflows pass in isolated candidate runs. On failure, read the returned workflow report IDs and revise the candidate. Successful changes can be undone; restart to load source."""
         return call('apply_change', change_id=change_id, expected_revision=expected_revision)
 
     def undo_change(change_id: str, expected_revision: str) -> dict:

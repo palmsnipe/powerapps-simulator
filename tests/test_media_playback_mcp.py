@@ -17,7 +17,9 @@ def test_playback_stdio_candidate_and_undo(tmp_path):
                 response=await client.call_tool(operation,arguments)
                 assert not response.is_error,response.content
                 return response.structured_content
-            state=await call('describe_project');scenario=(await call('list_workflows'))['scenarios'][0]['scenario']
+            state=await call('describe_project')
+            saved = (await call('list_workflows'))['scenarios'][0]
+            scenario = saved['scenario']
             owner=await call('read_runtime');deps=await call('read_dependencies')
             result=await call('run_workflow',expected_revision=state['revision'],scenario=scenario)
             assert result['status']=='passed' and len(result['steps'])==27 and not result['diagnostics']
@@ -39,6 +41,8 @@ def test_playback_stdio_candidate_and_undo(tmp_path):
             result=await call('run_workflow',expected_revision=state['revision'],change_id=staged['id'],scenario=candidate)
             assert result['status']=='passed' and len(result['steps'])==28 and not result['diagnostics'],result
             assert await call('read_runtime')==owner and await call('read_dependencies')==deps
+            # This change intentionally updates the behavior asserted by the saved test.
+            project.write_json('tests/' + saved['file'], candidate)
             applied=await call('apply_change',change_id=staged['id'],expected_revision=state['revision'])
             assert (await call('read_list',name='Snapshots'))['definition']['mapping']['Reviewed']=='Review note'
             await call('undo_change',change_id=staged['id'],expected_revision=applied['after_revision'])

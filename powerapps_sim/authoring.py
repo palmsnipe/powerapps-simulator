@@ -231,6 +231,7 @@ class AuthoringService:
             entry['diagnostics'] = self._validate(entry['sources'], entry['lists'], entry['migrations'])
             if entry['strict'] and entry['diagnostics']:
                 raise ValueError('Strict validation requires a project without current binding/source diagnostics')
+            self.workspace.workflows.verify_saved_candidate(change_id, current)
             self.check_revision(current)
             names = [*entry['sources'], *(self.store.catalog.path(n).relative_to(self.root).as_posix() for n in entry['lists'])]
             if entry['lists']:

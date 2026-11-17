@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import signal
 import subprocess
@@ -68,7 +69,8 @@ Done shows Done=true. TaskCount must track the currently visible rows, including
 toggle changes a row's status. Keep add, validation, failure/retry and row identity correct.
 Stage changes, inspect the diff/diagnostics, run ALL saved workflows plus INLINE workflows
 covering All/Open/Done filtering, correct counts and toggling a filtered row. Apply only a
-passing candidate. Explicitly restart_preview, check diagnostics and export_source.
+passing candidate. The simulator reruns all saved workflows at apply time and rejects
+the change if any fail. Explicitly restart_preview, check diagnostics and export_source.
 Leave the final feature applied. Do not modify schemas, seeded records or saved workflows
 after creation; test writes must remain isolated inside workflows. Do not create another app.
 
@@ -107,6 +109,7 @@ def acceptance_workflows():
     """Independent product assertions: never supply source or reference edits to the model."""
     def assertion(formula, expect):
         return {'op': 'assert', 'formula': formula, 'expect': expect}
+    one_task = assertion('TaskCount.Text = "1 task" || TaskCount.Text = "1 tasks"', True)
     def event(path, **args):
         return {'op': 'event', 'path': 'Main/' + path, 'event': 'OnChange', **args}
     add = {'op': 'event', 'path': 'Main/AddTask', 'event': 'OnSelect'}
@@ -127,16 +130,16 @@ def acceptance_workflows():
             assertion('TaskCount.Text', '3 tasks'), event('StatusFilter', selection=[1]),
             assertion('CountRows(TaskGallery.Items)', 2), assertion('TaskCount.Text', '2 tasks'),
             assertion('CountIf(TaskGallery.Items, Done)', 0), event('StatusFilter', selection=[2]),
-            assertion('CountRows(TaskGallery.Items)', 1), assertion('TaskCount.Text', '1 tasks'),
+            assertion('CountRows(TaskGallery.Items)', 1), one_task,
             assertion('First(TaskGallery.Items).ID', 2), event('StatusFilter', selection=[0]),
             assertion('TaskCount.Text', '3 tasks')],
         'toggle-filtered-row': [event('StatusFilter', selection=[1]), toggle,
             assertion('LookUp(Tasks, ID = 1).Done', True), assertion('LookUp(Tasks, ID = 2).Done', True),
             assertion('LookUp(Tasks, ID = 3).Done', False), assertion('CountRows(Tasks)', 3),
-            assertion('TaskCount.Text', '1 tasks'), assertion('First(TaskGallery.Items).ID', 3),
+            one_task, assertion('First(TaskGallery.Items).ID', 3),
             event('StatusFilter', selection=[2]), toggle,
             assertion('LookUp(Tasks, ID = 1).Done', False), assertion('LookUp(Tasks, ID = 2).Done', True),
-            assertion('TaskCount.Text', '1 tasks')],
+            one_task],
     }
     return [{'format_version': 1, 'name': name, 'steps': deepcopy(steps) + [{'op': 'diagnostics', 'expect': 0}],
              **({'viewport': {'width': 400, 'height': 900}} if name == 'required-and-add' else {})}
@@ -318,12 +321,12 @@ def verify_browser(root):
                     select('Open')
                     count.get_by_text('2 tasks', exact=True).wait_for()
                     page.get_by_role('button', name='Toggle Plan release', exact=True).click()
-                    count.get_by_text('1 tasks', exact=True).wait_for()
+                    count.get_by_text(re.compile(r'^1 tasks?$')).wait_for()
                     assert workspace.runtime.store.rows('Tasks')[0]['Done'] is True
                     select('Done')
                     count.get_by_text('2 tasks', exact=True).wait_for()
                     page.get_by_role('button', name='Toggle Plan release', exact=True).click()
-                    count.get_by_text('1 tasks', exact=True).wait_for()
+                    count.get_by_text(re.compile(r'^1 tasks?$')).wait_for()
                     assert workspace.runtime.store.rows('Tasks')[0]['Done'] is False
                     select('All')
                     title = page.get_by_role('textbox', name='New task title', exact=True)

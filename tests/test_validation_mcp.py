@@ -33,7 +33,8 @@ def test_mcp_validation_candidate_apply_and_undo(tmp_path):
             definition['fields']['Percentage']['maximum'] = 75
             staged = await call('stage_change', expected_revision=description['revision'], strict=True,
                 sources={name:dump_yaml(doc) for name,doc in sources.items()}, lists={'Scores':definition})
-            scenario = deepcopy((await call('list_workflows'))['scenarios'][0]['scenario'])
+            saved = (await call('list_workflows'))['scenarios'][0]
+            scenario = deepcopy(saved['scenario'])
             scenario['environment'] = {'language':'fr-CA','number_mode':'decimal','enum_mode':'strong'}
             for step in scenario['steps']:
                 if step.get('op') == 'event' and step.get('value') == 100: step['value'] = 75
@@ -43,6 +44,8 @@ def test_mcp_validation_candidate_apply_and_undo(tmp_path):
             assert result['status'] == 'passed' and len(result['steps']) == 24 and not result['diagnostics'], result['steps']
             assert await call('read_runtime') == owner
             assert (await call('read_list',name='Scores'))['rows'] == data['rows']
+            # This change intentionally updates the behavior asserted by the saved test.
+            project.write_json('tests/' + saved['file'], scenario)
             applied = await call('apply_change', change_id=staged['id'], expected_revision=description['revision'])
             assert (await call('read_list',name='Scores'))['definition']['fields']['Percentage']['maximum'] == 75
             await call('undo_change', change_id=staged['id'], expected_revision=applied['after_revision'])

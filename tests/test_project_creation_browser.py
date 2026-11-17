@@ -84,6 +84,13 @@ def test_attached_mcp_creation_is_visible_and_editable_in_browser(tmp_path):
                 tested = await call('run_workflows', expected_revision=created['revision'],
                                     workflows=[{'scenario_file': 'add.workflow.json'}])
                 assert tested['status'] == 'passed'
+                broken = await call('stage_control_edits', expected_revision=created['revision'], edits=[
+                    {'op': 'set_property', 'path': 'Main/AddProject', 'property': 'OnSelect', 'value': '=Blank()'},
+                ])
+                blocked = await client.call_tool('apply_change', {
+                    'change_id': broken['id'], 'expected_revision': created['revision'],
+                })
+                assert blocked.is_error and 'add.workflow.json' in blocked.content[0].text
                 assert (await call('read_list', name='Projects'))['total'] == 1
                 assert (await call('restart_preview', expected_revision=created['revision']))['started']
         asyncio.run(create())

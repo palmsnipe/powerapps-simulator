@@ -127,7 +127,8 @@ def validate(scenario):
 
 
 def _copy_project(source, target, store):
-    # Do not copy private history, drafts, or a possibly uncheckpointed DB file.
+    # The caller supplies the scenario. Do not copy saved tests into the
+    # disposable project, where applying the candidate would run them again.
     for name in ('Src', 'lists', 'Assets', 'metadata'):
         directory = source / name
         if directory.exists():
@@ -182,21 +183,47 @@ class WorkflowService:
     def __init__(self, workspace):
         self.workspace = workspace
 
+    def _saved_scenarios(self):
+        directory = self.workspace.project.root / 'tests'
+        if directory.is_symlink() or (directory.exists() and not directory.is_dir()):
+            raise ValueError('Scenario directory must be a local directory')
+        result = []
+        for path in sorted(directory.glob('*.workflow.json')):
+            entry = {'file': path.name}
+            try:
+                if path.is_symlink() or not path.is_file() or path.stat().st_size > 1024 * 1024:
+                    raise ValueError('Scenario must be a regular JSON file under 1 MB')
+                entry['scenario'] = validate(json.loads(path.read_text(encoding='utf-8')))
+            except (ValueError, OSError) as error:
+                entry['error'] = str(error)
+            result.append(entry)
+        return result
+
+    def verify_saved_candidate(self, change_id, expected_revision):
+        """Run the current saved suite against this candidate before publishing it."""
+        w = self.workspace
+        with w.lock:
+            saved = self._saved_scenarios()
+            if not saved:
+                return
+            invalid = [f"{entry['file']}: {entry['error']}" for entry in saved if 'error' in entry]
+            if invalid:
+                raise ValueError('Apply blocked by invalid saved workflows. ' + '\n'.join(invalid))
+
+            base_data = data_revision(w.runtime.store)
+            failures = []
+            for entry in saved:
+                report = self.run(entry['scenario'], expected_revision=expected_revision, change_id=change_id)
+                if report['status'] != 'passed':
+                    failures.append(f"{entry['file']} (report {report['id']})")
+            if self._saved_scenarios() != saved or data_revision(w.runtime.store) != base_data:
+                raise RevisionConflict('Saved workflows or records changed during apply verification. Retry against the current project.')
+            if failures:
+                raise ValueError('Apply blocked by failing saved workflows. ' + ', '.join(failures))
+
     def catalog(self):
         with self.workspace.lock:
-            directory = self.workspace.project.root / 'tests'
-            if directory.is_symlink():
-                raise ValueError('Scenario directory cannot be a symlink')
-            result = []
-            for path in sorted(directory.glob('*.workflow.json')):
-                entry = {'file': path.name}
-                try:
-                    if path.is_symlink() or path.stat().st_size > 1024 * 1024:
-                        raise ValueError('Scenario must be a regular JSON file under 1 MB')
-                    entry['scenario'] = validate(json.loads(path.read_text(encoding='utf-8')))
-                except (ValueError, OSError) as error:
-                    entry['error'] = str(error)
-                result.append(entry)
+            result = self._saved_scenarios()
             examples = Path(__file__).parent / 'examples'
             stored = {entry['file'] for entry in result}
             for name in ('forms', 'lifecycle', 'demo'):

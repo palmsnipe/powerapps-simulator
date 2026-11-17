@@ -119,9 +119,9 @@ def test_combined_ai_changes_and_named_workflow_do_not_start_pending_source(work
     definition = deepcopy(w.runtime.store.definitions['Drafts'])
     definition['fields']['Priority'] = {'type':'string','default':'Normal'}
     definition['mapping']['Priority'] = 'Project priority'
-    source = w.project.documents['Src/forms.pa.yaml'].replace('Set(selectedId, 1)', 'Set(selectedId, 2)', 1)
+    source = w.project.documents['Src/forms.pa.yaml'].replace('Set(selectedId, 1)', 'Set(selectedId, 1);Set(candidateMarker, 2)', 1)
     change = call(w, 'stage_change', expected_revision=base, sources={'Src/forms.pa.yaml':source}, lists={'Drafts':definition})
-    scenario = {**deepcopy(STARTER), 'steps':[{'op':'assert','formula':'selectedId','expect':2},
+    scenario = {**deepcopy(STARTER), 'steps':[{'op':'assert','formula':'candidateMarker','expect':2},
         {'op':'assert','formula':"First(Drafts).'Project priority'",'expect':'Normal'}]}
     report = call(w, 'run_workflow', expected_revision=base, scenario=scenario, change_id=change['id'])
     assert report['status'] == 'passed' and w.runtime.globals['selectedId'] == 1
@@ -130,7 +130,7 @@ def test_combined_ai_changes_and_named_workflow_do_not_start_pending_source(work
     named = call(w, 'run_workflow', expected_revision=base, scenario_file=names[0]['file'])
     assert named['status'] == 'passed'
     applied = call(w, 'apply_change', change_id=change['id'], expected_revision=base)
-    assert w.runtime.globals['selectedId'] == 1 and w.runtime.pending_source
+    assert 'candidateMarker' not in w.runtime.globals and w.runtime.pending_source
     assert not call(w, 'read_runtime')['running_source']['source_matches_saved']
     call(w, 'undo_change', change_id=change['id'], expected_revision=applied['after_revision'])
     assert revision(w.project.root) == base
@@ -238,11 +238,11 @@ def test_real_stdio_source_schema_workflow_apply_undo_and_shutdown(tmp_path):
             definition['fields']['Priority'] = {'type':'string','default':'Normal'}
             definition['mapping']['Priority'] = 'Project priority'
             source = (await client.call_tool('read_source', {'name':'Src/forms.pa.yaml'})).structured_content['text']
-            source = source.replace('Set(selectedId, 1)', 'Set(selectedId, 2)', 1)
+            source = source.replace('Set(selectedId, 1)', 'Set(selectedId, 1);Set(candidateMarker, 2)', 1)
             change = (await client.call_tool('stage_change', {'expected_revision':described['revision'],
                 'sources':{'Src/forms.pa.yaml':source},'lists':{'Drafts':definition}})).structured_content
             assert change['status'] == 'staged' and not change['diagnostics']
-            scenario = {**deepcopy(STARTER), 'steps':[{'op':'assert','formula':'selectedId','expect':2},
+            scenario = {**deepcopy(STARTER), 'steps':[{'op':'assert','formula':'candidateMarker','expect':2},
                 {'op':'assert','formula':"First(Drafts).'Project priority'",'expect':'Normal'}]}
             report = (await client.call_tool('run_workflow', {'expected_revision':described['revision'],
                 'scenario':scenario,'change_id':change['id']})).structured_content

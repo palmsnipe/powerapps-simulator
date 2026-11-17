@@ -168,6 +168,56 @@ def test_create_continue_stage_test_apply_restart_export_and_undo(backend):
     assert Project(backend.project).documents == original
 
 
+def test_apply_blocks_failed_saved_workflow_even_if_inline_candidate_test_passes(backend):
+    supplied = payload()
+    supplied['workflows']['title.workflow.json'] = {
+        'format_version': 1, 'name': 'Expected title', 'steps': [
+            {'op': 'event', 'path': 'Home/Add', 'event': 'OnSelect'},
+            {'op': 'assert', 'formula': 'Last(Projects).Title', 'expect': 'Added'},
+        ],
+    }
+    created = backend.call('create_project', **supplied)
+    base = created['revision']
+    before = data_revision(backend.workspace.runtime.store)
+    source = supplied['sources']['Src/Home.pa.yaml']
+    broken = backend.call('stage_change', expected_revision=base, sources={
+        'Src/Home.pa.yaml': source.replace('Title:"Added"', 'Title:"Wrong"'),
+    })
+    inline = {'format_version': 1, 'name': 'Incomplete check', 'steps': [
+        {'op': 'assert', 'formula': 'CountRows(Projects)', 'expect': 2},
+    ]}
+    assert backend.call('run_workflow', expected_revision=base, scenario=inline,
+                        change_id=broken['id'])['status'] == 'passed'
+    with pytest.raises(ValueError, match=r'Apply blocked.*title\.workflow\.json') as failure:
+        backend.call('apply_change', change_id=broken['id'], expected_revision=base)
+    report_id = str(failure.value).split('(report ')[-1].rstrip(')')
+    report = backend.call('read_workflow_report', run_id=report_id)
+    assert report['status'] == 'failed' and report['change_id'] == broken['id']
+    assert backend.call('list_changes')['changes'][0]['status'] == 'staged'
+    assert revision(backend.project) == base
+    assert data_revision(backend.workspace.runtime.store) == before
+
+    fixed = backend.call('stage_change', expected_revision=base, sources={
+        'Src/Home.pa.yaml': source.replace('=Text(CountRows(Projects))', '="Total " & Text(CountRows(Projects))'),
+    })
+    assert backend.call('apply_change', change_id=fixed['id'], expected_revision=base)['status'] == 'applied'
+    assert data_revision(backend.workspace.runtime.store) == before
+
+
+def test_apply_checks_current_saved_files_instead_of_prior_passing_reports(backend):
+    created = backend.call('create_project', **payload())
+    base = created['revision']
+    change = backend.call('stage_control_edits', expected_revision=base, edits=[
+        {'op': 'set_property', 'path': 'Home/Count', 'property': 'Text', 'value': '="Count"'},
+    ])
+    assert backend.call('run_workflow', expected_revision=base, change_id=change['id'],
+                        scenario_file='create.workflow.json')['status'] == 'passed'
+    (backend.workspace.project.root / 'tests/create.workflow.json').write_text('{', encoding='utf-8')
+    with pytest.raises(ValueError, match=r'invalid saved workflows.*create\.workflow\.json'):
+        backend.call('apply_change', change_id=change['id'], expected_revision=base)
+    assert revision(backend.project) == base
+
+
 @pytest.mark.parametrize('arguments', [
     {'name': '../escape'}, {'name': '/absolute'}, {'name': 'CON'}, {'name': '.hidden'}, {'name': 'a' * 65},
     {'title': ''}, {'title': 'line\nbreak'}, {'strict': 'true'}, {'strict': 1},
