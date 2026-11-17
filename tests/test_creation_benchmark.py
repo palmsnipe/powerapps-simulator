@@ -61,6 +61,31 @@ def test_no_created_app_fails_scoring_without_creating_fixture(tmp_path):
     assert list(tmp_path.iterdir()) == []
 
 
+def test_workflow_repair_scoring_requires_a_recorded_apply_and_verifies_undo(tmp_path):
+    filename = 'smoke.workflow.json'
+    original = {'format_version': 1, 'name': 'Check arithmetic', 'steps': [
+        {'op': 'assert', 'formula': '1+1', 'expect': 3}]}
+    fixed = deepcopy(original)
+    fixed['steps'][0]['expect'] = 2
+    backend = HeadlessBackend(workspace=tmp_path / 'projects')
+    log = tmp_path / 'calls.jsonl'
+    measured = MeasuredBackend(backend, log, TOOLS)
+    try:
+        created = measured.call('create_project', name='task-desk', workflows={filename: original},
+                                sources={'Src/Main.pa.yaml': 'Screens:\n  Main:\n    Children: []\n'})
+        staged = measured.call('stage_change', expected_revision=created['revision'],
+            expected_workflow_revision=created['workflow_revision'], workflows={filename: fixed})
+        measured.call('apply_change', change_id=staged['id'], expected_revision=created['revision'])
+    finally:
+        backend.close()
+    calls = read_events(log)
+    result = verify_trial(tmp_path, calls, allow_workflow_repairs=True)
+    assert result['workflow_edits_verified'] and result['undo_verified']
+    assert result['repaired_workflows'] == [filename] and not result['saved_workflows_unchanged']
+    missing_apply = verify_trial(tmp_path, calls[:-1], allow_workflow_repairs=True)
+    assert not missing_apply['workflow_edits_verified']
+
+
 @pytest.mark.parametrize('id_metadata', [{'x-ms-permission': 'read-only'}, {'readOnly': True}, {}])
 def test_independent_scorer_rejects_a_scaffold_and_preserves_the_retained_app(tmp_path, id_metadata):
     backend = HeadlessBackend(workspace=tmp_path / 'projects')

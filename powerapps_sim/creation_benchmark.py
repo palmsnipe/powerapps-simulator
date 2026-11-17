@@ -38,8 +38,8 @@ SEEDS = [{'ID': 1, 'Title': 'Plan release', 'Done': False},
 TOP_CONTROLS = ('Heading', 'TaskCount', 'NewTitle', 'AddTask', 'TaskGallery', 'StatusFilter')
 
 
-def trial_prompt():
-    return '''Build a new local task app AUTONOMOUSLY using ONLY the simulator MCP tools.
+def trial_prompt(*, allow_workflow_repairs=False):
+    prompt = '''Build a new local task app AUTONOMOUSLY using ONLY the simulator MCP tools.
 The workspace is initially empty: no app, source, data, schemas or tests have been prepared.
 Do both phases in order in this single session. No reference source or edits are provided.
 
@@ -103,6 +103,17 @@ or external Microsoft services. Only simulator tools are allowed. A separate sco
 run independent acceptance workflows, verify schema/data preservation and undo, and test
 the actual generated app in a browser. Finish with a brief result and any obstacles.
 '''
+    if allow_workflow_repairs:
+        prompt = prompt.replace(
+            'Run ALL your saved workflows against the created app and fix failures autonomously.',
+            'Run validate_workflows against the created app and fix failures autonomously. If a saved test is wrong,\n'
+            'read the failure and the original definition, then stage the corrected definition through stage_change\n'
+            'with workflows and expected_workflow_revision. Keep the same filename and meaningful coverage.\n'
+            'Validate the full staged suite, apply the repair, then validate the saved suite before the feature.')
+        prompt = prompt.replace(
+            'Do not modify schemas, seeded records or saved workflows\nafter creation;',
+            'Preserve schemas and seeded records after creation. Repair saved workflows through staged changes;')
+    return prompt
 
 
 def acceptance_workflows():
@@ -202,7 +213,7 @@ def phase_evidence(calls):
                 and applied_after_testing and initially_no_filter and restarted and exported}
 
 
-def verify_trial(root, calls):
+def verify_trial(root, calls, *, allow_workflow_repairs=False):
     """Score on copies so evaluation/undo/browser writes never change the retained model app."""
     creation = next((c for c in calls if c['operation'] == 'create_project' and c['status'] == 'completed'), None)
     if creation is None:
@@ -238,7 +249,15 @@ def verify_trial(root, calls):
             id_readonly = isinstance(id_result, FxError) and id_result.kind == 'ReadOnlyValue' \
                 and data_revision(workspace.runtime.store) == before
             records_preserved = workspace.runtime.store.rows('Tasks') == SEEDS and data_revision(workspace.runtime.store) == before
-            saved_unchanged = {e['file']: e.get('scenario') for e in saved} == (creation['arguments'].get('workflows') or {})
+            initial_workflows = creation['arguments'].get('workflows') or {}
+            final_workflows = {e['file']: e.get('scenario') for e in saved}
+            saved_unchanged = final_workflows == initial_workflows
+            reported_workflows = dict(initial_workflows)
+            for call in calls:
+                if call['operation'] == 'apply_change' and call['status'] == 'completed':
+                    reported_workflows.update(call['result'].get('workflows', {}))
+            workflow_edits_verified = set(reported_workflows) == set(initial_workflows) and final_workflows == reported_workflows
+            saved_verified = workflow_edits_verified if allow_workflow_repairs else saved_unchanged
             steps = [s for e in saved for s in e.get('scenario', {}).get('steps', [])]
             coverage = {'add': any(s.get('event') == 'OnSelect' and 'AddTask' in s.get('path', s.get('target', '')) for s in steps),
                         'toggle': any(s.get('event') == 'OnSelect' and 'ToggleTask' in s.get('path', s.get('target', '')) for s in steps),
@@ -275,15 +294,19 @@ def verify_trial(root, calls):
             for change in applied:
                 workspace.authoring.undo(change['id'], expected_revision=revision(clone))
             initial = creation['arguments'].get('sources') or {}
-            undo_verified = bool(applied) and Project(clone).documents == initial and data_revision(workspace.runtime.store) == before
+            restored_workflows = {e['file']: e.get('scenario') for e in workspace.workflows.catalog()['scenarios']}
+            undo_verified = (bool(applied) and Project(clone).documents == initial and restored_workflows == initial_workflows
+                             and data_revision(workspace.runtime.store) == before)
             return {'acceptance': independent, 'agent_saved_acceptance': saved_runs,
                     'schema_verified': schema_valid, 'id_readonly_verified': id_readonly,
                     'schemas_unchanged': schemas_unchanged,
                     'saved_workflow_coverage': coverage, 'records_preserved': records_preserved,
-                    'saved_workflows_unchanged': saved_unchanged, 'export_verified': export_verified,
+                    'saved_workflows_unchanged': saved_unchanged, 'workflow_edits_verified': workflow_edits_verified,
+                    'repaired_workflows': sorted(name for name in initial_workflows if final_workflows.get(name) != initial_workflows[name]),
+                    'export_verified': export_verified,
                     'preview_clean': clean, 'geometry': geometry, 'applied_changes': len(applied),
                     'diffs': diffs, 'undo_verified': undo_verified,
-                    'passed': schema_valid and id_readonly and schemas_unchanged and records_preserved and saved_unchanged and all(coverage.values())
+                    'passed': schema_valid and id_readonly and schemas_unchanged and records_preserved and saved_verified and all(coverage.values())
                         and export_verified and clean and undo_verified
                         and bool(saved_runs) and len(saved_runs) == len(saved)
                         and all(r['status'] == 'passed' and not r['diagnostics'] for r in independent + saved_runs)
@@ -377,8 +400,8 @@ def verify_browser(root):
             workspace.runtime.close()
 
 
-def run_trial(root, executable='codex', timeout=900, *, browser=False, skill=None):
-    prompt = trial_prompt()
+def run_trial(root, executable='codex', timeout=900, *, browser=False, skill=None, allow_workflow_repairs=False):
+    prompt = trial_prompt(allow_workflow_repairs=allow_workflow_repairs)
     if skill is not None:
         guidance = skill.read_text(encoding='utf-8').strip()
         if not guidance:
@@ -414,7 +437,7 @@ def run_trial(root, executable='codex', timeout=900, *, browser=False, skill=Non
     calls = read_events(root / 'simulator.jsonl') if (root / 'simulator.jsonl').exists() else []
     phases = phase_evidence(calls)
     try:
-        verification = verify_trial(root, calls)
+        verification = verify_trial(root, calls, allow_workflow_repairs=allow_workflow_repairs)
     except Exception as error:
         verification = {'passed': False, 'error': str(error)}
     unsupported = metrics['shell_calls'] or metrics['file_changes'] or metrics['web_searches'] or metrics['other_mcp_servers']
@@ -427,6 +450,7 @@ def run_trial(root, executable='codex', timeout=900, *, browser=False, skill=Non
                   'excluded from model metrics. Human interventions are corrective prompts/edits after launch. '
                   'Raw client and service logs retained locally; this is one trial, not a general speed estimate.',
               'client': client, 'skill': str(skill.resolve()) if skill is not None else None,
+              'allow_workflow_repairs': allow_workflow_repairs,
               'elapsed_seconds': elapsed, 'exit_code': exit_code, 'timed_out': timed_out,
               'client_metrics': metrics, 'manual_interventions': 0, 'corrective_prompts': 0,
               'simulator_calls': len(calls), 'simulator_failures': sum(c['status'] == 'failed' for c in calls),
@@ -457,11 +481,14 @@ def main():
     parser.add_argument('--timeout', type=int, default=900)
     parser.add_argument('--browser', action='store_true', help='Also score the generated app in Chromium on a private copy')
     parser.add_argument('--skill', type=Path, help='Include this SKILL.md in the prompt while keeping host skill discovery disabled')
+    parser.add_argument('--allow-workflow-repairs', action='store_true',
+                        help='Allow reviewed repairs to saved tests and verify them from the applied MCP changes')
     args = parser.parse_args()
     if args.serve:
         serve(args.workspace, args.log)
         return
-    result = run_trial(args.output.resolve(), args.codex, args.timeout, browser=args.browser, skill=args.skill)
+    result = run_trial(args.output.resolve(), args.codex, args.timeout, browser=args.browser,
+                       skill=args.skill, allow_workflow_repairs=args.allow_workflow_repairs)
     print(json.dumps({k: result[k] for k in ('status', 'simulator_calls', 'elapsed_seconds', 'manual_interventions')}
                      | {'usage': result['client_metrics']['usage'], 'verification': result['verification']['passed']}), flush=True)
     raise SystemExit(0 if result['status'] == 'passed' else 1)

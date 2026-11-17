@@ -1,0 +1,81 @@
+App:
+  Properties:
+    StartScreen: =Inbox
+Screens:
+  Inbox:
+    Children:
+      - InboxHeading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Requests awaiting approval"
+            X: =16
+            Y: =12
+            Width: =Parent.Width - 32
+            Height: =32
+      - PendingRequests:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            Items: =Filter(Requests, Status = "Pending")
+            X: =16
+            Y: =60
+            Width: =Parent.Width - 32
+            Height: =Parent.Height - 76
+            TemplateSize: =56
+          Children:
+            - RequestTitle:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title
+                  Width: =Parent.TemplateWidth - 104
+            - OpenRequest:
+                Control: ModernButton@1.0.0
+                Properties:
+                  Text: ="Review"
+                  X: =Parent.TemplateWidth - 96
+                  Width: =88
+                  OnSelect: =Set(selectedId, ThisItem.ID); Navigate(Review)
+  Review:
+    Children:
+      - ReviewTitle:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =LookUp(Requests, ID = selectedId, Title)
+            X: =16
+            Y: =12
+            Width: =Parent.Width - 32
+            Height: =32
+      - ApprovalNote:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: =""
+            AccessibleLabel: ="Approval note"
+            X: =16
+            Y: =60
+            Width: =Parent.Width - 32
+      - ReviewError:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: =""
+            Visible: =false
+            X: =16
+            Y: =108
+            Width: =Parent.Width - 32
+            Height: =36
+      - ApproveRequest:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Approve"
+            X: =16
+            Y: =156
+            Width: =120
+            OnSelect: |-
+              =Patch(Requests, LookUp(Requests, ID = selectedId), {Status: "Approved"}); Back()
+      - CancelReview:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Cancel"
+            X: =148
+            Y: =156
+            Width: =120
+            OnSelect: =Back()

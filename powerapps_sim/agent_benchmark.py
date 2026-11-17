@@ -133,7 +133,8 @@ def trial_prompt(task, mode):
     )
 
 
-def codex_command(root, mode, executable, *, workspace=False, server_module='powerapps_sim.agent_benchmark'):
+def codex_command(root, mode, executable, *, workspace=False, server_module='powerapps_sim.agent_benchmark',
+                  model=None, reasoning_effort=None, service_tier=None):
     # Retain the user's model/provider settings, while disabling unrelated integrations.
     home = Path(os.environ.get('CODEX_HOME', Path.home() / '.codex'))
     config_path = home / 'config.toml'
@@ -145,6 +146,11 @@ def codex_command(root, mode, executable, *, workspace=False, server_module='pow
                '-c', 'web_search="disabled"', '-c', 'notify=[]']
     for name in config.get('mcp_servers', {}):
         command += ['-c', f'mcp_servers.{name}.enabled=false']
+    if model is not None:
+        command += ['-m', model]
+    for key, value in (('model_reasoning_effort', reasoning_effort), ('service_tier', service_tier)):
+        if value is not None:
+            command += ['-c', f'{key}={json.dumps(value)}']
     # -c is subprocess argv, not a shell command: source paths cannot execute code.
     package_root = str(Path(__file__).resolve().parent.parent)
     script = f'import sys; sys.path.insert(0, {package_root!r}); from {server_module} import main; main()'
@@ -155,7 +161,8 @@ def codex_command(root, mode, executable, *, workspace=False, server_module='pow
     command += ['-c', 'mcp_servers.simulator=' + '{command=' + json.dumps(sys.executable)
                 + ',args=' + json.dumps(server_args)
                 + ',required=true,tool_timeout_sec=120,default_tools_approval_mode="approve"}', '-']
-    return command, {'model': config.get('model'), 'reasoning_effort': config.get('model_reasoning_effort'),
+    return command, {'model': model or config.get('model'), 'reasoning_effort': reasoning_effort or config.get('model_reasoning_effort'),
+                     'service_tier': service_tier or config.get('service_tier'),
                      'codex_version': subprocess.check_output([executable, '--version'], text=True).strip(),
                      'simulator_approval_mode': 'approve'}
 
@@ -202,14 +209,11 @@ def verify_trial(root, original, original_data):
         workspace.runtime.close()
 
 
-def run_trial(root, mode, executable='codex', timeout=900):
-    root.mkdir(parents=True, exist_ok=False)
-    project, task, original, data, baseline = prepare_trial(root)
-    prompt = trial_prompt(task, mode)
+def run_measured_agent(root, command, prompt, timeout):
+    """Time the agent session and collect the original client and service traces."""
     atomic_write(root / 'prompt.txt', prompt)
-    command, client = codex_command(root, mode, executable)
-    started = perf_counter()
     timed_out = False
+    started = perf_counter()
     with (root / 'client.jsonl').open('w') as output, (root / 'client.stderr').open('w') as errors:
         with subprocess.Popen(command, stdin=subprocess.PIPE, text=True, stdout=output, stderr=errors,
                               start_new_session=os.name == 'posix') as process:
@@ -231,11 +235,21 @@ def run_trial(root, mode, executable='codex', timeout=900):
     events = read_events(root / 'client.jsonl')
     metrics = client_metrics(events)
     calls = read_events(root / 'simulator.jsonl') if (root / 'simulator.jsonl').exists() else []
+    return {'elapsed_seconds': elapsed, 'exit_code': exit_code, 'timed_out': timed_out,
+            'client_metrics': metrics}, calls
+
+
+def run_trial(root, mode, executable='codex', timeout=900):
+    root.mkdir(parents=True, exist_ok=False)
+    project, task, original, data, baseline = prepare_trial(root)
+    command, client = codex_command(root, mode, executable)
+    execution, calls = run_measured_agent(root, command, trial_prompt(task, mode), timeout)
+    metrics = execution['client_metrics']
     verification = verify_trial(root, original, data)
     unsupported = metrics['shell_calls'] or metrics['file_changes'] or metrics['web_searches'] or metrics['other_mcp_servers']
-    return {'mode': mode, 'status': 'passed' if exit_code == 0 and verification['passed'] and not unsupported
+    return {'mode': mode, 'status': 'passed' if execution['exit_code'] == 0 and verification['passed'] and not unsupported
                 and metrics['usage'] is not None else 'failed',
-            'client': client, 'elapsed_seconds': elapsed, 'exit_code': exit_code, 'timed_out': timed_out,
+            'client': client, **execution,
             'simulator_calls': len(calls), 'simulator_failures': sum(c['status'] == 'failed' for c in calls),
             'operations': dict(Counter(c['operation'] for c in calls)),
             'request_bytes': sum(c['request_bytes'] for c in calls),

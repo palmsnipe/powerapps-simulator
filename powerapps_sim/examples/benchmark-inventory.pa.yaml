@@ -1,0 +1,38 @@
+App:
+  Properties:
+    StartScreen: =Inventory
+Screens:
+  Inventory:
+    Children:
+      - Heading:
+          Control: ModernText@1.0.0
+          Properties:
+            Text: ="Asset inventory"
+            X: =16
+            Y: =12
+            Width: =Parent.Width - 32
+            Height: =32
+      - AssetSearch:
+          Control: ModernTextInput@1.1.2
+          Properties:
+            Default: =""
+            AccessibleLabel: ="Asset title"
+            X: =16
+            Y: =52
+            Width: =Parent.Width - 32
+      - AssetGallery:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            Items: =Search(Assets, Trim(AssetSearch.Text), Title)
+            X: =16
+            Y: =100
+            Width: =Parent.Width - 32
+            Height: =Parent.Height - 116
+            TemplateSize: =52
+          Children:
+            - AssetTitle:
+                Control: ModernText@1.0.0
+                Properties:
+                  Text: =ThisItem.Title
+                  Width: =Parent.TemplateWidth - 16

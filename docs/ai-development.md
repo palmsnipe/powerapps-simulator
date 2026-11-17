@@ -4,6 +4,43 @@
 
 The benchmark exercises one complete simulator development loop: discover the relevant app source and list schema, stage a feature, test it in isolated workflows, apply it, restart the preview, export the source, and undo the change. It runs locally with fictional SQLite records and requires no Microsoft connection.
 
+## Compare models across the authoring suite
+
+Use an authenticated Codex CLI with MCP and Playwright Chromium installed. This command runs two independent attempts per case.
+
+```sh
+.venv/bin/python -m powerapps_sim.benchmark_suite \
+  --model gpt-6.1-terra --reasoning-effort high --service-tier priority \
+  --repeats 2 --timeout 300 --skill .agents/skills/powerapps-simulator-authoring/SKILL.md
+```
+
+| Case | Scoring |
+| --- | --- |
+| `create` | New task tracker, saved baseline, staged status filter, independent workflow and Chromium checks, export, and undo |
+| `feature` | Status filter and write-failure recovery in an existing project, with preserved records and tests |
+| `switch-edit` | Open the intended project, change one title, preserve the similarly named project, and verify export and undo |
+| `repair-tests` | Repair two incorrect saved assertions through Apply, keep the app intact, and verify the repaired assertions still catch incorrect behavior |
+| `large-list-search` | Restore prefix search in a 620-record inventory. Find and sort matches beyond the 500-row limit, check the empty state and narrow layout, and preserve the limit and records |
+| `approval-flow` | Require a note on a two-screen approval app. Verify cancellation, a failed write, a successful retry, and exactly one update to the selected record |
+
+Each attempt uses a fresh model session and disposable workspace. Run selected cases with repeatable `--case` arguments, or set `--output` to choose a new results directory. Attempts run sequentially. Use the same suite version, skill, repeat count, timeout, and model settings when comparing results.
+
+`report.json` and `summary.md` show passes, attempts, success rates, median agent time, median MCP steps, and rejected steps. A step is one client MCP call. The detailed attempt reports include native token usage, underlying simulator calls and time, payload bytes, staged and applied changes, and validation failures. Agent wall time excludes fixture setup and independent scoring. Raw client and service traces remain with each trial. A timed-out run or an error contributes an unsuccessful attempt, with the cause retained in its report.
+
+### Save runs and regenerate the comparison
+
+Keep each completed run directory with its top-level `report.json`, prompts, and traces. The JSON is the source of record. Include a new run directory when regenerating the comparison for another model. The default results directory, `test-results/`, is gitignored. Copy completed runs to persistent storage when sharing results or moving to another checkout.
+
+```sh
+.venv/bin/python -m powerapps_sim.benchmark_report \
+  --output test-results/authoring-comparison \
+  test-results/authoring-suite/*/report.json
+```
+
+The command regenerates a Markdown report and `benchmark-attempts.csv`. The CSV opens in Excel and has one row per attempt, with the model configuration, status, timing, MCP steps, rejections, validation failures, token usage, and failed checks. Input tokens include cached input, and output tokens include reasoning tokens. Missing measurements appear as blank cells. Add `--docx` and run the same command with a Python environment that has `python-docx` to regenerate the editable Word report. Each command replaces the generated output files.
+
+Comparisons group the same suite version, selected cases, reasoning effort, service tier, timeout, skill hash and Codex CLI version. Use the same repeat count for each model, and repeat runs before drawing conclusions from small samples. Compare pass counts by case first, then use median time and MCP steps to compare efficiency. The reports show pending attempts separately and include a median for successful trials. Increment the suite version when changing a case, its acceptance criteria, or the measurement contract.
+
 ## Develop the starter app
 
 ```sh
@@ -72,6 +109,8 @@ The [11 October 2026 actual AI trial](benchmarks/2026-10-11/README.md) retains m
 This launches one fresh Codex CLI session with only measured simulator MCP tools. Its workspace initially contains no app, source, schemas, records or tests. The AI must call `create_project` to author a task app, its local `Tasks` schema, three fictional seed rows and at least three acceptance workflows. It tests the initial app, then stages a status filter, tests the candidate, applies it, restarts the preview and exports the result. The task specifies stable control names and observable behavior for scoring, but provides no reference source or edits. The CLI retains the configured model and uses the same invocation-local approval policy and disabled integrations as the authoring benchmark above.
 
 The scorer independently checks adding a trimmed title, blocking blank/whitespace input, retaining input after a failed write and retrying once, All/Open/Done filtering, and toggling the correct filtered row. It also checks the schema and seeds, saved workflow coverage/preservation, source export, clean diagnostics, desktop/narrow geometry and undo back to the AI-created initial source. Scoring and undo run on copies; the final app remains in the trial's `projects/task-desk` directory. `--browser` adds actual Chromium interaction, screenshots and a separate browser result, also on a copy. This requires Playwright and Chromium; without the flag, the report makes no browser-verification claim.
+
+Pass `--allow-workflow-repairs` to let the model stage and apply corrections to existing saved workflows. The scorer checks the final definitions against successful MCP applies and checks that undo restores the original suite. The independent acceptance and browser checks still verify the app behavior.
 
 `report.json`, `client.jsonl`, `simulator.jsonl`, `prompt.txt`, `export.json` and optional `browser/*.png` retain the evidence. Native client token usage, client MCP calls, simulator service calls (including failures), operation counts, payload bytes and invocation wall time are measured. Phase scoring requires a successful creation, saved workflow verification before the feature, candidate verification before apply, restart and export. No replay or direct source editing substitutes for model activity. Human interventions count corrective prompts/edits after launch; setup, independent scoring and coordinating-chat usage are excluded. Preserve failed attempts and report any automated setup/prompt adjustments between fresh trials separately. A single task establishes feasibility and cost for that task, not a general development speedup.
 
