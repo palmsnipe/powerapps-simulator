@@ -19,8 +19,10 @@ import sqlite3
 from tempfile import TemporaryDirectory
 import uuid
 
+from ruamel.yaml.error import YAMLError
+
 from .catalog import atomic_write, json_text
-from .source import Project, dump_yaml, load_yaml, safe_path
+from .source import Project, YAML_FORMULA_HINT, dump_yaml, load_yaml, safe_path
 
 
 class RevisionConflict(ValueError):
@@ -193,7 +195,10 @@ class AuthoringService:
                 if content is None:
                     safe_path(root, name).unlink(missing_ok=True)
                 else:
-                    load_yaml(content)
+                    try:
+                        load_yaml(content)
+                    except YAMLError as error:
+                        raise ValueError(f'Invalid YAML in {name}: {error}\n{YAML_FORMULA_HINT}') from None
                     atomic_write(safe_path(root, name), content)
             candidate = Project(root)
             old_errors = {(e['source'], e['message']) for e in self.workspace.project.source_errors}

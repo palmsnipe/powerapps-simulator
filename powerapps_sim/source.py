@@ -10,6 +10,11 @@ from zipfile import ZipFile
 
 from ruamel.yaml import YAML
 
+YAML_FORMULA_HINT = (
+    'Use a YAML block scalar for Power Fx formula values: put >- after the property name, '
+    'then indent the =formula on the next line. This protects colon-space in records such as {Enabled: true}.'
+)
+
 
 def yaml_engine():
     y = YAML(typ="rt")

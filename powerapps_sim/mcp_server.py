@@ -139,6 +139,7 @@ def create_server(backend):
     from mcp.types import ToolAnnotations
     from pydantic import Field, WithJsonSchema
     from typing import Annotated, Any, Literal
+    from .source import YAML_FORMULA_HINT
     from .workflows import WORKFLOW_INPUT_SCHEMA
 
     workflow_input = Annotated[dict[str, Any], WithJsonSchema(WORKFLOW_INPUT_SCHEMA)]
@@ -148,6 +149,17 @@ def create_server(backend):
         {'type': 'object', 'required': ['scenario'], 'additionalProperties': False,
          'properties': {'scenario': WORKFLOW_INPUT_SCHEMA}},
     ]})]
+    yaml_source_example = {'Src/Main.pa.yaml': '''Screens:
+  Main:
+    Children:
+      - SampleButton:
+          Control: ModernButton@1.0.0
+          Properties:
+            Text: ="Enable"
+            OnSelect: >-
+              =Set(settings, {Enabled: true})
+'''}
+    source_description = f'Map Src/*.yaml or Src/*.yml paths to complete YAML document strings. {YAML_FORMULA_HINT}'
 
     server = MCPServer('Power Apps Simulator', version='0.1.0', instructions=(
         'For edits: describe_project for the revision, read_controls/read_control for focused context, '
@@ -297,8 +309,12 @@ def create_server(backend):
             function.__annotations__['offset'] = Annotated[int, Field(ge=0, strict=True)]
             function.__annotations__['limit'] = Annotated[int, Field(ge=1, le=500, strict=True)]
         if function in (stage_change, stage_control_edits):
-            for name in (('sources', 'lists', 'migrations') if function is stage_change else ('lists', 'migrations')):
+            for name in ('lists', 'migrations'):
                 function.__annotations__[name] = dict[str, Any] | None
+        if function is stage_change:
+            function.__annotations__['sources'] = Annotated[dict[str, str | None] | None,
+                Field(description=source_description + ' A null document value deletes that file.',
+                      examples=[yaml_source_example])]
         if function is stage_control_edits:
             function.__annotations__['edits'] = list[dict[str, Any]]
         if function is run_workflow:
@@ -306,7 +322,10 @@ def create_server(backend):
         if function is run_workflows:
             function.__annotations__['workflows'] = list[workflow_entry]
         if function is create_project:
-            function.__annotations__.update(sources=dict[str, str] | None, lists=dict[str, dict[str, Any]] | None,
+            function.__annotations__.update(
+                sources=Annotated[dict[str, str] | None,
+                    Field(description=source_description, examples=[yaml_source_example])],
+                lists=dict[str, dict[str, Any]] | None,
                 records=dict[str, list[dict[str, Any]]] | None, workflows=dict[str, workflow_input] | None,
                 viewport=dict[str, Annotated[int, Field(strict=True)]] | None, environment=dict[str, Any] | None,
                 strict=Annotated[bool, Field(strict=True)])

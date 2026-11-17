@@ -27,6 +27,16 @@ def test_empty_workspace_real_stdio_create_schema_records_workflows_and_continue
             tools = {tool.name: tool for tool in (await client.list_tools()).tools}
             assert len(tools) == 23 and tools['create_project'].annotations.destructive_hint
             assert tools['create_project'].input_schema['properties']['records']['anyOf'][0]['type'] == 'object'
+            create_sources = tools['create_project'].input_schema['properties']['sources']
+            stage_sources = tools['stage_change'].input_schema['properties']['sources']
+            sample, = create_sources['examples']
+            assert stage_sources['examples'] == [sample] and '>-' in create_sources['description']
+            source_file = 'Src/Main.pa.yaml'
+            broken = {source_file: sample[source_file].replace('OnSelect: >-\n              ', 'OnSelect: ')}
+            assert broken != sample
+            rejection = await client.call_tool('create_project', {'name': 'bad-yaml', 'sources': broken})
+            assert rejection.is_error and source_file in rejection.content[0].text
+            assert 'block scalar' in rejection.content[0].text and not (root / 'bad-yaml').exists()
             assert (await call('describe_project'))['project_path'] is None
             assert (await client.call_tool('read_control', {'path': 'Main'})).is_error
             # SDK validation rejects coerced booleans/dimensions before any publication.
@@ -41,6 +51,10 @@ def test_empty_workspace_real_stdio_create_schema_records_workflows_and_continue
             assert not created['runtime_started'] and created['sample_record_counts'] == {'Projects': 1}
             assert (await call('read_list', name='Projects'))['rows'][0]['Title'] == 'Fictional example'
             assert (await call('describe_project'))['project_path'] == created['project_path']
+            rejected_stage = await client.call_tool('stage_change', {
+                'expected_revision': created['revision'], 'sources': broken,
+            })
+            assert rejected_stage.is_error and 'block scalar' in rejected_stage.content[0].text
             staged = await call('stage_control_edits', expected_revision=created['revision'], strict=True,
                 edits=[{'op': 'set_property', 'path': 'Main/Title', 'property': 'Text', 'value': '=First(Projects).Title'}])
             batch = await call('run_workflows', expected_revision=created['revision'], change_id=staged['id'],
@@ -52,8 +66,10 @@ def test_empty_workspace_real_stdio_create_schema_records_workflows_and_continue
             assert 'First(Projects)' in (await call('export_source'))['documents']['Src/App.pa.yaml']
             # Further creation is revision-guarded and explicitly rebinds the same client.
             assert (await client.call_tool('create_project', {'name': 'second'})).is_error
-            second = await call('create_project', name='second', expected_revision=applied['after_revision'])
+            second = await call('create_project', name='second', expected_revision=applied['after_revision'], sources=sample)
             assert (await call('describe_project'))['project_path'] == second['project_path']
+            button = await call('read_control', path='Main/SampleButton')
+            assert button['definition']['Properties']['OnSelect'] == '=Set(settings, {Enabled: true})'
     asyncio.run(exercise())
     assert (root / 'scratch/tests/count.workflow.json').exists() and not (root / 'demo').exists()
 

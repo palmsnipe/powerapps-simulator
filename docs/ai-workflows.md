@@ -59,7 +59,7 @@ The MCP server gives clients a shared authoring sequence when they connect. Read
 
 `create_project(name, title?, sources?, lists?, records?, workflows?, viewport?, environment?, strict=true, expected_revision?)` creates a new directory under the server's configured workspace root and binds the caller to it. It never accepts an arbitrary destination path or replaces an existing directory, including an empty directory or a symlink. Project names contain 1–64 letters, digits, underscores or hyphens, beginning with a letter or digit; Windows device names are rejected.
 
-- `sources` maps up to 100 `Src/*.yaml` or `.yml` paths to YAML text. Supply complete screen/component/App documents to generate the app in one call. Omit it for a responsive `Main` screen with a title control; then use targeted edits to build the app. At least one screen and valid YAML are required.
+- `sources` maps up to 100 `Src/*.yaml` or `.yml` paths to complete YAML document strings. Use a block scalar (`>-`) for Power Fx properties that contain a colon followed by a space, including record literals and text. Omit `sources` for a responsive `Main` screen with a title control, then use targeted edits to build the app. At least one screen and valid YAML are required.
 - `lists` maps up to 100 local list names to schema definitions using the same fields, mappings, required constraints, choice options and lookup contracts as reviewed authoring.
 - `records` maps declared list names to arrays of up to 10,000 sample records each. Schema types, constraints, choice options and lookup references are checked before publication. Records may use internal or display field names. Explicit IDs must be unique positive integers; omitted IDs are allocated above supplied IDs. All lists are seeded before validating references, so forward and cyclic lookup records work.
 - `workflows` maps up to 100 portable `NAME.workflow.json` basenames to version-one scenario objects. Definitions are validated and saved in `tests/`; they are not executed by creation. Their assertions may deliberately describe unfinished behavior. Run them explicitly to establish acceptance.
@@ -100,6 +100,13 @@ For example, this request creates a starter screen, persistent fictional records
 In an empty `--workspace` session, omit `expected_revision`. If a project is already bound, first call `describe_project` and supply its revision: creating another app explicitly switches the active workspace and discards its unsaved preview state. HTTP writes still require the bound project identity. The creating adapter updates its binding only after success; browser switches and other clients cannot silently redirect it.
 
 Creation builds and validates the source, schemas, records and workflow definitions in a private temporary directory. `strict=true` rejects binding/source diagnostics; `strict=false` permits valid YAML with findings for later repair. Validation failures leave no new app and preserve the previous workspace. A validated app is published by directory rename, then opened without running OnStart/OnVisible. An unexpected activation failure preserves the complete new directory and previous binding, with its location in the error; reopen that directory explicitly rather than overwriting it.
+
+Both `create_project` and `stage_change` show a source example in their MCP input schemas. In a control's `Properties`, the formula goes on the indented line below `>-`.
+
+```yaml
+OnSelect: >-
+  =Set(settings, {Enabled: true})
+```
 
 The result includes project/workspace paths, revision, screens, source names, list names, sample record counts, workflow files and diagnostics. Continue with `run_workflows`, `stage_control_edits` or `stage_change`, then `apply_change` and `restart_preview`. Refresh the browser after an HTTP creation to load the new project title/source. Creation has the destructive annotation because it can switch the active project; configure approval for this explicitly authorized action in the AI client as appropriate.
 

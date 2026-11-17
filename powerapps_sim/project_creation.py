@@ -12,7 +12,7 @@ from .authoring import _source_name
 from .catalog import atomic_write, json_text
 from .ownership import ProjectLease
 from .runtime import Runtime
-from .source import Project, dump_yaml
+from .source import Project, YAML_FORMULA_HINT, dump_yaml
 from .store import ListStore
 from .workflows import STARTER, validate
 
@@ -103,9 +103,12 @@ def create_project(workspace, *, name, title=None, sources=None, lists=None, rec
         for filename, text in normalized.items():
             atomic_write(project.root / filename, text)
         project.reload()
-        if project.source_errors or not project.screens:
-            raise ValueError('New app needs valid YAML and at least one screen: ' +
-                             (project.source_errors[0]['message'] if project.source_errors else 'no screens found'))
+        if project.source_errors:
+            error = project.source_errors[0]
+            raise ValueError(f'Invalid app source in {error["source"]} at line {error["line"]}: '
+                             f'{error["message"]}\n{YAML_FORMULA_HINT}')
+        if not project.screens:
+            raise ValueError('New app needs at least one screen; no screens found')
         project.config.update(title=title, viewport=viewport)
         if environment is not None:
             project.config['environment'].update(environment)
