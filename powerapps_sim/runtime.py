@@ -18,6 +18,7 @@ from .listbox import LISTBOXES,OUTPUTS as LIST_OUTPUTS
 from .components import ComponentCallable, access_app_scope, component_definition, custom_parameters, required_parameters, validate_kind, result_type_name
 from .errors import error_number
 from .fx import BUILTINS, Context, Evaluator, ENUMS, table, text, truth
+from .preview_properties import display_properties as cached_display_properties
 from .source import Control
 from .store import DataSource, ListStore
 from .syntax import FxError, call_name, walk
@@ -1232,6 +1233,7 @@ class Runtime:
             self.diagnostics.append(entry)
 
     def analyze(self):
+        self._preview_property_cache = {}
         self.diagnostics = list(self.project.source_errors)
         from .expressions import app_expression,authored_property,authored_parameter,contract_expression
         origins={id(d.body):self.fx.app_definition_origin(name) for name,d in self.fx.definitions.items()}
@@ -2638,13 +2640,22 @@ class Runtime:
         if ref.family=='Classic/Button':
             from .classic_button import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES))
+        cached = cached_display_properties(ref, render_properties)
         for name in render_properties:
             if ref.family == 'ModernProgressBar' and name == 'Max':
                 continue  # Indeterminate rendering must not observe Value/Max errors.
+            if cached is not None and name in cached.values:
+                props[name] = cached.values[name]
+                continue
             if ref.raw_property(name) is not None:
                 try:
                     value = self.render_property(ref,name)
-                    props[name] = float(value) if isinstance(value, Decimal) else serial(value)
+                    rendered = float(value) if isinstance(value, Decimal) else serial(value)
+                    props[name] = rendered
+                    if cached is not None and name in cached.reusable and (
+                        rendered is None or isinstance(rendered, (str, int, float, bool))
+                    ):
+                        cached.values[name] = rendered
                 except FxError as error:
                     errors.append(f"{name}: {error.message}")
                     if name in ("DisplayMode", "Visible"):

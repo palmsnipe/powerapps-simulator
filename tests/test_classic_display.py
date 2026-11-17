@@ -46,6 +46,57 @@ def test_label_profile_defaults(tmp_path,version,profile,w,h,size):
     try:assert tuple(ref(r).property(n) for n in ('Width','Height','Size'))==(w,h,size)
     finally:r.close()
 
+
+def test_preview_reuses_fixed_display_values_and_refreshes_live_formulas(tmp_path, monkeypatch):
+    r = make(tmp_path, props={
+        'Text': '=caption',
+        'Color': '=If(shown, Color.Red, Color.Blue)',
+        'X': '=App.Width/2',
+        'Width': '=120',
+    })
+    try:
+        label = ref(r)
+        initial = r.render(label)['props']
+        assert initial['HoverColor'] == initial['Color'] and initial['Text'] == 'short'
+
+        reads = set()
+        original_render_property = r.render_property
+
+        def read(control, name):
+            if control is label:
+                reads.add(name)
+            return original_render_property(control, name)
+
+        monkeypatch.setattr(r, 'render_property', read)
+        behavior(r, 'Set(caption,"updated");Set(shown,false)')
+        r.viewport['width'] = 960
+        r.invalidate()
+        updated = next(node['props'] for node in r.state()['tree']['children'] if node['name'] == 'D')
+        assert updated['Text'] == 'updated'
+        assert updated['X'] == 480 and updated['Width'] == 120
+        assert updated['HoverColor'] == updated['Color'] != initial['Color']
+        assert {'Text', 'X', 'Color', 'HoverColor'} <= reads
+        assert {'Width', 'PaddingLeft'}.isdisjoint(reads)
+    finally:
+        r.close()
+
+
+def test_preview_rechecks_cached_presentation_after_profile_changes(tmp_path):
+    r = make(tmp_path, props={'Text': '=1.5'})
+    try:
+        label = ref(r)
+        initial = r.render(label)['props']
+        assert initial['Text'] == '1.5' and initial['Width'] == 150
+
+        r.environment['language'] = 'fr-CA'
+        r.project.config['form_factor'] = 'phone'
+        r.invalidate()
+        updated = r.render(label)['props']
+        assert updated['Text'] == '1,5' and updated['Width'] == 560
+    finally:
+        r.close()
+
+
 @pytest.mark.parametrize('name,value',[('LineHeight','=-1'),('PaddingTop','="five"'),('Size','=true'),('Width','="wide"'),('Height','={Value:3}'),
     ('Live','="Urgent"'),('Role','="Heading5"'),('Overflow','="Visible"'),('Wrap','=1'),('AutoHeight','="true"'),
     ('BorderStyle','="Double"'),('TabIndex','=0.5'),('Color','="red"'),('Fill','=1'),('Font','=12'),('IsErrorMessage','=true')])
