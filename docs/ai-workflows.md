@@ -4,6 +4,8 @@
 
 Connect an AI client, run isolated scenarios, and review/apply coordinated source and schema changes through the shared workspace services.
 
+From this checkout, invoke `$powerapps-simulator-authoring` in Codex. Other MCP clients can load the same file as authoring instructions. The from-scratch benchmark accepts the file through `--skill`. [Simulator authoring skill](../.agents/skills/powerapps-simulator-authoring/SKILL.md)
+
 ## Connecting an AI client through MCP
 
 Open **AI tools** in the editor. It shows the bound project, installed SDK version, an install command if needed, and copyable `command`/`args` settings for a stdio-capable client. It uses the current Python executable, server port and absolute project path. Keep the simulator running while using this HTTP attachment. The dialog does not install dependencies or register a client automatically.
