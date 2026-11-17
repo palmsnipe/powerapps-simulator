@@ -137,8 +137,17 @@ def create_server(backend):
     from mcp.server import MCPServer
     from mcp.server.mcpserver.exceptions import ToolError, ResourceError
     from mcp.types import ToolAnnotations
-    from pydantic import Field
+    from pydantic import Field, WithJsonSchema
     from typing import Annotated, Any, Literal
+    from .workflows import WORKFLOW_INPUT_SCHEMA
+
+    workflow_input = Annotated[dict[str, Any], WithJsonSchema(WORKFLOW_INPUT_SCHEMA)]
+    workflow_entry = Annotated[dict[str, Any], WithJsonSchema({'oneOf': [
+        {'type': 'object', 'required': ['scenario_file'], 'additionalProperties': False,
+         'properties': {'scenario_file': {'type': 'string'}}},
+        {'type': 'object', 'required': ['scenario'], 'additionalProperties': False,
+         'properties': {'scenario': WORKFLOW_INPUT_SCHEMA}},
+    ]})]
 
     server = MCPServer('Power Apps Simulator', version='0.1.0', instructions=(
         'For edits: describe_project for the revision, read_controls/read_control for focused context, '
@@ -267,7 +276,7 @@ def create_server(backend):
         return call('read_workflow_report', run_id=run_id)
 
     def run_workflows(expected_revision: str, workflows: list[dict], change_id: str | None = None) -> dict:
-        """Run 1–20 independently isolated workflows against saved source or a candidate. Each entry has scenario_file or scenario. Returns concise failures, locations and report IDs; full traces remain available via read_workflow_report."""
+        """Run 1–20 isolated workflows against saved source or a candidate. Each entry has scenario_file or scenario. Select a dropdown's second option with {"op":"event","path":"Main/StatusFilter","event":"OnChange","selection":[1]}. Returns concise failures and report IDs."""
         return call('run_workflows', expected_revision=expected_revision, workflows=workflows, change_id=change_id)
 
     def restart_preview(expected_revision: str) -> dict:
@@ -290,11 +299,15 @@ def create_server(backend):
         if function in (stage_change, stage_control_edits):
             for name in (('sources', 'lists', 'migrations') if function is stage_change else ('lists', 'migrations')):
                 function.__annotations__[name] = dict[str, Any] | None
-        if function in (stage_control_edits, run_workflows):
-            function.__annotations__['edits' if function is stage_control_edits else 'workflows'] = list[dict[str, Any]]
+        if function is stage_control_edits:
+            function.__annotations__['edits'] = list[dict[str, Any]]
+        if function is run_workflow:
+            function.__annotations__['scenario'] = workflow_input | None
+        if function is run_workflows:
+            function.__annotations__['workflows'] = list[workflow_entry]
         if function is create_project:
             function.__annotations__.update(sources=dict[str, str] | None, lists=dict[str, dict[str, Any]] | None,
-                records=dict[str, list[dict[str, Any]]] | None, workflows=dict[str, dict[str, Any]] | None,
+                records=dict[str, list[dict[str, Any]]] | None, workflows=dict[str, workflow_input] | None,
                 viewport=dict[str, Annotated[int, Field(strict=True)]] | None, environment=dict[str, Any] | None,
                 strict=Annotated[bool, Field(strict=True)])
         server.tool(structured_output=True, annotations=apply if function in (apply_change, undo_change, restart_preview, create_project) else

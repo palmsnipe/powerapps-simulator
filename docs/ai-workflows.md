@@ -183,6 +183,12 @@ The version-one fields and steps are:
 
 Scenarios require at least one assertion and allow up to 200 steps. A failed action stops dependent steps and reports their skipped count; failed assertions continue so independent discrepancies remain visible. Traces are capped at 1,000 entries and explicitly mark truncation; execution continues. Write summaries report net row changes and per-step changes, not a complete SQLite transaction audit. Reports contain simulated data/formulas and stay local; they are excluded from Power Apps exports together with scenario definitions and simulator configuration. Timing, browser focus/scrolling and exact visual fidelity still need browser/Studio comparison tests.
 
+To select **Open** in a dropdown ordered **All**, **Open**, **Done**, use this event step. Even a single selection uses an array of zero-based option indexes.
+
+```json
+{"op": "event", "path": "Main/StatusFilter", "event": "OnChange", "selection": [1]}
+```
+
 HTTP clients sharing a running workspace use:
 
 ```text

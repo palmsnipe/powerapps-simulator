@@ -24,6 +24,37 @@ from .syntax import FxError
 STARTER = {'format_version': 1, 'name': 'Startup smoke', 'steps': [
     {'op': 'assert', 'formula': 'IsBlank(App.ActiveScreen)', 'expect': False}]}
 
+SELECTION_DESCRIPTION = (
+    'Array of zero-based option indexes in display order. Use [1] for the second '
+    'option, including for single-select controls. Put selection on the event step.'
+)
+
+# Expose the nested selection contract to MCP clients. The runner still validates
+# the fields and argument combinations specific to each step.
+WORKFLOW_INPUT_SCHEMA = {
+    'type': 'object',
+    'required': ['format_version', 'name', 'steps'],
+    'properties': {
+        'format_version': {'type': 'integer', 'const': 1},
+        'name': {'type': 'string'},
+        'steps': {'type': 'array', 'minItems': 1, 'maxItems': 200, 'items': {
+            'type': 'object',
+            'required': ['op'],
+            'properties': {
+                'op': {'enum': ['event', 'assert', 'failure', 'advance', 'scroll', 'diagnostics']},
+                'path': {'type': 'string', 'description': 'Control path. Event steps can use target instead.'},
+                'target': {'type': 'string', 'description': 'Power Fx formula that resolves an event control.'},
+                'event': {'type': 'string', 'description': 'Use OnChange for dropdown selections.'},
+                'selection': {'type': 'array', 'items': {'type': 'integer', 'minimum': 0},
+                              'description': SELECTION_DESCRIPTION, 'examples': [[1]]},
+                'formula': {'type': 'string', 'description': 'Power Fx formula for an assertion.'},
+                'expect': {'description': 'Expected assertion value or diagnostic count.'},
+            },
+            'examples': [{'op': 'event', 'path': 'Main/StatusFilter', 'event': 'OnChange', 'selection': [1]}],
+        }},
+    },
+}
+
 
 def validate(scenario):
     if not isinstance(scenario, dict) or set(scenario) - {'format_version', 'name', 'environment', 'viewport', 'records', 'steps'}:
@@ -75,7 +106,7 @@ def validate(scenario):
         raise ValueError('Scenario needs between 1 and 200 steps')
     fields = {'advance':{'milliseconds'},'event': {'path', 'target', 'scope', 'event', 'value', 'selection', 'expect_blocked'}, 'assert': {'formula', 'expect', 'error_kind', 'scope'},
               'failure': {'list', 'mode'}, 'scroll': {'path', 'offset', 'extent'}, 'diagnostics': {'expect'}}
-    for step in steps:
+    for index, step in enumerate(steps, 1):
         if not isinstance(step, dict) or step.get('op') not in fields:
             raise ValueError('Supported steps: event, advance, scroll, assert, failure, diagnostics')
         op = step['op']
@@ -94,7 +125,7 @@ def validate(scenario):
                 raise ValueError('expect_blocked must be Boolean')
             if 'selection' in step and (not isinstance(step['selection'], list) or
                     any(type(i) is not int or i < 0 for i in step['selection'])):
-                raise ValueError('Selection uses zero-based nonnegative integer indexes')
+                raise ValueError(f'Workflow step {index} has an invalid selection. {SELECTION_DESCRIPTION}')
         elif op == 'advance':
             from .timers import number
             number(step.get('milliseconds'),'Time advance')

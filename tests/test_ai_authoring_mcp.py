@@ -25,6 +25,17 @@ def test_focused_tools_over_stdio(tmp_path):
             assert tools['restart_preview'].annotations.destructive_hint
             assert not tools['stage_control_edits'].annotations.read_only_hint
             assert not tools['run_workflows'].annotations.read_only_hint
+            entry = tools['run_workflows'].input_schema['properties']['workflows']['items']['oneOf'][1]
+            scenario_schema = entry['properties']['scenario']
+            step_schema = scenario_schema['properties']['steps']['items']
+            example, = step_schema['examples']
+            assert example['selection'] == [1] and example['event'] == 'OnChange'
+            selection_schema = step_schema['properties']['selection']
+            assert selection_schema['type'] == 'array'
+            assert selection_schema['items'] == {'type': 'integer', 'minimum': 0}
+            assert tools['run_workflow'].input_schema['properties']['scenario']['anyOf'][0] == scenario_schema
+            creation_workflows = tools['create_project'].input_schema['properties']['workflows']['anyOf'][0]
+            assert creation_workflows['additionalProperties'] == scenario_schema
             described = await call('describe_project')
             discovered = await call('read_controls', query='Projects')
             assert any(c['path'] == 'Workspace/ProjectGallery' for c in discovered['controls'])
@@ -37,9 +48,21 @@ def test_focused_tools_over_stdio(tmp_path):
             change = await call('stage_control_edits', expected_revision=described['revision'], edits=task['reference_edits'], strict=True)
             catalog = await call('list_workflows', include_scenarios=False)
             assert all('scenario' not in e and e['step_count'] > 0 for e in catalog['scenarios'])
+            selection = {'format_version': 1, 'name': 'Select the second status', 'steps': [
+                {**example, 'path': 'Workspace/StatusFilter'},
+                {'op': 'assert', 'formula': 'StatusFilter.Selected.Value', 'expect': 'Draft'},
+            ]}
+            invalid = {**selection, 'steps': [
+                {**selection['steps'][0], 'selection': 1}, selection['steps'][1],
+            ]}
+            rejected = await client.call_tool('run_workflows', {'expected_revision': described['revision'],
+                'change_id': change['id'], 'workflows': [{'scenario': invalid}]})
+            assert rejected.is_error and 'Workflow step 1' in rejected.content[0].text
+            assert 'Use [1]' in rejected.content[0].text
             batch = await call('run_workflows', expected_revision=described['revision'], change_id=change['id'],
-                               workflows=[{'scenario_file': e['file']} for e in catalog['scenarios']])
-            assert batch['passed'] == 4 and batch['status'] == 'passed'
+                               workflows=[*({'scenario_file': e['file']} for e in catalog['scenarios']),
+                                          {'scenario': selection}])
+            assert batch['passed'] == 5 and batch['status'] == 'passed'
             assert await call('read_runtime') == owner
             applied = await call('apply_change', change_id=change['id'], expected_revision=described['revision'])
             restarted = await call('restart_preview', expected_revision=applied['after_revision'])
