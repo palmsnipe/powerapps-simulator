@@ -36,15 +36,15 @@ def lexical_signature(ctx):
 
 
 class Input:
-    def __init__(self,scope,node,source,rows):
+    def __init__(self,scope,node,rows,local):
         self.scope,self.node=scope,node
+        self.local=local
         self.epoch=scope.fx.host.reactive.epoch
         self.rows=rows;self.keys=rows_keys(rows);self.mapping=dict(zip(self.keys,rows))
     def refresh(self):
         fx=self.scope.fx;reactive=fx.host.reactive
         if self.epoch!=reactive.epoch:
-            from .fx import table
-            with reactive.untracked():rows=table(fx.eval(self.node,self.scope.ctx))
+            with reactive.untracked():rows=fx.table_rows(fx.eval(self.node,self.scope.ctx),local=self.local)
             self.rows=rows;self.keys=rows_keys(rows);self.mapping=dict(zip(self.keys,rows));self.epoch=reactive.epoch
         return self.mapping
     def current(self,key):
@@ -57,9 +57,9 @@ class Scope:
     def __init__(self,fx,key,ctx):
         self.fx,self.key,self.inputs=fx,key,{}
         self.ctx=replace(ctx,query_scope=self)
-    def input(self,node,source,rows):
+    def input(self,node,rows,local):
         key=(node.start,node.end,node.kind)
-        if key not in self.inputs:self.inputs[key]=Input(self,node,source,rows)
+        if key not in self.inputs:self.inputs[key]=Input(self,node,rows,local)
         return self.inputs[key]
 
 
@@ -91,10 +91,9 @@ def evaluate(fx,node,ctx,loader):
     finally:remember(reactive,key,node,ctx)
 
 
-def rows(fx,node,source,ctx):
-    from .fx import table
-    values=table(source)
-    if ctx.query_scope and not ctx.behavior:ctx.query_scope.input(node,source,values)
+def rows(fx,node,source,ctx,*,local=False):
+    values=fx.table_rows(source,local=local)
+    if ctx.query_scope and not ctx.behavior:ctx.query_scope.input(node,values,local)
     return values
 
 

@@ -1,11 +1,12 @@
 """Scoped Filter/LookUp queries, preserving Blank and error-valued rows."""
 from .syntax import FxError
+from .delegation import local_predicate
 
 FUNCTIONS = frozenset(('Filter', 'LookUp'))
 
 
 def evaluate(fx, name, args, ctx):
-    from .fx import observe, table, truth
+    from .fx import observe, truth
     from .store import DataSource
     arg = args[0]
     typ = fx.node_types.get(id(arg))
@@ -17,9 +18,10 @@ def evaluate(fx, name, args, ctx):
     if not isinstance(source, (list, DataSource)):
         raise FxError(f'{name} requires a table', 'Type', arg.start, arg.end)
     result = []
-    for index,row in enumerate(fx.query_rows(arg,source,ctx)):
+    predicates = args[1:2] if name == 'LookUp' else args[1:]
+    local = local_predicate(source, arg, predicates)
+    for index,row in enumerate(fx.query_rows(arg,source,ctx,local=local)):
         try:
-            predicates = args[1:2] if name == 'LookUp' else args[1:]
             matches = all(truth(fx.query_row(arg,row,predicate,ctx,index)) for predicate in predicates)
         except FxError as error:
             if name == 'LookUp':

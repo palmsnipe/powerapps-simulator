@@ -49,7 +49,7 @@ def evaluate(fx, name, args, ctx):
         if source is None:
             return None
         def values():
-            for index,row in enumerate(fx.query_rows(args[0],source,ctx)):
+            for index,row in enumerate(fx.query_rows(args[0],source,ctx,local=True)):
                 # An error row belongs to the record scope: the projection
                 # can contain it with IfError before consuming its value.
                 value = fx.query_row(args[0],row,args[1],ctx,index)

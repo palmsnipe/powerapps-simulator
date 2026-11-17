@@ -56,6 +56,30 @@ def test_filter_translation_and_gallery_selection(page):
     assert page.get_by_role('textbox', name='Project name', exact=True).input_value() == 'Water assessment'
 
 
+def test_new_app_from_browser_and_persisted_data_row_limit(page, app):
+    workspace = app.extensions['workspace']
+    old_root = workspace.project.root
+    page.get_by_role('button', name='New app', exact=True).click()
+    page.get_by_role('textbox', name='App name', exact=True).fill('Scratch task app')
+    page.get_by_role('button', name='Create app', exact=True).click()
+    page.locator('#canvas').get_by_text('Scratch task app', exact=True).wait_for()
+    assert workspace.project.root != old_root and old_root.is_dir()
+    assert workspace.runtime.started and workspace.runtime.active_screen == 'Main'
+    assert not workspace.runtime.store.definitions
+
+    page.get_by_role('button', name='Simulation settings', exact=True).click()
+    limit = page.get_by_role('spinbutton', name='Data row limit', exact=True)
+    assert limit.input_value() == '500'
+    limit.fill('750')
+    page.get_by_role('button', name='Save settings', exact=True).click()
+    page.get_by_text('Simulation settings saved. Restart to rerun initialization.', exact=True).wait_for()
+    page.reload()
+    page.locator('#canvas').get_by_text('Scratch task app', exact=True).wait_for()
+    page.get_by_role('button', name='Simulation settings', exact=True).click()
+    assert limit.input_value() == '750'
+    assert workspace.runtime.environment['data_row_limit'] == 750
+
+
 def test_browser_form_creates_and_persists_record(page, runtime):
     page.get_by_role('button', name='New project', exact=True).click()
     page.get_by_role('textbox', name='Project name', exact=True).fill('Browser draft')
@@ -890,8 +914,11 @@ def test_setfocus_visual_tab_order_callbacks_and_offscreen_scroll(page,app,tmp_p
     page.get_by_role('button',name='Focus notes',exact=True).click()
     page.wait_for_function("document.activeElement.getAttribute('aria-label')==='Notes' && document.querySelector('#preview-scroll').scrollTop>0")
     page.get_by_role('button',name='Back to first',exact=True).click()
-    page.get_by_role('button',name='Refresh values',exact=True).click()
-    assert page.get_by_role('button',name='Refresh values',exact=True).evaluate('(e)=>e===document.activeElement')
+    page.wait_for_function("document.activeElement.getAttribute('aria-label')==='FirstName'")
+    refresh = page.get_by_role('button', name='Refresh values', exact=True)
+    refresh.click()
+    page.evaluate('() => requestQueue')
+    assert refresh.evaluate('(e) => e === document.activeElement')
     left=page.locator('[data-path="FocusScreen/Left"]')
     left.get_by_role('textbox').fill('Left draft')
     left.get_by_role('button',name='Focus host',exact=True).click()

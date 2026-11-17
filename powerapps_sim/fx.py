@@ -209,10 +209,10 @@ def capture(action):
         return error
 
 
-def table(value):
+def table(value, *, limit=None):
     observe(value)
     if isinstance(value, DataSource):
-        return value.rows()
+        return value.rows(limit=limit)
     if value is None:
         return []
     if not isinstance(value, list):
@@ -798,9 +798,15 @@ class Evaluator:
             raise FxError("Expected column name")
         return value
 
-    def query_rows(self,node,source,ctx):
+    def table_rows(self, source, *, local=False):
+        if local and isinstance(source, DataSource):
+            from .delegation import data_row_limit
+            return table(source, limit=data_row_limit(self.host))
+        return table(source)
+
+    def query_rows(self,node,source,ctx, *, local=False):
         from .query_reactivity import rows
-        return rows(self,node,source,ctx)
+        return rows(self,node,source,ctx,local=local)
 
     def query_row(self,source,row,formula,ctx,index=None):
         from .query_reactivity import row_formula
@@ -1215,7 +1221,7 @@ class Evaluator:
             return evaluate(self, name, args, ctx)
         if name in ("ForAll", "Concat", "Distinct", "Sort"):
             source = e(0)
-            rows = dynamic_array(source) if name == 'ForAll' and isinstance(source,Dynamic) else self.query_rows(args[0],source,ctx)
+            rows = dynamic_array(source) if name == 'ForAll' and isinstance(source,Dynamic) else self.query_rows(args[0],source,ctx,local=name != 'Sort')
             if name == "Sort":
                 direction = self.enum_argument(e(2),"SortOrder") if n > 2 else "Ascending"
                 if source is None:
@@ -1286,7 +1292,7 @@ class Evaluator:
             if source is None:
                 return None
             is_dynamic = isinstance(source,Dynamic)
-            rows = dynamic_array(source) if is_dynamic else table(source)
+            rows = dynamic_array(source) if is_dynamic else self.table_rows(source, local=name != 'First')
             if name == "First":
                 return rows[0] if rows else None
             if name == "Last":

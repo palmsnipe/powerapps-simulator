@@ -21,7 +21,6 @@ def bind(binder,name,args,scope):
     return binder.default_number()
 
 def evaluate(fx,name,args,ctx):
-    from .fx import table
     from .store import DataSource
     from .json_fx import Dynamic
     from .fx import observe,truth
@@ -35,13 +34,13 @@ def evaluate(fx,name,args,ctx):
     if source is not None and not isinstance(source,(list,DataSource)):
         raise FxError(f'{name} requires '+('a single-column table' if name in ('Count','CountA') else 'a table'),'Type',arg.start,arg.end)
     if name=='CountRows':
-        rows=fx.query_rows(arg,source,ctx)
+        rows=fx.query_rows(arg,source,ctx,local=True)
         for row in rows:
             if isinstance(row,FxError):raise row
         return len(rows)
     if name=='CountIf':
         total=0
-        for index,row in enumerate(fx.query_rows(arg,source,ctx)):
+        for index,row in enumerate(fx.query_rows(arg,source,ctx,local=True)):
             for predicate in args[1:]:
                 value=fx.query_row(arg,row,predicate,ctx,index)
                 observe(value)
@@ -57,7 +56,7 @@ def evaluate(fx,name,args,ctx):
         return total
     row_type=typ.row if typ and typ.kind=='Table' else None
     fields=set(row_type.fields) if row_type else set()
-    rows=fx.query_rows(arg,source,ctx)
+    rows=fx.query_rows(arg,source,ctx,local=True)
     fields.update(key for row in rows if isinstance(row,dict) for key in row)
     column=single_column(fields,bool(row_type and row_type.open and not empty_table_literal(arg)),arg.start,arg.end)
     cell=row_type.fields.get(column) if row_type else None

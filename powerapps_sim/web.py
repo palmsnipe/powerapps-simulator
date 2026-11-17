@@ -4,10 +4,12 @@ from __future__ import annotations
 import csv
 from io import BytesIO, StringIO
 import json
+import re
 import sys
 from importlib.metadata import version, PackageNotFoundError
 from pathlib import Path
 from zipfile import BadZipFile
+from uuid import uuid4
 
 from flask import Flask, jsonify, request, send_file, send_from_directory
 
@@ -111,6 +113,24 @@ def create_app(workspace_root=None, initial=None):
             if not (directory / "emulator.json").exists():
                 raise ValueError("Project not found")
             workspace.open(Project(directory))
+            return jsonify(workspace.summary())
+
+    @app.post("/api/project/create")
+    def create_blank_app():
+        payload = request.get_json()
+        if not isinstance(payload, dict) or set(payload) != {'title', 'expected_project', 'expected_revision'}:
+            raise ValueError('Provide an app title, current project and revision')
+        title = payload['title']
+        if not isinstance(title, str):
+            raise ValueError('App title must be text')
+        title = title.strip()
+        slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')[:48] or 'app'
+        name = f'{slug}-{uuid4().hex[:8]}'
+        with workspace.lock:
+            created = workspace.ai.call('create_project', {
+                'name': name, 'title': title, 'expected_revision': payload['expected_revision'],
+            }, expected_project=payload['expected_project'])
+            workspace.ai.restart_preview(created['revision'])
             return jsonify(workspace.summary())
 
     @app.post("/api/import")
@@ -441,6 +461,11 @@ def create_app(workspace_root=None, initial=None):
                 r.people = PEOPLE
             if "environment" in request.json:
                 env = request.json["environment"]
+                if not isinstance(env, dict):
+                    raise ValueError('Environment must be an object')
+                from .delegation import DEFAULT_DATA_ROW_LIMIT, validate_data_row_limit
+                env.setdefault('data_row_limit', r.environment.get('data_row_limit', DEFAULT_DATA_ROW_LIMIT))
+                validate_data_row_limit(env['data_row_limit'])
                 from .reactivity import validate_seed
                 validate_seed(env.get('random_seed'))
                 if not isinstance(env.get("user"), dict) or not env["user"].get("Email"):

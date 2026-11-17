@@ -65,7 +65,7 @@ def evaluate(fx, name, args, ctx):
     typ = fx.node_types.get(id(args[0]))
     if typ and typ.kind not in ('Table', 'Error', 'Unknown'):
         raise FxError(f'{name} requires a typed table', 'Type', args[0].start, args[0].end)
-    rows = table(source)
+    rows = fx.table_rows(source, local=True)
     row_type = typ.row if typ and typ.kind == 'Table' else None
     fields = set(row_type.physical_fields()) if row_type else set()
     aliases = dict(row_type.aliases) if row_type else {}

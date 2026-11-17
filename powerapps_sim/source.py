@@ -90,6 +90,8 @@ class Project:
         self.config["environment"].setdefault("round_table_mode", "canvas-zero")
         self.config["environment"].setdefault("enum_mode", "legacy")
         self.config["environment"].setdefault("regex_mode", "canvas")
+        from .delegation import DEFAULT_DATA_ROW_LIMIT
+        self.config["environment"].setdefault("data_row_limit", DEFAULT_DATA_ROW_LIMIT)
         self.documents, self.parsed, self.source_errors = {}, {}, []
         self.screens, self.components, self.controls, self.app = {}, {}, {}, {}
         self.reload()

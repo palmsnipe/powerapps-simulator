@@ -68,7 +68,7 @@ def aggregate(name, values, kind):
 
 
 def evaluate(fx, name, args, ctx):
-    from .fx import capture, table
+    from .fx import capture
     from .store import DataSource
     source = fx.capture(args[0], ctx)
     typ = fx.node_types.get(id(args[0]))
@@ -82,7 +82,7 @@ def evaluate(fx, name, args, ctx):
         if source is None:
             return None
         def values():
-            for index,row in enumerate(fx.query_rows(args[0],source,ctx)):
+            for index,row in enumerate(fx.query_rows(args[0],source,ctx,local=True)):
                 # Formula-level IfError can handle an error row in its scope.
                 yield convert(fx, fx.query_row(args[0],row,args[1],ctx,index), kind)
         return aggregate(name, values(), kind)

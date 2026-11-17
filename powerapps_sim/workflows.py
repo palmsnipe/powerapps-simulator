@@ -44,11 +44,14 @@ def validate(scenario):
     from .overloads import ROUND_TABLE_MODES
     from .enum_fx import ENUM_MODES
     from .regex_fx import MODES as REGEX_MODES
-    allowed = {'random_seed','regex_mode','enum_mode','clock', 'user', 'parameters', 'language', 'number_mode', 'date_numeric_mode', 'round_table_mode'}
+    allowed = {'data_row_limit','random_seed','regex_mode','enum_mode','clock', 'user', 'parameters', 'language', 'number_mode', 'date_numeric_mode', 'round_table_mode'}
     if set(environment) - allowed:
         raise ValueError('Unknown scenario environment field')
     from .reactivity import validate_seed
     validate_seed(environment.get('random_seed'))
+    if 'data_row_limit' in environment:
+        from .delegation import validate_data_row_limit
+        validate_data_row_limit(environment['data_row_limit'])
     for key, modes in (('regex_mode', REGEX_MODES),('enum_mode', ENUM_MODES),('number_mode', NUMBER_MODES), ('date_numeric_mode', NUMERIC_MODES), ('round_table_mode', ROUND_TABLE_MODES)):
         if key in environment and (not isinstance(environment[key], str) or environment[key] not in modes):
             raise ValueError(f'Unsupported {key}')

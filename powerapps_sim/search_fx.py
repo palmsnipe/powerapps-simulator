@@ -38,7 +38,7 @@ def bind(binder, args, scope):
 
 
 def evaluate(fx, args, ctx):
-    from .fx import capture, observe, table
+    from .fx import capture, observe
     from .store import DataSource
     # Search arguments are eager, even for a Blank source or empty query.
     source = capture(lambda: fx.eval(args[0], ctx))
@@ -50,7 +50,7 @@ def evaluate(fx, args, ctx):
         raise FxError('Search requires a table', 'Type', args[0].start, args[0].end)
     if query is not None and not isinstance(query, str):
         raise FxError('Search requires a Text search string', 'Type', args[1].start, args[1].end)
-    rows = table(source)
+    rows = fx.table_rows(source, local=True)
     typ = fx.node_types.get(id(args[0]))
     if typ and typ.kind not in ('Table', 'Error', 'Unknown'):
         raise FxError('Search requires a typed table', 'Type', args[0].start, args[0].end)

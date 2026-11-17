@@ -35,8 +35,8 @@ class DataSource:
     def __init__(self, store, name):
         self.store, self.name = store, name
 
-    def rows(self):
-        return [self.record(row) for row in self.store.rows(self.name)]
+    def rows(self, *, limit=None):
+        return [self.record(row) for row in self.store.rows(self.name, limit=limit)]
 
     def record(self, row):
         definition = self.store.definitions[self.name]
@@ -296,14 +296,19 @@ class ListStore:
     def internal(self, name, row):
         return {self.internal_name(name, k): v for k, v in row.items()}
 
-    def rows(self, name):
+    def rows(self, name, *, limit=None):
         reactive=getattr(self,'reactive',None)
-        return reactive.leaf(('list',name),lambda:self._rows(name)) if reactive else self._rows(name)
+        key = ('list', name) if limit is None else ('list', name, limit)
+        return reactive.leaf(key, lambda: self._rows(name, limit)) if reactive else self._rows(name, limit)
 
-    def _rows(self, name):
+    def _rows(self, name, limit=None):
         self.check_failure(name, "read")
-        return [self.display(name, json.loads(r[0])) for r in self.db.execute(
-            "SELECT record FROM items WHERE list_name=? ORDER BY id", (name,))]
+        query = "SELECT record FROM items WHERE list_name=? ORDER BY id"
+        arguments = (name,)
+        if limit is not None:
+            query += " LIMIT ?"
+            arguments += (limit,)
+        return [self.display(name, json.loads(r[0])) for r in self.db.execute(query, arguments)]
 
     def defaults(self, name):
         d = self.definitions[name]

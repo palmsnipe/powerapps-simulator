@@ -6,7 +6,7 @@ Edit source, inspect runtime state, and manage fictional local data. All source 
 
 ## Editing and playing
 
-1. **Import app** opens an `.msapp`, `.yaml`, or `.yml` file. **Paste YAML** accepts a screen, component definition, or clipboard control tree.
+1. **New app** creates a local project with one editable screen and no lists. **Import app** opens an `.msapp`, `.yaml`, or `.yml` file. **Paste YAML** accepts a screen, component definition, or clipboard control tree.
 2. Expand the tree or select a source document. Dedicated App editors expose `Formulas`, `OnStart`, and `StartScreen`.
 3. **Apply source** saves a draft and validates YAML. Malformed drafts remain recoverable; the active source and preview remain intact. **Restart app** loads valid edits and runs startup again.
 4. Click controls in the preview to run their Power Fx events. Use **Inspect controls** to inspect formulas and values without clicking through the app.
@@ -24,6 +24,8 @@ The inspector's **Variables** tab shows current global and screen-context values
 An `.msapp` contains schema metadata, not its live SharePoint records. Imported connected lists initially have no records. **Reset mock data** replaces local records with clearly fictional linked data and configures inferred choice/lookup fixtures. Restart afterward so startup collections and roles reload. It never changes app source, grants roles by modifying formulas, or enables disabled workflows.
 
 **Simulation settings** lets you choose a fictional user and configure language, URL parameters, an ISO clock value, and the people directory. `User()` reads `environment.user`; `Language()` reads `environment.language`; `Param()` reads `environment.parameters`. Clock examples: `2026-10-09T12:00:00-04:00` or `null` for the current clock. Resize the preview to reevaluate `App.Width` and `App.Height`; explicit dimensions in source stay explicit.
+
+**Data row limit** in **Simulation settings** defaults to 500 and accepts 1–10,000. For supported nondelegable operations on a direct SharePoint-style list, the simulator reads that many records in ID order before applying the formula. This covers search, counts, aggregates, grouping, collection loads and selected client-only filter/lookup predicates such as `Lower(Title)`. Basic list browsing and ordinary filters can still see later records. Stored rows and the **Local data** editor are independent of the limit. Workflows can override it with `environment.data_row_limit`. This simulation covers selected operations rather than the full [SharePoint delegation rules](https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/connections/connection-sharepoint-online).
 
 **Local data** displays searchable records in pages of 50. Columns stay 190 pixels wide and scroll horizontally, with ID and Title first. **Edit** opens one record; **New record** creates one. Numbers, booleans, text, Choice, Lookup and Person fields have typed editors. Multi-value Choice, Lookup and Person columns use searchable checkbox groups; selections retain their complete record values. List cells show readable names, with the stored JSON available in tooltips. Other complex fields use JSON. Read-only fields stay outside the edit form. Saving validates the changed fields and checks the source/schema revision and original record. Validation or conflict errors keep the pending inputs. Unknown option values remain visible; missing relationship/choice metadata still requires configuration.
 

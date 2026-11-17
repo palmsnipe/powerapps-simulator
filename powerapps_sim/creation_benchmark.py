@@ -86,6 +86,8 @@ row controls. Use the tools' JSON schemas and results to investigate any errors.
 Exact serialization contracts: local schema definitions use a fields OBJECT (not an array
 or JSON Schema properties), e.g. {"fields":{"Label":{"type":"string"}},"required":["Label"]}.
 Each workflow step requires the key "op", e.g. {"op":"assert","formula":"1+1","expect":2}.
+For an input that has been cleared, assert IsBlank(Input.Text) with expect=true.
+Coalesce skips empty text arguments as well as Blank, so Coalesce(Input.Text, "") does not normalize to "".
 An intentionally disabled-button event MUST include "expect_blocked":true, otherwise
 the runner considers the blocked event a failure. Gallery children have runtime instance
 paths, so a static scope such as Main/TaskGallery/ToggleTask does not identify a row.
@@ -335,6 +337,9 @@ def verify_browser(root):
                         workspace.runtime.store.failures['Tasks'] = 'write'
                     with page.expect_response(lambda response: response.url.endswith('/api/event') and response.request.method == 'POST'):
                         add.click()
+                    # A button can send Pressed before OnSelect. Wait for the
+                    # whole click before clearing the injected write failure.
+                    page.evaluate('() => requestQueue')
                     expect(title).to_have_value('  Browser task  ')
                     assert len(workspace.runtime.store.rows('Tasks')) == 3
                     with workspace.lock:

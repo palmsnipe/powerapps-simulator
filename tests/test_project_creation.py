@@ -104,6 +104,33 @@ def test_default_scaffold_and_existing_project_switch_are_explicit(backend):
     other.close()
 
 
+def test_data_row_limit_for_sharepoint_reads_and_workflow_override(backend):
+    supplied = payload()
+    supplied['records']['Projects'] = [
+        {'ID': i, 'Title': 'Late match' if i == 501 else 'Earlier', 'Amount': i}
+        for i in range(1, 503)
+    ]
+    created = backend.call('create_project', **supplied)
+    runtime = backend.workspace.runtime
+    assert runtime.environment['data_row_limit'] == 500
+    assert runtime.fx.evaluate('CountRows(Projects)') == 500
+    assert runtime.fx.evaluate('Max(Projects, Amount)') == 500
+    assert runtime.fx.evaluate('CountRows(Search(Projects, "Late", Title))') == 0
+    assert runtime.fx.evaluate('CountRows(Filter(Projects, Lower(Title) = "late match"))') == 0
+    assert runtime.fx.evaluate('LookUp(Projects, StartsWith(Title, "Late"), ID)') == 501
+    assert runtime.fx.evaluate('CountRows(Sequence(502))') == 502
+    assert len(runtime.store.rows('Projects')) == 502
+
+    scenario = {'format_version': 1, 'name': 'Larger local input', 'environment': {'data_row_limit': 502},
+                'steps': [
+                    {'op': 'assert', 'formula': 'CountRows(Search(Projects, "Late", Title))', 'expect': 1},
+                    {'op': 'assert', 'formula': 'CountRows(Projects)', 'expect': 502},
+                ]}
+    report = backend.call('run_workflow', expected_revision=created['revision'], scenario=scenario)
+    assert report['status'] == 'passed'
+    assert runtime.fx.evaluate('CountRows(Projects)') == 500
+
+
 def test_startup_writes_wait_for_explicit_preview_and_workflow_writes_stay_private(backend):
     supplied = payload()
     supplied['sources']['Src/Home.pa.yaml'] = SOURCE.replace(

@@ -1797,7 +1797,7 @@ class Runtime:
                     try:
                         for i in range(1, len(args)):
                             value = e(i)
-                            for row in table(value) if isinstance(value,(list,DataSource)) else [value]:
+                            for row in fx.table_rows(value, local=True) if isinstance(value,(list,DataSource)) else [value]:
                                 result.append(self.store.source(target).record(self.store.patch(target, {}, row)))
                         return result
                     finally:
@@ -1805,7 +1805,7 @@ class Runtime:
             values = []
             for i in range(1, len(args)):
                 value = e(i)
-                values.extend(table(value) if isinstance(value, (DataSource, list)) else [value if isinstance(value, dict) else {"Value": value}])
+                values.extend(fx.table_rows(value, local=True) if isinstance(value, (DataSource, list)) else [value if isinstance(value, dict) else {"Value": value}])
             collections = self.scope_values(ctx, "collections")
             from .patch import snapshot
             values = snapshot(values)
