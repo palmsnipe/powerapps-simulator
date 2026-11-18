@@ -22,8 +22,24 @@ Use an authenticated Codex CLI with MCP and Playwright Chromium installed. This 
 | `repair-tests` | Repair two incorrect saved assertions through Apply, keep the app intact, and verify the repaired assertions still catch incorrect behavior |
 | `large-list-search` | Restore prefix search in a 620-record inventory. Find and sort matches beyond the 500-row limit, check the empty state and narrow layout, and preserve the limit and records |
 | `approval-flow` | Require a note on a two-screen approval app. Verify cancellation, a failed write, a successful retry, and exactly one update to the selected record |
+| `power-fx-spend-summary` | Group approved expenses by cost centre. Check trimming, blank amounts, negative adjustments, deterministic ties, and a changed data set |
+| `power-fx-service-dates` | Classify a maintenance queue by calendar date. Check leap day, the seven-day cutoff, ties, blank dates, and a shifted clock |
+| `power-fx-invoice-entry` | Parse and display invoice totals in US English and Canadian French. Check cent rounding, blank discounts, invalid inputs, and recovery without diagnostics |
+| `power-fx-asset-routing` | Patch typed lookup and choice values on one asset. Check inactive sites, duplicate site titles, incomplete selections, and an alternate data set with different IDs |
 
 Each attempt uses a fresh model session and disposable workspace. Run selected cases with repeatable `--case` arguments, or set `--output` to choose a new results directory. Attempts run sequentially. Use the same suite version, skill, repeat count, timeout, and model settings when comparing results.
+
+Suite 3 adds four Power Fx cases to the six cases from suite 2. The new projects have passing saved startup tests. The scorer exercises the requested behavior independently on a copy with alternate data, clocks, or locales. It also verifies that test writes are isolated and undo restores the original project.
+
+Use this command to run the four Power Fx cases.
+
+```sh
+.venv/bin/python -m powerapps_sim.benchmark_suite \
+  --model gpt-6.1-terra --reasoning-effort high --service-tier priority \
+  --repeats 2 --timeout 300 --skill .agents/skills/powerapps-simulator-authoring/SKILL.md \
+  --case power-fx-spend-summary --case power-fx-service-dates \
+  --case power-fx-invoice-entry --case power-fx-asset-routing
+```
 
 `report.json` and `summary.md` show passes, attempts, success rates, median agent time, median MCP steps, and rejected steps. A step is one client MCP call. The detailed attempt reports include native token usage, underlying simulator calls and time, payload bytes, staged and applied changes, and validation failures. Agent wall time excludes fixture setup and independent scoring. Raw client and service traces remain with each trial. A timed-out run or an error contributes an unsuccessful attempt, with the cause retained in its report.
 
@@ -39,7 +55,7 @@ Keep each completed run directory with its top-level `report.json`, prompts, and
 
 The command regenerates a Markdown report and `benchmark-attempts.csv`. The CSV opens in Excel and has one row per attempt, with the model configuration, status, timing, MCP steps, rejections, validation failures, token usage, and failed checks. Input tokens include cached input, and output tokens include reasoning tokens. Missing measurements appear as blank cells. Add `--docx` and run the same command with a Python environment that has `python-docx` to regenerate the editable Word report. Each command replaces the generated output files.
 
-Comparisons group the same suite version, selected cases, reasoning effort, service tier, timeout, skill hash and Codex CLI version. Use the same repeat count for each model, and repeat runs before drawing conclusions from small samples. Compare pass counts by case first, then use median time and MCP steps to compare efficiency. The reports show pending attempts separately and include a median for successful trials. Increment the suite version when changing a case, its acceptance criteria, or the measurement contract.
+Comparisons group the same suite version, selected cases, reasoning effort, service tier, timeout, skill hash and client. When the same workload runs through different clients or tiers, the overview shows their measurements together and labels each runtime. Use the same repeat count for each model, and repeat runs before drawing conclusions from small samples. Compare pass counts by case first, then use median time and MCP steps to compare efficiency. The reports show pending attempts separately and include a median for successful trials. Increment the suite version when changing a case, its acceptance criteria, or the measurement contract.
 
 ## Develop the starter app
 

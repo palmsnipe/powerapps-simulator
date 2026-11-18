@@ -8,6 +8,10 @@ CASES = {
     'repair-tests': 'Repair two saved workflows through the apply gate',
     'large-list-search': 'Fix search across a large SharePoint list',
     'approval-flow': 'Fix a two-screen approval workflow',
+    'power-fx-spend-summary': 'Group approved expenses by cost centre',
+    'power-fx-service-dates': 'Classify maintenance due dates',
+    'power-fx-invoice-entry': 'Calculate invoice totals across locales',
+    'power-fx-asset-routing': 'Update typed SharePoint lookup and choice fields',
 }
 
 

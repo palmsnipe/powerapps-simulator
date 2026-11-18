@@ -3,7 +3,7 @@ import pytest
 
 from powerapps_sim.agent_benchmark import MeasuredBackend, read_events
 from powerapps_sim.benchmark_suite import (
-    AFTER_TITLE, TOOLS, assertion, prepare_fixture, scenario, summarize_trials, type_title, verify_existing,
+    AFTER_TITLE, AUTHORING_CASES, TOOLS, assertion, prepare_fixture, scenario, summarize_trials, type_title, verify_existing,
 )
 from powerapps_sim.mcp_server import HeadlessBackend
 
@@ -81,18 +81,59 @@ def test_existing_suite_scores_an_isolated_candidate_without_removing_it(tmp_pat
          '{Status: "Approved", ReviewNote: Trim(ApprovalNote.Text)}); true, '
          'Set(reviewFailed, true), Back())'),
     ]),
+    ('power-fx-spend-summary', [
+        ('ExpensesBoard/SpendGallery', 'Items',
+         '=SortByColumns(AddColumns(GroupBy(AddColumns(Filter(Expenses, Status = "Approved" && '
+         '!IsBlank(Trim(CostCentre))), Centre, Trim(CostCentre)), Centre, Entries), '
+         'ApprovedTotal, Coalesce(Sum(Entries, Amount), 0), ExpenseCount, CountRows(Entries)), '
+         '"ApprovedTotal", SortOrder.Descending, "Centre", SortOrder.Ascending)'),
+    ]),
+    ('power-fx-service-dates', [
+        ('Maintenance/MaintenanceGallery', 'Items',
+         '=SortByColumns(AddColumns(Filter(Equipment, !Completed && !IsBlank(DueDate) && '
+         'DueDate < DateAdd(Today(), 7, TimeUnit.Days)), QueueState, '
+         'If(DueDate < Today(), "Overdue", DueDate = Today(), "Due today", "Upcoming")), '
+         '"DueDate", SortOrder.Ascending, "ID", SortOrder.Ascending)'),
+    ]),
+    ('power-fx-invoice-entry', [
+        ('Invoice/LineTotal', 'Text',
+         '=IfError(With({q: Value(Trim(QuantityInput.Text)), p: Value(Trim(UnitPriceInput.Text)), '
+         'd: If(IsBlank(Trim(DiscountInput.Text)), 0, Value(Trim(DiscountInput.Text)))}, '
+         'If(!IsBlank(q) && q > 0 && Int(q) = q && !IsBlank(p) && p >= 0 && d >= 0 && d <= 100, '
+         'Text(Round(q * p * (1 - d / 100), 2), "0.00"), "")), "")'),
+        ('Invoice/InputError', 'Visible', '=IsBlank(LineTotal.Text)'),
+        ('Invoice/InputError', 'Text', '="Enter valid quantity, price and discount values."'),
+    ]),
+    ('power-fx-asset-routing', [
+        ('Routing/SitePicker', 'Items', '=Sort(Filter(Choices(Assets.Site) As option, '
+         'LookUp(Sites As site, site.ID = option.Id, site.Active)), Id, SortOrder.Ascending)'),
+        ('Routing/AssignButton', 'DisplayMode',
+         '=If(IsBlank(AssetPicker.Selected.ID) || IsBlank(SitePicker.Selected.Id) || '
+         'IsBlank(StatePicker.Selected.Value), DisplayMode.Disabled, DisplayMode.Edit)'),
+        ('Routing/AssignButton', 'OnSelect',
+         '=Patch(Assets, LookUp(Assets, ID = AssetPicker.Selected.ID), '
+         '{Site: SitePicker.Selected, State: StatePicker.Selected})'),
+    ]),
+    ('power-fx-asset-routing', [
+        ('Routing/SitePicker', 'Items', '=Sort(Filter(Sites, Active), ID, SortOrder.Ascending)'),
+        ('Routing/SitePicker', 'ItemDisplayText', '=ThisItem.Title'),
+        ('Routing/AssignButton', 'DisplayMode',
+         '=If(IsBlank(AssetPicker.Selected) || IsBlank(SitePicker.Selected) || '
+         'IsBlank(StatePicker.Selected), DisplayMode.Disabled, DisplayMode.Edit)'),
+        ('Routing/AssignButton', 'OnSelect',
+         '=Patch(Assets, AssetPicker.Selected, {Site: {Id: SitePicker.Selected.ID, Value: SitePicker.Selected.Title}, '
+         'State: {Value: StatePicker.Selected.Value}})'),
+    ]),
 ])
 def test_operational_cases_reject_starter_and_accept_verified_edit(tmp_path, case, edits):
-    from powerapps_sim.benchmark_cases import score_case
-
     fixture = prepare_fixture(tmp_path, case)
     backend = HeadlessBackend(workspace=tmp_path / 'projects')
     log = tmp_path / 'simulator.jsonl'
     client = MeasuredBackend(backend, log, TOOLS)
     try:
         base = client.call('open_project', project_id=fixture.project.name)['revision']
-        baseline, _ = score_case(case, backend.workspace.workflows, base)
-        assert not any(baseline.values())
+        baseline, _ = AUTHORING_CASES[case].score(backend.workspace.workflows, base)
+        assert not all(baseline.values())
         assert client.call('validate_workflows', expected_revision=base)['status'] == 'passed'
         change = client.call('stage_control_edits', expected_revision=base, edits=[
             {'op': 'set_property', 'path': path, 'property': name, 'value': value} for path, name, value in edits

@@ -15,14 +15,16 @@ from . import agent_benchmark as agent, creation_benchmark as creation
 from .ai_service import OPERATIONS
 from .application import Workspace
 from .authoring import data_revision, revision
-from .benchmark_cases import REQUESTS, assertion, event, fixture_inputs, scenario, score_case
+from .benchmark_cases import OPERATIONAL_CASES, assertion, event, scenario
 from .benchmark_metrics import CASES, summarize_trials
+from .benchmark_power_fx import POWER_FX_CASES
 from .catalog import atomic_write, json_text
 from .mcp_server import HeadlessBackend, create_server
 from .source import Project, load_yaml
 
-SUITE_VERSION = 2
+SUITE_VERSION = 3
 TOOLS = creation.TOOLS | {'list_projects', 'open_project'}
+AUTHORING_CASES = OPERATIONAL_CASES | POWER_FX_CASES
 BEFORE_TITLE = 'Project workbench'
 AFTER_TITLE = 'Project delivery desk'
 REPAIR_SOURCE = '''Screens:
@@ -82,9 +84,10 @@ def prepare_fixture(root, case):
                                       expected_revision=decoy['revision'], workflows={'startup.workflow.json': health})
                 request = (f'Open workbench-live, then change the text of Main/Title to "{AFTER_TITLE}". '
                            'Leave the other project and the rest of this app alone.')
-            elif case in REQUESTS:
-                opened = backend.call('create_project', **fixture_inputs(case))
-                request = REQUESTS[case]
+            elif case in AUTHORING_CASES:
+                definition = AUTHORING_CASES[case]
+                opened = backend.call('create_project', **definition.fixture())
+                request = definition.request
             else:
                 opened = backend.call('create_project', name='saved-test-repair',
                     sources={'Src/Main.pa.yaml': REPAIR_SOURCE}, workflows={
@@ -219,8 +222,8 @@ def verify_existing(root, case, fixture, calls):
                     assertion('Title.Visible', True), {'op': 'diagnostics', 'expect': 0}), expected_revision=base)
                 checks['only_title_changed'] = title_only(fixture.documents, documents)
                 checks['title_is_visible'] = visible['status'] == 'passed'
-            elif case in REQUESTS:
-                acceptance, evidence = score_case(case, workspace.workflows, base)
+            elif case in AUTHORING_CASES:
+                acceptance, evidence = AUTHORING_CASES[case].score(workspace.workflows, base)
                 checks.update(acceptance)
                 details['acceptance'] = evidence
             elif checks['only_reviewed_test_repairs']:

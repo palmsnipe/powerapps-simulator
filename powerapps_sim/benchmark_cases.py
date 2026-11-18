@@ -1,4 +1,7 @@
 """Fixtures and independent acceptance scenarios for operational authoring tasks."""
+from collections.abc import Callable
+from dataclasses import dataclass
+from functools import partial
 from pathlib import Path
 
 from .workflows import summarize
@@ -22,6 +25,22 @@ REQUESTS = {
         'again, the note and error should start clear. Keep the existing control names and pending inbox.'
     ),
 }
+
+
+@dataclass(frozen=True)
+class AuthoringCase:
+    request: str
+    fixture: Callable[[], dict]
+    scenarios: Callable[[], dict]
+
+    def score(self, workflows, base):
+        checks, details = {}, {}
+        for name, (flow, expected_writes) in self.scenarios().items():
+            report = workflows.run(flow, expected_revision=base)
+            writes = [write for step in report['steps'] for write in step['writes']]
+            checks[name] = report['status'] == 'passed' and writes == expected_writes
+            details[name] = {**summarize(report), 'step_writes': writes, 'expected_writes': expected_writes}
+        return checks, details
 
 
 def scenario(name, *steps):
@@ -128,12 +147,9 @@ def approval_scenarios():
                 [{'list': 'Requests', 'id': 2, 'operation': 'update'}])}
 
 
-def score_case(case, workflows, base):
-    scenarios = inventory_scenarios() if case == 'large-list-search' else approval_scenarios()
-    checks, details = {}, {}
-    for name, (flow, expected_writes) in scenarios.items():
-        report = workflows.run(flow, expected_revision=base)
-        writes = [write for step in report['steps'] for write in step['writes']]
-        checks[name] = report['status'] == 'passed' and writes == expected_writes
-        details[name] = {**summarize(report), 'step_writes': writes, 'expected_writes': expected_writes}
-    return checks, details
+OPERATIONAL_CASES = {
+    'large-list-search': AuthoringCase(REQUESTS['large-list-search'], partial(fixture_inputs, 'large-list-search'),
+                                      inventory_scenarios),
+    'approval-flow': AuthoringCase(REQUESTS['approval-flow'], partial(fixture_inputs, 'approval-flow'),
+                                   approval_scenarios),
+}

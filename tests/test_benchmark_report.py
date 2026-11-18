@@ -6,7 +6,7 @@ import json
 
 import pytest
 
-from powerapps_sim.benchmark_report import comparison_rows, conditions, csv_text, markdown_text, read_runs
+from powerapps_sim.benchmark_report import comparison_rows, conditions, csv_text, markdown_text, read_runs, runtime_overview
 
 
 def write_run(root, report):
@@ -39,10 +39,15 @@ def test_combine_runs_with_same_settings_without_double_counting(tmp_path):
     older['suite_version'] = 1
     del older['run_id'], older['started_at']
     legacy = write_run(tmp_path / 'luna-20261117T220000Z', older)
+    local = deepcopy(report)
+    local['run_id'] = 'run-3'
+    local['settings'].update(model='deepseek', service_tier='local', provider='spark', runner='Chat with MCP')
+    local['trials'] = [dict(local['trials'][0], client={}, elapsed_seconds=30)]
+    spark = write_run(tmp_path / 'spark', local)
 
-    runs = read_runs([terra, duplicate / 'report.json', luna, legacy])
+    runs = read_runs([terra, duplicate / 'report.json', luna, legacy, spark])
     groups = conditions(runs)
-    assert len(runs) == 3 and len(groups) == 2
+    assert len(runs) == 4 and len(groups) == 3
     overall = dict(comparison_rows(groups[0][1]))
     assert overall['terra']['success_rate'] == 0.5
     assert overall['terra']['median_success_seconds'] == 20
@@ -51,14 +56,20 @@ def test_combine_runs_with_same_settings_without_double_counting(tmp_path):
     comparison = markdown_text(groups)
     assert '1 pending attempt.' in comparison
     assert 'luna · large-list-search · scored (1)' in comparison
+    assert 'local inference, 300 s timeout, Chat with MCP' in comparison
+    assert [(row[0].splitlines()[0], row[1]) for row in runtime_overview(groups)] == [
+        ('luna', '0/1'), ('terra', '1/2'), ('deepseek', '1/1'),
+    ]
 
     attempts = list(csv.DictReader(StringIO(csv_text(runs))))
-    assert len(attempts) == 4
+    assert len(attempts) == 5
     assert {row['input_tokens'] for row in attempts} == {'100', ''}
     assert {row['failed_checks'] for row in attempts} == {'scored', ''}
     error = next(row for row in attempts if row['status'] == 'error')
     assert error['error'] == "'=1+1" and error['elapsed_seconds'] == ''
     assert [row['started_at'] for row in attempts if row['suite_version'] == '1'] == ['2026-11-17T22:00:00+00:00']
+    local_row = next(row for row in attempts if row['model'] == 'deepseek')
+    assert local_row['provider'] == 'spark' and local_row['runner'] == 'Chat with MCP' and not local_row['codex_version']
 
     second['run_id'] = 'run-1'
     conflicting = write_run(tmp_path / 'conflict', second)
