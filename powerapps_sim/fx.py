@@ -28,6 +28,9 @@ from .json_fx import Dynamic, JsonNumber, parse_json, typed as typed_json, valid
 
 from .calendar_fx import CALENDAR_FUNCTIONS, MONTH_SHIFT_FUNCTIONS, calendar_number, shift_months
 from .locale_tables import FUNCTIONS as LOCALE_TABLE_FUNCTIONS, evaluate as locale_table_evaluate
+from .query_reactivity import FUNCTIONS as REACTIVE_QUERY_FUNCTIONS, evaluate as query_result, identity as query_identity
+
+BRANCH_RESULT_KINDS = TEMPORAL_KINDS | {'Number', 'Decimal', 'Currency', 'Boolean', 'Text', 'Record', 'Table', 'Enum'}
 
 PURE_FUNCTIONS = set("If Switch IfError IsError IsBlankOrError Error Blank IsBlank IsEmpty Coalesce And Or Not Table Filter LookUp With ForAll AddColumns ShowColumns DropColumns RenameColumns SortByColumns Sort CountRows CountIf First Last FirstN LastN Index Distinct Sum Average Min Max Lower Upper Trim TrimEnds Left Right Mid Len StartsWith EndsWith Substitute Concatenate Concat Text Value Decimal Float IsNumeric Round RoundDown RoundUp Mod Abs Char GUID Today Now Year Month Day Weekday WeekNum ISOWeekNum Date DateAdd DateDiff DateValue DateTimeValue DateTime Time TimeValue Hour Minute Second User Language Param RGBA ColorValue ColorFade Defaults Choices Errors DataSourceInfo Type Sequence Find Split Boolean".split())
 PURE_FUNCTIONS.add('Validate')
@@ -471,12 +474,10 @@ class Evaluator:
 
     def eval(self, node, ctx):
         if node.kind=='table' and not ctx.behavior:
-            from .query_reactivity import evaluate
-            return observe(evaluate(self,node,ctx,lambda call_ctx:self._eval(node,call_ctx)))
+            return observe(query_result(self,node,ctx,lambda call_ctx:self._eval(node,call_ctx)))
         if node.kind=='call' and call_name(node.children[0]) not in BUILTINS and not ctx.behavior and self.host.reactive.frames:
             owner=ctx.self_ref.path if ctx.self_ref else ctx.component_ref.path if ctx.component_ref else ctx.formula_origin.owner if ctx.formula_origin else 'App'
-            from .query_reactivity import identity
-            key=('function-result',owner,call_name(node.children[0]),node.start,node.end,identity(self.host.reactive.frames[-1].key))
+            key=('function-result',owner,call_name(node.children[0]),node.start,node.end,query_identity(self.host.reactive.frames[-1].key))
             return observe(self.host.reactive.project(key,lambda:self._eval(node,ctx)))
         return observe(self._eval(node, ctx))
 
@@ -586,12 +587,9 @@ class Evaluator:
             if k == "call":
                 name = call_name(c[0])
                 if name in BUILTINS:
-                    def load(call_ctx):
-                        result = self.call(name, c[1:], call_ctx)
-                        typ = self.node_types.get(id(node))
-                        return self.coerce(result, typ) if typ and (typ.kind == 'Decimal' or name in ('If', 'Switch', 'Coalesce') and typ.kind in TEMPORAL_KINDS | {'Number', 'Decimal', 'Currency', 'Boolean', 'Text', 'Record', 'Table','Enum'}) else result
-                    from .query_reactivity import FUNCTIONS,evaluate as query_result
-                    return query_result(self,node,ctx,load) if name in FUNCTIONS else load(ctx)
+                    if name in REACTIVE_QUERY_FUNCTIONS:
+                        return query_result(self, node, ctx, lambda call_ctx: self._call_builtin(name, node, call_ctx))
+                    return self._call_builtin(name, node, ctx)
                 if name in self.definitions and self.definitions[name].params is not None:
                     d = self.definitions[name]
                     if name in self.recursive_functions:
@@ -650,6 +648,13 @@ class Evaluator:
         except (ValueError, TypeError, IndexError, KeyError, OverflowError, ZeroDivisionError, AttributeError, DecimalException) as error:
             result=FxError(str(error), "Div0" if isinstance(error, ZeroDivisionError) else "Validation", node.start, node.end,source=ctx.error_source)
             raise ctx.formula_origin.locate(result) if ctx.formula_origin else result from None
+
+    def _call_builtin(self, name, node, ctx):
+        result = self.call(name, node.children[1:], ctx)
+        typ = self.node_types.get(id(node))
+        if typ and (typ.kind == 'Decimal' or name in ('If', 'Switch', 'Coalesce') and typ.kind in BRANCH_RESULT_KINDS):
+            return self.coerce(result, typ)
+        return result
 
     def equal(self, a, b):
         observe(a); observe(b)
