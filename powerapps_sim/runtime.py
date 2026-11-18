@@ -16,9 +16,13 @@ from .classic_inputs import TEXT_INPUTS,CLASSIC_INPUTS,CLASSIC_SELECTORS,CLASSIC
 from .classic_combobox import COMBOBOXES, selected_record
 from .listbox import LISTBOXES,OUTPUTS as LIST_OUTPUTS
 from .components import ComponentCallable, access_app_scope, component_definition, custom_parameters, required_parameters, validate_kind, result_type_name
+from .enum_fx import EnumValue
 from .errors import error_number
+from .expressions import property_expression
 from .fx import BUILTINS, Context, Evaluator, ENUMS, table, text, truth
+from .json_fx import Dynamic, JsonNumber, json_text
 from .preview_properties import display_properties as cached_display_properties
+from .reactivity import ControlState, ReactiveValues, fingerprint
 from .source import Control
 from .store import DataSource, ListStore
 from .syntax import FxError, call_name, walk
@@ -61,9 +65,7 @@ INPUT_PROPERTIES = {
 
 
 def serial(value):
-    from .enum_fx import EnumValue
     if isinstance(value,EnumValue):return value.json()
-    from .json_fx import Dynamic, JsonNumber, json_text
     if isinstance(value,Dynamic):
         return {'$dynamic':serial(value.value),'$json':json_text(value)}
     if isinstance(value,JsonNumber):
@@ -153,7 +155,6 @@ class Ref:
 
     @property
     def state(self):
-        from .reactivity import ControlState
         value=self.runtime.control_state.get(self.path)
         if not isinstance(value,ControlState):
             value=ControlState(self.runtime,self.path,value or {})
@@ -199,7 +200,6 @@ class Ref:
         if self.family == 'ModernLink':
             from .modern_link import source_property
             name = source_property(self,name)
-        from .expressions import property_expression
         return property_expression(self,name)
 
     def eval_raw(self,name,ctx=None):
@@ -215,7 +215,7 @@ class Ref:
         if family == 'ModernLink' and name in ('URL','Url'):
             from .modern_link import source_property
             return self.control.properties.get(source_property(self,name), DEFAULTS['ModernLink']['URL'])
-        definition = component_definition(self.runtime.project, self.control)
+        definition = component_definition(self.runtime.project, self.control) if family in ('Component', 'CanvasComponent') else None
         custom = definition.raw.get("CustomProperties", {}).get(name) if definition else None
         if custom and validate_kind(custom) in ("Output", "Action"):
             return definition.properties.get(name, custom.get("Default", "=Blank()"))
@@ -356,7 +356,6 @@ class Ref:
     def property(self,name,ctx=None):
         if '/row:' in self.path and self.runtime.refs.get(self.path) is not self:
             raise FxError('Gallery control instance no longer exists','Validation').located(self.path+'.'+name)
-        from .reactivity import fingerprint
         def signature():
             # Gallery/template and grid caller records are explicit inputs to
             # an instance. Keeping their full value is conservative for now.
@@ -376,152 +375,153 @@ class Ref:
         if self.component_error:
             raise self.component_error
         r = self.runtime
-        if self.family in ('Text', 'FluentV8/Label'):
+        family = self.family
+        if family in ('Text', 'FluentV8/Label'):
             from .canvas_text import guard
             guard(self, name)
-        if self.family == 'Button':
+        if family == 'Button':
             from .canvas_buttons import guard
             guard(self, name)
-        if self.family == 'TabList':
+        if family == 'TabList':
             from .canvas_tabs import guard
             guard(self, name)
-        if self.family in ('Slider','Toggle'):
+        if family in ('Slider','Toggle'):
             from .canvas_scalars import guard
             guard(self,name)
-        if self.family == 'DatePicker':
+        if family == 'DatePicker':
             from .canvas_dates import guard
             guard(self, name)
-        if self.family in ('ComboBox','DropDown','Radio','ComboBoxDataField'):
+        if family in ('ComboBox','DropDown','Radio','ComboBoxDataField'):
             from .canvas_selectors import guard
             guard(self,name)
-        if self.family in ('TextInput','CheckBox'):
+        if family in ('TextInput','CheckBox'):
             from .canvas_inputs import spec,errors,LAYOUT
             s=spec(self);findings=errors(self.control)
             for p in ('Variant',name):
                 if p in findings:raise FxError(findings[p],'Unsupported')
             allowed=set(s['types'])|LAYOUT|{e['Name'] for e in s['events']}|{'Reset','Name'}
             if name not in allowed:raise FxError(f'{self.control.kind} has no supported {name} property','Unsupported')
-        if self.family=='Toolbar':
+        if family=='Toolbar':
             from .toolbar import PROPERTIES,errors
             findings=errors(self.control)
             if findings.get('Version'):raise FxError(findings['Version'],'Unsupported')
             if name in findings:raise FxError(findings[name],'Unsupported')
             if name not in PROPERTIES | {'Reset'}:raise FxError(f'Toolbar has no supported {name} property','Unsupported')
-        if self.family == 'FluentV8/Rating':
+        if family == 'FluentV8/Rating':
             from .fluent_rating import PROPERTIES, errors
             findings = errors(self.control)
             if findings.get('Version'):raise FxError(findings['Version'],'Unsupported')
             if name in findings:raise FxError(findings[name],'Unsupported')
             if name not in PROPERTIES | {'Reset'}:raise FxError(f'{self.control.kind} has no {name} property','Unsupported')
-        if self.family == 'ModernLink':
+        if family == 'ModernLink':
             from .modern_link import PROPERTIES, errors
             findings = errors(self.control)
             for key in ('Version','Variant','URL' if name == 'Url' else name):
                 if key in findings: raise FxError(findings[key],'Unsupported')
             if name not in PROPERTIES: raise FxError(f'{self.control.kind} has no {name} property','Unsupported')
-        if self.family in ('Label','Rectangle','Circle','Star'):
+        if family in ('Label','Rectangle','Circle','Star'):
             from .classic_display import VERSIONS,properties as display_properties
-            if self.control.version not in VERSIONS[self.family] or 'Variant'in contract_errors(self.control):raise FxError(f'Unsupported {self.control.kind} version/variant','Unsupported')
+            if self.control.version not in VERSIONS[family] or 'Variant'in contract_errors(self.control):raise FxError(f'Unsupported {self.control.kind} version/variant','Unsupported')
             if name in contract_errors(self.control):raise FxError(contract_errors(self.control)[name],'Unsupported')
             if name!='Name' and name not in display_properties(self.control):raise FxError(f'{self.control.kind} has no {name} property','Unsupported')
-        if self.family=='Classic/Button':
+        if family=='Classic/Button':
             from .classic_button import VERSIONS
             if self.control.version not in VERSIONS:raise FxError(f'Unsupported classic button version {self.control.kind}','Unsupported')
             if name in contract_errors(self.control):raise FxError(contract_errors(self.control)[name],'Unsupported')
-        if self.family in ('ModernBadge','ModernInformationButton') and name in self.control.properties and name in contract_errors(self.control):
+        if family in ('ModernBadge','ModernInformationButton') and name in self.control.properties and name in contract_errors(self.control):
             raise FxError(contract_errors(self.control)[name],'Unsupported')
-        if self.family == "ModernRating" and name in self.control.properties and name in contract_errors(self.control):
+        if family == "ModernRating" and name in self.control.properties and name in contract_errors(self.control):
             raise FxError(contract_errors(self.control)[name], "Unsupported")
-        if self.family == "ModernRating" and name == "Value" and name in self.control.properties:
+        if family == "ModernRating" and name == "Value" and name in self.control.properties:
             raise FxError("ModernRating.Value is an output; author Default", "Unsupported")
-        if self.family == "Timer" and name == "Value" and name in self.control.properties:
+        if family == "Timer" and name == "Value" and name in self.control.properties:
             raise FxError("Timer.Value is an output; author Duration and Start", "Unsupported")
-        if self.family in ('Audio','Video'):
+        if family in ('Audio','Video'):
             from .media_controls import VERSIONS
-            if self.control.version not in VERSIONS[self.family]:raise FxError(f'Unsupported media control version {self.control.kind}', 'Unsupported')
+            if self.control.version not in VERSIONS[family]:raise FxError(f'Unsupported media control version {self.control.kind}', 'Unsupported')
             if name in contract_errors(self.control):raise FxError(contract_errors(self.control)[name], 'Unsupported')
             from .media_controls import OUTPUTS, output
             if name in OUTPUTS:return output(self, name)
-        if self.family == "RichTextEditor" and name == "HtmlText" and name in self.control.properties:
+        if family == "RichTextEditor" and name == "HtmlText" and name in self.control.properties:
             raise FxError("RichTextEditor.HtmlText is an output; author Default", "Unsupported")
-        if self.family in (*CLASSIC_BOOLEAN,'Classic/Slider') and name=='Value' and name in self.control.properties:
-            raise FxError(f'{self.family}.Value is an output; author Default','Unsupported')
-        if self.family=='Classic/DatePicker' and name=='SelectedDate' and name in self.control.properties:
+        if family in (*CLASSIC_BOOLEAN,'Classic/Slider') and name=='Value' and name in self.control.properties:
+            raise FxError(f'{family}.Value is an output; author Default','Unsupported')
+        if family=='Classic/DatePicker' and name=='SelectedDate' and name in self.control.properties:
             raise FxError('Classic/DatePicker.SelectedDate is an output; author DefaultDate','Unsupported')
-        if self.family in CLASSIC_SELECTORS and name=='SelectedText' and name in self.control.properties:
-            raise FxError(f'{self.family}.SelectedText is an output','Unsupported')
-        if self.family=='Classic/TextInput' and name=='Text' and name in self.control.properties:
+        if family in CLASSIC_SELECTORS and name=='SelectedText' and name in self.control.properties:
+            raise FxError(f'{family}.SelectedText is an output','Unsupported')
+        if family=='Classic/TextInput' and name=='Text' and name in self.control.properties:
             raise FxError('Classic/TextInput.Text is an output; author Default','Unsupported')
-        if self.family == 'ModernTextInput' and self.control.version == '1.0.0' and name == 'Text' and name in self.control.properties:
+        if family == 'ModernTextInput' and self.control.version == '1.0.0' and name == 'Text' and name in self.control.properties:
             raise FxError('ModernTextInput.Text is an output; author Default', 'Unsupported')
-        if self.family in ('ModernNumberInput','ModernDatePicker') and self.control.version == '1.0.0' and name == ('Value' if self.family=='ModernNumberInput' else 'SelectedDate') and name in self.control.properties:
-            raise FxError(f'{self.family}.{name} is an output', 'Unsupported')
-        if self.family in COMBOBOXES and name == 'SearchText' and (self.path, 'Items') in r.evaluating:
+        if family in ('ModernNumberInput','ModernDatePicker') and self.control.version == '1.0.0' and name == ('Value' if family=='ModernNumberInput' else 'SelectedDate') and name in self.control.properties:
+            raise FxError(f'{family}.{name} is an output', 'Unsupported')
+        if family in COMBOBOXES and name == 'SearchText' and (self.path, 'Items') in r.evaluating:
             r.combo_search_items.add(self.path)
-        if self.family in COMBOBOXES and name in ('Selected', 'SelectedItems', 'SearchText') and name in self.control.properties:
-            raise FxError(f'{self.family}.{name} is an output', 'Unsupported')
-        if self.family=='Classic/ComboBox' and name=='NavigateItem' and name in self.control.properties:
+        if family in COMBOBOXES and name in ('Selected', 'SelectedItems', 'SearchText') and name in self.control.properties:
+            raise FxError(f'{family}.{name} is an output', 'Unsupported')
+        if family=='Classic/ComboBox' and name=='NavigateItem' and name in self.control.properties:
             raise FxError('Classic/ComboBox.NavigateItem is an output','Unsupported')
-        if self.family in LISTBOXES and name in LIST_OUTPUTS and name in self.control.properties:
-            raise FxError(f'{self.family}.{name} is an output','Unsupported')
-        if self.family == "ModernDataGridColumn" and name == "Text":
+        if family in LISTBOXES and name in LIST_OUTPUTS and name in self.control.properties:
+            raise FxError(f'{family}.{name} is an output','Unsupported')
+        if family == "ModernDataGridColumn" and name == "Text":
             from .modern_grid import cell
             if not self.parent or self.parent.family!='ModernDataGrid':return None
             caller=ctx.self_ref if ctx else None
             row=ctx.item if caller and caller.family=='ModernDataGridColumn' and caller.parent is self.parent else self.parent.property('Selected')
             return cell(self,row)[0] if row is not None else ''
-        if self.family == "ModernDataGrid" and name in ('Selected','SelectedItems','SearchText'):
+        if family == "ModernDataGrid" and name in ('Selected','SelectedItems','SearchText'):
             if name in self.control.properties:raise FxError(f'ModernDataGrid.{name} is an output','Unsupported')
             from .modern_grid import output
             return output(self,name)
-        if self.family == "DataTableColumn" and name == "Text":
+        if family == "DataTableColumn" and name == "Text":
             from .data_table import cell
             if not self.parent or self.parent.family!="DataTable":return None
             caller=ctx.self_ref if ctx else None
             row=ctx.item if caller and caller.family=="DataTableColumn" and caller.parent is self.parent else self.parent.property("Selected")
             return cell(self,row)
-        if self.family == "DataTable" and name == "Selected":
+        if family == "DataTable" and name == "Selected":
             if name in self.control.properties:raise FxError("DataTable.Selected is an output","Unsupported")
             from .data_table import selected
             return selected(self)
-        if self.family == 'Form' and name in ('Item', 'Updates', 'Unsaved', 'Valid'):
+        if family == 'Form' and name in ('Item', 'Updates', 'Unsaved', 'Valid'):
             self.sync_form_item()
-        if self.family=='Toolbar' and name in ('Selected','SelectedItems'):
+        if family=='Toolbar' and name in ('Selected','SelectedItems'):
             from .toolbar import output
             return output(self,name)
-        if self.family == 'TabList' and name in ('Selected', 'SelectedItems'):
+        if family == 'TabList' and name in ('Selected', 'SelectedItems'):
             from .canvas_tabs import output
             return output(self, name)
-        if self.family=='ModernTabList' and name in ('Selected','SelectedItems'):
+        if family=='ModernTabList' and name in ('Selected','SelectedItems'):
             if name=='SelectedItems' or name in self.control.properties:
                 raise FxError(f'ModernTabList.{name} is an output or unsupported; author Default','Unsupported')
             from .tablist import selected
             return selected(self)
-        if self.family in ('ComboBox','DropDown','Radio') and name in ('Selected','SelectedItems','SearchText'):
+        if family in ('ComboBox','DropDown','Radio') and name in ('Selected','SelectedItems','SearchText'):
             from .canvas_selectors import output
             return output(self,name)
         input_property = r.input_property(self)
         if input_property and name in (input_property, "SelectedItems"):
             self.sync_default(input_property)
-        if self.family in LISTBOXES and name in LIST_OUTPUTS:
+        if family in LISTBOXES and name in LIST_OUTPUTS:
             self.sync_default('Selected')
             from .listbox import output
             return output(self,name)
-        if self.family == 'Gallery' and name in ('Selected', 'SelectedItems'):
+        if family == 'Gallery' and name in ('Selected', 'SelectedItems'):
             from .galleries import selected
             row = selected(self)[1]
             return row if name == 'Selected' else ([] if row is None else [row])
         if name == "Name":
             return self.name
-        if name == 'AllItems' and self.family == 'Gallery':
+        if name == 'AllItems' and family == 'Gallery':
             from .galleries import all_items
             return all_items(self)
-        if name == "AllItemsCount" and self.family == "Gallery":
+        if name == "AllItemsCount" and family == "Gallery":
             from .gallery_loading import count
             return count(self)
-        if name == "TemplateWidth" and self.family == "Gallery":
+        if name == "TemplateWidth" and family == "Gallery":
             return max(1, self.property("TemplateSize")) if self.control.raw.get("Variant") == "Horizontal" else self.property("Width") / max(1, self.property("WrapCount"))
-        if name == "TemplateHeight" and self.family == "Gallery":
+        if name == "TemplateHeight" and family == "Gallery":
             return self.property("Height") / max(1, self.property("WrapCount")) if self.control.raw.get("Variant") == "Horizontal" else max(1, self.property("TemplateSize"))
         if name == "IsSelected":
             ancestor = self.parent
@@ -531,35 +531,36 @@ class Ref:
                     return selected(ancestor)[0] == self.item.key if isinstance(self.item, GalleryRecord) and self.item.gallery is ancestor else self.item == ancestor.property('Selected')
                 ancestor = ancestor.parent
             return False
-        if self.family == "CanvasComponent":
+        if family == "CanvasComponent":
             definition = r.project.components.get(self.control.raw.get("ComponentName"))
             custom = definition.raw.get("CustomProperties", {}).get(name) if definition else None
             if custom and validate_kind(custom) in ("Event", "Action", "Function"):
                 return ComponentCallable(r, self, name, custom)
-        if name in self.state and self.family in ('Slider','Toggle') and name==r.input_property(self):
-            from .canvas_scalars import value
-            return value(self,self.state[name])
-        if name in self.state and self.family in ('TextInput','CheckBox') and name==r.input_property(self):
-            from .canvas_inputs import value
-            return value(self,self.state[name])
-        if name in self.state and not (self.family in SINGLE_SELECT and name == 'Selected'):
-            if self.family in COMBOBOXES and name in ('Selected', 'SelectedItems'):
+        state = self.state
+        if name in state and not (family in SINGLE_SELECT and name == 'Selected'):
+            if family in ('Slider','Toggle') and name == input_property:
+                from .canvas_scalars import value
+                return value(self, state[name])
+            if family in ('TextInput','CheckBox') and name == input_property:
+                from .canvas_inputs import value
+                return value(self, state[name])
+            if family in COMBOBOXES and name in ('Selected', 'SelectedItems'):
                 rows = table(self.property('Items'))
-                selected = self.state.get('SelectedItems', [])
+                selected = state.get('SelectedItems', [])
                 selected = [next((row for row in rows if isinstance(row, dict) and r.same_item(row, chosen)), chosen) for chosen in selected]
                 if not self.property('SelectMultiple'):
                     selected = selected[:1]
                 return selected_record(self,selected) if name == 'Selected' else selected
-            if self.family in ("ModernRating",'FluentV8/Rating') and name == "Value":
-                if self.family=='FluentV8/Rating':
+            if family in ("ModernRating",'FluentV8/Rating') and name == "Value":
+                if family=='FluentV8/Rating':
                     from .fluent_rating import value
                 else:
                     from .rating import value
-                return value(self,self.state[name])
-            if self.family in SLIDERS and name == "Value":
+                return value(self,state[name])
+            if family in SLIDERS and name == "Value":
                 minimum, maximum = self.slider_bounds()
-                return max(minimum, min(maximum, self.state[name]))
-            return self.state[name]
+                return max(minimum, min(maximum, state[name]))
+            return state[name]
         key = (self.path, name)
         if key in r.property_cache:
             cached = r.property_cache[key]
@@ -577,29 +578,29 @@ class Ref:
                     return layout.bounded(self.intrinsic_dimension(name), *layout.limits(self, name))
             raise FxError(f"Control property cycle: {self.name}.{name}", "Cycle")
         r.evaluating.add(key)
-        if self.family in COMBOBOXES and name == 'Items':
+        if family in COMBOBOXES and name == 'Items':
             r.combo_search_items.discard(self.path)
         try:
             value = self._property(name)
-            if self.family=='Classic/Slider' and value is None and name in ('Min','Max','Default'):
+            if family=='Classic/Slider' and value is None and name in ('Min','Max','Default'):
                 from .classic_inputs import catalog
-                value=catalog()[self.family]['null_defaults'][name]
-            if self.family == "Timer":
+                value=catalog()[family]['null_defaults'][name]
+            if family == "Timer":
                 from .timers import validate
                 if value is None and name=="Duration":value=0
                 if value is None and name in ("Start","Repeat","Reset"):value=False
                 validate(name,value)
-            if self.family in ('Audio','Video'):
+            if family in ('Audio','Video'):
                 from .media_controls import validate
                 validate(name,value)
-            if self.family == "RichTextEditor":
+            if family == "RichTextEditor":
                 from .rich_text import validate
                 if name == "Default" and value is not None:
                     from .binding import value_type,TEXT,function_compatible
                     if not function_compatible(value_type(value),TEXT,restrictive=False):raise FxError("RichTextEditor.Default requires a text-coercible scalar","Type")
                     value=r.fx.to_text(value)
                 validate(name,value)
-            if self.family == "HtmlViewer":
+            if family == "HtmlViewer":
                 from .html_controls import validate
                 if name == "HtmlText" and value is not None:
                     from .binding import value_type,TEXT,function_compatible
@@ -607,78 +608,78 @@ class Ref:
                         raise FxError("HtmlViewer.HtmlText requires text-coercible scalar values", "Type")
                     value=r.fx.to_text(value)
                 validate(name,value)
-            if self.family=='Classic/ComboBox':
+            if family=='Classic/ComboBox':
                 from .classic_combobox import validate
                 if name=='DefaultSelectedItems':value=[] if value is None else [value] if isinstance(value,dict) else value
                 validate(self,name,value)
-            if self.family in ('ComboBox','DropDown','Radio','ComboBoxDataField'):
+            if family in ('ComboBox','DropDown','Radio','ComboBoxDataField'):
                 from .canvas_selectors import validate
                 validate(self,name,value)
-            if self.family in ('Slider','Toggle'):
+            if family in ('Slider','Toggle'):
                 from .canvas_scalars import validate,value as scalar_value
                 validate(self,name,value)
                 if name==r.input_property(self):value=scalar_value(self,value)
-            if self.family in ('TextInput','CheckBox'):
+            if family in ('TextInput','CheckBox'):
                 from .canvas_inputs import validate,value as input_value
                 validate(self,name,value)
                 if name==r.input_property(self):value=input_value(self,value)
-            if self.family == 'DatePicker':
+            if family == 'DatePicker':
                 from .canvas_dates import validate
                 value = validate(self, name, value)
-            if self.family=='Toolbar':
+            if family=='Toolbar':
                 from .toolbar import validate
                 validate(name,value)
-            if self.family=='FluentV8/Rating':
+            if family=='FluentV8/Rating':
                 from .fluent_rating import validate
                 validate(name,value)
                 if name=='Value':
                     from .fluent_rating import value as rating_value
                     value=rating_value(self,value)
-            if self.family == 'ModernRating':
+            if family == 'ModernRating':
                 from .rating import validate
                 validate(self,name,value)
-            if self.family in ('ModernDataGrid','ModernDataGridColumn'):
+            if family in ('ModernDataGrid','ModernDataGridColumn'):
                 from .modern_grid import validate
                 validate(self,name,value)
-            if self.family in ('DataTable','DataTableColumn'):
+            if family in ('DataTable','DataTableColumn'):
                 from .data_table import validate
                 validate(self,name,value)
-            if self.family in LISTBOXES:
+            if family in LISTBOXES:
                 from .listbox import validate
                 validate(self,name,value)
-            if self.family in ('Form','TypedDataCard'):
+            if family in ('Form','TypedDataCard'):
                 from .form_layout import validate
                 validate(self,name,value)
-            if self.family in CLASSIC_INPUTS:
+            if family in CLASSIC_INPUTS:
                 from .classic_inputs import validate
                 raw=self.raw_property(name)
                 actual=r.fx.node_types.get(id(r.fx.bound_node(raw,ctx))) if isinstance(raw,str) and raw.startswith('=') else None
                 validate(self,name,value,actual)
-            if self.family == 'ModernCombobox' and name in ('IsSearchable', 'SelectMultiple', 'DelayOutput') and not isinstance(value, bool):
+            if family == 'ModernCombobox' and name in ('IsSearchable', 'SelectMultiple', 'DelayOutput') and not isinstance(value, bool):
                 raise FxError(f'Combobox {name} requires a Boolean', 'Type')
-            if self.family in SINGLE_SELECT or self.family in COMBOBOXES:
+            if family in SINGLE_SELECT or family in COMBOBOXES:
                 if name == 'Required' and not isinstance(value, bool):
                     raise FxError('Selection Required requires a Boolean', 'Type')
-                if name == 'ValidationState' and self.family != 'ModernRadio' and value not in ('None', 'Error'):
+                if name == 'ValidationState' and family != 'ModernRadio' and value not in ('None', 'Error'):
                     raise FxError('Selection ValidationState requires None or Error', 'Type')
-                if name == 'Layout' and self.family == 'ModernRadio' and value not in ('Horizontal', 'Vertical'):
+                if name == 'Layout' and family == 'ModernRadio' and value not in ('Horizontal', 'Vertical'):
                     raise FxError('Radio Layout requires Horizontal or Vertical', 'Type')
                 if name in ('MultiValueDelimiter', 'InputTextPlaceholder') and value is not None and not isinstance(value, str):
                     raise FxError(f'Selection {name} requires Text', 'Type')
-            if self.family in TEXT_INPUTS:
+            if family in TEXT_INPUTS:
                 if name == 'MaxLength' and value is None:
                     value = 0
-                if self.family=='ModernTextInput' and name == 'TriggerOutput' and value not in ('Keypress', 'FocusOut', 'Delayed'):
+                if family=='ModernTextInput' and name == 'TriggerOutput' and value not in ('Keypress', 'FocusOut', 'Delayed'):
                     raise FxError('Text input TriggerOutput requires Keypress, FocusOut or Delayed', 'Type')
-                if self.family=='ModernTextInput' and name == 'Required' and not isinstance(value,bool):
+                if family=='ModernTextInput' and name == 'Required' and not isinstance(value,bool):
                     raise FxError('Text input Required requires a Boolean', 'Type')
-                if self.family=='ModernTextInput' and name == 'ValidationState' and value not in ('None','Error'):
+                if family=='ModernTextInput' and name == 'ValidationState' and value not in ('None','Error'):
                     raise FxError('Text input ValidationState requires None or Error', 'Type')
-                if self.family=='ModernTextInput' and name == 'Type' and value not in ('Text','SingleLine','Multiline','Password','Search','Email','Telephone','URL'):
+                if family=='ModernTextInput' and name == 'Type' and value not in ('Text','SingleLine','Multiline','Password','Search','Email','Telephone','URL'):
                     raise FxError('Unsupported text input Type', 'Unsupported')
                 if name == 'MaxLength' and (isinstance(value,bool) or not isinstance(value,(int,float,Decimal)) or not math.isfinite(float(value)) or value < 0 or value != int(value)):
                     raise FxError('Text input MaxLength requires a nonnegative integer', 'Type')
-            if self.family == "CanvasComponent":
+            if family == "CanvasComponent":
                 definition = r.project.components.get(self.control.raw.get("ComponentName"))
                 custom = definition.raw.get("CustomProperties", {}).get(name) if definition else None
                 if custom and validate_kind(custom) in ("Input", "Output"):
@@ -686,9 +687,9 @@ class Ref:
                     ctx = self.host_context() if validate_kind(custom) == 'Input' and name in self.control.properties else self.context()
                     try:value = r.component_value(value, self.raw_property(name), ctx, r.binder.component_type(self.control, name))
                     except FxError as error:raise self.expression(name).locate(error)
-            if self.family == "ModernCheckbox" and name == "Checked" and value is not None and not isinstance(value, bool):
+            if family == "ModernCheckbox" and name == "Checked" and value is not None and not isinstance(value, bool):
                 raise FxError("Checkbox Checked requires a Boolean", "Type")
-            if self.family == "ModernProgressBar":
+            if family == "ModernProgressBar":
                 if name == 'Indeterminate' and not isinstance(value, bool):
                     raise FxError('Progress Indeterminate requires a Boolean', 'Type')
                 if name in ('Value', 'Max'):
@@ -696,37 +697,37 @@ class Ref:
                         raise FxError('Progress Value and Max require finite Numbers', 'Type')
                     if name == 'Max' and value <= 0:
                         raise FxError('Progress Max must be greater than zero', 'Validation')
-            if self.family in ('ModernIcon','Classic/Icon'):
+            if family in ('ModernIcon','Classic/Icon'):
                 from .icons import validate,validate_classic
                 raw=self.raw_property(name)
                 actual=r.fx.node_types.get(id(r.fx.bound_node(raw,ctx))) if isinstance(raw,str) and raw.startswith('=') else None
-                (validate_classic if self.family=='Classic/Icon' else validate)(name,value,actual)
-            if self.family in ('Text', 'FluentV8/Label'):
+                (validate_classic if family=='Classic/Icon' else validate)(name,value,actual)
+            if family in ('Text', 'FluentV8/Label'):
                 from .canvas_text import validate
                 validate(self, name, value)
-            if self.family == 'Button':
+            if family == 'Button':
                 from .canvas_buttons import validate
                 validate(self, name, value)
-            if self.family == 'TabList':
+            if family == 'TabList':
                 from .canvas_tabs import validate
                 validate(self, name, value)
-            if self.family=='ModernTabList':
+            if family=='ModernTabList':
                 from .tablist import TYPES,validate
                 raw=self.raw_property(name)
                 actual=r.fx.node_types.get(id(r.fx.bound_node(raw,ctx or self.context()))) if TYPES.get(name)=='Color' and isinstance(raw,str) and raw.startswith('=') else None
                 validate(self,name,value,actual)
-            if self.family in ('ModernBadge','ModernInformationButton'):
+            if family in ('ModernBadge','ModernInformationButton'):
                 from .status_controls import TYPES,validate
                 raw=self.raw_property(name)
                 actual=r.fx.node_types.get(id(r.fx.bound_node(raw,ctx or self.context()))) if TYPES.get(name)=='Color' and isinstance(raw,str) and raw.startswith('=') else None
                 validate(self,name,value,actual)
-            if self.family == 'ModernButton':
+            if family == 'ModernButton':
                 from .modern_button import TYPES,validate
                 if name in TYPES:
                     raw=self.raw_property(name)
                     actual=r.fx.node_types.get(id(r.fx.bound_node(raw,ctx or self.context()))) if TYPES[name]=='Color' and isinstance(raw,str) and raw.startswith('=') else None
                     validate(name,value,actual)
-            if self.family == 'ModernLink':
+            if family == 'ModernLink':
                 from .modern_link import validate, TYPES
                 if name == 'Text' and value is not None:
                     from .binding import value_type, TEXT, function_compatible
@@ -736,35 +737,35 @@ class Ref:
                 raw = self.raw_property(name)
                 actual = r.fx.node_types.get(id(r.fx.bound_node(raw,ctx or self.context()))) if TYPES.get(name) == 'Color' and isinstance(raw,str) and raw.startswith('=') else None
                 validate(self,name,value,actual)
-            if self.family in ('Label','Rectangle','Circle','Star'):
+            if family in ('Label','Rectangle','Circle','Star'):
                 from .classic_display import TYPES,validate
-                kind=TYPES[self.family].get(name)
+                kind=TYPES[family].get(name)
                 if kind:
                     raw=self.raw_property(name)
                     actual=r.fx.node_types.get(id(r.fx.bound_node(raw,ctx or self.context()))) if kind=='Color' and isinstance(raw,str) and raw.startswith('=') else None
                     validate(self,name,value,actual)
-            if self.family=='Classic/Button':
+            if family=='Classic/Button':
                 from .classic_button import TYPES,validate
                 if name in TYPES:
                     raw=self.raw_property(name)
                     actual=r.fx.node_types.get(id(r.fx.bound_node(raw,ctx or self.context()))) if TYPES[name]=='Color' and isinstance(raw,str) and raw.startswith('=') else None
                     validate(self,name,value,actual)
-            if self.family == 'ModernNumberInput':
+            if family == 'ModernNumberInput':
                 from .input_controls import number_value, finite
                 if name in ('Value','Default'):value = number_value(self,value)
                 if name in ('Min','Max','Step'):value = finite(value,name,name!='Step')
                 if name == 'Precision' and (value != 'Auto' and (isinstance(value,bool) or not isinstance(value,(int,float,Decimal)) or value not in (0,1,2,3))):
                     raise FxError('Number input Precision requires Auto or 0–3','Type')
-            if self.family in DATE_PICKERS:
+            if family in DATE_PICKERS:
                 from .input_controls import date_value
                 if name in ('DefaultDate','SelectedDate','StartDate','EndDate'):value = date_value(self,value)
                 if name == 'IsEditable' and not isinstance(value,bool):raise FxError('Date picker IsEditable requires a Boolean','Type')
                 if name == 'DateTimeZone' and value not in ('UTC','Local'):raise FxError('DateTimeZone requires Local or UTC','Type')
-            if self.family in ('ModernDatePicker','ModernNumberInput') and name == 'ValidationState' and value not in ('None','Error'):
+            if family in ('ModernDatePicker','ModernNumberInput') and name == 'ValidationState' and value not in ('None','Error'):
                 raise FxError('Input ValidationState requires None or Error','Type')
-            if (name == 'Text' or name == 'Default' and self.family in TEXT_INPUTS) and self.family in ('ModernText', 'Label', 'ModernButton', 'Classic/Button', *TEXT_INPUTS):
+            if (name == 'Text' or name == 'Default' and family in TEXT_INPUTS) and family in ('ModernText', 'Label', 'ModernButton', 'Classic/Button', *TEXT_INPUTS):
                 value = r.fx.to_text(value)
-            if isinstance(value, Decimal) and (name in NUMERIC_CONTROL_PROPERTIES or self.family=='ModernButton' and name=='IconRotation' or self.family in ('ModernNumberInput', *SLIDERS) and name in ('Value', 'Default')):
+            if isinstance(value, Decimal) and (name in NUMERIC_CONTROL_PROPERTIES or family=='ModernButton' and name=='IconRotation' or family in ('ModernNumberInput', *SLIDERS) and name in ('Value', 'Default')):
                 value = float(value)
             if not (name in ("Width", "Height") and self.automatic_parent and ((self.parent.path, name) in r.evaluating or (self.parent.path, name) in r.intrinsic_measuring)):
                 r.property_cache[key] = value
@@ -845,28 +846,29 @@ class Ref:
 
     def _property(self, name):
         r = self.runtime
-        if self.family=='Classic/ComboBox':
+        family = self.family
+        if family=='Classic/ComboBox':
             if name=='NavigateItem':return None
             if name=='SearchItems' and name not in self.control.properties:
                 from .classic_combobox import search_items
                 return search_items(self)
             if name=='DefaultSelectedItems' and name not in self.control.properties and 'Default' in self.control.properties:
                 return self.property('Default')
-        if self.family in CLASSIC_BOOLEAN and name=='Value':
+        if family in CLASSIC_BOOLEAN and name=='Value':
             return self.property('Default')
-        if self.family in CLASSIC_SELECTORS and name=='SelectedText':
+        if family in CLASSIC_SELECTORS and name=='SelectedText':
             from .classic_inputs import display
             chosen=self.property('Selected')
-            return (display(self,chosen) if self.family=='Classic/Radio' else {'Value':display(self,chosen)}) if chosen is not None else None
-        if self.family in COMBOBOXES and name == 'SearchText':
+            return (display(self,chosen) if family=='Classic/Radio' else {'Value':display(self,chosen)}) if chosen is not None else None
+        if family in COMBOBOXES and name == 'SearchText':
             return ''
-        if self.family in SINGLE_SELECT and name == 'Selected':
+        if family in SINGLE_SELECT and name == 'Selected':
             if name in self.control.properties:
-                raise FxError(f'{self.family}.Selected is an output; author Default', 'Unsupported')
+                raise FxError(f'{family}.Selected is an output; author Default', 'Unsupported')
             rows = table(self.property('Items'))
             if 'Selected' in self.state:
                 chosen=next((row for row in rows if not isinstance(row, FxError) and r.same_item(row, self.state['Selected'])), None)
-                if chosen is not None or self.family not in CLASSIC_SELECTORS or self.state['Selected'] is None and (self.family=='Classic/Radio' or self.property('AllowEmptySelection')):return chosen
+                if chosen is not None or family not in CLASSIC_SELECTORS or self.state['Selected'] is None and (family=='Classic/Radio' or self.property('AllowEmptySelection')):return chosen
             return self.match_default(rows)
         if name in ("X", "Y", "Width", "Height") and self.automatic_parent:
             from . import layout
@@ -874,24 +876,24 @@ class Ref:
                 return layout.dimension(self, name) if name in ("Width", "Height") else layout.position(self, name)
             return layout.wrapped_property(self, name)
         if name == "DisplayMode" and name not in self.control.properties:
-            if self.family == "Form":
+            if family == "Form":
                 return "View" if self.property("Mode") == "View" else "Edit"
-            if self.family == "TypedDataCard" and self.parent:
+            if family == "TypedDataCard" and self.parent:
                 return self.parent.property("DisplayMode")
         if name in ("Width", "Height"):
             return self.intrinsic_dimension(name)
-        if name == "Value" and self.family == "ModernRating":
+        if name == "Value" and family == "ModernRating":
             from .rating import value
             return value(self,self.property("Default"))
-        if name == "Value" and self.family == "Timer":
+        if name == "Value" and family == "Timer":
             from .timers import value
             return value(self)
-        if name == "HtmlText" and self.family == "RichTextEditor":
+        if name == "HtmlText" and family == "RichTextEditor":
             from .rich_text import clean_value
             return clean_value(self,self.property("Default"))
-        if name == "Text" and self.family in TEXT_INPUTS and name not in self.control.properties:
+        if name == "Text" and family in TEXT_INPUTS and name not in self.control.properties:
             return self.property("Default")
-        if name == "Value" and self.family in SLIDERS:
+        if name == "Value" and family in SLIDERS:
             if name in self.control.properties:
                 raise FxError("ModernSlider.Value is an output; author the Default property", "Unsupported")
             minimum, maximum = self.slider_bounds()
@@ -901,12 +903,12 @@ class Ref:
             if isinstance(value, bool) or not isinstance(value, (int, float, Decimal)) or not math.isfinite(float(value)):
                 raise FxError("Slider Default requires a finite Number", "Type")
             return max(minimum, min(maximum, value))
-        if name == "Value" and self.family == "ModernNumberInput" and name not in self.control.properties:
+        if name == "Value" and family == "ModernNumberInput" and name not in self.control.properties:
             return self.property("Default")
-        if name == "SelectedDate" and self.family in DATE_PICKERS - {'DatePicker'} and name not in self.control.properties:
+        if name == "SelectedDate" and family in DATE_PICKERS - {'DatePicker'} and name not in self.control.properties:
             return self.property("DefaultDate")
-        if name in ("Selected", "SelectedItems") and self.family in ("Gallery", *COMBOBOXES):
-            if self.family == "Gallery":
+        if name in ("Selected", "SelectedItems") and family in ("Gallery", *COMBOBOXES):
+            if family == "Gallery":
                 default = self.property("Default")
                 items = table(self.property("Items"))
                 selected = next((row for row in items if r.same_item(row, default)), items[0] if items else None)
@@ -914,10 +916,10 @@ class Ref:
             selected = self.state.get("SelectedItems")
             if selected is None:
                 selected = table(self.property("DefaultSelectedItems"))
-            if self.family in COMBOBOXES and not self.property('SelectMultiple'):
+            if family in COMBOBOXES and not self.property('SelectMultiple'):
                 selected = selected[:1]
             return selected_record(self,selected) if name == "Selected" else selected
-        if self.family == "Form":
+        if family == "Form":
             if name == "Mode":
                 return self.property("DefaultMode")
             if name == "Item" and self.property("Mode") == "New":
@@ -935,7 +937,7 @@ class Ref:
                 return any(ref.state.get("dirty", False) for ref in r.descendants(self))
             if name in ("Error", "ErrorKind", "LastSubmit"):
                 return "" if name == "Error" else 0 if name == "ErrorKind" else None
-        if self.family == "TypedDataCard":
+        if family == "TypedDataCard":
             if name == "Valid":
                 return not self.validation_error()
             if name == "Error":
@@ -946,15 +948,16 @@ class Ref:
         if raw is None:
             raise FxError(f"Unknown property {self.name}.{name}")
         ctx = self.context()
-        if self.family=="Gallery" and name in ("TemplateFill","ItemAccessibleLabel"):
+        if family=="Gallery" and name in ("TemplateFill","ItemAccessibleLabel"):
             from .galleries import selected
             from .row_rules import gallery_formula
             key,row=selected(self)
             return gallery_formula(self,name,row,key)
-        definition = component_definition(r.project, self.control)
-        custom = definition.raw.get("CustomProperties", {}).get(name) if definition else None
-        if self.family == "CanvasComponent" and name in self.control.properties and (not custom or validate_kind(custom) == "Input"):
-            ctx = self.host_context()
+        if family == "CanvasComponent" and name in self.control.properties:
+            definition = component_definition(r.project, self.control)
+            custom = definition.raw.get("CustomProperties", {}).get(name) if definition else None
+            if not custom or validate_kind(custom) == "Input":
+                ctx = self.host_context()
         return self.eval_raw(name,ctx)
 
     def match_default(self, rows):
@@ -1004,7 +1007,6 @@ class Runtime:
             from .scenarios import demo_definitions
             demo_definitions(self.store)
         self.environment = project.config["environment"]
-        from .reactivity import ReactiveValues
         self.reactive = ReactiveValues(self)
         self.store.reactive = self.reactive
         self.viewport = dict(project.config["viewport"])
@@ -2552,97 +2554,98 @@ class Runtime:
     def render(self, ref, depth=0):
         if depth > 30:
             return {"path": ref.path, "name": ref.name, "family": "Unsupported", "errors": ["Nested control limit exceeded"], "props": {}, "children": []}
+        family = ref.family
         props, errors, gate_error = {}, [], False
         if ref.component_error:
             self.diagnostic(ref.component_error, ref.control.source, ref.name)
             return {'path':ref.path,'name':ref.name,'family':'Unsupported','version':ref.control.version,
                     'props':{},'errors':[ref.component_error.message],'children':[]}
         from .icons import CLASSIC_RENDER_PROPERTIES
-        render_properties=RENDER_PROPERTIES+sorted(CLASSIC_RENDER_PROPERTIES-set(RENDER_PROPERTIES)) if ref.family=='Classic/Icon' else RENDER_PROPERTIES
-        if ref.family in ('ComboBox','DropDown','Radio','ComboBoxDataField'):
+        render_properties=RENDER_PROPERTIES+sorted(CLASSIC_RENDER_PROPERTIES-set(RENDER_PROPERTIES)) if family=='Classic/Icon' else RENDER_PROPERTIES
+        if family in ('ComboBox','DropDown','Radio','ComboBoxDataField'):
             from .canvas_selectors import catalog,LAYOUT
-            versions=catalog()[ref.family];types=versions.get(ref.control.version,next(iter(versions.values())))['types']
+            versions=catalog()[family];types=versions.get(ref.control.version,next(iter(versions.values())))['types']
             render_properties=sorted((set(types)|LAYOUT)-{'Selected','SelectedItems','SearchText','Items','DefaultSelectedItems'})
-        if ref.family in ('Text', 'FluentV8/Label'):
+        if family in ('Text', 'FluentV8/Label'):
             from .canvas_text import catalog, LAYOUT
-            versions = catalog()[ref.family]
+            versions = catalog()[family]
             types = versions.get(ref.control.version, next(iter(versions.values())))['types']
             render_properties = sorted(set(types) | LAYOUT)
-        if ref.family == 'Button':
+        if family == 'Button':
             from .canvas_buttons import catalog, LAYOUT
             versions = catalog();types = versions.get(ref.control.version, next(iter(versions.values())))['types']
             render_properties = sorted(set(types) | LAYOUT)
-        if ref.family == 'TabList':
+        if family == 'TabList':
             from .canvas_tabs import catalog, LAYOUT
             versions = catalog();types = versions.get(ref.control.version, next(iter(versions.values())))['types']
             render_properties = sorted((set(types) | LAYOUT) - {'Selected','SelectedItems','Items','DefaultSelectedItems'})
-        if ref.family in ('Slider','Toggle'):
+        if family in ('Slider','Toggle'):
             from .canvas_scalars import catalog,LAYOUT
-            versions=catalog()[ref.family];types=versions.get(ref.control.version,next(iter(versions.values())))['types']
+            versions=catalog()[family];types=versions.get(ref.control.version,next(iter(versions.values())))['types']
             render_properties=sorted((set(types)|LAYOUT)-{'Value','Checked'})
-        if ref.family in ('TextInput','CheckBox'):
+        if family in ('TextInput','CheckBox'):
             from .canvas_inputs import catalog,LAYOUT
-            versions=catalog()[ref.family];types=versions.get(ref.control.version,next(iter(versions.values())))['types']
+            versions=catalog()[family];types=versions.get(ref.control.version,next(iter(versions.values())))['types']
             render_properties=sorted((set(types)|LAYOUT)-{'Value','Checked'})
-        if ref.family == 'DatePicker':
+        if family == 'DatePicker':
             from .canvas_dates import catalog, LAYOUT
             versions = catalog();types = versions.get(ref.control.version, next(iter(versions.values())))['types']
             render_properties = sorted((set(types) | LAYOUT) - {'SelectedDate'})
-        if ref.family=='Toolbar':
+        if family=='Toolbar':
             from .toolbar import TYPES
             render_properties=sorted(set(TYPES)-{'Items','DefaultSelectedItems'})
-        if ref.family=='FluentV8/Rating':
+        if family=='FluentV8/Rating':
             from .fluent_rating import TYPES
             render_properties=sorted(set(TYPES)-{'Value'})
-        if ref.family == "Timer":
+        if family == "Timer":
             from .timers import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES))
-        if ref.family in ('Audio','Video'):
+        if family in ('Audio','Video'):
             from .media_controls import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES))
-        if ref.family == "RichTextEditor":
+        if family == "RichTextEditor":
             from .rich_text import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES)-{"Default"})
-        if ref.family == "HtmlViewer":
+        if family == "HtmlViewer":
             from .html_controls import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES))
-        if ref.family=='Classic/ComboBox':
+        if family=='Classic/ComboBox':
             from .classic_combobox import catalog
             render_properties=RENDER_PROPERTIES+sorted(set(catalog()['types'])-set(RENDER_PROPERTIES)-{'SearchText'})+['Template','DisplayFields','SearchFields','NavigateFields','NoSelectionText']
-        if ref.family in LISTBOXES:
+        if family in LISTBOXES:
             from .listbox import catalog
             render_properties=RENDER_PROPERTIES+sorted(set(catalog()['types'])-set(RENDER_PROPERTIES))
-        if ref.family in CLASSIC_INPUTS:
+        if family in CLASSIC_INPUTS:
             from .classic_inputs import catalog
-            render_properties=RENDER_PROPERTIES+sorted(set(catalog()[ref.family]['types'])-set(RENDER_PROPERTIES))
-        if ref.family == "ModernDataGrid":
+            render_properties=RENDER_PROPERTIES+sorted(set(catalog()[family]['types'])-set(RENDER_PROPERTIES))
+        if family == "ModernDataGrid":
             from .modern_grid import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES)-{'Items','DefaultSelectedItems','SearchText','FieldDisplayName'})
-        if ref.family == "ModernTabList":
+        if family == "ModernTabList":
             from .tablist import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES)-{'ItemDisplayText'})
-        if ref.family == "DataTable":
+        if family == "DataTable":
             from .data_table import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES)-{"Items","Text","FieldName","FieldDisplayName","DisplayName","AutoWidth","IsHyperlink","Order"})
-        if ref.family in ('ModernBadge','ModernInformationButton'):
+        if family in ('ModernBadge','ModernInformationButton'):
             from .status_controls import TYPES,ENUM_PROPERTIES
             render_properties=RENDER_PROPERTIES+sorted((set(TYPES)|{'Content'}|set(ENUM_PROPERTIES))-set(RENDER_PROPERTIES))
-        if ref.family == 'ModernButton':
+        if family == 'ModernButton':
             from .modern_button import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES))
-        if ref.family == 'ModernLink':
+        if family == 'ModernLink':
             from .modern_link import TYPES
             render_properties = sorted((set(TYPES) | set(ref.control.properties))-{'Url','Name'})
-        if ref.family in ('Label','Rectangle','Circle','Star'):
+        if family in ('Label','Rectangle','Circle','Star'):
             from .classic_display import TYPES,properties as display_properties
             allowed=display_properties(ref.control)
-            render_properties=[n for n in RENDER_PROPERTIES if n in allowed or n in ref.control.properties]+sorted(set(TYPES[ref.family])-set(RENDER_PROPERTIES))
-        if ref.family=='Classic/Button':
+            render_properties=[n for n in RENDER_PROPERTIES if n in allowed or n in ref.control.properties]+sorted(set(TYPES[family])-set(RENDER_PROPERTIES))
+        if family=='Classic/Button':
             from .classic_button import TYPES
             render_properties=RENDER_PROPERTIES+sorted(set(TYPES)-set(RENDER_PROPERTIES))
         cached = cached_display_properties(ref, render_properties)
         for name in render_properties:
-            if ref.family == 'ModernProgressBar' and name == 'Max':
+            if family == 'ModernProgressBar' and name == 'Max':
                 continue  # Indeterminate rendering must not observe Value/Max errors.
             if cached is not None and name in cached.values:
                 props[name] = cached.values[name]
@@ -2662,7 +2665,7 @@ class Runtime:
                         gate_error = True
         if gate_error:
             props["DisplayMode"] = "Disabled"
-        node = {"path": ref.path, "name": ref.name, "family": ref.family, "version": ref.control.version,
+        node = {"path": ref.path, "name": ref.name, "family": family, "version": ref.control.version,
             "selectable": "OnSelect" in ref.control.properties or ref.raw_property("OnSelect") == "=Select(Parent)",
             "variant": ref.control.raw.get("Variant", ""), "props": props, "errors": errors, "children": []}
         from .focus import tab_stop
@@ -2675,41 +2678,41 @@ class Runtime:
         for prop, message in contract_errors(ref.control).items():
             self.diagnostic(FxError(message, 'Unsupported'), ref.control.source, f'{ref.name}.{prop}', ref.raw_property(prop))
             errors.append(message)
-        if ref.family in ('Text', 'FluentV8/Label'):
+        if family in ('Text', 'FluentV8/Label'):
             from .canvas_text import render as render_text
             try:render_text(ref, node)
             except FxError as error:errors.append(error.message)
-        if ref.family in ('ModernBadge','ModernInformationButton'):
+        if family in ('ModernBadge','ModernInformationButton'):
             from .status_controls import render as render_status
             render_status(ref,node)
-        if ref.family == 'Button':
+        if family == 'Button':
             try:
                 from .canvas_buttons import render as render_button
                 render_button(ref, node)
             except FxError as error:
                 self.render_error(ref, 'Icon', error);errors.append(error.message)
-        if ref.family == 'ModernButton':
+        if family == 'ModernButton':
             from .modern_button import render as render_button
             render_button(ref,node)
-        if ref.family == 'ModernLink':
+        if family == 'ModernLink':
             from .modern_link import render as render_link
             render_link(ref,node)
-        if ref.family in ('Label','Rectangle','Circle','Star'):
+        if family in ('Label','Rectangle','Circle','Star'):
             from .classic_display import render as render_display
             render_display(ref,node)
-        if ref.family=='Classic/Button':
+        if family=='Classic/Button':
             from .classic_button import render as render_classic_button
             render_classic_button(ref,node)
-        if ref.family in ('ModernIcon','Classic/Icon'):
+        if family in ('ModernIcon','Classic/Icon'):
             from .icons import glyph,active,classic_glyph
-            if ref.family == 'ModernIcon':node['selectable']=active(ref)
-            if ref.family == 'Classic/Icon':
+            if family == 'ModernIcon':node['selectable']=active(ref)
+            if family == 'Classic/Icon':
                 node['selectable']=active(ref) or ref.raw_property('OnSelect')=='=Select(Parent)'
-            try:node['icon']=classic_glyph(ref.property('Icon')) if ref.family=='Classic/Icon' else glyph(ref.property('Icon'),ref.property('IconStyle') if ref.family=='ModernIcon' else 'Outline')
+            try:node['icon']=classic_glyph(ref.property('Icon')) if family=='Classic/Icon' else glyph(ref.property('Icon'),ref.property('IconStyle') if family=='ModernIcon' else 'Outline')
             except FxError as error:
                 errors.append(error.message)
                 self.diagnostic(error,ref.control.source,f'{ref.name}.Icon',ref.raw_property('Icon'))
-        if ref.family == "RichTextEditor":
+        if family == "RichTextEditor":
             from .rich_text import sanitize,issues
             try:
                 result=sanitize(ref.property("Default") or "")
@@ -2718,22 +2721,22 @@ class Runtime:
             except (FxError,ValueError) as error:
                 errors.append(str(error))
                 self.diagnostic(error if isinstance(error,FxError) else FxError(str(error),"Validation"),ref.control.source,ref.name+".Default",ref.raw_property("Default"))
-        if ref.family == "HtmlViewer":
+        if family == "HtmlViewer":
             from .html_controls import fragment
             safe=fragment(props.get("HtmlText") or "")
             node["html"]=safe["html"]
             for message in safe["issues"]:
                 errors.append(message)
                 self.diagnostic(FxError(message,"Unsupported"),ref.control.source,ref.name+".HtmlText",ref.raw_property("HtmlText"))
-        if ref.family == "Timer":
+        if family == "Timer":
             from .timers import snapshot
             node["timer"]=next((s for s in snapshot(self)["controls"] if s["path"]==ref.path),{"running":False,"value":0})
-        if ref.family in ('Audio','Video'):
+        if family in ('Audio','Video'):
             from .media_controls import snapshot
             node['media']=snapshot(ref)
         if props.get("Visible") is False:
             return node
-        if ref.family == "Gallery":
+        if family == "Gallery":
             try:
                 self.render_property(ref,"Items")
                 node["selected"] = serial(self.render_property(ref,"Selected"))
@@ -2770,96 +2773,96 @@ class Runtime:
 
             except FxError as error:
                 errors.append(error.message)
-        elif ref.family in ('ComboBox','DropDown','Radio'):
+        elif family in ('ComboBox','DropDown','Radio'):
             try:
                 from .canvas_selectors import render
                 render(ref,node)
             except FxError as error:
                 self.render_error(ref,'Items',error);errors.append(error.message)
-        elif ref.family=='ComboBoxDataField':
+        elif family=='ComboBoxDataField':
             node['metadata']=True
-        elif ref.family in ('Slider','Toggle'):
+        elif family in ('Slider','Toggle'):
             try:
                 from .canvas_scalars import render
                 render(ref,node)
             except FxError as error:
                 self.render_error(ref,self.input_property(ref),error);errors.append(error.message)
-        elif ref.family in ('TextInput','CheckBox'):
+        elif family in ('TextInput','CheckBox'):
             try:
                 from .canvas_inputs import render
                 render(ref,node)
             except FxError as error:
                 self.render_error(ref,self.input_property(ref),error);errors.append(error.message)
-        elif ref.family == 'DatePicker':
+        elif family == 'DatePicker':
             try:
                 from .canvas_dates import render
                 render(ref, node)
             except FxError as error:
                 self.render_error(ref, 'SelectedDate', error);errors.append(error.message)
-        elif ref.family=='Toolbar':
+        elif family=='Toolbar':
             try:
                 from .toolbar import render as toolbar_render
                 toolbar_render(ref,node)
             except FxError as error:
                 self.render_error(ref,'Items',error);errors.append(error.message)
-        elif ref.family=='FluentV8/Rating':
+        elif family=='FluentV8/Rating':
             try:
                 from .fluent_rating import render as rating_render
                 rating_render(ref,node)
             except FxError as error:
                 self.render_error(ref,'Value',error);errors.append(error.message)
-        elif ref.family == "ModernRating":
+        elif family == "ModernRating":
             try:
                 from .rating import render as rating_render
                 rating_render(ref,node)
             except FxError as error:
                 self.render_error(ref,"Value",error);errors.append(error.message)
-        elif ref.family == "ModernDataGrid":
+        elif family == "ModernDataGrid":
             try:
                 from .modern_grid import render as grid_render
                 grid_render(ref,node)
             except FxError as error:
                 self.render_error(ref,'Items',error);errors.append(error.message)
-        elif ref.family == "DataTable":
+        elif family == "DataTable":
             try:
                 from .data_table import render as table_render
                 table_render(ref,node)
             except FxError as error:
                 self.render_error(ref,"Items",error);errors.append(error.message)
-        elif ref.family in LISTBOXES:
+        elif family in LISTBOXES:
             try:
                 from .listbox import render as list_render
                 list_render(ref,node)
             except FxError as error:
                 self.render_error(ref,'Items',error);errors.append(error.message)
-        elif ref.family == 'TabList':
+        elif family == 'TabList':
             try:
                 from .canvas_tabs import render
                 render(ref, node)
             except FxError as error:
                 self.render_error(ref, 'Selected', error);errors.append(error.message)
-        elif ref.family=='ModernTabList':
+        elif family=='ModernTabList':
             try:
                 from .tablist import render as tabs_render
                 tabs_render(ref,node)
             except FxError as error:
                 self.render_error(ref,'Items',error);errors.append(error.message)
-        elif ref.family in ("Classic/Radio","Classic/DropDown",*COMBOBOXES, "ModernDropdown", "ModernRadio"):
+        elif family in ("Classic/Radio","Classic/DropDown",*COMBOBOXES, "ModernDropdown", "ModernRadio"):
             error_property = 'Items'
             try:
                 items = table(self.render_property(ref,"Items"))
-                if ref.family in COMBOBOXES and any(row is not None and not isinstance(row, (dict, FxError)) for row in items):
+                if family in COMBOBOXES and any(row is not None and not isinstance(row, (dict, FxError)) for row in items):
                     raise FxError('Combobox Items requires record rows', 'Type')
                 node["options"] = []
-                for index, row in enumerate(items[:500] if ref.family=='Classic/DropDown' else items):
+                for index, row in enumerate(items[:500] if family=='Classic/DropDown' else items):
                     try:
                         if isinstance(row, FxError):
                             raise row
                         label_formula = ref.raw_property("ItemDisplayText")
-                        if ref.family=='Classic/ComboBox':
+                        if family=='Classic/ComboBox':
                             from .classic_combobox import display
                             label=(display(ref,row) or [''])[0]
-                        elif ref.family in CLASSIC_SELECTORS:
+                        elif family in CLASSIC_SELECTORS:
                             from .classic_inputs import display
                             label=display(ref,row)
                         else:
@@ -2869,15 +2872,15 @@ class Runtime:
                     except FxError as error:
                         self.render_error(ref,"ItemDisplayText",error,ref.path+f"/option:{index}.ItemDisplayText")
                         node["options"].append({"index": index, "label": "Power Fx error: " + error.message, "disabled": True})
-                error_property = 'Default' if ref.family in SINGLE_SELECT else 'DefaultSelectedItems'
-                if ref.family in SINGLE_SELECT:
+                error_property = 'Default' if family in SINGLE_SELECT else 'DefaultSelectedItems'
+                if family in SINGLE_SELECT:
                     selected = self.render_property(ref,'Selected')
                     chosen = [selected] if selected is not None else []
                     node['option_token'] = self.selector_token(ref, items)
                 else:
                     chosen = self.render_property(ref,"SelectedItems")
                 node["selection"] = [i for i, row in enumerate(items) if any(self.same_item(row, selected) for selected in chosen)]
-                if ref.family in COMBOBOXES:
+                if family in COMBOBOXES:
                     query = ref.property('SearchText')
                     node['search_text'] = query
                     node['search_reset'] = self.selection_epoch(ref)
@@ -2891,13 +2894,13 @@ class Runtime:
                         if not isinstance(row, dict):
                             raise FxError('Combobox SelectedItems requires record rows', 'Type')
                         label_formula = ref.raw_property('ItemDisplayText')
-                        if ref.family=='Classic/ComboBox':
+                        if family=='Classic/ComboBox':
                             from .classic_combobox import display
                             node['selected_labels'].append((display(ref,row) or [''])[0]);continue
                         from .row_rules import item_formula
                         label = item_formula(ref,"ItemDisplayText",row) if label_formula else row.get('Label', row.get('Value', row.get('Value1', row.get('Title', row.get('DisplayName', str(row))))))
                         node['selected_labels'].append(text(label))
-                    if ref.family=='Classic/ComboBox':
+                    if family=='Classic/ComboBox':
                         from .classic_combobox import decorate
                         decorate(ref,node,items,chosen)
                     elif ref.property('IsSearchable') and query and ref.path not in self.combo_search_items:
@@ -2907,21 +2910,21 @@ class Runtime:
             except FxError as error:
                 self.render_error(ref,error_property,error)
                 errors.append(error.message)
-        elif ref.family in ("RichTextEditor","Classic/Toggle","Classic/Slider","Classic/DatePicker","Classic/CheckBox","Classic/TextInput","ModernCheckbox", "ModernSlider", "ModernTextInput", "ModernNumberInput", "Toggle", "ModernDatePicker"):
+        elif family in ("RichTextEditor","Classic/Toggle","Classic/Slider","Classic/DatePicker","Classic/CheckBox","Classic/TextInput","ModernCheckbox", "ModernSlider", "ModernTextInput", "ModernNumberInput", "Toggle", "ModernDatePicker"):
             key = self.input_property(ref)
             try:
                 node["value"] = serial(self.render_property(ref,key))
-                if ref.family in CLASSIC_BOOLEAN:node['check_reset']=self.selection_epoch(ref)
-                if ref.family in (*DATE_PICKERS,'ModernNumberInput','Classic/Slider'):
+                if family in CLASSIC_BOOLEAN:node['check_reset']=self.selection_epoch(ref)
+                if family in (*DATE_PICKERS,'ModernNumberInput','Classic/Slider'):
                     from .input_controls import date_calendar, number_text
                     node['input_reset'] = self.scalar_token(ref)
-                    if ref.family in DATE_PICKERS:node['calendar'] = date_calendar(ref)
-                    elif ref.family=='ModernNumberInput':node['formatted_value'] = number_text(ref,ref.property(key))
-                if ref.family in TEXT_INPUTS or ref.family == "RichTextEditor":
+                    if family in DATE_PICKERS:node['calendar'] = date_calendar(ref)
+                    elif family=='ModernNumberInput':node['formatted_value'] = number_text(ref,ref.property(key))
+                if family in TEXT_INPUTS or family == "RichTextEditor":
                     node['text_reset'] = self.text_token(ref)
             except FxError as error:
                 errors.append(error.message)
-        elif ref.family == 'ModernProgressBar':
+        elif family == 'ModernProgressBar':
             try:
                 if ref.property('Indeterminate'):
                     node['progress'] = {'indeterminate': True}
@@ -2930,22 +2933,22 @@ class Runtime:
                     node['progress'] = {'indeterminate': False, 'max': float(maximum), 'value': float(max(0, min(maximum, value)))}
             except FxError as error:
                 errors.append(error.message)
-        if ref.family not in ("Gallery","DataTable","ModernDataGrid"):
+        if family not in ("Gallery","DataTable","ModernDataGrid"):
             from .focus import ordered_nodes
             node["children"] = ordered_nodes(self, [self.render(child, depth + 1) for child in ref.children], ref)
-        if ref.family == "Form":
+        if family == "Form":
             for key in ("Mode", "Unsaved", "Valid", "Error", "LastSubmit", "NumberOfColumns"):
                 try:
                     props[key] = serial(self.render_property(ref,key))
                 except FxError as error:
                     errors.append(error.message)
-        if ref.family == "Form":
+        if family == "Form":
             from .form_layout import decorate
             decorate(ref,node)
         return node
 
-    def state(self):
-        from .media_controls import snapshots as media_snapshots
+    def settle_preview(self):
+        """Render and settle lifecycle effects for both preview and workflow execution."""
         self.drain_events()
         shown = self.preview_screen or self.active_screen
         root = self.render(self.preview_component) if self.preview_component else self.render(self.screens[shown]) if shown in self.screens else None
@@ -2982,6 +2985,11 @@ class Runtime:
                     focus = None
             except FxError:
                 focus = None
+        return shown, root, focus
+
+    def state(self):
+        from .media_controls import snapshots as media_snapshots
+        shown, root, focus = self.settle_preview()
         from .timers import refs,snapshot
         timer_info=snapshot(self) if refs(self) else None
         return {"error_reports":serial(self.app_errors.reports),"timers":timer_info,"focus_request": focus, "screen": self.preview_component.name if self.preview_component else shown, "active_screen": self.active_screen,

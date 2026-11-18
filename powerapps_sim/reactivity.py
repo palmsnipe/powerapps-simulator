@@ -124,8 +124,9 @@ class ReactiveValues:
     def unit(self, key, loader, signature=lambda:None, forget=lambda:None):
         # Re-entrant layout reads must reach the existing intrinsic-size/cycle
         # handling, rather than treating the special layout fallback as a rule.
-        if any(frame.key == key for frame in self.frames):
-            return loader()
+        for frame in self.frames:
+            if frame.key == key:
+                return loader()
         entry = self.entries.get(key)
         reason='First evaluation';changed=None
         if entry is not None:

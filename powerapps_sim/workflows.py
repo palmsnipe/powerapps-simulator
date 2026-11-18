@@ -561,7 +561,7 @@ class WorkflowService:
         r.trace = []
         initial_records = _records(r.store)
         r.restart()
-        r.state()  # Materialize galleries and settle component inputs like the browser.
+        r.settle_preview()  # Materialize galleries and settle component inputs like the browser.
         steps = []
         for index, step in enumerate(scenario['steps'], 1):
             before = _records(r.store)
@@ -571,7 +571,7 @@ class WorkflowService:
                 WorkflowService._step(r, step, entry)
             except (FxError, ValueError) as error:
                 entry.update(status='failed', error=str(error), error_kind=error.kind if isinstance(error, FxError) else 'Scenario')
-            r.state()
+            r.settle_preview()
             entry['active_screen'] = r.active_screen
             entry['writes'] = _delta(before, _records(r.store))
             steps.append(entry)
