@@ -61,6 +61,40 @@ def test_aliases_do_not_hide_globals_or_gallery_item(runtime):
     assert runtime.fx.evaluate('LookUp([1,2] As row,row.Value>1,{N:Value+row.Value,Caption:ThisItem.Title})',ctx) == {'N':12,'Caption':'Fictional gallery item'}
 
 
+def test_named_text_lookup_reuses_first_match_and_resets_with_formula_cache(runtime, monkeypatch):
+    fx = runtime.fx
+    definitions = '''
+        Translations = Table({K:"code", Label:"first"}, {K:"code", Label:"second"}, {K:"Code", Label:"uppercase"});
+        Translate(key:Text):Text = LookUp(Translations, K = key).Label;
+    '''
+    fx.set_definitions(definitions)
+    runtime.invalidate()
+    monkeypatch.setattr(fx, 'query_row', lambda *args: pytest.fail('Exact text lookup scanned rows'))
+    assert fx.evaluate('Translate("code")') == 'first'
+    assert fx.evaluate('Translate("Code")') == 'uppercase'
+    assert fx.evaluate('IsBlank(Translate("missing"))') is True
+    assert fx.evaluate('LookUp(Translations, K = "code").Label') == 'first'
+    fx.set_definitions(definitions.replace('Label:"first"', 'Label:"updated"'))
+    runtime.invalidate()
+    assert fx.evaluate('Translate("code")') == 'updated'
+
+
+def test_named_text_lookup_keeps_row_scope_blank_and_error_semantics(runtime):
+    fx = runtime.fx
+    fx.set_definitions('''
+        Shadowed = Table({K:"row", key:"row", Label:"inner key"}, {K:"other", key:"none", Label:"outer key"});
+        Shadow(key:Text):Text = LookUp(Shadowed, K = key).Label;
+        Blanks = Table({K:Blank(), Label:"blank"}, {K:"", Label:"empty"});
+        Errors = Table({K:Error({Kind:ErrorKind.Div0}), Label:"error"}, {K:"valid", Label:"match"});
+        NumericText = Table({K:"1", Label:"text"});
+    ''')
+    runtime.invalidate()
+    assert fx.evaluate('Shadow("other")') == 'inner key'
+    assert fx.evaluate('LookUp(Blanks, K = "").Label') == 'blank'
+    assert fx.evaluate('IfError(LookUp(Errors, K = "valid").Label, "error")') == 'error'
+    assert fx.evaluate('IsBlank(LookUp(NumericText, K = 1))') is True
+
+
 def test_updateif_change_record_requires_its_explicit_alias(runtime):
     runtime.binder.errors.clear()
     runtime.binder.bind(runtime.fx.parse('UpdateIf(Projects As project,true,{Amount:Amount+1})'),BindScope(behavior=True))
