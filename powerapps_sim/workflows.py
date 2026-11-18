@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime, timezone
 import hashlib
@@ -332,19 +333,14 @@ class WorkflowService:
                 raise ValueError('Workflow report not found')
             return json.loads(path.read_text(encoding='utf-8'))
 
-    def run(self, scenario, *, expected_revision, change_id=None):
-        scenario = validate(scenario)
+    @contextmanager
+    def isolated_candidate(self, base, change_id, base_data):
         w = self.workspace
-        with w.lock, TemporaryDirectory(prefix='powerapps-workflow-') as temporary:
-            base = w.authoring.check_revision(expected_revision)
-            data_base = data_revision(w.runtime.store)
-            candidate = None
-            if change_id is not None:
-                _, candidate = w.authoring.check_candidate(change_id, base, base_data=data_base)
+        candidate = w.authoring.check_candidate(change_id, base, base_data=base_data)[1] if change_id is not None else None
+        with TemporaryDirectory(prefix='powerapps-workflow-') as temporary:
             root = Path(temporary) / 'project'
             root.mkdir()
             _copy_project(w.project.root, root, w.runtime.store)
-            # Use the same migration/apply service, but only within the disposable project.
             from .application import Workspace
             isolated = Workspace(Path(temporary), root, start=False)
             try:
@@ -353,6 +349,18 @@ class WorkflowService:
                         lists=candidate['lists'], migrations=candidate['migrations'], strict=candidate['strict'], title=candidate['title'])
                     isolated.authoring.apply(change['id'], expected_revision=change['base_revision'])
                     isolated.open(Project(root))
+                yield isolated
+            finally:
+                isolated.runtime.close()
+
+    def run(self, scenario, *, expected_revision, change_id=None):
+        scenario = validate(scenario)
+        w = self.workspace
+        with w.lock:
+            base = w.authoring.check_revision(expected_revision)
+            data_base = data_revision(w.runtime.store)
+            with self.isolated_candidate(base, change_id, data_base) as isolated:
+                root = isolated.project.root
                 r = isolated.runtime
                 previous_number_mode = r.fx.number_mode
                 previous_enum_mode = r.environment.get("enum_mode","legacy")
@@ -407,8 +415,6 @@ class WorkflowService:
                     raise RevisionConflict('Project records changed externally during the workflow run')
                 atomic_write(safe_path(w.project.root, '.emu/runs/' + report['id'] + '.json'), json_text(report))
                 return report
-            finally:
-                isolated.runtime.close()
 
     @staticmethod
     def _step(r, step, entry):

@@ -116,7 +116,27 @@
     </section>
   </main>
   <dialog id="record-dialog"><form id="record-form"><h2 id="record-title">Edit record</h2><div id="record-fields" class="record-fields"></div><div id="record-error" role="alert" hidden></div><div class="dialog-actions"><button type="button" id="cancel-record">Cancel</button><button type="submit" class="primary" id="save-record">Save record</button></div></form></dialog>
-  <dialog id="change-dialog"><form method="dialog"><h2 id="change-title">Review local change</h2><pre id="change-impact"></pre><pre id="change-diff"></pre><details><summary>Candidate diagnostics</summary><pre id="change-diagnostics"></pre></details><div class="dialog-actions"><button>Close</button><button type="button" id="undo-change">Undo change</button><button type="button" id="apply-change" class="primary">Apply reviewed change</button></div></form></dialog>
+  <dialog id="change-dialog">
+    <form method="dialog">
+      <h2 id="change-title">Review local change</h2>
+      <pre id="change-impact"></pre>
+      <pre id="change-diff"></pre>
+      <details><summary>Candidate diagnostics</summary><pre id="change-diagnostics"></pre></details>
+      <section id="change-check">
+        <details>
+          <summary>Sample a Power Fx property</summary>
+          <div class="candidate-property">
+            <label>Control path <input id="probe-path" placeholder="Main/Heading" spellcheck="false"></label>
+            <label>Property <input id="probe-property" placeholder="Text" spellcheck="false"></label>
+            <label>Source document (optional) <input id="probe-source" placeholder="Src/Main.pa.yaml" spellcheck="false"></label>
+          </div>
+        </details>
+        <button type="button" id="check-change">Check candidate</button>
+        <pre id="change-check-result" aria-live="polite" hidden></pre>
+      </section>
+      <div class="dialog-actions"><button>Close</button><button type="button" id="undo-change">Undo change</button><button type="button" id="apply-change" class="primary">Apply reviewed change</button></div>
+    </form>
+  </dialog>
   <dialog id="ai-dialog"><form method="dialog"><h2>Connect an AI client</h2><p>Use this command and argument list in your MCP client's stdio settings. The client must run on this computer. Keep this simulator server running.</p><p id="ai-project"></p><p id="ai-sdk-status"></p><pre id="ai-install"></pre><textarea id="ai-config" aria-label="MCP command and arguments" spellcheck="false" readonly></textarea><p>AI tools can inspect source and local lists, stage coordinated changes, run isolated workflows, and explicitly apply or undo changes. Review staged diffs in Changes. Source edits load after Restart app.</p><p>Connection is bound to this project. Reconnect explicitly after switching projects. This dialog supplies settings; it does not install or connect your AI client.</p><div class="dialog-actions"><button>Close</button><button type="button" id="copy-ai-config" class="primary">Copy MCP settings</button></div></form></dialog>
   <dialog id="paste-dialog"><form method="dialog"><h2>Paste Power Apps YAML</h2><p>Paste a screen, component definition, or control subtree.</p><textarea id="paste-editor" spellcheck="false" aria-label="Pasted YAML"></textarea><div class="dialog-actions"><button>Cancel</button><button type="button" id="paste-import" class="primary">Create local project</button></div></form></dialog>
   <dialog id="new-app-dialog">

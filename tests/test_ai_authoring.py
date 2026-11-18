@@ -46,7 +46,33 @@ def test_focused_reads_are_paged_saved_source_and_do_not_fetch_rows_or_run_event
     assert schema['definition']['required'] == ['Title', 'Status', 'Amount']
     schema['definition']['required'].clear()
     assert w.runtime.store.definitions['Projects']['required']
+    context = call(w, 'get_edit_context', query='ProjectForm', limit=2)
+    assert context['revision'] == revision(w.project.root)
+    assert context['workflow_revision'] and context['workflows']
+    assert all('scenario' not in entry for entry in context['workflows'])
+    assert context['list_schemas']['Projects']['required'] == ['Title', 'Status', 'Amount']
+    assert context['controls'][0]['properties']
     assert w.runtime.control_state == before and len(w.runtime.event_queue) == 1
+
+
+def test_check_change_uses_the_candidate_gallery_row_and_preserves_live_state(workspace):
+    w = workspace
+    w.runtime.state()
+    w.runtime.event('Workspace/ProjectForm/TitleCard/TitleInput', 'OnChange', 'Live draft')
+    live = call(w, 'read_runtime')
+    before = data_revision(w.runtime.store)
+    change = candidate(w)
+    request = {'expected_revision': change['base_revision'], 'change_id': change['id']}
+    check = call(w, 'check_change', **request,
+                 probe={'path': 'Workspace/ProjectGallery/ProjectTitle', 'property': 'Text'})
+    sample = check['formula']
+    assert check['status'] == 'passed' and check['saved_workflows']['passed'] == 4
+    assert check['first_failure'] is None
+    assert sample['formula'] == '=ThisItem.Title' and sample['type']['kind'] == 'Text'
+    assert sample['value'] == w.runtime.store.rows('Projects')[0]['Title']
+    assert '/row:' in sample['instance_path']
+    assert call(w, 'read_runtime') == live and data_revision(w.runtime.store) == before
+    assert w.authoring.history()[0]['status'] == 'staged'
 
 
 def test_targeted_candidate_is_isolated_applies_restarts_and_undoes(workspace):

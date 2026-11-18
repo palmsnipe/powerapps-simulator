@@ -12,7 +12,7 @@ from urllib.parse import urlsplit, urlunsplit
 from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler
 
 from .catalog import json_text
-from .ai_service import OPERATIONS, WORKSPACE_OPERATIONS
+from .ai_service import APP_PROPERTIES, OPERATIONS, SOURCE_TARGETS, WORKSPACE_OPERATIONS
 from .authoring import RevisionConflict
 from .syntax import FxError
 
@@ -156,6 +156,23 @@ def create_server(backend):
         {'type': 'object', 'required': ['scenario'], 'additionalProperties': False,
          'properties': {'scenario': WORKFLOW_INPUT_SCHEMA}},
     ]})]
+    source_target = Annotated[dict[str, Any], WithJsonSchema({'oneOf': [
+        {'type': 'object', 'required': ['kind', 'value'], 'additionalProperties': False,
+         'properties': {'kind': {'const': kind}, 'value': {
+             'type': 'string', **({'enum': list(APP_PROPERTIES)} if kind == 'app_property' else {})}}}
+        for kind in SOURCE_TARGETS
+    ] + [{'type': 'object', 'required': ['kind'], 'additionalProperties': False,
+          'properties': {'kind': {'const': 'index'}}}]})]
+    property_probe = Annotated[dict[str, Any], WithJsonSchema({
+        'type': 'object', 'required': ['path', 'property'], 'additionalProperties': False,
+        'properties': {
+            'path': {'type': 'string', 'description': 'Authored control path from get_edit_context.'},
+            'property': {'type': 'string', 'description': 'Authored property such as Text or Items.'},
+            'source': {'type': 'string', 'description': 'Source document when the path is ambiguous.'},
+            'instance_path': {'type': 'string', 'description': 'Optional rendered row/control path in the candidate.'},
+        },
+        'examples': [{'path': 'Main/Heading', 'property': 'Text'}],
+    })]
     yaml_source_example = {'Src/Main.pa.yaml': '''Screens:
   Main:
     Children:
@@ -170,8 +187,9 @@ def create_server(backend):
 
     server = MCPServer('Power Apps Simulator', version='0.1.0', instructions=(
         'Use list_projects and open_project(project_id) to explicitly select an existing app or recover a stale connection. '
-        'For edits: describe_project for the revision, read_controls/read_control for focused context, '
-        'then stage_control_edits. Check the diff and diagnostics. For new behavior, run_workflows against '
+        'For edits use get_edit_context(query) when available, to get the revisions, relevant controls, schemas and saved tests together. '
+        'Then stage_control_edits and inspect its diff. Use check_change with the staged ID to sample a property plus check the saved suite. '
+        'For new behavior, run_workflows against '
         'the staged change ID with focused assertions. When authorized, apply_change runs every saved '
         'workflow and blocks on failure. Let Apply run the saved suite once for routine edits. '
         'Restart once after the final apply with restart_preview and the returned after_revision. '
@@ -223,9 +241,17 @@ def create_server(backend):
                     workflows=workflows, viewport=viewport, environment=environment, strict=strict,
                     expected_revision=expected_revision)
 
-    def read_source(name: str | None = None, app_property: str | None = None, control_name: str | None = None) -> dict:
-        """Read saved YAML, an App formula property, or exported screen/component/control code. Choose one selector."""
-        return call('read_source', name=name, app_property=app_property, control_name=control_name)
+    def read_source(target: dict | None = None, name: str | None = None, app_property: str | None = None,
+                    control_name: str | None = None) -> dict:
+        """Read saved source with target {kind: document, value: Src/Main.pa.yaml}, kind app_property or kind control. Omit target to list available documents and App properties. Legacy selectors name, app_property and control_name each work alone."""
+        if all(value is None for value in (target, name, app_property, control_name)):
+            target = {'kind': 'index'}
+        return call('read_source', name=name, app_property=app_property, control_name=control_name, target=target)
+
+    def get_edit_context(query: str = '', source: str | None = None, list_names: list[str] | None = None,
+                         offset: int = 0, limit: int = 12) -> dict:
+        """Get source and workflow revisions, matching control paths and formulas, list schemas and saved test names in one call. Use query to match a name, path or formula. Up to three lists are included automatically. Provide list_names to select schemas in larger projects. No records are fetched."""
+        return call('get_edit_context', query=query, source=source, list_names=list_names, offset=offset, limit=limit)
 
     def read_list(name: str, offset: int = 0, limit: int = 50) -> dict:
         """Read a local list's canonical schema/name mappings and a page of simulated records (limit 1–500)."""
@@ -317,23 +343,31 @@ def create_server(backend):
         """Run the entire saved suite, including reviewed workflow edits if a staged change_id is supplied. Uses isolated snapshots and returns filename, failed steps, and report IDs. Apply checks the suite again before publishing."""
         return call('validate_workflows', expected_revision=expected_revision, change_id=change_id)
 
+    def check_change(expected_revision: str, change_id: str, probe: dict | None = None) -> dict:
+        """Check a staged change against all saved tests and return the first failure with expected and actual values. Optional probe samples an authored property in a disposable preview and returns its formula and inferred type. Behavior rules are type-checked and can be exercised through run_workflows. Apply still enforces the full saved suite."""
+        return call('check_change', expected_revision=expected_revision, change_id=change_id, probe=probe)
+
     def restart_preview(expected_revision: str) -> dict:
         """Explicitly reload saved source and restart the live preview. Resets unsaved control state and runs OnStart/OnVisible, which may write local data. Revision conflicts are rejected before restart."""
         return call('restart_preview', expected_revision=expected_revision)
 
     # Resolve normal hints now; rich hints are explicit and avoid dynamic globals.
     import typing
-    for function in (describe_project, list_projects, open_project, create_project, read_source, read_list, read_list_schema, read_controls, read_control,
+    for function in (describe_project, list_projects, open_project, create_project, read_source, get_edit_context, read_list, read_list_schema, read_controls, read_control,
                      read_diagnostics, read_analysis, read_runtime, read_dependencies,
                      evaluate_formula, export_source, list_changes, stage_change, apply_change, undo_change,
-                     stage_control_edits, list_workflows, run_workflow, run_workflows, validate_workflows, read_workflow_report, restart_preview):
+                     stage_control_edits, list_workflows, run_workflow, run_workflows, validate_workflows, check_change, read_workflow_report, restart_preview):
         function.__annotations__ = typing.get_type_hints(function)
         function.__annotations__['return'] = dict[str, Any]
         if function is read_source:
             function.__annotations__['app_property'] = Literal['Formulas', 'OnStart', 'OnError', 'StartScreen'] | None
-        if function in (read_list,read_dependencies,read_controls):
+            function.__annotations__['target'] = source_target | None
+        if function in (read_list,read_dependencies,read_controls,get_edit_context):
             function.__annotations__['offset'] = Annotated[int, Field(ge=0, strict=True)]
-            function.__annotations__['limit'] = Annotated[int, Field(ge=1, le=500, strict=True)]
+            limit = 50 if function is get_edit_context else 500
+            function.__annotations__['limit'] = Annotated[int, Field(ge=1, le=limit, strict=True)]
+        if function is check_change:
+            function.__annotations__['probe'] = property_probe | None
         if function in (stage_change, stage_control_edits):
             for name in ('lists', 'migrations'):
                 function.__annotations__[name] = dict[str, Any] | None
@@ -358,7 +392,7 @@ def create_server(backend):
                 viewport=dict[str, Annotated[int, Field(strict=True)]] | None, environment=dict[str, Any] | None,
                 strict=Annotated[bool, Field(strict=True)])
         server.tool(structured_output=True, annotations=apply if function in (apply_change, undo_change, restart_preview, create_project, open_project) else
-                    stage if function in (stage_change, stage_control_edits, run_workflow, run_workflows, validate_workflows) else read)(function)
+                    stage if function in (stage_change, stage_control_edits, run_workflow, run_workflows, validate_workflows, check_change) else read)(function)
 
     def resource(operation):
         def read_resource() -> str:

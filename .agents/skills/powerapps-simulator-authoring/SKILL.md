@@ -5,7 +5,7 @@ description: Create or edit local canvas apps through the Power Apps Simulator M
 
 # Power Apps simulator authoring
 
-Use the simulator's versioned control contracts. Call `describe_project` for the bound project and revisions. To switch to an existing app, call `list_projects` and then `open_project` with the selected ID. This also rebinds a stale MCP connection after a browser project switch. Use `read_controls` to locate existing controls, `read_control` for a specific version and its authored properties, and `read_list_schema` for field names and types. Read full source or sample rows when the change needs them.
+Use the simulator's versioned control contracts. To switch to an existing app, call `list_projects` and then `open_project` with the selected ID. This also rebinds a stale MCP connection after a browser project switch. When available, call `get_edit_context` with a focused query to get revisions, authored control paths and formulas, list schemas, and saved test names together. On older servers, use `describe_project`, `read_controls`, and `read_list_schema`. Use `read_control` for a specific control version and its contract. Read full source or sample rows when the change needs them. For `read_source`, use a target such as `{"kind":"document","value":"Src/Main.pa.yaml"}`. A call without a target lists available source documents.
 
 ## Create a project
 
@@ -91,7 +91,7 @@ Use `stage_control_edits` for focused control edits and `stage_change` for broad
 }
 ```
 
-Inspect the candidate diff and diagnostics before testing it. Batch relevant saved and inline tests with `run_workflows`, passing the base revision, candidate `change_id`, and entries containing either `scenario_file` or `scenario`. Scenario writes run in isolated snapshots. Test the visible behavior and resulting records, including defaults before any interaction.
+Inspect the candidate diff before testing it. When available, `check_change` takes the base revision and staged `change_id` and returns the saved suite summary and first failure. Add `probe: {"path":"Main/Caption","property":"Text"}` to sample a staged property in a disposable preview. Check its inferred type and sample value along with the saved tests. Behavior rules need an event scenario. Batch relevant inline tests with `run_workflows`, passing the base revision, candidate `change_id`, and entries containing either `scenario_file` or `scenario`. Scenario writes run in isolated snapshots. Test the visible behavior and resulting records, including defaults before any interaction.
 
 To repair a saved test, stage the full corrected scenario with `stage_change`. Pass `workflows` as a map from the exact filename to the scenario, plus `expected_workflow_revision` from `describe_project` or `list_workflows`. Call `validate_workflows` with the candidate ID to test the resulting suite by filename. Apply the passing candidate when authorized. `apply_change` repeats the suite check before publishing the changes.
 

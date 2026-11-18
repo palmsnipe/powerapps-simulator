@@ -20,10 +20,12 @@ OPERATIONS = ('describe_project', 'read_source', 'read_list', 'read_diagnostics'
               'read_runtime', 'read_dependencies', 'evaluate_formula', 'export_source', 'list_changes', 'stage_change',
               'apply_change', 'undo_change', 'list_workflows', 'run_workflow', 'read_workflow_report',
               'read_controls', 'read_control', 'read_list_schema', 'stage_control_edits', 'run_workflows', 'restart_preview',
-              'create_project', 'list_projects', 'open_project', 'validate_workflows')
+              'create_project', 'list_projects', 'open_project', 'validate_workflows', 'get_edit_context', 'check_change')
 WORKSPACE_OPERATIONS = {'list_projects', 'open_project'}
 WRITES = {'stage_change', 'apply_change', 'undo_change', 'run_workflow',
-          'stage_control_edits', 'run_workflows', 'restart_preview', 'create_project', 'validate_workflows'}
+          'stage_control_edits', 'run_workflows', 'restart_preview', 'create_project', 'validate_workflows', 'check_change'}
+APP_PROPERTIES = ('Formulas', 'OnStart', 'OnError', 'StartScreen')
+SOURCE_TARGETS = {'document': 'name', 'app_property': 'app_property', 'control': 'control_name'}
 
 
 class AIService:
@@ -95,7 +97,19 @@ class AIService:
         return {'source_matches_saved': r.project.documents == saved.documents,
                 'note': 'Saved source loads on explicit browser restart; workflows always use saved/candidate source.'}
 
-    def read_source(self, name=None, app_property=None, control_name=None):
+    def read_source(self, name=None, app_property=None, control_name=None, target=None):
+        if target is not None:
+            if any(selector is not None for selector in (name, app_property, control_name)):
+                raise ValueError('Use target by itself')
+            if target == {'kind': 'index'}:
+                return self._source_index(Project(self.workspace.project.root))
+            if not isinstance(target, dict) or not isinstance(target.get('kind'), str):
+                raise ValueError('Target needs a source kind and value')
+            field = SOURCE_TARGETS.get(target['kind'])
+            if field is None or set(target) != {'kind', 'value'} or not isinstance(target.get('value'), str):
+                raise ValueError('Use a document, app_property or control target with a value')
+            name, app_property, control_name = (target['value'] if field == item else None
+                                                for item in ('name', 'app_property', 'control_name'))
         if sum(x is not None for x in (name, app_property, control_name)) != 1:
             raise ValueError('Choose exactly one source name, app_property or control_name')
         p = Project(self.workspace.project.root)
@@ -104,7 +118,7 @@ class AIService:
                 raise ValueError('Source document not found')
             text = p.documents[name]
         elif app_property is not None:
-            if app_property not in ('Formulas', 'OnStart', 'OnError', 'StartScreen'):
+            if app_property not in APP_PROPERTIES:
                 raise ValueError('App property must be Formulas, OnStart, OnError or StartScreen')
             text = str(p.app.get(app_property, ''))
         else:
@@ -114,6 +128,33 @@ class AIService:
                 raise ValueError('Control name is ambiguous; read its source document instead')
             text = p.export_control(control_name)
         return {'text': text, 'revision': revision(p.root), 'source': name, 'app_property': app_property, 'control_name': control_name}
+
+    @staticmethod
+    def _source_index(project):
+        return {'revision': revision(project.root), 'documents': list(project.documents),
+                'app_properties': list(APP_PROPERTIES), 'screens': list(project.screens),
+                'components': list(project.components)}
+
+    def get_edit_context(self, query='', source=None, list_names=None, offset=0, limit=12):
+        from .ai_authoring import read_controls
+        if type(limit) is not int or not 1 <= limit <= 50:
+            raise ValueError('Edit context limit must be between 1 and 50')
+        p = Project(self.workspace.project.root)
+        names = sorted(self.workspace.runtime.store.definitions)
+        if list_names is None:
+            list_names = names if len(names) <= 3 else []
+        if not isinstance(list_names, list) or len(list_names) > 10 or any(
+            not isinstance(name, str) or name not in names for name in list_names
+        ):
+            raise ValueError('Use up to ten list names from the project list catalog')
+        catalog = self.list_workflows(include_scenarios=False)
+        controls = read_controls(p, query, source, offset, limit, include_properties=True)
+        return {**self._source_index(p), 'project_path': str(p.root), 'title': p.config['title'],
+                'workflow_revision': catalog['workflow_revision'],
+                'workflows': [item for item in catalog['scenarios'] if not item.get('origin')],
+                'list_names': names, 'list_schemas': {
+                    name: self.read_list_schema(name)['definition'] for name in dict.fromkeys(list_names)},
+                **controls, 'running_source': self._running_revision_note()}
 
     def read_controls(self, query='', source=None, offset=0, limit=50, include_properties=False):
         from .ai_authoring import read_controls
@@ -300,6 +341,39 @@ class AIService:
 
     def validate_workflows(self, expected_revision, change_id=None):
         return self.workspace.workflows.validate_saved(expected_revision, change_id)
+
+    def check_change(self, expected_revision, change_id, probe=None):
+        from .candidate_inspection import inspect_property
+        from .workflows import workflow_revision
+        w = self.workspace
+        base = w.authoring.check_revision(expected_revision)
+        base_data = data_revision(w.runtime.store)
+        _, candidate = w.authoring.check_candidate(change_id, base, base_data=base_data)
+        revision_before = workflow_revision(w.project.root)
+        sample = None
+        if probe is not None:
+            with w.workflows.isolated_candidate(base, change_id, base_data) as isolated:
+                sample = inspect_property(isolated.runtime, probe)
+        if data_revision(w.runtime.store) != base_data:
+            raise RevisionConflict('Project records changed during the candidate check. Retry against the current project.')
+        suite = w.workflows.validate_saved(base, change_id)
+        if data_revision(w.runtime.store) != base_data:
+            raise RevisionConflict('Project records changed during the candidate check. Retry against the current project.')
+        if suite['workflow_revision'] != revision_before:
+            raise RevisionConflict('Saved workflows changed during the candidate check. Retry against the current project.')
+        broken = next((run for run in suite['runs'] if run['status'] != 'passed'), None)
+        failure = None
+        if broken:
+            failure = {'file': broken['file'], 'report_id': broken.get('id'),
+                       **next(iter(broken.get('failures', ())), {}),
+                       **({'error': broken['error']} if 'error' in broken else {})}
+        diagnostics = candidate['diagnostics']
+        return {'change_id': change_id, 'revision': base, 'workflow_revision': suite['workflow_revision'],
+                'status': 'passed' if suite['status'] == 'passed' and not diagnostics and
+                (sample is None or sample['status'] != 'error') else 'failed',
+                'saved_workflows': {'status': suite['status'], 'passed': suite['passed'], 'failed': suite['failed']},
+                'first_failure': failure, 'formula': sample, 'diagnostics': diagnostics[:20],
+                'diagnostic_count': len(diagnostics)}
 
     def restart_preview(self, expected_revision):
         w = self.workspace

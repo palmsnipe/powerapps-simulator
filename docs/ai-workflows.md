@@ -42,15 +42,15 @@ python -m powerapps_sim.mcp_server --workspace "/absolute/path/to/projects"
 
 The AI client launches this command as a stdio server. It starts with no app selected. Use `list_projects` and `open_project` for an existing app in that workspace, or call `create_project` to scaffold one. Stop the headless server before opening its active project in the browser.
 
-The 26 tools are:
+The MCP tools are grouped by purpose.
 
 | Purpose | Tools |
 | --- | --- |
 | Select or create | `list_projects`, `open_project`, `create_project` |
-| Inspect | `describe_project`, `read_source`, `read_list`, `read_list_schema`, `read_controls`, `read_control`, `read_diagnostics`, `read_analysis`, `read_runtime`, `read_dependencies` |
+| Inspect | `get_edit_context`, `describe_project`, `read_source`, `read_list`, `read_list_schema`, `read_controls`, `read_control`, `read_diagnostics`, `read_analysis`, `read_runtime`, `read_dependencies` |
 | Evaluate/export | `evaluate_formula`, `export_source` |
 | Author | `list_changes`, `stage_change`, `stage_control_edits`, `apply_change`, `undo_change` |
-| Verify | `list_workflows`, `validate_workflows`, `run_workflow`, `run_workflows`, `read_workflow_report` |
+| Verify | `check_change`, `list_workflows`, `validate_workflows`, `run_workflow`, `run_workflows`, `read_workflow_report` |
 | Preview | `restart_preview` |
 
 Seven JSON resources expose `powerapps://project`, `diagnostics`, `analysis`, `runtime`, `dependencies`, `changes` and `workflows`. Source reads return saved YAML/App properties/control exports; runtime/type reads and pure evaluation observe the running source. Responses identify when saved and running source differ. Formula language errors are typed values; invalid arguments, ownership and revision conflicts are tool errors. Reading runtime state does not render controls or drain queued events. List reads are paged (1–500 records).
@@ -115,6 +115,12 @@ The result includes project/workspace paths, revisions, screens, source names, l
 Source export includes the app YAML/formulas; local schemas, SQLite records and acceptance workflows remain simulator project files. Everything in this flow uses the local simulator, without Microsoft authentication or deployment.
 
 ## Focused local AI authoring
+
+After opening the right app, call `get_edit_context(query="Heading")` to get the source and workflow revisions, matching authored controls and formulas, schemas, and saved test names together. The response includes schemas automatically when the app has up to three lists. Supply `list_names` to choose up to ten schemas in a larger app. Use `offset` and `limit` for more control matches. No sample records are fetched.
+
+`read_source` accepts `target={"kind":"document","value":"Src/Main.pa.yaml"}`, with `app_property` and `control` as additional target kinds. Supply the App property or control name as the value for those targets. Call MCP `read_source` without arguments to get the source index. The original individual selectors remain available.
+
+`check_change(expected_revision, change_id, probe?)` checks the staged candidate against the saved suite and shows the first failure, including the step, expected and actual result when available, and the full report ID. Add a probe such as `{"path":"Main/Heading","property":"Text"}` to see the formula, inferred type, and a sample from the candidate's disposable preview. A gallery property uses its first materialized instance unless you supply an `instance_path`. Use `source` to disambiguate the authored path. Behavior rules report their type. Use an isolated workflow to exercise them. In the editor, open **Changes**, review the staged change, and select **Check candidate**. Expand **Sample a Power Fx property** to add the same probe. Apply still checks the full saved suite.
 
 `read_controls(query, source?, offset=0, limit=50, include_properties=false)` searches saved control paths, versions, property names and authored formulas using a case-insensitive substring. It returns source files, one-based line locations, parent/child paths and matching properties. Empty queries list all controls; pages accept 1–500 entries. `read_control(path, source?)` returns one control's authored definition without its descendant source, child paths, property locations, local version support, public output names, contract findings and component custom properties. These reads use **saved source**, including applied changes awaiting restart. They do not render, evaluate formulas, drain events or establish gallery state. Paths are source tree paths, such as `Workspace/ProjectGallery/EditProject`; workflow events use rendered instance paths or a `target` formula instead. Supply `source` when a source path is ambiguous.
 

@@ -152,10 +152,54 @@ $('number-mode').onchange=action(async()=>{const env=JSON.parse($('environment-e
 
 $('round-table-mode').onchange=action(async()=>{const env=JSON.parse($('environment-editor').value);env.round_table_mode=$('round-table-mode').value;$('environment-editor').value=json(env);});
 
-function reviewChange(change){reviewedChange=change;$('change-title').textContent=change.title;$('change-impact').textContent=(change.impacts||[]).map(i=>`${i.list}: ${i.records_checked} records checked, ${i.records_changed} records changed; added ${i.added_columns.join(', ')||'none'}; removed ${i.removed_columns.join(', ')||'none'}`).join('\n')||(change.workflows?'Apply checks the resulting saved workflow suite in isolation.':'Source edits load on explicit preview restart.');$('change-diff').textContent=change.diffs.map(d=>d.diff||d.path+' (unchanged)').join('\n');$('change-diagnostics').textContent=change.diagnostics.length?json(change.diagnostics):'No current binding/source diagnostics in the candidate.';$('apply-change').hidden=change.status!=='staged';$('undo-change').hidden=change.status!=='applied';$('change-dialog').showModal();}
+function reviewChange(change){reviewedChange=change;$('change-title').textContent=change.title;$('change-impact').textContent=(change.impacts||[]).map(i=>`${i.list}: ${i.records_checked} records checked, ${i.records_changed} records changed; added ${i.added_columns.join(', ')||'none'}; removed ${i.removed_columns.join(', ')||'none'}`).join('\n')||(change.workflows?'Apply checks the resulting saved workflow suite in isolation.':'Source edits load on explicit preview restart.');$('change-diff').textContent=change.diffs.map(d=>d.diff||d.path+' (unchanged)').join('\n');$('change-diagnostics').textContent=change.diagnostics.length?json(change.diagnostics):'No current binding/source diagnostics in the candidate.';$('apply-change').hidden=change.status!=='staged';$('undo-change').hidden=change.status!=='applied';$('change-check').hidden=change.status!=='staged';$('change-check-result').hidden=true;for(const id of ['probe-path','probe-property','probe-source'])$(id).value='';$('change-dialog').showModal();}
 async function loadChanges(){const result=await api('/api/changes');const target=$('changes-list');target.replaceChildren();if(!result.changes.length){target.append(element('p',{},'No staged or applied changes yet. Source edits and reviewed schema changes will appear here.'));return;}for(const change of result.changes){const row=element('div',{class:'change-row'});row.append(element('strong',{},change.title),element('span',{},change.status+' · '+change.created_at));const review=element('button',{},'Review change');review.onclick=()=>reviewChange(change);row.append(review);target.append(row);}}
 async function finishChange(actionName){if(!reviewedChange)return;const current=reviewedChange;await api('/api/changes/'+current.id+'/'+actionName,{expected_revision:actionName==='apply'?current.base_revision:current.after_revision});$('change-dialog').close();await refreshProject();if(!dirty&&editorSelection)await selectEditor(editorSelection);if(currentList&&project.lists.includes(currentList))await loadList();await loadChanges();if(!$('workflows-view').hidden)await loadWorkflows();state=await api('/api/state');renderState();let message=actionName==='apply'?'Local change applied with an undo backup.':'Local change undone.';if(Object.keys(current.sources||{}).length)message+=' Restart to load source changes.';status(message);}
 $('apply-change').onclick=action(()=>finishChange('apply'));$('undo-change').onclick=action(()=>finishChange('undo'));
+
+async function checkReviewedChange() {
+  const current = reviewedChange;
+  const path = $('probe-path').value.trim();
+  const property = $('probe-property').value.trim();
+  const source = $('probe-source').value.trim();
+  const argumentsForCheck = {expected_revision: current.base_revision, change_id: current.id};
+  if (path || property || source) argumentsForCheck.probe = {path, property, ...(source ? {source} : {})};
+  const result = $('change-check-result');
+  const button = $('check-change');
+  result.hidden = false;
+  result.textContent = 'Checking the staged change…';
+  button.disabled = true;
+  try {
+    const report = await api('/api/ai/check_change', {expected_project: project.project_path, arguments: argumentsForCheck});
+    if (reviewedChange !== current) return;
+    const saved = report.saved_workflows;
+    const lines = [`Saved tests: ${saved.passed}/${saved.passed + saved.failed} passed`];
+    const failure = report.first_failure;
+    if (failure) {
+      lines.push(`First failure: ${failure.file}${failure.index ? ' · Step ' + failure.index : ''}`);
+      for (const detail of [failure.path || failure.control_path || failure.scope, failure.formula || failure.target, failure.error]) {
+        if (detail) lines.push(detail);
+      }
+      if (Object.hasOwn(failure, 'expected')) lines.push('Expected ' + json(failure.expected));
+      if (Object.hasOwn(failure, 'actual')) lines.push('Actual ' + json(failure.actual));
+      if (failure.expected_error_kind) lines.push('Expected error ' + failure.expected_error_kind, 'Actual error ' + (failure.actual_error_kind || 'none'));
+    }
+    if (report.formula) {
+      const sample = report.formula;
+      lines.push('', `${sample.path} · ${sample.property} · ${sample.type.kind}`, sample.formula);
+      if (sample.status === 'ok') lines.push('Sample ' + json(sample.value) + (sample.truncated ? ' (first five rows)' : ''));
+      if (sample.status === 'error') lines.push(sample.error.$error.Message);
+      if (sample.status === 'type_only') lines.push(sample.reason);
+    }
+    if (report.diagnostic_count) lines.push('', `${report.diagnostic_count} binding or source findings`, ...report.diagnostics.map(finding => finding.message));
+    result.textContent = lines.join('\n');
+  } catch (error) {
+    if (reviewedChange === current) result.textContent = error.message;
+  } finally {
+    button.disabled = false;
+  }
+}
+$('check-change').onclick = action(checkReviewedChange);
 
 $('ai-button').onclick=action(async()=>{const connection=await api('/api/ai-connection');$('ai-project').textContent='Project: '+connection.project_path;$('ai-sdk-status').textContent=connection.sdk_version===connection.required_sdk?'MCP SDK '+connection.sdk_version+' is installed in this Python environment.':'Install the optional MCP SDK for this Python environment (required '+connection.required_sdk+').';$('ai-install').textContent=connection.sdk_version===connection.required_sdk?'':connection.install_command;$('ai-config').value=json({command:connection.command,args:connection.args});$('ai-dialog').showModal();});
 $('copy-ai-config').onclick=action(async()=>{await navigator.clipboard.writeText($('ai-config').value);status('MCP command and arguments copied.');});

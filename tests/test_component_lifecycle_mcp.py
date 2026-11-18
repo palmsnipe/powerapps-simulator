@@ -4,6 +4,7 @@ import sys
 import pytest
 
 from powerapps_sim.fixtures import component_feedback_project
+from powerapps_sim.ai_service import OPERATIONS
 from powerapps_sim.source import load_yaml, dump_yaml
 
 
@@ -16,7 +17,7 @@ def test_stdio_feedback_workflow_and_candidate_preserve_owner(tmp_path):
         params = StdioServerParameters(command=sys.executable,
             args=['-m', 'powerapps_sim.mcp_server', '--project', str(p.root)])
         async with sdk.Client(params, raise_exceptions=True) as client:
-            assert len((await client.list_tools()).tools) == 23
+            assert {tool.name for tool in (await client.list_tools()).tools} == set(OPERATIONS)
             assert len((await client.list_resources()).resources) == 7
 
             async def call(operation, **arguments):

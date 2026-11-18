@@ -323,3 +323,28 @@ dialog{border-radius:var(--borderRadiusLarge);box-shadow:var(--shadow16);border:
 .fx-canvas-scalar input:focus-visible{outline:2px solid #242424;outline-offset:3px;}
 .fx-canvas-scalar input:disabled{opacity:.55;cursor:default;}
 .fx-canvas-scalar span{overflow-wrap:anywhere;min-width:0;}
+
+#change-check {
+  margin-top: 14px;
+}
+.candidate-property {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+.candidate-property label {
+  display: grid;
+  gap: 4px;
+  flex: 1 1 160px;
+}
+#check-change {
+  margin-top: 8px;
+}
+#change-check-result {
+  border: 1px solid var(--border);
+  padding: 10px;
+  overflow: auto;
+  max-height: 25vh;
+  white-space: pre-wrap;
+}

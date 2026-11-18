@@ -39,7 +39,15 @@ def test_focused_tools_over_stdio(tmp_path):
             assert tools['run_workflow'].input_schema['properties']['scenario']['anyOf'][0] == scenario_schema
             creation_workflows = tools['create_project'].input_schema['properties']['workflows']['anyOf'][0]
             assert creation_workflows['additionalProperties'] == scenario_schema
+            selector = tools['read_source'].input_schema['properties']['target']['anyOf'][0]['oneOf']
+            assert {branch['properties']['kind']['const'] for branch in selector} == {'index', 'document', 'app_property', 'control'}
+            index = await call('read_source')
+            source = await call('read_source', target={'kind': 'document', 'value': index['documents'][0]})
+            assert 'Screens:' in source['text']
             described = await call('describe_project')
+            edit_context = await call('get_edit_context', query='ProjectForm', limit=2)
+            assert edit_context['revision'] == described['revision'] and edit_context['controls']
+            assert set(edit_context['list_schemas']) == {'Projects'}
             discovered = await call('read_controls', query='Projects')
             assert any(c['path'] == 'Workspace/ProjectGallery' for c in discovered['controls'])
             inspected = await call('read_control', path='Workspace/ProjectForm')
@@ -56,6 +64,8 @@ def test_focused_tools_over_stdio(tmp_path):
             assert any(finding['member'] == 'StatusFilter.DefaultSelectedItems'
                        and 'author Default for the initial selection' in finding['message']
                        for finding in rejected_default['diagnostics'])
+            broken = await call('check_change', expected_revision=described['revision'], change_id=rejected_default['id'])
+            assert broken['status'] == 'failed' and broken['first_failure']['report_id']
             change = await call('stage_control_edits', expected_revision=described['revision'], edits=task['reference_edits'], strict=True)
             catalog = await call('list_workflows', include_scenarios=False)
             assert all('scenario' not in e and e['step_count'] > 0 for e in catalog['scenarios'])
