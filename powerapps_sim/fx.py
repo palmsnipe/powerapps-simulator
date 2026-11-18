@@ -8,6 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field, replace
 from decimal import Decimal, DecimalException
 from datetime import date, datetime, timezone, timedelta
+from functools import lru_cache
 import math
 import re
 import uuid
@@ -20,7 +21,7 @@ from .power_math import MATH_FUNCTIONS,SCALAR_FLOAT_FUNCTIONS,FLOAT_FUNCTIONS,ev
 from .power_text import TEXT_OPERATIONS,NUMERIC_ARGUMENTS,from_units,evaluate as text_evaluate
 from .temporal import Temporal, TEMPORAL_KINDS
 from .store import DataSource
-from .syntax import FxError, Node, Parser, call_name, walk
+from .syntax import FxError, Node, Parser, call_name, tokenize, walk
 from .errors import ERROR_KINDS, error_name
 from .locale_fx import EPOCH, date_diff, format_date, format_number, make_date, parse_datetime, parse_number, parse_time
 from .json_fx import Dynamic, JsonNumber, parse_json, typed as typed_json, validate_json_type, convert_scalar, array as dynamic_array, field as dynamic_field, json_text
@@ -300,6 +301,7 @@ class Evaluator:
     def __init__(self, host):
         self.host = host
         self.cache = {}
+        self._tokenize = lru_cache(maxsize=2048)(tokenize)
         self._literal_values = {}
         self.definitions = {}
         self.parse_errors = []
@@ -308,7 +310,7 @@ class Evaluator:
     def parse(self, source, scope_key=None):
         key = (source, scope_key, self.number_mode, self.host.environment.get("enum_mode","legacy"),self.host.environment.get("regex_mode","canvas"))
         if key not in self.cache:
-            self.cache[key] = Parser(source).parse()
+            self.cache[key] = Parser(source, tokens=self._tokenize(source)).parse()
         return self.cache[key]
 
     def set_definitions(self, source):

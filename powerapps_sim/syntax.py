@@ -173,9 +173,9 @@ PRECEDENCE = {";": 1, "as": 2, "or": 3, "||": 3, "and": 4, "&&": 4,
 
 
 class Parser:
-    def __init__(self, source):
+    def __init__(self, source, *, tokens=None):
         self.source = source
-        self.tokens = tokenize(source)
+        self.tokens = tokenize(source) if tokens is None else tokens
         self.i = 0
 
     @property
