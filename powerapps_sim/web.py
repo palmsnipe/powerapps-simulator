@@ -8,6 +8,7 @@ import re
 import sys
 from importlib.metadata import version, PackageNotFoundError
 from pathlib import Path
+from time import monotonic
 from urllib.parse import unquote
 from zipfile import BadZipFile
 from uuid import uuid4
@@ -47,6 +48,10 @@ def create_app(workspace_root=None, initial=None):
             g.workspace_project_lock = True
             if unquote(expected) != str(workspace.project.root):
                 raise RevisionConflict("The workspace now owns a different project. Refresh the browser before editing.")
+            if request.headers.get('X-Emulator-Generation', str(workspace.preview_generation)) != str(
+                workspace.preview_generation
+            ):
+                raise RevisionConflict('The preview changed. Sync the shared session again.')
 
     @app.teardown_request
     def release_project_lock(_error):
@@ -80,6 +85,25 @@ def create_app(workspace_root=None, initial=None):
     def projects():
         return jsonify(workspace.list_projects())
 
+    @app.get('/api/session')
+    def session():
+        return jsonify(workspace.session_status())
+
+    @app.post('/api/mcp/presence')
+    def mcp_presence():
+        data = request.get_json()
+        if (not isinstance(data, dict) or set(data) != {'client', 'project_path', 'closing'}
+            or not isinstance(data['client'], str) or not re.fullmatch('[a-f0-9]{32}', data['client'])
+            or type(data['closing']) is not bool
+            or not isinstance(data['project_path'], str) or len(data['project_path']) > 4096):
+            raise ValueError('Invalid local MCP session')
+        with workspace.lock:
+            if data['closing']:
+                workspace.mcp_clients.pop(data['client'], None)
+            else:
+                workspace.mcp_clients[data['client']] = (data['project_path'], monotonic())
+            return jsonify(ok=True)
+
     @app.get('/api/ai-connection')
     def ai_connection():
         with workspace.lock:
@@ -93,8 +117,7 @@ def create_app(workspace_root=None, initial=None):
             bootstrap = (f'import sys; sys.path.insert(0, {package_root!r}); '
                          'from powerapps_sim.mcp_server import main; raise SystemExit(main())')
             return jsonify(command=sys.executable,
-                args=['-c', bootstrap, '--url', request.host_url.rstrip('/'),
-                      '--expect-project', str(workspace.project.root)],
+                args=['-c', bootstrap, '--url', request.host_url.rstrip('/')],
                 transport='stdio', sdk_version=sdk, required_sdk='2.3.0',
                 install_command=f'"{sys.executable}" -m pip install "mcp==2.3.0"',
                 project_path=str(workspace.project.root))
@@ -158,12 +181,15 @@ def create_app(workspace_root=None, initial=None):
     @app.get("/api/source")
     def source():
         with workspace.lock:
+            require_preview_identity()
             name = request.args["name"]
             current = workspace.project
             if not any(path.relative_to(current.root).as_posix() == name for path in current.source_paths()):
                 raise ValueError("Source not found")
             draft = safe_path(workspace.project.root, "drafts/" + name)
             current_revision = revision(current.root)
+            if request.args.get('revision', current_revision) != current_revision:
+                raise RevisionConflict('The saved source changed. Sync the shared session again.')
             draft_base = current.read_json('drafts/revisions.json', {}).get(name)
             stale = bool(draft_base and draft_base != current_revision)
             return jsonify(text=safe_path(current.root, name).read_text(encoding="utf-8-sig"),
@@ -213,9 +239,16 @@ def create_app(workspace_root=None, initial=None):
             workspace.open(Project(workspace.project.root))
             return jsonify(workspace.runtime.state())
 
+    def require_preview_identity():
+        if request.args.get('project', str(workspace.project.root)) != str(workspace.project.root) or (
+            request.args.get('generation', str(workspace.preview_generation)) != str(workspace.preview_generation)
+        ):
+            raise RevisionConflict('The preview changed. Sync the shared session again.')
+
     @app.get("/api/state")
     def state():
         with workspace.lock:
+            require_preview_identity()
             return jsonify(workspace.runtime.state())
 
     @app.post('/api/time/pulse')
@@ -348,9 +381,22 @@ def create_app(workspace_root=None, initial=None):
     @app.get("/api/export")
     def export():
         with workspace.lock:
+            require_preview_identity()
             if request.args.get("control"):
                 return jsonify(text=workspace.project.export_control(request.args["control"]))
             return send_file(BytesIO(workspace.project.export()), mimetype="application/zip", as_attachment=True, download_name="powerapps-source.zip")
+
+    @app.get('/api/export/project-bundle')
+    def project_bundle():
+        from .project_bundle import export_bundle
+        with workspace.lock:
+            if request.args.get('project') != str(workspace.project.root):
+                raise RevisionConflict('The active project changed. Sync the browser before downloading its bundle.')
+            if request.args.get('records', '0') not in ('0', '1'):
+                raise ValueError('Use records=0 or records=1')
+            payload = export_bundle(workspace, include_records=request.args.get('records') == '1')
+            return send_file(BytesIO(payload), mimetype='application/zip', as_attachment=True,
+                             download_name=f'{workspace.project.root.name}.pasim')
 
     @app.get("/api/asset/<path:name>")
     def asset(name):

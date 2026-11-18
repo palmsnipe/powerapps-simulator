@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import threading
+from time import monotonic
 import uuid
 from .runtime import Runtime
 from .source import Project, safe_path
@@ -11,12 +12,26 @@ from .authoring import AuthoringService, revision, recover_changes
 from .ownership import ProjectLease
 
 
+def workspace_project_path(root, project_id):
+    if (not isinstance(project_id, str) or not project_id or Path(project_id).name != project_id
+            or project_id in ('.', '..') or '\\' in project_id):
+        raise ValueError('Choose a project ID from the workspace')
+    if (root / project_id).is_symlink():
+        raise ValueError('Choose a project directory in the workspace')
+    directory = safe_path(root, project_id)
+    if not (directory / 'emulator.json').is_file():
+        raise ValueError('Project not found')
+    return directory
+
+
 class Workspace:
     def __init__(self, root, initial=None, *, start=True, empty=False):
         self.root = Path(root).resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
         self.project, self.runtime = None, None
+        self.preview_generation = 0
+        self.mcp_clients = {}
         self.start_simulation = start
         self.authoring = AuthoringService(self)
         from .workflows import WorkflowService
@@ -60,14 +75,7 @@ class Workspace:
 
     def open_project(self, project_id, *, start=None, restart_current=False):
         with self.lock:
-            if not isinstance(project_id, str) or not project_id or Path(project_id).name != project_id or \
-                    project_id in ('.', '..') or '\\' in project_id:
-                raise ValueError('Choose a project ID from the workspace')
-            if (self.root / project_id).is_symlink():
-                raise ValueError('Choose a project directory in the workspace')
-            directory = safe_path(self.root, project_id)
-            if not (directory / 'emulator.json').is_file():
-                raise ValueError('Project not found')
+            directory = workspace_project_path(self.root, project_id)
             if restart_current or not self.project or self.project.root != directory:
                 self._open(Project(directory), start=start)
 
@@ -89,6 +97,7 @@ class Workspace:
                 self.runtime.workspace_lease = None
             self.runtime.close()
         self.project, self.runtime = project, runtime
+        self.preview_generation += 1
         runtime.workspace_lease = lease
         if (self.start_simulation if start is None else start):
             self.runtime.restart()
@@ -99,12 +108,16 @@ class Workspace:
 
     def _import_file(self, name, payload):
         destination = self.root / uuid.uuid4().hex[:12]
+        from .project_bundle import EXTENSION, import_bundle
+        if name.lower().endswith(EXTENSION):
+            self.open(import_bundle(payload, destination), start=False)
+            return
         if name.lower().endswith(".msapp"):
             project = Project.import_archive(payload, destination, Path(name).stem)
         elif name.lower().endswith((".yaml", ".yml")):
             project = Project.import_yaml(payload.decode("utf-8-sig"), destination, name)
         else:
-            raise ValueError("Import a .msapp or YAML file")
+            raise ValueError("Import a simulator .pasim bundle, .msapp or YAML file")
         project.config["people"] = PEOPLE
         project.save_config()
         self.open(project)
@@ -113,12 +126,24 @@ class Workspace:
         with self.lock:
             return self._summary()
 
+    def session_status(self):
+        with self.lock:
+            root = str(self.project.root)
+            now = monotonic()
+            self.mcp_clients = {client: entry for client, entry in self.mcp_clients.items() if now - entry[1] < 90}
+            attached = sum(path == root for path, _ in self.mcp_clients.values())
+            return {'project_id': self.project.root.name, 'project_path': root, 'title': self.project.config['title'],
+                    'revision': revision(self.project.root), 'preview_generation': self.preview_generation,
+                    'preview_started': self.runtime.started, 'pending_source': self.runtime.pending_source,
+                    'mcp_attached': attached, 'mcp_needs_rebind': len(self.mcp_clients) - attached}
+
     def _summary(self):
         self.project = Project(self.project.root)
         p, r = self.project, self.runtime
         def tree(c):
             return {"name": c.name, "kind": c.kind, "source": c.source, "children": [tree(x) for x in c.children]}
-        return {"title": p.config["title"], "project_path": str(p.root), "documents": list(p.documents),
+        return {"title": p.config["title"], "project_path": str(p.root), "preview_generation": self.preview_generation,
+            "documents": list(p.documents),
             "screens": [tree(c) for c in p.screens.values()], "components": [tree(c) for c in p.components.values()],
             "app": {k: str(p.app.get(k, "")) for k in ("Formulas", "OnStart", "OnError", "StartScreen")},
             "revision": revision(p.root), "lists": list(r.store.definitions), "environment": r.environment, "people": r.people,

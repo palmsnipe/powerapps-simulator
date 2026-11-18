@@ -38,6 +38,7 @@
   <script src="/static/dependencies.js" defer></script>
   <script src="/static/record_fields.js" defer></script>
   <script src="/static/workspace.js" defer></script>
+  <script src="/static/session.js" defer></script>
 </head>
 <body>
   <header class="app-header">
@@ -46,14 +47,19 @@
     <div class="header-actions">
       <select id="projects" aria-label="Open project"></select>
       <button id="new-app-button">New app</button>
-      <button id="import-button">Import app</button><input type="file" id="file-import" accept=".msapp,.yaml,.yml" hidden>
+      <button id="import-button">Import app</button><input type="file" id="file-import" accept=".pasim,.msapp,.yaml,.yml" hidden>
       <button id="paste-button">Paste YAML</button>
-      <a class="button" href="/api/export">Export source</a>
+      <button id="export-source">Export source</button>
+      <button id="bundle-button">Export project bundle</button>
     </div>
   </header>
   <nav class="workspace-nav" aria-label="Workspace">
     <div class="tabs"><button data-view="build" class="active">Editor & preview</button><button data-view="data">Local data</button><button data-view="changes">Changes</button><button data-view="workflows">Workflows</button><button data-view="diagnostics">Diagnostics <span id="diagnostic-count" class="count">0</span></button></div>
-    <button id="ai-button">AI tools</button>
+    <div class="session-actions">
+      <output id="session-status" aria-live="polite">Connecting to local session</output>
+      <button id="sync-session" type="button" hidden>Sync session</button>
+      <button id="ai-button">AI tools</button>
+    </div>
     <button id="scenario-button">Simulation settings</button>
     <button id="seed-button">Reset mock data</button>
     <button id="restart-button" class="primary">↻ Restart app</button>
@@ -137,7 +143,15 @@
       <div class="dialog-actions"><button>Close</button><button type="button" id="undo-change">Undo change</button><button type="button" id="apply-change" class="primary">Apply reviewed change</button></div>
     </form>
   </dialog>
-  <dialog id="ai-dialog"><form method="dialog"><h2>Connect an AI client</h2><p>Use this command and argument list in your MCP client's stdio settings. The client must run on this computer. Keep this simulator server running.</p><p id="ai-project"></p><p id="ai-sdk-status"></p><pre id="ai-install"></pre><textarea id="ai-config" aria-label="MCP command and arguments" spellcheck="false" readonly></textarea><p>AI tools can inspect source and local lists, stage coordinated changes, run isolated workflows, and explicitly apply or undo changes. Review staged diffs in Changes. Source edits load after Restart app.</p><p>Connection is bound to this project. Reconnect explicitly after switching projects. This dialog supplies settings; it does not install or connect your AI client.</p><div class="dialog-actions"><button>Close</button><button type="button" id="copy-ai-config" class="primary">Copy MCP settings</button></div></form></dialog>
+  <dialog id="ai-dialog"><form method="dialog"><h2>Connect an AI client</h2><p>Use these stdio settings in an MCP client on this computer. The adapter uses this running simulator session.</p><p id="ai-project"></p><p id="ai-sdk-status"></p><pre id="ai-install"></pre><textarea id="ai-config" aria-label="MCP command and arguments" spellcheck="false" readonly></textarea><p>After a project switch, call <code>list_projects</code> and <code>open_project</code> to rebind an existing client.</p><div class="dialog-actions"><button>Close</button><button type="button" id="copy-ai-config" class="primary">Copy MCP settings</button></div></form></dialog>
+  <dialog id="bundle-dialog">
+    <form method="dialog">
+      <h2>Export project bundle</h2>
+      <p>Save source, assets, schemas, project settings, and saved workflows in a simulator project bundle.</p>
+      <label><input id="bundle-records" type="checkbox"> Include local list records</label>
+      <div class="dialog-actions"><button>Cancel</button><button type="button" id="download-bundle" class="primary">Download bundle</button></div>
+    </form>
+  </dialog>
   <dialog id="paste-dialog"><form method="dialog"><h2>Paste Power Apps YAML</h2><p>Paste a screen, component definition, or control subtree.</p><textarea id="paste-editor" spellcheck="false" aria-label="Pasted YAML"></textarea><div class="dialog-actions"><button>Cancel</button><button type="button" id="paste-import" class="primary">Create local project</button></div></form></dialog>
   <dialog id="new-app-dialog">
     <form id="new-app-form">

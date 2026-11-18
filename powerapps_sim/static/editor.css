@@ -348,3 +348,17 @@ dialog{border-radius:var(--borderRadiusLarge);box-shadow:var(--shadow16);border:
   max-height: 25vh;
   white-space: pre-wrap;
 }
+
+.session-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+#session-status {
+  color: var(--muted);
+  font-size: .78rem;
+  min-width: 0;
+}

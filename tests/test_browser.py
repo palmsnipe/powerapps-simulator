@@ -107,9 +107,10 @@ def test_ai_connection_dialog_matches_current_workspace(page, app):
     page.get_by_role('heading', name='Connect an AI client').wait_for()
     import json
     config = json.loads(page.get_by_label('MCP command and arguments').input_value())
-    assert config['args'][-1] == str(w.project.root)
+    assert str(w.project.root) in page.locator('#ai-project').text_content()
     assert config['args'][3] == page.url.rstrip('/')
-    assert config['args'][:2] == ['-m','powerapps_sim.mcp_server']
+    assert config['args'][0] == '-c'
+    assert config['args'][2] == '--url'
     page.get_by_role('button', name='Close', exact=True).click()
     assert not page.locator('#ai-dialog').is_visible()
 

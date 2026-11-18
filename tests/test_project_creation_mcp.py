@@ -122,7 +122,8 @@ def test_http_create_rebinds_caller_other_connections_remain_pinned_and_browser_
         assert any(p['id'] == 'scratch' for p in client.get('/api/projects').json)
         assert client.get('/api/project').json['project_path'] == str(tmp_path / 'scratch')
         connection = client.get('/api/ai-connection', base_url=url).json
-        assert connection['args'][-1] == str(tmp_path / 'scratch')
+        assert connection['args'][-2:] == ['--url', url]
+        assert connection['project_path'] == str(tmp_path / 'scratch')
         assert client.get('/api/state').json['tree']['children'][0]['props']['Text'] == 'Created over MCP'
         # Direct HTTP calls still require the existing project-identity/header rules.
         assert client.post('/api/ai/create_project', json={'arguments': {'name': 'no-header'}}).status_code == 403
@@ -143,6 +144,7 @@ def test_http_create_rebinds_caller_other_connections_remain_pinned_and_browser_
         async def exercise():
             params = StdioServerParameters(command=connection['command'], args=connection['args'], cwd=str(tmp_path))
             async with sdk.Client(params, raise_exceptions=True) as mcp:
+                assert client.get('/api/session').json['mcp_attached'] == 1
                 result = await mcp.call_tool('open_project', {'project_id': 'old'})
                 assert not result.is_error and result.structured_content['project_path'] == str(initial.root)
                 assert not result.structured_content['runtime_started']
@@ -155,6 +157,7 @@ def test_http_create_rebinds_caller_other_connections_remain_pinned_and_browser_
                 result = await mcp.call_tool('open_project', {'project_id': 'scratch'})
                 assert not result.is_error and result.structured_content['project_path'] == created['project_path']
                 assert (await mcp.call_tool('describe_project')).structured_content['title'] == 'Created over MCP'
+                assert client.get('/api/session').json['mcp_attached'] == 1
 
         asyncio.run(exercise())
     finally:

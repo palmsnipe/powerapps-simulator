@@ -6,10 +6,11 @@ import ipaddress
 import json
 from pathlib import Path
 import sys
-from threading import Lock
+from threading import Event, Lock, Thread
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit, urlunsplit
 from urllib.request import Request, build_opener, HTTPRedirectHandler, ProxyHandler
+from uuid import uuid4
 
 from .catalog import json_text
 from .ai_service import APP_PROPERTIES, OPERATIONS, SOURCE_TARGETS, WORKSPACE_OPERATIONS
@@ -53,12 +54,40 @@ class HTTPBackend:
         self.timeout = timeout
         self.project = expected_project
         self._lock = Lock()
+        self._presence_stop = Event()
+        self._presence_client = None
+        self._presence_thread = None
         self.opener = build_opener(ProxyHandler({}), _NoRedirect())
         self.project = self.call('describe_project')['project_path']
 
     def call(self, operation, **arguments):
         with self._lock:
-            return self._call(operation, arguments)
+            result = self._call(operation, arguments)
+            if self._presence_client and operation in ('open_project', 'create_project'):
+                self._report_presence()
+            return result
+
+    def _report_presence(self, *, closing=False):
+        request = Request(self.url + '/api/mcp/presence', data=json.dumps({
+            'client': self._presence_client, 'project_path': self.project, 'closing': closing,
+        }).encode(), headers={'Content-Type': 'application/json', 'X-Emulator-Request': '1'})
+        try:
+            with self.opener.open(request, timeout=1):
+                pass
+        except (OSError, ValueError):
+            # Presence is advisory. Older or busy servers still support the tools.
+            pass
+
+    def track_presence(self):
+        self._presence_client = uuid4().hex
+        self._report_presence()
+
+        def heartbeat():
+            while not self._presence_stop.wait(25):
+                self._report_presence()
+
+        self._presence_thread = Thread(target=heartbeat, daemon=True)
+        self._presence_thread.start()
 
     def _call(self, operation, arguments):
         if operation not in OPERATIONS:
@@ -95,7 +124,10 @@ class HTTPBackend:
             raise BackendError('Workspace returned invalid JSON') from None
 
     def close(self):
-        pass
+        if self._presence_thread:
+            self._presence_stop.set()
+            self._presence_thread.join(timeout=1.2)
+            self._report_presence(closing=True)
 
 
 class HeadlessBackend:
@@ -425,6 +457,8 @@ def main():
         # Check the optional SDK before acquiring ownership or contacting a server.
         from mcp.server import MCPServer
         backend = HeadlessBackend(workspace=args.workspace) if args.workspace else HeadlessBackend(args.project) if args.project else HTTPBackend(args.url or 'http://127.0.0.1:8765', expected_project=args.expect_project)
+        if isinstance(backend, HTTPBackend):
+            backend.track_presence()
         create_server(backend).run(transport='stdio')
         return 0
     except ImportError as error:

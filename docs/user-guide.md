@@ -6,12 +6,12 @@ Edit source, inspect runtime state, and manage fictional local data. All source 
 
 ## Editing and playing
 
-1. **New app** creates a local project with one editable screen and no lists. **Import app** opens an `.msapp`, `.yaml`, or `.yml` file. **Paste YAML** accepts a screen, component definition, or clipboard control tree.
+1. **New app** creates a local project with one editable screen and no lists. **Import app** accepts a simulator `.pasim` bundle, an `.msapp`, or YAML. **Paste YAML** accepts a screen, component definition, or clipboard control tree.
 2. Expand the tree or select a source document. Dedicated App editors expose `Formulas`, `OnStart`, and `StartScreen`.
 3. **Apply source** saves a draft and validates YAML. Malformed drafts remain recoverable; the active source and preview remain intact. **Restart app** loads valid edits and runs startup again.
 4. Click controls in the preview to run their Power Fx events. Use **Inspect controls** to inspect formulas and values without clicking through the app.
 5. Selecting a screen in the tree inspects it directly without changing the active app screen. **Run this screen's OnVisible** explicitly initializes that screen for inspection. **Play from active screen** returns to the app's own navigation.
-6. **Copy** copies the current editor. The Control inspector can copy a selected control subtree. **Export source** downloads source YAML and assets, excluding SQLite and simulator configuration.
+6. **Copy** copies the current editor. The Control inspector can copy a selected control subtree. **Export source** downloads YAML and assets. **Export project bundle** downloads a restorable `.pasim` with saved tests and settings, with the option to include local records.
 
 The editor applies explicit source changes rather than a visual drag/drop designer. YAML comments, unknown properties, names, versions, and formulas are preserved. App property edits use round-trip YAML serialization. Source locations are available in current diagnostics; imported Power Apps checker findings are displayed separately as a historical snapshot.
 

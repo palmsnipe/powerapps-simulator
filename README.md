@@ -39,11 +39,12 @@ To install the package and its `powerapps-sim` command, run `python -m pip insta
 ## What it does
 
 - Preserves source YAML, comments, control versions, and formulas through local editing and export.
+- Transfers complete saved projects through portable `.pasim` bundles, with optional local records.
 - Evaluates supported Power Fx expressions, components, events, forms, and local list operations.
 - Provides runtime, type, dependency, diagnostic, and component inspectors.
 - Simulates users, language, time, numeric profiles, and fictional list data.
 - Runs isolated workflow scenarios and supports reviewed source/schema changes with undo.
-- Offers an optional local MCP adapter for AI clients.
+- Shares the active browser project and preview with an optional local MCP adapter for AI clients.
 - Creates apps from an empty MCP workspace with YAML source, local schemas, sample records and saved acceptance workflows.
 - Lets AI clients discover controls, stage targeted property/control edits, verify workflow batches, and explicitly restart the local preview.
 
@@ -51,7 +52,7 @@ To install the package and its `powerapps-sim` command, run `python -m pip insta
 
 The simulator implements a subset of Power Apps behaviour. Control rendering, native event timing, font measurements, and some type/locale rules remain approximate. Unsupported controls and formulas produce diagnostics.
 
-Live Microsoft connectors, authentication, SharePoint permissions, and full runtime/compiler parity are outside the current scope. Export produces source YAML and assets; it does not rebuild an importable `.msapp`. Verify exported clipboard source in Power Apps Studio.
+Live Microsoft connectors, authentication, SharePoint permissions, and full runtime/compiler parity are outside the current scope. Use the simulator bundle for local transfers and Studio for native app packaging. [Export and Studio handoff](docs/getting-started.md#hand-off-controls-to-power-apps-studio)
 
 See [compatibility and known limits](docs/compatibility.md) for details and selected conformance results.
 

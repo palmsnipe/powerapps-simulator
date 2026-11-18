@@ -2,13 +2,16 @@
 import asyncio
 import json
 from pathlib import Path
+import re
 import sys
 import threading
+from zipfile import ZipFile
 
 import pytest
 from werkzeug.serving import make_server
 
 from powerapps_sim.fixtures import forms_project
+from powerapps_sim.mcp_server import HTTPBackend
 from powerapps_sim.store import ListStore
 from powerapps_sim.web import create_app
 
@@ -174,6 +177,95 @@ def test_attached_mcp_creation_is_visible_and_editable_in_browser(tmp_path):
         finally:
             store.close()
     finally:
+        server.shutdown()
+        thread.join(timeout=5)
+        server.server_close()
+        workspace.runtime.close()
+
+
+def test_browser_tracks_shared_mcp_session_and_transfers_bundle(tmp_path):
+    playwright = pytest.importorskip('playwright.sync_api')
+    from playwright.sync_api import expect
+
+    original = forms_project(tmp_path / 'original')
+    app = create_app(tmp_path, original.root)
+    workspace = app.extensions['workspace']
+    server = make_server('127.0.0.1', 0, app, threaded=True)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    url = f'http://127.0.0.1:{server.server_port}'
+    attached = HTTPBackend(url)
+    observer = HTTPBackend(url)
+    try:
+        with playwright.sync_playwright() as p:
+            try:
+                browser = p.chromium.launch()
+            except playwright.Error as error:
+                pytest.skip(f'Install Chromium with playwright install chromium: {error}')
+            page = browser.new_page(viewport={'width': 1600, 'height': 1100})
+            page.goto(url)
+            session = page.locator('#session-status')
+            attached.track_presence()
+            observer.track_presence()
+            expect(session).to_contain_text('2 MCP connected')
+            base = attached.call('describe_project')
+            created = attached.call('create_project', name='shared', title='Shared project',
+                expected_revision=base['revision'], sources={'Src/Main.pa.yaml': SOURCE},
+                lists={'Projects': {'fields': {'ID': {'type': 'integer'}, 'Title': {'type': 'string'}}}},
+                records={'Projects': [{'ID': 5, 'Title': 'Portable record'}]})
+            expect(page.locator('#project-title')).to_have_text('Shared project')
+            expect(session).to_contain_text('shared · ' + created['revision'][:8])
+            expect(session).to_contain_text('1 awaiting MCP rebind')
+            expect(page.get_by_role('button', name='Start preview')).to_be_visible()
+            change = attached.call('stage_control_edits', expected_revision=created['revision'], edits=[
+                {'op': 'set_property', 'path': 'Main/Heading', 'property': 'Text', 'value': '="New saved heading"'}])
+            applied = attached.call('apply_change', expected_revision=created['revision'], change_id=change['id'])
+            expect(session).to_contain_text(applied['after_revision'][:8])
+            expect(page.get_by_label('YAML or Power Fx source')).to_have_value(re.compile('New saved heading'))
+            attached.call('restart_preview', expected_revision=applied['after_revision'])
+            expect(session).to_contain_text('Preview running')
+            expect(page.get_by_text('New saved heading', exact=True)).to_be_visible()
+
+            editor = page.get_by_label('YAML or Power Fx source')
+            editor.fill('# Browser draft remains')
+            attached.call('open_project', project_id='original')
+            expect(page.get_by_role('button', name='Sync session')).to_be_visible()
+            expect(editor).to_have_value('# Browser draft remains')
+            page.get_by_role('button', name='Export source', exact=True).click()
+            expect(page.locator('#status')).to_contain_text('Sync the shared session again')
+            page.get_by_role('button', name='Apply source').click()
+            expect(page.locator('#source-state')).to_have_text('Conflict · edits kept')
+            expect(editor).to_have_value('# Browser draft remains')
+            page.once('dialog', lambda dialog: dialog.accept())
+            page.get_by_role('button', name='Sync session').click()
+            expect(page.locator('#project-title')).to_have_text(original.config['title'])
+            expect(page.get_by_role('button', name='Sync session')).to_be_hidden()
+
+            attached.call('open_project', project_id='shared')
+            expect(page.locator('#project-title')).to_have_text('Shared project')
+            with page.expect_download() as source_download:
+                page.get_by_role('button', name='Export source', exact=True).click()
+            with ZipFile(source_download.value.path()) as source_zip:
+                assert source_zip.namelist() == ['Src/Main.pa.yaml']
+                assert b'New saved heading' in source_zip.read('Src/Main.pa.yaml')
+            page.get_by_role('button', name='Export project bundle').click()
+            include_records = page.get_by_label('Include local list records')
+            expect(include_records).not_to_be_checked()
+            include_records.check()
+            with page.expect_download() as download:
+                page.get_by_role('button', name='Download bundle').click()
+            path = tmp_path / 'transfer.pasim'
+            download.value.save_as(path)
+            page.locator('#file-import').set_input_files(path)
+            expect(page.locator('#status')).to_contain_text('Use Start preview to run startup')
+            expect(page.get_by_role('button', name='Start preview')).to_be_visible()
+            assert workspace.project.root not in (original.root, tmp_path / 'shared')
+            assert workspace.runtime.store.rows('Projects')[0]['Title'] == 'Portable record'
+            expect(session).to_contain_text('2 awaiting MCP rebind')
+            browser.close()
+    finally:
+        observer.close()
+        attached.close()
         server.shutdown()
         thread.join(timeout=5)
         server.server_close()

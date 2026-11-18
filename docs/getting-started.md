@@ -32,9 +32,23 @@ Import an app with the UI or the command line:
 .venv/bin/python -m powerapps_sim --import "/path/to/example.msapp"
 ```
 
-Use `--workspace /path/to/projects` to change storage, `--port 8766` to change ports, and `--no-browser` to suppress automatic opening. To reopen an imported project without importing a duplicate, pass its project directory to `--import`, or choose it in the project menu.
+Use `--workspace /path/to/projects` to change storage, `--port 8766` to change ports, and `--no-browser` to suppress automatic opening. Open an existing project by its folder ID with `./start.sh --project-id task-tracker` (or `start.cmd --project-id task-tracker` on Windows), or select it in the project menu.
 
-The server listens on `127.0.0.1` and accepts requests addressed to `localhost` or `127.0.0.1`. Other Host names return HTTP 400; use one of these loopback addresses for the browser and MCP connection.
+One launch serves the browser preview and its workspace API. Keep it running and copy the connection settings from **AI tools** when adding a local MCP client. The header shows the active project ID, saved source and schema revision, preview state and connected MCP adapters. [Connect an AI client](ai-workflows.md#connecting-an-ai-client-through-mcp)
+
+The server listens on `127.0.0.1` and accepts requests addressed to `localhost` or `127.0.0.1`. Use one of those addresses for both the browser and MCP connection.
+
+## Move a simulator project
+
+Choose **Export project bundle** to download a `.pasim` with the saved source, assets, schema catalog, saved workflows and simulator settings. Select **Include local list records** if the recipient needs the current mock dataset. Leave it unchecked to start with empty lists. Workflows that rely on those records need them restored or seeded before validation. The bundle also carries the saved simulated people and environment settings. Check those settings before sharing the file.
+
+Use **Import app** or `./start.sh --import /path/to/app.pasim` in the destination workspace. Import creates a new project with a fresh database and opens it with startup paused. Select **Start preview** when you are ready for the startup rules to run. To check the local copy independently, use **Workflows → Validate saved suite**.
+
+## Hand off controls to Power Apps Studio
+
+Select the control in the simulator inspector and copy its control source. In a signed-in Power Apps Studio app, paste it onto the target screen or parent control using the documented clipboard workflow. Allow clipboard access if the browser prompts. Reconnect data sources and check the control's formulas, layout and behavior in Studio. [Use code view in Power Apps Studio](https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/code-view)
+
+**Export source** downloads a ZIP of YAML and assets for review. Use `.pasim` to reopen the complete project in the simulator. For native app packaging, use Power Apps Studio and its supported source workflow. [Power Apps canvas source code files](https://learn.microsoft.com/en-us/power-apps/maker/canvas-apps/power-apps-yaml)
 
 ## Offline setup on a work computer
 

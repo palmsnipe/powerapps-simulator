@@ -8,7 +8,7 @@ From this checkout, invoke `$powerapps-simulator-authoring` in Codex. Other MCP 
 
 ## Connecting an AI client through MCP
 
-Open **AI tools** in the editor. It shows the bound project, installed SDK version, an install command if needed, and copyable `command`/`args` settings for a stdio-capable client. It uses the current Python executable, server port and absolute project path. Keep the simulator running while using this HTTP attachment. The dialog does not install dependencies or register a client automatically.
+Start the simulator with `./start.sh` or `start.cmd` and open **AI tools** in the editor. It shows the active project, SDK version, an install command if needed and copyable `command`/`args` settings for a stdio-capable client. The settings use the current Python executable and loopback URL. Keep the simulator running while using this attachment.
 
 From a source checkout, install the optional extra with the simulator's Python:
 
@@ -21,10 +21,12 @@ For an already installed simulator, install `mcp==2.3.0` into the same environme
 HTTP attachment uses the existing browser session and database:
 
 ```sh
-python -m powerapps_sim.mcp_server --url http://127.0.0.1:8766 --expect-project "/absolute/path/to/project"
+python -m powerapps_sim.mcp_server --url http://127.0.0.1:8765
 ```
 
-The adapter pins the project identity at connection. If the browser switches projects, use `list_projects` to discover the active ID, then `open_project(project_id)` to rebind the same connection. Opening a different app replaces the shared preview and opens the selected app without startup. Selecting the active app preserves its preview. `open_project` and `create_project` only rebind the calling adapter. Other connections keep their pins and reject ordinary calls while the workspace is on a different project. The editor's generated command works from any working directory and checks the expected project on initial connection. Only loopback HTTP is supported, and failed writes are never retried automatically.
+The adapter pins the project identity at connection. Use `--expect-project "/absolute/path/to/project"` for a scripted launch that must verify the initial project. If the browser switches projects, use `list_projects` to discover the active ID, then `open_project(project_id)` to rebind the same connection. Opening a different app through MCP replaces the shared preview and opens the selected app with startup paused. Selecting the active app preserves its preview. `open_project` and `create_project` only rebind the calling adapter. Other connections keep their pins and reject ordinary calls while the workspace is on a different project.
+
+Use the header to check the shared project ID, saved source and schema revision, preview state, and MCP attachment or rebind counts. The browser follows project switches, source changes and preview restarts from MCP. If you have an unsaved source edit, the browser keeps it and offers **Sync session** to discard it and load the shared state. Failed writes require an explicit retry.
 
 For headless authoring while the project's browser server is stopped:
 
@@ -110,9 +112,9 @@ OnSelect: >-
   =Set(settings, {Enabled: true})
 ```
 
-The result includes project/workspace paths, revisions, screens, source names, list names, sample record counts, workflow files and diagnostics. Call `validate_workflows(expected_revision)` to check the saved baseline before staging a feature. Refresh the browser after an MCP create or switch to load the new project title and source. Creation and switching can replace the shared preview and are annotated as destructive operations in MCP.
+The result includes project/workspace paths, revisions, screens, source names, list names, sample record counts, workflow files and diagnostics. Call `validate_workflows(expected_revision)` to check the saved baseline before staging a feature. The browser follows MCP creates and switches automatically when the editor has no unsaved draft. Creation and switching can replace the shared preview and are annotated as destructive operations in MCP.
 
-Source export includes the app YAML/formulas; local schemas, SQLite records and acceptance workflows remain simulator project files. Everything in this flow uses the local simulator, without Microsoft authentication or deployment.
+Use **Export project bundle** in the browser to transfer the complete saved simulator project, with optional local records. MCP's `export_source` supplies YAML or control source for review and Studio handoff. [Project bundles and Studio handoff](getting-started.md#move-a-simulator-project)
 
 ## Focused local AI authoring
 

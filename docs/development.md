@@ -23,6 +23,7 @@ Use the virtual environment's Python for all commands below. The MCP dependency 
 | Other modules under `powerapps_sim/` | Formula families, control contracts, scopes, layout, and reactivity |
 | `application.py`, `ownership.py` | Workspace ownership, locking, and runtime lifecycle |
 | `project_creation.py` | Validated new app scaffolding, local sample data and saved acceptance workflows |
+| `project_bundle.py` | Portable saved project archives with optional records |
 | `store.py`, `sharepoint.py`, `catalog.py` | SQLite data, SharePoint-shaped values, and authored schemas |
 | `authoring.py`, `workflows.py`, `ai_service.py` | Reviewed changes, isolated scenarios, and shared AI operations |
 | `ai_authoring.py`, `benchmark.py`, `agent_benchmark.py`, `creation_benchmark.py` | Focused source edits, reference tool-overhead replay, measured AI authoring and creation from empty workspaces |
