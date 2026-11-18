@@ -104,7 +104,7 @@ def checked_title_change(tmp_path):
 def test_apply_reuses_a_passed_suite(checked_title_change, monkeypatch, tool):
     w, request = checked_title_change
     assert call(w, tool, **request)['status'] == 'passed'
-    monkeypatch.setattr(w.workflows, 'run', lambda *args, **kwargs: pytest.fail('Apply reran the saved suite'))
+    monkeypatch.setattr(w.workflows, 'run_batch', lambda *args, **kwargs: pytest.fail('Apply reran the saved suite'))
     applied = call(w, 'apply_change', **request)
     assert applied['saved_workflow_check'] == 'reused' and applied['status'] == 'applied'
 

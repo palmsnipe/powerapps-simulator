@@ -313,7 +313,6 @@ class AIService:
         return self.workspace.workflows.report(run_id)
 
     def run_workflows(self, expected_revision, workflows, change_id=None):
-        from .workflows import validate, summarize
         if not isinstance(workflows, list) or not 1 <= len(workflows) <= 20:
             raise ValueError('Provide between 1 and 20 workflows')
         self.workspace.authoring.check_revision(expected_revision)
@@ -329,11 +328,10 @@ class AIService:
                 scenario = catalog[name]['scenario']
             else:
                 scenario = entry['scenario']
-            scenarios.append(validate(scenario))
+            scenarios.append(scenario)
         # Validate all definitions before creating any reports. Each run has its
         # own disposable runtime/database, even when a prior assertion fails.
-        reports = [summarize(self.workspace.workflows.run(scenario,
-            expected_revision=expected_revision, change_id=change_id)) for scenario in scenarios]
+        reports = self.workspace.workflows.run_batch(scenarios, expected_revision=expected_revision, change_id=change_id)
         return {'status': 'passed' if all(r['status'] == 'passed' for r in reports) else 'failed',
                 'revision': expected_revision, 'change_id': change_id, 'runs': reports,
                 'passed': sum(r['status'] == 'passed' for r in reports),

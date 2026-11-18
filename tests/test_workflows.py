@@ -128,6 +128,39 @@ def test_candidate_uses_combined_source_schema_migration_without_applying(worksp
         run(w, STARTER, change_id=change['id'])
 
 
+def test_saved_suite_prepares_candidate_once_and_isolates_every_write(workspace, monkeypatch):
+    w = workspace
+    base, data = revision(w.project.root), data_revision(w.runtime.store)
+    directory = w.project.root / 'tests'
+    for filename, title in [('isolated-a.workflow.json', 'First run'), ('isolated-b.workflow.json', 'Second run')]:
+        definition = scenario(check('pilotMarker'), check('LookUp(Drafts, ID = 1).Title', 'Fictional bridge study'),
+            event(TITLE, 'OnChange', value=title), event('SaveDraft'),
+            check('LookUp(Drafts, ID = 1).Title', title))
+        (directory / filename).write_text(json.dumps(definition), encoding='utf-8')
+    name = 'Src/forms.pa.yaml'
+    source = w.project.documents[name].replace('Set(selectedId, 1)', 'Set(selectedId, 1); Set(pilotMarker, true)', 1)
+    staged = w.authoring.stage(expected_revision=base, sources={name: source})
+    prepare = w.workflows.isolated_candidate
+    calls = []
+
+    def count_preparation(*args):
+        calls.append(args)
+        return prepare(*args)
+
+    monkeypatch.setattr(w.workflows, 'isolated_candidate', count_preparation)
+    suite = w.workflows.validate_saved(base, staged['id'])
+    assert suite['status'] == 'passed', suite['runs']
+    assert len(calls) == 1
+    isolated = [result for result in suite['runs'] if result['file'].startswith('isolated-')]
+    assert [result['file'] for result in isolated] == ['isolated-a.workflow.json', 'isolated-b.workflow.json']
+    for result in isolated:
+        saved = w.workflows.report(result['id'])
+        assert saved['writes'] == [{'list': 'Drafts', 'id': 1, 'operation': 'update'}]
+        assert saved['candidate_revision'] != base and saved['change_id'] == staged['id']
+    assert revision(w.project.root) == base and data_revision(w.runtime.store) == data
+    assert 'pilotMarker' not in w.runtime.globals
+
+
 def test_scope_environment_and_disposable_fixture_records(workspace):
     s = scenario(check('CountRows(Drafts)', 1), check('Self.Text', 'Fictional scenario', scope='Forms/' + TITLE),
         check('User().Email', 'fictional@example.test'), check('Language()', 'fr-CA'), check('Param("role")', 'reviewer'),

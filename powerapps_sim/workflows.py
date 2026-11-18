@@ -3,16 +3,20 @@ from __future__ import annotations
 
 import argparse
 from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from copy import deepcopy
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shutil
 import sqlite3
+import subprocess
+import sys
 from tempfile import TemporaryDirectory
 import uuid
 
@@ -291,6 +295,21 @@ def summarize(report):
             'note': 'Retrieve full assertions, resolved environment and ordered trace with read_workflow_report.'}
 
 
+def _run_worker(job):
+    root, scenario, base, base_data, change_id = job
+    response = subprocess.run([sys.executable, '-m', 'powerapps_sim.workflow_worker', str(root)],
+        input=json_text({'scenario': scenario, 'base': base, 'data': base_data, 'change_id': change_id}),
+        cwd=Path(__file__).resolve().parent.parent, encoding='utf-8', capture_output=True)
+    if response.returncode:
+        raise RuntimeError(f'Isolated workflow worker exited with status {response.returncode}: {response.stderr.strip()}')
+    if response.stdout:
+        failure = json.loads(response.stdout)
+        if 'kind' in failure:
+            raise FxError(failure['error'], failure['kind'])
+        raise ValueError(failure['error'])
+    return root / 'report.json'
+
+
 class WorkflowService:
     def __init__(self, workspace):
         self.workspace = workspace
@@ -360,13 +379,14 @@ class WorkflowService:
                 base_workflows = checked.workflows
             saved = self._candidate_scenarios(change_id)
             base_data = data_revision(w.runtime.store) if saved and checked is None else None
+            tested = iter(self.run_batch([entry['scenario'] for entry in saved if 'error' not in entry],
+                                         expected_revision=expected_revision, change_id=change_id))
             runs = []
             for entry in saved:
                 if 'error' in entry:
                     runs.append({'file': entry['file'], 'status': 'invalid', 'error': entry['error']})
                     continue
-                report = summarize(self.run(entry['scenario'], expected_revision=expected_revision, change_id=change_id))
-                runs.append({'file': entry['file'], **report})
+                runs.append({'file': entry['file'], **next(tested)})
             if checked:
                 self.require_same_verification(checked)
             else:
@@ -438,6 +458,48 @@ class WorkflowService:
             finally:
                 isolated.runtime.close()
 
+    def run_batch(self, scenarios, *, expected_revision, change_id=None):
+        scenarios = [validate(scenario) for scenario in scenarios]
+        if len(scenarios) < 2:
+            return [summarize(self.run(scenario, expected_revision=expected_revision, change_id=change_id))
+                    for scenario in scenarios]
+        w = self.workspace
+        with w.lock:
+            base = w.authoring.check_revision(expected_revision)
+            data_base = data_revision(w.runtime.store)
+            checked = self.candidate_verification(base, change_id) if change_id is not None else None
+            with TemporaryDirectory(prefix='powerapps-suite-') as directory:
+                jobs = []
+                with self.isolated_candidate(base, change_id, data_base) as prepared:
+                    for index, scenario in enumerate(scenarios):
+                        root = Path(directory) / f'run-{index}'
+                        root.mkdir()
+                        _copy_project(prepared.project.root, root, prepared.runtime.store)
+                        jobs.append((root, scenario, base, data_base, change_id))
+                # Separate processes let the CPU-bound runs overlap. Each only
+                # sees its own project/database, and reports stay in suite order.
+                workers = min(4, os.cpu_count() or 1, len(jobs))
+                with ThreadPoolExecutor(max_workers=workers) as pool:
+                    files = list(pool.map(_run_worker, jobs))
+                if checked:
+                    self.require_same_verification(checked)
+                self._check_run_base(base, data_base)
+                results = []
+                for path in files:
+                    report = json.loads(path.read_text(encoding='utf-8'))
+                    self._save_report(report)
+                    results.append(summarize(report))
+                return results
+
+    def _check_run_base(self, base, data_base):
+        self.workspace.authoring.check_revision(base)
+        if data_revision(self.workspace.runtime.store) != data_base:
+            raise RevisionConflict('Project records changed externally during the workflow run')
+
+    def _save_report(self, report):
+        path = safe_path(self.workspace.project.root, '.emu/runs/' + report['id'] + '.json')
+        atomic_write(path, json_text(report))
+
     def run(self, scenario, *, expected_revision, change_id=None):
         scenario = validate(scenario)
         w = self.workspace
@@ -445,61 +507,62 @@ class WorkflowService:
             base = w.authoring.check_revision(expected_revision)
             data_base = data_revision(w.runtime.store)
             with self.isolated_candidate(base, change_id, data_base) as isolated:
-                root = isolated.project.root
-                r = isolated.runtime
-                previous_number_mode = r.fx.number_mode
-                previous_enum_mode = r.environment.get("enum_mode","legacy")
-                r.environment = deepcopy(r.environment)
-                r.environment.update(scenario.get('environment', {}))
-                if r.fx.number_mode != previous_number_mode or r.environment.get("enum_mode","legacy")!=previous_enum_mode:
-                    r.analyze()  # Rebind host-dependent types and supported overload findings.
-                frozen = not r.environment.get('clock')
-                if frozen:
-                    r.environment['clock'] = datetime.now(timezone.utc).isoformat()
-                r.viewport.update(scenario.get('viewport', {}))
-                for name, records in scenario.get('records', {}).items():
-                    if name not in r.store.definitions:
-                        raise ValueError(f'Unknown fixture list {name}')
-                    r.store.import_rows(name, records, replace=True)
-                # Failure injection belongs to the workflow; live preview failures are ignored.
-                r.store.failures.clear()
-                r.trace = []
-                initial_records = _records(r.store)
-                r.restart()
-                r.state()  # Materialize galleries and settle component inputs like the browser.
-                steps = []
-                for index, step in enumerate(scenario['steps'], 1):
-                    before = _records(r.store)
-                    entry = {'index': index, 'op': step['op'], 'label': step.get('label', ''), 'status': 'passed'}
-                    r.trace_event('step', index=index, op=step['op'])
-                    try:
-                        self._step(r, step, entry)
-                    except (FxError, ValueError) as error:
-                        entry.update(status='failed', error=str(error), error_kind=error.kind if isinstance(error, FxError) else 'Scenario')
-                    r.state()
-                    entry['active_screen'] = r.active_screen
-                    entry['writes'] = _delta(before, _records(r.store))
-                    steps.append(entry)
-                    # A failed action leaves downstream assertions ambiguous. Failed assertions
-                    # continue to expose independent failures in the same final state.
-                    if entry['status'] == 'failed' and step['op'] not in ('assert', 'diagnostics'):
-                        break
-                report = {'id': uuid.uuid4().hex, 'name': scenario['name'], 'created_at': datetime.now(timezone.utc).isoformat(),
-                    'status': 'passed' if all(s['status'] == 'passed' for s in steps) else 'failed',
-                    'base_revision': base, 'data_revision': data_base, 'candidate_revision': revision(root),
-                    'change_id': change_id, 'scenario_digest': hashlib.sha256(json_text(scenario).encode()).hexdigest(),
-                    'scenario': scenario, 'environment': serial(r.environment), 'clock_frozen': frozen,
-                    'viewport': r.viewport, 'steps': steps, 'steps_skipped': len(scenario['steps']) - len(steps),
-                    'trace': r.trace, 'trace_truncated': r.trace_truncated, 'diagnostics': deepcopy(r.diagnostics),
-                    'writes': _delta(initial_records, _records(r.store)), 'active_screen': r.active_screen,
-                    'data_errors': serial({name:[row for _,row in entries] for name,entries in r.store.operation_errors.items() if entries}),
-                    'globals': serial(r.globals), 'collections': serial(r.collections), 'components': serial(r.component_state),
-                    'contexts': serial(r.screen_context), 'types': r.inspector_types()}
-                w.authoring.check_revision(base)
-                if data_revision(w.runtime.store) != data_base:
-                    raise RevisionConflict('Project records changed externally during the workflow run')
-                atomic_write(safe_path(w.project.root, '.emu/runs/' + report['id'] + '.json'), json_text(report))
+                report = self.execute_scenario(isolated.runtime, scenario, base, data_base, change_id)
+                self._check_run_base(base, data_base)
+                self._save_report(report)
                 return report
+
+    @staticmethod
+    def execute_scenario(r, scenario, base, data_base, change_id):
+        previous_number_mode = r.fx.number_mode
+        previous_enum_mode = r.environment.get("enum_mode","legacy")
+        r.environment = deepcopy(r.environment)
+        r.environment.update(scenario.get('environment', {}))
+        if r.fx.number_mode != previous_number_mode or r.environment.get("enum_mode","legacy")!=previous_enum_mode:
+            r.analyze()  # Rebind host-dependent types and supported overload findings.
+        frozen = not r.environment.get('clock')
+        if frozen:
+            r.environment['clock'] = datetime.now(timezone.utc).isoformat()
+        r.viewport.update(scenario.get('viewport', {}))
+        for name, records in scenario.get('records', {}).items():
+            if name not in r.store.definitions:
+                raise ValueError(f'Unknown fixture list {name}')
+            r.store.import_rows(name, records, replace=True)
+        # Failure injection belongs to the workflow; live preview failures are ignored.
+        r.store.failures.clear()
+        r.trace = []
+        initial_records = _records(r.store)
+        r.restart()
+        r.state()  # Materialize galleries and settle component inputs like the browser.
+        steps = []
+        for index, step in enumerate(scenario['steps'], 1):
+            before = _records(r.store)
+            entry = {'index': index, 'op': step['op'], 'label': step.get('label', ''), 'status': 'passed'}
+            r.trace_event('step', index=index, op=step['op'])
+            try:
+                WorkflowService._step(r, step, entry)
+            except (FxError, ValueError) as error:
+                entry.update(status='failed', error=str(error), error_kind=error.kind if isinstance(error, FxError) else 'Scenario')
+            r.state()
+            entry['active_screen'] = r.active_screen
+            entry['writes'] = _delta(before, _records(r.store))
+            steps.append(entry)
+            # A failed action leaves downstream assertions ambiguous. Failed assertions
+            # continue to expose independent failures in the same final state.
+            if entry['status'] == 'failed' and step['op'] not in ('assert', 'diagnostics'):
+                break
+        report = {'id': uuid.uuid4().hex, 'name': scenario['name'], 'created_at': datetime.now(timezone.utc).isoformat(),
+            'status': 'passed' if all(s['status'] == 'passed' for s in steps) else 'failed',
+            'base_revision': base, 'data_revision': data_base, 'candidate_revision': revision(r.project.root),
+            'change_id': change_id, 'scenario_digest': hashlib.sha256(json_text(scenario).encode()).hexdigest(),
+            'scenario': scenario, 'environment': serial(r.environment), 'clock_frozen': frozen,
+            'viewport': r.viewport, 'steps': steps, 'steps_skipped': len(scenario['steps']) - len(steps),
+            'trace': r.trace, 'trace_truncated': r.trace_truncated, 'diagnostics': deepcopy(r.diagnostics),
+            'writes': _delta(initial_records, _records(r.store)), 'active_screen': r.active_screen,
+            'data_errors': serial({name:[row for _,row in entries] for name,entries in r.store.operation_errors.items() if entries}),
+            'globals': serial(r.globals), 'collections': serial(r.collections), 'components': serial(r.component_state),
+            'contexts': serial(r.screen_context), 'types': r.inspector_types()}
+        return report
 
     @staticmethod
     def _step(r, step, entry):
