@@ -344,23 +344,17 @@ class AIService:
 
     def check_change(self, expected_revision, change_id, probe=None):
         from .candidate_inspection import inspect_property
-        from .workflows import workflow_revision
         w = self.workspace
-        base = w.authoring.check_revision(expected_revision)
-        base_data = data_revision(w.runtime.store)
-        _, candidate = w.authoring.check_candidate(change_id, base, base_data=base_data)
-        revision_before = workflow_revision(w.project.root)
+        checked = w.workflows.candidate_verification(expected_revision, change_id)
+        w.workflows.forget_pass(checked)
+        base = checked.source
+        _, candidate = w.authoring.check_candidate(change_id, base, base_data=checked.data, base_workflows=checked.workflows)
         sample = None
         if probe is not None:
-            with w.workflows.isolated_candidate(base, change_id, base_data) as isolated:
+            with w.workflows.isolated_candidate(base, change_id, checked.data) as isolated:
                 sample = inspect_property(isolated.runtime, probe)
-        if data_revision(w.runtime.store) != base_data:
-            raise RevisionConflict('Project records changed during the candidate check. Retry against the current project.')
-        suite = w.workflows.validate_saved(base, change_id)
-        if data_revision(w.runtime.store) != base_data:
-            raise RevisionConflict('Project records changed during the candidate check. Retry against the current project.')
-        if suite['workflow_revision'] != revision_before:
-            raise RevisionConflict('Saved workflows changed during the candidate check. Retry against the current project.')
+        suite = w.workflows.validate_saved(base, change_id, record_pass=False)
+        w.workflows.require_same_verification(checked, entry=candidate)
         broken = next((run for run in suite['runs'] if run['status'] != 'passed'), None)
         failure = None
         if broken:
@@ -368,9 +362,11 @@ class AIService:
                        **next(iter(broken.get('failures', ())), {}),
                        **({'error': broken['error']} if 'error' in broken else {})}
         diagnostics = candidate['diagnostics']
+        passed = suite['status'] == 'passed' and not diagnostics and (sample is None or sample['status'] != 'error')
+        if passed:
+            w.workflows.remember_pass(checked)
         return {'change_id': change_id, 'revision': base, 'workflow_revision': suite['workflow_revision'],
-                'status': 'passed' if suite['status'] == 'passed' and not diagnostics and
-                (sample is None or sample['status'] != 'error') else 'failed',
+                'status': 'passed' if passed else 'failed',
                 'saved_workflows': {'status': suite['status'], 'passed': suite['passed'], 'failed': suite['failed']},
                 'first_failure': failure, 'formula': sample, 'diagnostics': diagnostics[:20],
                 'diagnostic_count': len(diagnostics)}

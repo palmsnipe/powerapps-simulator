@@ -275,19 +275,25 @@ class AuthoringService:
             entry['diagnostics'] = self._validate(entry['sources'], entry['lists'], entry['migrations'])
             if entry['strict'] and entry['diagnostics']:
                 raise ValueError('Strict validation requires a project without current binding/source diagnostics')
-            self.workspace.workflows.verify_saved_candidate(change_id, current)
-            self.check_revision(current)
+            checked, saved_workflow_check = self.workspace.workflows.verify_saved_candidate(change_id, current, entry=entry)
             names = [*entry['sources'], *(self.store.catalog.path(n).relative_to(self.root).as_posix() for n in entry['lists'])]
             names.extend('tests/' + name for name in workflows)
             if entry['lists']:
                 names.append('metadata/schema-catalog.json')
                 self._database_backup(manifest.parent / 'before.sqlite')
             names.append('emulator.json')
-            entry.update(before_files=self._snapshot(names), status='applying')
-            atomic_write(manifest, json_text(entry))
             previous = deepcopy(self.store.definitions)
+            self.store.db.execute('BEGIN IMMEDIATE')
             try:
-                self.store.db.execute('BEGIN IMMEDIATE')
+                # Hold the SQLite write reservation through publication. Check
+                # inputs after taking it so external record writes cannot race reuse.
+                self.workspace.workflows.require_same_verification(checked, entry=entry)
+                entry.update(before_files=self._snapshot(names), status='applying')
+                atomic_write(manifest, json_text(entry))
+            except Exception:
+                self.store.db.rollback()
+                raise
+            try:
                 for name, content in entry['sources'].items():
                     target = safe_path(self.root, _source_name(self.root, name))
                     if content is None:
@@ -310,6 +316,7 @@ class AuthoringService:
                     p.save_config()
                 self.store.db.commit()
                 entry.update(status='applied', applied_at=datetime.now(timezone.utc).isoformat(), after_revision=revision(self.root), after_data_revision=data_revision(self.store))
+                entry['saved_workflow_check'] = saved_workflow_check
                 if workflows:
                     entry['after_workflow_revision'] = workflow_revision(self.root)
                 atomic_write(manifest, json_text(entry))

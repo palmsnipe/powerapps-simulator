@@ -1,5 +1,6 @@
 """Focused authoring, isolated batch evidence and explicit preview lifecycle."""
 from copy import deepcopy
+import json
 
 import pytest
 
@@ -75,6 +76,104 @@ def test_check_change_uses_the_candidate_gallery_row_and_preserves_live_state(wo
     assert w.authoring.history()[0]['status'] == 'staged'
 
 
+@pytest.fixture
+def checked_title_change(tmp_path):
+    w = Workspace(tmp_path, empty=True)
+    scenario = {'format_version': 1, 'name': 'Verified title and records', 'steps': [
+        {'op': 'assert', 'formula': 'Title.Text', 'expect': 'Verified title'},
+        {'op': 'assert', 'formula': 'CountRows(Projects)', 'expect': 1},
+        {'op': 'assert', 'formula': 'Language()', 'expect': 'en-US'},
+    ]}
+    created = w.ai.call('create_project', {
+        'name': 'checked', 'title': 'Original title',
+        'lists': {'Projects': {'fields': {'ID': {'type': 'integer'}, 'Title': {'type': 'string'}}}},
+        'records': {'Projects': [{'ID': 1, 'Title': 'First'}]},
+        'workflows': {'saved.workflow.json': scenario},
+    })
+    try:
+        staged = call(w, 'stage_control_edits', expected_revision=created['revision'], edits=[
+            {'op': 'set_property', 'path': 'Main/Title', 'property': 'Text', 'value': '="Verified title"'},
+        ])
+        yield w, {'change_id': staged['id'], 'expected_revision': staged['base_revision']}
+    finally:
+        if w.runtime is not None:
+            w.runtime.close()
+
+
+@pytest.mark.parametrize('tool', ['check_change', 'validate_workflows'])
+def test_apply_reuses_a_passed_suite(checked_title_change, monkeypatch, tool):
+    w, request = checked_title_change
+    assert call(w, tool, **request)['status'] == 'passed'
+    monkeypatch.setattr(w.workflows, 'run', lambda *args, **kwargs: pytest.fail('Apply reran the saved suite'))
+    applied = call(w, 'apply_change', **request)
+    assert applied['saved_workflow_check'] == 'reused' and applied['status'] == 'applied'
+
+
+@pytest.mark.parametrize('changed', ['candidate', 'workflows', 'data', 'settings'])
+def test_apply_rechecks_after_a_verification_input_changes(checked_title_change, changed):
+    w, request = checked_title_change
+    assert call(w, 'check_change', **request)['status'] == 'passed'
+    if changed == 'candidate':
+        manifest, entry = w.authoring._entry(request['change_id'])
+        name, source = next(iter(entry['sources'].items()))
+        entry['sources'][name] = source.replace('Verified title', 'Different title')
+        manifest.write_text(json.dumps(entry), encoding='utf-8')
+    elif changed == 'workflows':
+        path = w.project.root / 'tests/saved.workflow.json'
+        scenario = json.loads(path.read_text(encoding='utf-8'))
+        scenario['steps'][0]['expect'] = 'Different title'
+        path.write_text(json.dumps(scenario), encoding='utf-8')
+    elif changed == 'data':
+        w.runtime.store.import_rows('Projects', [{'ID': 2, 'Title': 'Second'}])
+    else:
+        w.project.config['environment']['language'] = 'fr-CA'
+        w.project.save_config()
+
+    with pytest.raises(ValueError, match='Apply blocked by failing saved workflows'):
+        call(w, 'apply_change', **request)
+    assert revision(w.project.root) == request['expected_revision']
+    assert w.authoring.history()[0]['status'] == 'staged'
+
+
+def test_new_workspace_runs_saved_suite_without_in_memory_check(checked_title_change):
+    w, request = checked_title_change
+    assert call(w, 'check_change', **request)['status'] == 'passed'
+    root = w.project.root
+    w.runtime.close()
+    w.runtime = None
+    reopened = Workspace(w.root, root)
+    try:
+        assert call(reopened, 'apply_change', **request)['saved_workflow_check'] == 'ran'
+    finally:
+        reopened.runtime.close()
+
+
+def test_failed_candidate_probe_does_not_reuse_a_previous_pass(checked_title_change):
+    w, request = checked_title_change
+    assert call(w, 'validate_workflows', **request)['status'] == 'passed'
+    with pytest.raises(ValueError, match='Control path not found'):
+        call(w, 'check_change', **request, probe={'path': 'Main/Missing', 'property': 'Text'})
+    assert call(w, 'apply_change', **request)['saved_workflow_check'] == 'ran'
+
+
+def test_apply_checks_records_again_inside_the_write_transaction(checked_title_change, monkeypatch):
+    w, request = checked_title_change
+    assert call(w, 'check_change', **request)['status'] == 'passed'
+    verify = w.workflows.verify_saved_candidate
+
+    def change_records_after_verification(*args, **kwargs):
+        checked, status = verify(*args, **kwargs)
+        assert status == 'reused'
+        w.runtime.store.import_rows('Projects', [{'ID': 2, 'Title': 'Concurrent edit'}])
+        return checked, status
+
+    monkeypatch.setattr(w.workflows, 'verify_saved_candidate', change_records_after_verification)
+    with pytest.raises(RevisionConflict, match='records or settings changed'):
+        call(w, 'apply_change', **request)
+    assert w.authoring.history()[0]['status'] == 'staged'
+    assert len(w.runtime.store.rows('Projects')) == 2
+
+
 def test_targeted_candidate_is_isolated_applies_restarts_and_undoes(workspace):
     w = workspace
     base, data = revision(w.project.root), data_revision(w.runtime.store)
@@ -96,6 +195,7 @@ def test_targeted_candidate_is_isolated_applies_restarts_and_undoes(workspace):
         complete = call(w, 'read_workflow_report', run_id=report['id'])
         assert complete['trace'] and len(complete['steps']) == report['steps_passed']
     applied = call(w, 'apply_change', change_id=change['id'], expected_revision=base)
+    assert applied['saved_workflow_check'] == 'ran'
     assert w.runtime.pending_source
     # Discovery reads saved edits while evaluation still uses the old runtime.
     assert call(w, 'read_control', path='Workspace/StatusFilter')['definition']['Properties']['Default'] == '="All"'

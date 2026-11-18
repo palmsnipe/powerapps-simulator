@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import argparse
+from collections import OrderedDict
 from contextlib import contextmanager
 from copy import deepcopy
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -24,6 +26,7 @@ from .syntax import FxError
 
 STARTER = {'format_version': 1, 'name': 'Startup smoke', 'steps': [
     {'op': 'assert', 'formula': 'IsBlank(App.ActiveScreen)', 'expect': False}]}
+SNAPSHOT_DIRECTORIES = ('Src', 'lists', 'Assets', 'metadata')
 
 SELECTION_DESCRIPTION = (
     'Array of zero-based option indexes in display order. Use [1] for the second '
@@ -197,10 +200,48 @@ def workflow_revision(root):
     return digest.hexdigest()
 
 
+def workflow_project_inputs(root):
+    """Hash the settings and support files used by each isolated workflow."""
+    digest = hashlib.sha256()
+    paths = [root / 'emulator.json']
+    for name in SNAPSHOT_DIRECTORIES:
+        directory = root / name
+        children = list(directory.rglob('*')) if not directory.is_symlink() else []
+        if directory.is_symlink() or any(path.is_symlink() for path in children):
+            raise ValueError('Workflow snapshots do not follow project symlinks')
+        if name in ('Assets', 'metadata'):
+            paths.extend(sorted(children))
+    for path in paths:
+        if path.is_symlink():
+            raise ValueError('Workflow snapshots do not follow project symlinks')
+        if path.is_file():
+            digest.update(json_text(path.relative_to(root).as_posix()).encode())
+            with path.open('rb') as source:
+                digest.update(hashlib.file_digest(source, 'sha256').digest())
+    return digest.hexdigest()
+
+
+@dataclass(frozen=True)
+class CandidateVerification:
+    project: Path
+    change_id: str
+    source: str
+    workflows: str
+    data: str
+    candidate: str
+    project_inputs: str
+
+
+def candidate_digest(entry):
+    fields = ('id', 'base_revision', 'base_workflow_revision', 'data_revision', 'sources',
+              'lists', 'migrations', 'workflows', 'strict')
+    return hashlib.sha256(json_text({key: entry.get(key) for key in fields}).encode()).hexdigest()
+
+
 def _copy_project(source, target, store):
     # The caller supplies the scenario. Do not copy saved tests into the
     # disposable project, where applying the candidate would run them again.
-    for name in ('Src', 'lists', 'Assets', 'metadata'):
+    for name in SNAPSHOT_DIRECTORIES:
         directory = source / name
         if directory.exists():
             if directory.is_symlink() or any(p.is_symlink() for p in directory.rglob('*')):
@@ -253,6 +294,36 @@ def summarize(report):
 class WorkflowService:
     def __init__(self, workspace):
         self.workspace = workspace
+        # Evidence is issued only by this workspace owner and never read from
+        # user-editable reports or manifests. A fresh process runs the suite.
+        self._passed_checks = OrderedDict()
+
+    def candidate_verification(self, expected_revision, change_id, *, entry=None):
+        w = self.workspace
+        project = w.project.root
+        source = w.authoring.check_revision(expected_revision)
+        workflows = workflow_revision(project)
+        data = data_revision(w.runtime.store)
+        _, current = w.authoring.check_candidate(change_id, source, base_data=data, base_workflows=workflows)
+        candidate = candidate_digest(current)
+        if entry is not None and candidate_digest(entry) != candidate:
+            raise RevisionConflict('The staged candidate changed during verification. Review the current candidate again.')
+        return CandidateVerification(project, change_id, source, workflows, data, candidate,
+                                     workflow_project_inputs(project))
+
+    def require_same_verification(self, checked, *, entry=None):
+        if self.candidate_verification(checked.source, checked.change_id, entry=entry) != checked:
+            raise RevisionConflict('Candidate, saved workflows, records or settings changed during verification. Check the current candidate again.')
+
+    def remember_pass(self, checked):
+        key = (checked.project, checked.change_id)
+        self._passed_checks[key] = checked
+        self._passed_checks.move_to_end(key)
+        if len(self._passed_checks) > 64:
+            self._passed_checks.popitem(last=False)
+
+    def forget_pass(self, checked):
+        self._passed_checks.pop((checked.project, checked.change_id), None)
 
     def _saved_scenarios(self):
         result = []
@@ -275,16 +346,20 @@ class WorkflowService:
                             for name, scenario in candidate.get('workflows', {}).items()})
         return [entries[name] for name in sorted(entries)]
 
-    def validate_saved(self, expected_revision, change_id=None):
+    def validate_saved(self, expected_revision, change_id=None, *, record_pass=True):
         """Run the exact suite that Apply would require, with concise per-file results."""
         w = self.workspace
         with w.lock:
-            w.authoring.check_revision(expected_revision)
-            base_workflows = workflow_revision(w.project.root)
-            if change_id is not None:
-                w.authoring.check_candidate(change_id, expected_revision, base_workflows=base_workflows)
+            checked = None
+            if change_id is None:
+                w.authoring.check_revision(expected_revision)
+                base_workflows = workflow_revision(w.project.root)
+            else:
+                checked = self.candidate_verification(expected_revision, change_id)
+                self.forget_pass(checked)
+                base_workflows = checked.workflows
             saved = self._candidate_scenarios(change_id)
-            base_data = data_revision(w.runtime.store) if saved else None
+            base_data = data_revision(w.runtime.store) if saved and checked is None else None
             runs = []
             for entry in saved:
                 if 'error' in entry:
@@ -292,22 +367,32 @@ class WorkflowService:
                     continue
                 report = summarize(self.run(entry['scenario'], expected_revision=expected_revision, change_id=change_id))
                 runs.append({'file': entry['file'], **report})
-            if workflow_revision(w.project.root) != base_workflows or (saved and data_revision(w.runtime.store) != base_data):
-                raise RevisionConflict('Saved workflows or records changed during apply verification. Retry against the current project.')
-            w.authoring.check_revision(expected_revision)
+            if checked:
+                self.require_same_verification(checked)
+            else:
+                if workflow_revision(w.project.root) != base_workflows or (saved and data_revision(w.runtime.store) != base_data):
+                    raise RevisionConflict('Saved workflows or records changed during apply verification. Retry against the current project.')
+                w.authoring.check_revision(expected_revision)
             passed = sum(run['status'] == 'passed' for run in runs)
+            if checked and record_pass and passed == len(runs):
+                self.remember_pass(checked)
             return {'status': 'passed' if passed == len(runs) else 'failed', 'revision': expected_revision,
                     'workflow_revision': base_workflows, 'change_id': change_id, 'runs': runs,
                     'passed': passed, 'failed': len(runs) - passed}
 
-    def verify_saved_candidate(self, change_id, expected_revision):
-        report = self.validate_saved(expected_revision, change_id)
+    def verify_saved_candidate(self, change_id, expected_revision, *, entry):
+        checked = self.candidate_verification(expected_revision, change_id, entry=entry)
+        if self._passed_checks.get((checked.project, change_id)) == checked:
+            return checked, 'reused'
+        report = self.validate_saved(expected_revision, change_id, record_pass=False)
         invalid = [f"{run['file']}: {run['error']}" for run in report['runs'] if run['status'] == 'invalid']
         if invalid:
             raise ValueError('Apply blocked by invalid saved workflows. ' + '\n'.join(invalid))
         failures = [f"{run['file']} (report {run['id']})" for run in report['runs'] if run['status'] == 'failed']
         if failures:
             raise ValueError('Apply blocked by failing saved workflows. ' + ', '.join(failures))
+        self.require_same_verification(checked, entry=entry)
+        return checked, 'ran'
 
     def catalog(self, change_id=None):
         with self.workspace.lock:

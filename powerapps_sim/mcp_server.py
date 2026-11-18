@@ -348,7 +348,7 @@ def create_server(backend):
                     expected_workflow_revision=expected_workflow_revision)
 
     def apply_change(change_id: str, expected_revision: str) -> dict:
-        """Apply a staged change using its base_revision. The resulting saved suite, including staged workflow repairs, must pass against the candidate. On failure, inspect report IDs and revise the candidate. Successful changes can be undone; restart to load source."""
+        """Apply a staged change using its base_revision. Reuses a passing full-suite check for the same inputs or runs the suite before publishing. See saved_workflow_check for reused or ran. On failure, inspect report IDs and revise the candidate. Restart to load source."""
         return call('apply_change', change_id=change_id, expected_revision=expected_revision)
 
     def undo_change(change_id: str, expected_revision: str) -> dict:
