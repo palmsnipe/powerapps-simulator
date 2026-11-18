@@ -54,6 +54,16 @@ def safe_path(root, name):
     return target
 
 
+def source_paths(root):
+    src = root / "Src"
+    return sorted([*src.rglob("*.yaml"), *src.rglob("*.yml")])
+
+
+def read_source_documents(root):
+    for path in source_paths(root):
+        yield path.relative_to(root).as_posix(), path.read_text(encoding="utf-8-sig")
+
+
 @lru_cache(maxsize=256)
 def _split_control_kind(kind):
     return kind.partition("@")
@@ -119,15 +129,12 @@ class Project:
         self.write_json("emulator.json", self.config)
 
     def source_paths(self):
-        src = self.root / "Src"
-        return sorted([*src.rglob("*.yaml"), *src.rglob("*.yml")])
+        return source_paths(self.root)
 
     def reload(self):
         self.documents, self.parsed, self.source_errors = {}, {}, []
         self.screens, self.components, self.controls, self.app = {}, {}, {}, {}
-        for path in self.source_paths():
-            name = path.relative_to(self.root).as_posix()
-            text = path.read_text(encoding="utf-8-sig")
+        for name, text in read_source_documents(self.root):
             self.documents[name] = text
             try:
                 data = load_yaml(text)

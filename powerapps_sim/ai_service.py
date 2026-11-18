@@ -12,7 +12,7 @@ from .authoring import RevisionConflict, data_revision, revision
 from .binding import value_type
 from .fx import Context
 from .runtime import serial
-from .source import Project
+from .source import Project, read_source_documents
 from .syntax import FxError
 
 
@@ -93,8 +93,8 @@ class AIService:
 
     def _running_revision_note(self):
         r = self.workspace.runtime
-        saved = Project(self.workspace.project.root)
-        return {'source_matches_saved': r.project.documents == saved.documents,
+        saved = dict(read_source_documents(self.workspace.project.root))
+        return {'source_matches_saved': r.project.documents == saved,
                 'note': 'Saved source loads on explicit browser restart; workflows always use saved/candidate source.'}
 
     def read_source(self, name=None, app_property=None, control_name=None, target=None):
