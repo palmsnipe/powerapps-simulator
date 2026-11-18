@@ -270,9 +270,10 @@ def _records(store):
 
 
 def _delta(before, after):
+    changed = (key for key in before.keys() | after.keys() if before.get(key) != after.get(key))
     return [{'list': key[0], 'id': key[1], 'operation': 'insert' if key not in before else
              'delete' if key not in after else 'update'}
-            for key in sorted(before.keys() | after.keys()) if before.get(key) != after.get(key)]
+            for key in sorted(changed)]
 
 
 def _equal(actual, expected):
@@ -562,9 +563,10 @@ class WorkflowService:
         initial_records = _records(r.store)
         r.restart()
         r.settle_preview()  # Materialize galleries and settle component inputs like the browser.
+        records = _records(r.store)
         steps = []
         for index, step in enumerate(scenario['steps'], 1):
-            before = _records(r.store)
+            before = records
             entry = {'index': index, 'op': step['op'], 'label': step.get('label', ''), 'status': 'passed'}
             r.trace_event('step', index=index, op=step['op'])
             try:
@@ -573,7 +575,8 @@ class WorkflowService:
                 entry.update(status='failed', error=str(error), error_kind=error.kind if isinstance(error, FxError) else 'Scenario')
             r.settle_preview()
             entry['active_screen'] = r.active_screen
-            entry['writes'] = _delta(before, _records(r.store))
+            records = _records(r.store)
+            entry['writes'] = _delta(before, records)
             steps.append(entry)
             # A failed action leaves downstream assertions ambiguous. Failed assertions
             # continue to expose independent failures in the same final state.
@@ -586,7 +589,7 @@ class WorkflowService:
             'scenario': scenario, 'environment': serial(r.environment), 'clock_frozen': frozen,
             'viewport': r.viewport, 'steps': steps, 'steps_skipped': len(scenario['steps']) - len(steps),
             'trace': r.trace, 'trace_truncated': r.trace_truncated, 'diagnostics': deepcopy(r.diagnostics),
-            'writes': _delta(initial_records, _records(r.store)), 'active_screen': r.active_screen,
+            'writes': _delta(initial_records, records), 'active_screen': r.active_screen,
             'data_errors': serial({name:[row for _,row in entries] for name,entries in r.store.operation_errors.items() if entries}),
             'globals': serial(r.globals), 'collections': serial(r.collections), 'components': serial(r.component_state),
             'contexts': serial(r.screen_context), 'types': r.inspector_types()}
