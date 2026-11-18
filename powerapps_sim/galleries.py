@@ -1,4 +1,5 @@
 """Gallery row identity and presentation metadata, separate from source records."""
+from functools import lru_cache
 import hashlib
 import json
 from .tables import SourceRecord
@@ -27,29 +28,66 @@ class GalleryRecord(SourceRecord):
         raise KeyError(name)
 
 
-def keyed_rows(ref):
+def digest_of(value):
     from .runtime import serial
-    if ref.path in ref.runtime.gallery_rows_cache:
-        return ref.runtime.gallery_rows_cache[ref.path]
-    counts = {}
-    result = []
-    for row in table(ref.property('Items')):
-        identity = next(({k: row[k]} for k in ('ID', 'Id')
-                         if isinstance(row, dict) and row.get(k) is not None), row)
-        digest = hashlib.sha256(json.dumps(serial(identity), sort_keys=True, ensure_ascii=False).encode()).hexdigest()[:16]
-        occurrence = counts.get(digest, 0)
-        counts[digest] = occurrence + 1
-        key = f'{digest}:{occurrence}'
-        result.append((key, GalleryRecord(row, ref, key) if isinstance(row, dict) else row))
-    ref.runtime.gallery_rows_cache[ref.path] = result
-    return result
+    return hashlib.sha256(json.dumps(serial(value), sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+
+
+@lru_cache(maxsize=8192, typed=True)
+def scalar_id_digest(field, value):
+    return digest_of({field: value})[:16]
+
+
+def row_digest(row):
+    if isinstance(row, dict):
+        for field in ('ID', 'Id'):
+            value = row.get(field)
+            if value is not None:
+                if type(value) in (str, int):
+                    return scalar_id_digest(field, value)
+                return digest_of({field: value})[:16]
+    return digest_of(row)[:16]
+
+
+class GalleryItems:
+    def __init__(self, ref):
+        self.items = table(ref.property('Items'))
+        self.rows = []
+        self.indices = {}
+        self.digest = None
+        self.all_records = True
+        counts = {}
+        for row in self.items:
+            digest = row_digest(row)
+            occurrence = counts.get(digest, 0)
+            counts[digest] = occurrence + 1
+            key = f'{digest}:{occurrence}'
+            self.indices[key] = len(self.rows)
+            if isinstance(row, dict):
+                row = GalleryRecord(row, ref, key)
+            else:
+                self.all_records = False
+            self.rows.append((key, row))
+
+
+def items_snapshot(ref):
+    cache = ref.runtime.gallery_rows_cache
+    if ref.path not in cache:
+        cache[ref.path] = GalleryItems(ref)
+    return cache[ref.path]
+
+
+def keyed_rows(ref):
+    return items_snapshot(ref).rows
 
 
 def selected(ref):
-    rows = keyed_rows(ref)
+    items = items_snapshot(ref)
+    rows = items.rows
     if 'Selected' in ref.state:
         chosen, key = ref.state['Selected'], ref.state.get('gallery_key')
-        match = next(((k, row) for k, row in rows if k == key and ref.runtime.same_item(row, chosen)), None)
+        index = items.indices.get(key)
+        match = rows[index] if index is not None and ref.runtime.same_item(rows[index][1], chosen) else None
         if match is None:
             match = next(((k, row) for k, row in rows if ref.runtime.same_item(row, chosen)), None)
         if match:
@@ -58,13 +96,18 @@ def selected(ref):
         ref.state.pop('Selected', None)
         ref.state.pop('gallery_key', None)
     default = ref.property('Default')
-    return next(((k, row) for k, row in rows if ref.runtime.same_item(row, default)), rows[0] if rows else (None, None))
+    first = rows[0] if rows else (None, None)
+    if default is None and items.all_records:
+        return first
+    return next(((k, row) for k, row in rows if ref.runtime.same_item(row, default)), first)
 
 
 def choose(ref, key, interactive=False):
     if interactive and not ref.property('Selectable'):
         return
-    match = next((row for k, row in keyed_rows(ref) if k == key), None)
+    items = items_snapshot(ref)
+    index = items.indices.get(key)
+    match = items.rows[index][1] if index is not None else None
     if match is None:
         raise ValueError('Gallery row no longer exists; refresh the preview')
     if isinstance(match, FxError):
@@ -74,10 +117,10 @@ def choose(ref, key, interactive=False):
 
 
 def token(ref):
-    from .runtime import serial
-    body = json.dumps(serial(table(ref.property('Items'))), sort_keys=True, ensure_ascii=False)
-    digest = hashlib.sha256(body.encode()).hexdigest()
-    return f'{ref.runtime.text_generation}:{ref.path}:{ref.runtime.selector_resets.get(ref.path, 0)}:{digest}'
+    items = items_snapshot(ref)
+    if items.digest is None:
+        items.digest = digest_of(items.items)
+    return f'{ref.runtime.text_generation}:{ref.path}:{ref.runtime.selector_resets.get(ref.path, 0)}:{items.digest}'
 
 
 def implicit_select(ref):
@@ -120,15 +163,14 @@ def row_frames(ref,row):
 def materialize(ref):
     """Build row scopes without evaluating properties or running any events."""
     runtime = ref.runtime
-    result, live_paths = [], set()
+    result = []
     from .gallery_loading import loaded_rows
-    universe = {key for key,_ in keyed_rows(ref)}
+    live_keys = items_snapshot(ref).indices
     for key, row in loaded_rows(ref):
         row_path = f'{ref.path}/row:{key}'
         if isinstance(row, FxError):
             result.append((key, row, []))
             continue
-        live_paths.add(row_path)
         scope, children = dict(ref.scope), []
         frames=row_frames(ref,row)
         refreshed=False
@@ -137,7 +179,8 @@ def materialize(ref):
             child = runtime.refs.get(path)
             if child:
                 from .runtime import serial
-                refreshed|=serial(child.item)!=serial(row) or serial(child.frames)!=serial(frames)
+                refreshed |= (child.item is not row and serial(child.item) != serial(row)
+                              or serial(child.frames) != serial(frames))
             else:child=runtime.build(control, path, ref, row, frames, scope, ref.component)
             child.item, child.frames = row, frames
             scope[control.name] = child
@@ -156,7 +199,6 @@ def materialize(ref):
             runtime.property_cache.clear();runtime.formula_cache.clear();runtime.layout_cache.clear()
         result.append((key, row, children))
     prefix = ref.path + '/row:'
-    live_keys = universe
     for path in list(runtime.refs):
         if path.startswith(prefix) and path[len(prefix):].split('/', 1)[0] not in live_keys:
             runtime.gallery_loading.pop(path, None)

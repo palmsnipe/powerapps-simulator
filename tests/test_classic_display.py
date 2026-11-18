@@ -53,6 +53,7 @@ def test_preview_reuses_fixed_display_values_and_refreshes_live_formulas(tmp_pat
         'Color': '=If(shown, Color.Red, Color.Blue)',
         'X': '=App.Width/2',
         'Width': '=120',
+        'Size': '=9 * 2',
     })
     try:
         label = ref(r)
@@ -73,16 +74,16 @@ def test_preview_reuses_fixed_display_values_and_refreshes_live_formulas(tmp_pat
         r.invalidate()
         updated = next(node['props'] for node in r.state()['tree']['children'] if node['name'] == 'D')
         assert updated['Text'] == 'updated'
-        assert updated['X'] == 480 and updated['Width'] == 120
+        assert updated['X'] == 480 and updated['Width'] == 120 and updated['Size'] == 18
         assert updated['HoverColor'] == updated['Color'] != initial['Color']
         assert {'Text', 'X', 'Color', 'HoverColor'} <= reads
-        assert {'Width', 'PaddingLeft'}.isdisjoint(reads)
+        assert {'Width', 'PaddingLeft', 'Size'}.isdisjoint(reads)
     finally:
         r.close()
 
 
 def test_preview_rechecks_cached_presentation_after_profile_changes(tmp_path):
-    r = make(tmp_path, props={'Text': '=1.5'})
+    r = make(tmp_path, props={'Text': '=Text(3 / 2)'})
     try:
         label = ref(r)
         initial = r.render(label)['props']

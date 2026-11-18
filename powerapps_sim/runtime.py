@@ -2735,17 +2735,17 @@ class Runtime:
             return node
         if ref.family == "Gallery":
             try:
-                rows = table(self.render_property(ref,"Items"))
+                self.render_property(ref,"Items")
                 node["selected"] = serial(self.render_property(ref,"Selected"))
                 node["rows"] = []
-                from .galleries import materialize, selected, token, row_frames
+                from .galleries import items_snapshot, materialize, selected, token
                 selected_key = selected(ref)[0]
                 node['items_token'] = token(ref)
                 node['reset_token'] = f'{self.text_generation}:{self.selector_resets.get(ref.path, 0)}'
                 from .gallery_loading import metadata,sync
                 node['loading']=metadata(ref)
-                state,all_rows,_,start,end,_=sync(ref)
-                indices={key:index for index,(key,_) in enumerate(all_rows)}
+                _,_,_,start,end,_=sync(ref)
+                indices=items_snapshot(ref).indices
                 for row_key,row,children in materialize(ref):
                     index=indices[row_key]
                     if not start<=index<end:

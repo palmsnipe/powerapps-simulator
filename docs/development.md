@@ -48,6 +48,16 @@ Browser tests require Playwright's Chromium. Private compatibility-archive tests
 
 The GitHub workflow runs the complete suite on Linux, macOS, and Windows with Python 3.11–3.14. A partial local run is not evidence that this matrix passes. Known conformance gaps remain reported separately from unexpected regressions; `--strict` also fails on known gaps.
 
+## Large preview benchmark
+
+```sh
+python -m powerapps_sim.preview_benchmark --repeats 12 --output test-results/preview-performance/run.json
+```
+
+Run with Playwright Chromium installed. The benchmark creates a disposable two-screen project with 288 labels and a lazy gallery of 2,048 rows. It measures typing, gallery selection, scrolling and navigation. It checks focus and draft preservation during typing, plus selection, scrolling, navigation and runtime diagnostics. Every run discards the warm-up cycle and records per-operation samples with medians and p95.
+
+Compare runs on the same machine with the same Chromium version and fixture. Interaction time spans the browser action through the second animation frame after the update and includes input delivery. Server, render, Power Fx and browser update timings help attribute changes. Formula time can overlap render time.
+
 ## Build packages and offline bundles
 
 ```sh

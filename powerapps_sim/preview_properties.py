@@ -28,6 +28,8 @@ def _independent(ref, raw, *, allow_self=True):
             return True
         if node.kind == 'unary':
             return stable(node.children[0])
+        if node.kind == 'binary' and node.value in ('&', '+', '-', '*', '/', '^'):
+            return all(stable(child) for child in node.children)
         if node.kind == 'member' and node.children[0].kind == 'name':
             owner = node.children[0].value
             if owner in ENUMS:
@@ -39,6 +41,8 @@ def _independent(ref, raw, *, allow_self=True):
             callee, *arguments = node.children
             if callee.kind == 'name' and callee.value in ('Blank', 'RGBA', 'Language'):
                 return all(stable(argument) for argument in arguments)
+            if callee.kind == 'name' and callee.value == 'Text' and len(arguments) == 1:
+                return stable(arguments[0])
         return False
 
     return stable(expression)

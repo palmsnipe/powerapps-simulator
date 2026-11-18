@@ -11,6 +11,8 @@ class Loading:
     ready: bool = False
     offset: float = 0
     extent: float | None = None
+    # Keep only the previous index, so retained row scopes never pin old records.
+    items_index: dict | None = field(default=None, repr=False)
 
 
 def number(value,name,minimum=0,whole=False):
@@ -48,14 +50,18 @@ def sync(ref):
 
 
 def _sync(ref):
-    from .galleries import keyed_rows
-    rows=keyed_rows(ref);g=geometry(ref)
+    from .galleries import items_snapshot
+    items = items_snapshot(ref)
+    rows = items.rows
+    g = geometry(ref)
     delayed=ref.property('DelayItemLoading')
     if not isinstance(delayed,bool):raise FxError('Gallery DelayItemLoading requires a Boolean','Type')
     if ref.path not in ref.runtime.gallery_loading:
         ref.runtime.gallery_loading[ref.path]=Loading(ready=not delayed)
     state=ref.runtime.gallery_loading[ref.path]
-    state.keys.intersection_update(key for key,_ in rows)
+    if state.items_index is not items.indices:
+        state.keys.intersection_update(items.indices)
+        state.items_index = items.indices
     extent=g['extent'] if state.extent is None else min(state.extent,g['axis'])
     length=max(0,math.ceil(len(rows)/g['wrap'])*g['pitch']-g['gap'])
     state.offset=min(state.offset,max(0,length-extent))
@@ -66,7 +72,7 @@ def _sync(ref):
 
 def loaded_rows(ref):
     state,rows,*_=sync(ref)
-    return [(key,row) for key,row in rows if key in state.keys]
+    return [rows[index] for index in sorted(map(state.items_index.__getitem__, state.keys))]
 
 
 def count(ref):return len(sync(ref)[0].keys)
