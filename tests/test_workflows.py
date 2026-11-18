@@ -66,6 +66,27 @@ def test_form_workflow_is_repeatable_and_does_not_change_live_workspace(workspac
     assert len(list((w.project.root / '.emu/runs').glob('*.json'))) == 2
 
 
+def test_record_snapshots_preserve_startup_writes_without_rescanning_read_steps(workspace, monkeypatch):
+    source = 'Src/forms.pa.yaml'
+    text = workspace.project.documents[source].replace(
+        'Set(selectedId, 1)', 'Set(selectedId, 1); Patch(Drafts, LookUp(Drafts, ID = 1), {Title: "Startup title"})', 1)
+    change = workspace.authoring.stage(expected_revision=revision(workspace.project.root), sources={source: text})
+    read_records = workflows._records
+    scans = []
+
+    def record_scan(store):
+        scans.append(store.db.total_changes)
+        return read_records(store)
+
+    monkeypatch.setattr(workflows, '_records', record_scan)
+    report = run(workspace, scenario(check('LookUp(Drafts, ID = 1).Title', 'Startup title'),
+        {'op': 'diagnostics', 'expect': 0}), change_id=change['id'])
+    assert report['status'] == 'passed'
+    assert report['writes'] == [{'list': 'Drafts', 'id': 1, 'operation': 'update'}]
+    assert all(not step['writes'] for step in report['steps'])
+    assert len(scans) == 2 and scans[0] < scans[1]
+
+
 def test_failed_save_and_recovery_are_assertable(workspace):
     s = scenario(event(TITLE, 'OnChange', value='Fictional failed edit'),
         {'op': 'failure', 'list': 'Drafts', 'mode': 'write'}, event('SaveDraft'),

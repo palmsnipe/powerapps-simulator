@@ -270,6 +270,8 @@ def _records(store):
 
 
 def _delta(before, after):
+    if before is after:
+        return []
     changed = (key for key in before.keys() | after.keys() if before.get(key) != after.get(key))
     return [{'list': key[0], 'id': key[1], 'operation': 'insert' if key not in before else
              'delete' if key not in after else 'update'}
@@ -561,9 +563,21 @@ class WorkflowService:
         r.store.failures.clear()
         r.trace = []
         initial_records = _records(r.store)
+        records = initial_records
+        changes = r.store.db.total_changes
+
+        def current_records():
+            nonlocal records, changes
+            # This SQLite connection owns all writes to the isolated database.
+            current_changes = r.store.db.total_changes
+            if current_changes != changes:
+                records = _records(r.store)
+                changes = current_changes
+            return records
+
         r.restart()
         r.settle_preview()  # Materialize galleries and settle component inputs like the browser.
-        records = _records(r.store)
+        records = current_records()
         steps = []
         for index, step in enumerate(scenario['steps'], 1):
             before = records
@@ -575,7 +589,7 @@ class WorkflowService:
                 entry.update(status='failed', error=str(error), error_kind=error.kind if isinstance(error, FxError) else 'Scenario')
             r.settle_preview()
             entry['active_screen'] = r.active_screen
-            records = _records(r.store)
+            records = current_records()
             entry['writes'] = _delta(before, records)
             steps.append(entry)
             # A failed action leaves downstream assertions ambiguous. Failed assertions
