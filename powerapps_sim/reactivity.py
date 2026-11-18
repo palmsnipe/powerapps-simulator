@@ -100,9 +100,16 @@ class ReactiveValues:
         finally:self.frames=saved
 
     def leaf(self, key, loader, isolated=False):
-        if isolated:
-            with self.untracked():value=outcome(loader)
-        else:value = outcome(loader)
+        if not self.frames and not isolated:
+            return unwrap(loader())
+        try:
+            if isolated:
+                with self.untracked():
+                    value = loader()
+            else:
+                value = loader()
+        except FxError as error:
+            value = error
         self.record(key, loader, value)
         return unwrap(value)
 
