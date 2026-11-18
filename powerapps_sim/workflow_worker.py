@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 
 from .catalog import json_text
+from .source import Project
 from .syntax import FxError
 from .workflows import WorkflowService, snapshot_runtime
 
@@ -12,7 +13,7 @@ def main():
     root = Path(sys.argv[1])
     request = json.load(sys.stdin)
     try:
-        with snapshot_runtime(root, request['strict']) as runtime:
+        with snapshot_runtime(Project(root), request['strict']) as runtime:
             report = WorkflowService.execute_scenario(runtime, request['scenario'], request['base'],
                                                       request['data'], request['change_id'])
     except FxError as error:

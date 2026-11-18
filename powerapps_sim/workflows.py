@@ -257,8 +257,8 @@ def _copy_project(source, target, source_db):
 
 
 @contextmanager
-def snapshot_runtime(root, strict):
-    with closing(Runtime(Project(root))) as runtime:
+def snapshot_runtime(project, strict):
+    with closing(Runtime(project)) as runtime:
         if strict and runtime.bind_diagnostics:
             raise ValueError('Strict validation requires a project without current binding/source diagnostics')
         yield runtime
@@ -458,6 +458,7 @@ class WorkflowService:
             root.mkdir()
             _copy_project(w.project.root, root, w.runtime.store.db)
             strict = False
+            project = None
             if candidate and (candidate['sources'] or candidate['lists']):
                 # The owner has already staged this payload. Materialize it
                 # only in the temporary copy, with the same schema planner and
@@ -476,12 +477,13 @@ class WorkflowService:
                     project.config['source_edited'] = True
                     project.save_config()
                 strict = candidate['strict']
-            yield root, strict
+            yield root, strict, project
 
     @contextmanager
     def isolated_candidate(self, base, change_id, base_data):
-        with self.prepared_snapshot(base, change_id, base_data) as (root, strict), snapshot_runtime(root, strict) as runtime:
-            yield runtime
+        with self.prepared_snapshot(base, change_id, base_data) as (root, strict, project):
+            with snapshot_runtime(project if project is not None else Project(root), strict) as runtime:
+                yield runtime
 
     def run_batch(self, scenarios, *, expected_revision, change_id=None):
         scenarios = [validate(scenario) for scenario in scenarios]
@@ -495,7 +497,7 @@ class WorkflowService:
             checked = self.candidate_verification(base, change_id) if change_id is not None else None
             with TemporaryDirectory(prefix='powerapps-suite-') as directory:
                 jobs = []
-                with self.prepared_snapshot(base, change_id, data_base) as (prepared, strict), closing(
+                with self.prepared_snapshot(base, change_id, data_base) as (prepared, strict, _), closing(
                     sqlite3.connect((prepared / 'data.sqlite').as_uri() + '?mode=ro', uri=True)
                 ) as source_db:
                     for index, scenario in enumerate(scenarios):
