@@ -7,6 +7,7 @@ while binding.
 from __future__ import annotations
 
 from dataclasses import dataclass, field, replace
+from datetime import date, datetime
 from decimal import Decimal
 
 from .tables import SHAPING_FUNCTIONS, column_name, shape_columns
@@ -19,6 +20,8 @@ from .classic_inputs import TEXT_INPUTS,CLASSIC_INPUTS
 from .syntax import FxError, call_name, walk
 from .temporal import Temporal, TEMPORAL_KINDS
 from .enum_fx import EnumValue,CATALOG as ENUM_CATALOG,VALUES as ENUM_VALUES,concatenate_namespace,namespace_values
+from .icons import IconValue
+from .json_fx import Dynamic, Media
 
 
 @dataclass(eq=True)
@@ -79,6 +82,8 @@ TIME = FxType("Time")
 COLOR = FxType("Color")
 VOID = FxType("Void")
 OPEN_RECORD = FxType("Record", open=True)
+
+_PLAIN_VALUE_TYPES = {type(None): BLANK, bool: BOOLEAN, Decimal: DECIMAL, int: NUMBER, float: NUMBER, str: TEXT}
 
 
 def record(fields=None, open=False, aliases=None):
@@ -196,20 +201,18 @@ def schema_type(schema):
 
 
 def value_type(value):
+    plain = _PLAIN_VALUE_TYPES.get(type(value))
+    if plain is not None:
+        return plain
     if isinstance(value,EnumValue):return FxType("Enum",name=value.namespace)
-    from .icons import IconValue
     if isinstance(value,IconValue):
         return FxType('Icon')
-    from .json_fx import Dynamic, Media
     if isinstance(value,Dynamic):
         return FxType('Dynamic')
     if isinstance(value,Media):
         return FxType(value.media_kind)
-    from datetime import date, datetime
     if isinstance(value, FxError):
         return ERROR
-    if value is None:
-        return BLANK
     if isinstance(value, bool):
         return BOOLEAN
     if isinstance(value, Decimal):
