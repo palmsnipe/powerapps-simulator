@@ -608,27 +608,26 @@ class Evaluator:
                         raise FxError(f"{name} has an invalid parameter signature", "Type")
                     if len(c) - 1 != len(d.params):
                         raise FxError(f"{name} expects {len(d.params)} arguments")
-                    for typename in [t for _, t in d.params] + [d.returns]:
-                        self.declared_contract(typename)
+                    parameters = [(param, self.declared_contract(typename)) for param, typename in d.params]
+                    returns = self.declared_contract(d.returns)
                     from .binding import function_compatible
-                    for arg, (_, ptype) in zip(c[1:], d.params):
+                    for arg, (_, expected) in zip(c[1:], parameters):
                         actual = self.node_types.get(id(arg))
-                        expected = self.host.binder.declared_type(ptype)
                         if actual and not function_compatible(actual, expected):
                             raise FxError(f"{name}: expected {expected.describe()}, received {actual.describe()} (incompatible function schema)", 'Type')
                     values = [self.eval(n, ctx) for n in c[1:]]
-                    for i, ((_, ptype), value) in enumerate(zip(d.params, values)):
-                        values[i] = self.coerce_function(value, self.host.binder.declared_type(ptype), self.node_types.get(id(c[i + 1])))
+                    for i, ((_, expected), value) in enumerate(zip(parameters, values)):
+                        values[i] = self.coerce_function(value, expected, self.node_types.get(id(c[i + 1])))
                     if name in ctx.stack:
                         raise FxError(f"Recursive function {name} is unsupported", "Unsupported")
-                    frame = dict(zip((p[0] for p in d.params), values))
+                    frame = dict(zip((p[0] for p in parameters), values))
                     if id(d.body) not in self.node_types:
                         from .binding import BindScope
-                        self.host.binder.infer(d.body, BindScope(frames=[{p:self.host.binder.declared_type(t) for p,t in d.params}], behavior=d.behavior, function_pure=ctx.function_pure))
+                        self.host.binder.infer(d.body, BindScope(frames=[dict(parameters)], behavior=d.behavior, function_pure=ctx.function_pure))
                     result = self.eval(d.body, Context(self.host, frames=[frame], stack=(*ctx.stack, name), behavior=d.behavior, function_pure=ctx.function_pure, forall_depth=ctx.forall_depth,error_source="App.Formulas."+name,formula_source=self.definition_source,formula_origin=self.app_definition_origin(name)))
                     if d.returns == "Void":
                         return None
-                    return self.coerce_function(result, self.host.binder.declared_type(d.returns), self.node_types.get(id(d.body)))
+                    return self.coerce_function(result, returns, self.node_types.get(id(d.body)))
                 callback = self.eval(c[0], ctx)
                 if callable(callback):
                     if getattr(callback, "behavior", True):
