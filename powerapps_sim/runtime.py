@@ -11,7 +11,7 @@ import hashlib
 from uuid import uuid4
 
 from .temporal import Temporal
-from .controls import COMMON, DEFAULTS, RENDER_PROPERTIES, SUPPORTED, RESETTABLE, SINGLE_SELECT, NUMERIC_CONTROL_PROPERTIES, responsive_default, contract_errors
+from .controls import COMMON, DEFAULTS, RENDER_PROPERTIES, SUPPORTED, RESETTABLE, SINGLE_SELECT, NUMERIC_CONTROL_PROPERTIES, RESPONSIVE_DEFAULT_PROPERTIES, responsive_default, contract_errors
 from .classic_inputs import TEXT_INPUTS,CLASSIC_INPUTS,CLASSIC_SELECTORS,CLASSIC_BOOLEAN,SLIDERS,DATE_PICKERS
 from .classic_combobox import COMBOBOXES, selected_record
 from .listbox import LISTBOXES,OUTPUTS as LIST_OUTPUTS
@@ -253,14 +253,14 @@ class Ref:
             if family == 'FluentV8/Label' and name == 'OnSelect':
                 from .galleries import implicit_select
                 if implicit_select(self):return '=Select(Parent)'
-            if self.automatic_parent:
+            if name in RESPONSIVE_DEFAULT_PROPERTIES and self.automatic_parent:
                 responsive = responsive_default(self.control, name)
                 if responsive is not None:return responsive
             return defaults.get(name, COMMON.get(name) if name in LAYOUT else None)
         if family == 'Button':
             from .canvas_buttons import catalog
             versions = catalog();defaults = versions.get(self.control.version, next(iter(versions.values())))['defaults']
-            if self.automatic_parent:
+            if name in RESPONSIVE_DEFAULT_PROPERTIES and self.automatic_parent:
                 responsive = responsive_default(self.control, name)
                 if responsive is not None:return responsive
             return defaults.get(name, COMMON.get(name) if name in {'LayoutMinWidth','LayoutMinHeight','LayoutMaxWidth','LayoutMaxHeight','FillPortions','AlignInContainer'} else None)
@@ -296,7 +296,7 @@ class Ref:
                 return '=TextInputType.SingleLine'
         if family=='TypedDataCard' and self.parent and self.parent.family=='Form' and name=='Width':
             return '=Parent.Width/Max(1,Parent.NumberOfColumns)'
-        if self.automatic_parent:
+        if name in RESPONSIVE_DEFAULT_PROPERTIES and self.automatic_parent:
             responsive = responsive_default(self.control, name)
             if responsive is not None:
                 return responsive

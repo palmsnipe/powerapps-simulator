@@ -307,13 +307,18 @@ for _family in ('ModernButton', 'Classic/Button'):
 RENDER_PROPERTIES = "AcceptsFocus TabIndex X Y Width Height Visible DisplayMode Fill Color Font FontColor FontWeight FontSize Size Align VerticalAlign Wrap AutoHeight HtmlText Text Label Icon IconStyle IconColor Rotation Layout Appearance BasePaletteColor LayoutDirection LayoutAlignItems LayoutJustifyContent LayoutGap LayoutOverflowX LayoutOverflowY LayoutWrap LayoutMinWidth LayoutMinHeight LayoutMaxWidth LayoutMaxHeight FillPortions AlignInContainer PaddingTop PaddingBottom PaddingLeft PaddingRight BorderThickness BorderColor BorderStyle RadiusTopLeft RadiusTopRight RadiusBottomLeft RadiusBottomRight AccessibleLabel Tooltip InputTextPlaceholder Placeholder HintText Format DateTimeZone IsEditable StartDate EndDate StartOfWeek Mode Type MaxLength Min Max Step Precision DelayItemLoading LoadingSpinner LoadingSpinnerColor Selectable ShowScrollbar TemplateSize TemplatePadding WrapCount Image ImagePosition IsSearchable SelectMultiple DelayOutput TriggerOutput MultiValueDelimiter Required ValidationState Indeterminate ProgressColor Thickness Shape LabelPosition LineHeight RadioSize Italic Underline Strikethrough ContentLanguage WidthFit".split()
 
 
+RESPONSIVE_DEFAULT_PROPERTIES = frozenset((
+    'AcceptsFocus', 'TabIndex', 'FillPortions', 'AlignInContainer', 'LayoutMinWidth', 'LayoutMinHeight',
+))
+
+
 def responsive_default(control, name):
     """Responsive child defaults from Microsoft's DynamicProperties contract.
 
     Only the supported versions use these defaults. Explicit source wins.
     The minimum of a leaf is its template default, not its Width/Height formula.
     """
-    if control.version not in SUPPORTED.get(control.family, set()):
+    if name not in RESPONSIVE_DEFAULT_PROPERTIES or control.version not in SUPPORTED.get(control.family, ()):
         return None
     if name == 'AcceptsFocus' and control.family.startswith('Modern'):
         from .focus import INTERACTIVE
