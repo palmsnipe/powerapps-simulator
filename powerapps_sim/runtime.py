@@ -203,10 +203,12 @@ class Ref:
         return property_expression(self,name)
 
     def eval_raw(self,name,ctx=None):
-        ctx=self.expression(name).context(ctx or self.context())
+        ctx=ctx or self.context()
         def load():
             raw=self.raw_property(name)
-            return self.runtime.fx.evaluate(str(raw),ctx) if isinstance(raw,str) and raw.startswith('=') else raw
+            if isinstance(raw,str) and raw.startswith('='):
+                return self.runtime.fx.evaluate(str(raw),ctx,expression=lambda:self.expression(name))
+            return raw
         return self.runtime.reactive.unit(('formula',self.path,name),load,
             lambda:repr(self.raw_property(name)))
 

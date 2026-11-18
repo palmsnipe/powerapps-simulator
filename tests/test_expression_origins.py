@@ -67,6 +67,19 @@ def test_duplicate_defaults_use_distinct_yaml_lines(r):
     assert lines[0]!=lines[1]
 
 
+def test_invalid_literal_keeps_each_control_property_origin(r):
+    for path in ('Home/Left/Draft', 'Home/Right/Draft'):
+        ref = r.refs[path]
+        ref.control = deepcopy(ref.control)
+        ref.control.properties['Default'] = '=1e5000'
+        with pytest.raises(FxError) as caught:
+            ref.eval_raw('Default')
+        error = caught.value
+        assert error.kind == 'Numeric'
+        assert error.expression_origin.member == f'{path}.Default'
+        assert error.expression_origin.source == MASTER
+
+
 def test_supplied_arguments_bypass_bad_defaults_and_effects_validate_first(r):
     assert r.fx.evaluate('Left.BadDefault(7)')==7 and r.fx.evaluate('Left.BadCast(8)')==8
     with pytest.raises(FxError):r.fx.evaluate('Left.Change("bad")',Context(r,behavior=True))

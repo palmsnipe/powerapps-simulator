@@ -297,6 +297,7 @@ class Evaluator:
     def __init__(self, host):
         self.host = host
         self.cache = {}
+        self._literal_values = {}
         self.definitions = {}
         self.parse_errors = []
         self.node_types = {}
@@ -370,9 +371,24 @@ class Evaluator:
         origin=app_expression(self.host,'Formulas','App.Formulas.'+name)
         return replace(origin,formula=self.definition_source,line=origin.line if origin.formula==self.definition_source else None)
 
-    def evaluate(self, source, context=None):
-        ctx = replace(context or Context(self.host),formula_source=source)
-        try:return self.eval(self.bound_node(source, ctx), ctx)
+    def evaluate(self, source, context=None, *, expression=None):
+        # A successfully evaluated literal has no lexical or reactive inputs.
+        # Numeric literals still depend on the host's numeric mode.
+        literal_key = (source, self.number_mode)
+        if literal_key in self._literal_values:
+            return self._literal_values[literal_key]
+        ctx = context or Context(self.host)
+        if expression is None:
+            ctx = replace(ctx, formula_source=source)
+        else:
+            origin = expression()
+            ctx = replace(ctx, formula_source=source, error_source=origin.member, formula_origin=origin)
+        try:
+            node = self.bound_node(source, ctx)
+            value = self.eval(node, ctx)
+            if node.kind == 'literal':
+                self._literal_values[literal_key] = value
+            return value
         except FxError as error:
             raise ctx.formula_origin.locate(error) if ctx.formula_origin else error
 

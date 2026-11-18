@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from io import BytesIO, StringIO
 import json
-from functools import lru_cache
+from functools import cached_property, lru_cache
 from pathlib import Path, PurePosixPath
 from zipfile import ZipFile
 
@@ -68,6 +68,11 @@ class Control:
     parent: Control | None = None
     children: list[Control] = field(default_factory=list)
 
+    def __setattr__(self, name, value):
+        if name == 'kind':
+            self.__dict__.pop('family', None)
+        super().__setattr__(name, value)
+
     @property
     def properties(self):
         return self.raw.get("Properties", {})
@@ -76,7 +81,7 @@ class Control:
     def version(self):
         return _split_control_kind(self.kind)[2]
 
-    @property
+    @cached_property
     def family(self):
         return _split_control_kind(self.kind)[0]
 
