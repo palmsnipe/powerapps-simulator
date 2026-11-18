@@ -186,7 +186,7 @@ def test_saved_suite_prepares_candidate_once_and_isolates_every_write(workspace,
     assert 'pilotMarker' not in w.runtime.globals
 
 
-@pytest.mark.parametrize(('cpus', 'workers'), [(2, 2), (8, 4), (12, 6)])
+@pytest.mark.parametrize(('cpus', 'workers'), [(2, 2), (8, 4), (12, 6), (16, 8), (18, 9), (64, 9)])
 def test_batch_starts_longer_scenarios_first_and_returns_results_in_request_order(workspace, monkeypatch, cpus, workers):
     submitted = []
     limits = []
@@ -202,12 +202,12 @@ def test_batch_starts_longer_scenarios_first_and_returns_results_in_request_orde
 
     monkeypatch.setattr(workflows.os, 'process_cpu_count', lambda: cpus, raising=False)
     monkeypatch.setattr(workflows, 'ThreadPoolExecutor', RecordingExecutor)
-    sizes = [1, 4, 2, 3, 2, 1, 1]
+    sizes = [1, 4, 2, 3, 2, 1, 1, 5, 1, 1]
     cases = [{**scenario(*(check('true') for _ in range(size))), 'name': f'Case {index}'}
              for index, size in enumerate(sizes)]
     reports = workspace.workflows.run_batch(cases, expected_revision=revision(workspace.project.root))
     assert limits == [workers]
-    assert submitted == [cases[index]['name'] for index in (1, 3, 2, 4, 0, 5, 6)]
+    assert submitted == [cases[index]['name'] for index in (7, 1, 3, 2, 4, 0, 5, 6, 8, 9)]
     assert [report['name'] for report in reports] == [case['name'] for case in cases]
     assert all(report['status'] == 'passed' for report in reports)
 

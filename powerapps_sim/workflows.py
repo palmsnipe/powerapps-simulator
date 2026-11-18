@@ -509,7 +509,10 @@ class WorkflowService:
                 # sees its own project/database. Start longer scenarios first
                 # so they can overlap with short ones, then report in suite order.
                 cpus = getattr(os, 'process_cpu_count', os.cpu_count)() or 1
-                workers = min(6 if cpus >= 12 else 4, cpus, len(jobs))
+                # Leave capacity for the interactive preview and bound the
+                # number of loaded app copies, even on high-core hosts.
+                worker_limit = min(9, cpus // 2) if cpus >= 12 else 4
+                workers = min(worker_limit, cpus, len(jobs))
                 order = sorted(range(len(scenarios)), key=lambda index: -len(scenarios[index]['steps']))
                 with ThreadPoolExecutor(max_workers=workers) as pool:
                     pending = {index: pool.submit(_run_worker, jobs[index]) for index in order}

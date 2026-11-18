@@ -155,7 +155,7 @@ Edits use the round-trip YAML writer on affected documents: comments, quoted for
 
 `validate_workflows(expected_revision, change_id?)` runs the entire saved suite and returns each filename, failed steps or definition errors, and report IDs. With a change ID, both source/schema changes and staged workflow edits participate in the run. In the browser, select the saved project or a staged change under **Workflows**, then choose **Validate saved suite**.
 
-For a suite with multiple scenarios, the simulator prepares the project or staged candidate once and starts longer scenarios first based on step count. It runs up to four scenarios concurrently, or up to six when at least twelve CPUs are available. Each gets its own runtime, environment, and writable SQLite copy. Reports stay in suite order.
+For a suite with multiple scenarios, the simulator prepares the project or staged candidate once and starts longer scenarios first based on step count. It runs up to four scenarios concurrently on hosts with fewer than twelve available CPUs. At twelve or more, it uses up to half the available CPUs, capped at nine workers. Each scenario gets its own process, runtime, environment, and writable SQLite copy. Reports stay in suite order.
 
 To repair or add a saved definition, use `stage_change` with `workflows` mapping exact `NAME.workflow.json` filenames to complete scenario objects. Send `expected_revision` and `expected_workflow_revision` from `describe_project` or `list_workflows`. Use the same fields with `stage_control_edits` to review a control edit and its tests together. In the browser, select a scenario, edit its JSON, and choose **Stage saved workflow** to review the diff.
 
