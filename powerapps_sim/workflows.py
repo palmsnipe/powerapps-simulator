@@ -4,7 +4,7 @@ from __future__ import annotations
 import argparse
 from collections import OrderedDict
 from concurrent.futures import ThreadPoolExecutor
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 from copy import deepcopy
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -20,10 +20,10 @@ import sys
 from tempfile import TemporaryDirectory
 import uuid
 
-from .authoring import RevisionConflict, data_revision, revision
+from .authoring import RevisionConflict, data_revision, revision, write_list_changes, write_source_changes
 from .catalog import atomic_write, json_text
 from .fx import Context, table
-from .runtime import serial
+from .runtime import Runtime, serial
 from .source import Project, safe_path
 from .syntax import FxError
 
@@ -242,7 +242,7 @@ def candidate_digest(entry):
     return hashlib.sha256(json_text({key: entry.get(key) for key in fields}).encode()).hexdigest()
 
 
-def _copy_project(source, target, store):
+def _copy_project(source, target, source_db):
     # The caller supplies the scenario. Do not copy saved tests into the
     # disposable project, where applying the candidate would run them again.
     for name in SNAPSHOT_DIRECTORIES:
@@ -252,8 +252,16 @@ def _copy_project(source, target, store):
                 raise ValueError('Workflow snapshots do not follow project symlinks')
             shutil.copytree(directory, target / name)
     shutil.copy2(source / 'emulator.json', target / 'emulator.json')
-    with sqlite3.connect(target / 'data.sqlite') as destination:
-        store.db.backup(destination)
+    with closing(sqlite3.connect(target / 'data.sqlite')) as destination:
+        source_db.backup(destination)
+
+
+@contextmanager
+def snapshot_runtime(root, strict):
+    with closing(Runtime(Project(root))) as runtime:
+        if strict and runtime.bind_diagnostics:
+            raise ValueError('Strict validation requires a project without current binding/source diagnostics')
+        yield runtime
 
 
 def _records(store):
@@ -296,9 +304,9 @@ def summarize(report):
 
 
 def _run_worker(job):
-    root, scenario, base, base_data, change_id = job
+    root, scenario, base, base_data, change_id, strict = job
     response = subprocess.run([sys.executable, '-m', 'powerapps_sim.workflow_worker', str(root)],
-        input=json_text({'scenario': scenario, 'base': base, 'data': base_data, 'change_id': change_id}),
+        input=json_text({'scenario': scenario, 'base': base, 'data': base_data, 'change_id': change_id, 'strict': strict}),
         cwd=Path(__file__).resolve().parent.parent, encoding='utf-8', capture_output=True)
     if response.returncode:
         raise RuntimeError(f'Isolated workflow worker exited with status {response.returncode}: {response.stderr.strip()}')
@@ -439,24 +447,38 @@ class WorkflowService:
             return json.loads(path.read_text(encoding='utf-8'))
 
     @contextmanager
-    def isolated_candidate(self, base, change_id, base_data):
+    def prepared_snapshot(self, base, change_id, base_data):
         w = self.workspace
         candidate = w.authoring.check_candidate(change_id, base, base_data=base_data)[1] if change_id is not None else None
         with TemporaryDirectory(prefix='powerapps-workflow-') as temporary:
             root = Path(temporary) / 'project'
             root.mkdir()
-            _copy_project(w.project.root, root, w.runtime.store)
-            from .application import Workspace
-            isolated = Workspace(Path(temporary), root, start=False)
-            try:
-                if candidate and (candidate['sources'] or candidate['lists']):
-                    change = isolated.authoring.stage(expected_revision=revision(root), sources=candidate['sources'],
-                        lists=candidate['lists'], migrations=candidate['migrations'], strict=candidate['strict'], title=candidate['title'])
-                    isolated.authoring.apply(change['id'], expected_revision=change['base_revision'])
-                    isolated.open(Project(root))
-                yield isolated
-            finally:
-                isolated.runtime.close()
+            _copy_project(w.project.root, root, w.runtime.store.db)
+            strict = False
+            if candidate and (candidate['sources'] or candidate['lists']):
+                # The owner has already staged this payload. Materialize it
+                # only in the temporary copy, with the same schema planner and
+                # writers as publication. Each run binds the resulting model.
+                write_source_changes(root, candidate['sources'])
+                project = Project(root)
+                w.authoring.check_source_model(project, candidate['sources'])
+                if candidate['lists']:
+                    from .store import ListStore
+                    with closing(ListStore(root / 'data.sqlite', project.read_json('metadata/datasources.json', {}),
+                                          schema_root=root / 'lists')) as store:
+                        definitions, rows, _ = store.plan_schemas(candidate['lists'], candidate['migrations'])
+                        with store.db:
+                            write_list_changes(store, candidate['lists'], definitions, rows)
+                if candidate['sources']:
+                    project.config['source_edited'] = True
+                    project.save_config()
+                strict = candidate['strict']
+            yield root, strict
+
+    @contextmanager
+    def isolated_candidate(self, base, change_id, base_data):
+        with self.prepared_snapshot(base, change_id, base_data) as (root, strict), snapshot_runtime(root, strict) as runtime:
+            yield runtime
 
     def run_batch(self, scenarios, *, expected_revision, change_id=None):
         scenarios = [validate(scenario) for scenario in scenarios]
@@ -470,12 +492,14 @@ class WorkflowService:
             checked = self.candidate_verification(base, change_id) if change_id is not None else None
             with TemporaryDirectory(prefix='powerapps-suite-') as directory:
                 jobs = []
-                with self.isolated_candidate(base, change_id, data_base) as prepared:
+                with self.prepared_snapshot(base, change_id, data_base) as (prepared, strict), closing(
+                    sqlite3.connect((prepared / 'data.sqlite').as_uri() + '?mode=ro', uri=True)
+                ) as source_db:
                     for index, scenario in enumerate(scenarios):
                         root = Path(directory) / f'run-{index}'
                         root.mkdir()
-                        _copy_project(prepared.project.root, root, prepared.runtime.store)
-                        jobs.append((root, scenario, base, data_base, change_id))
+                        _copy_project(prepared, root, source_db)
+                        jobs.append((root, scenario, base, data_base, change_id, strict))
                 # Separate processes let the CPU-bound runs overlap. Each only
                 # sees its own project/database, and reports stay in suite order.
                 workers = min(4, os.cpu_count() or 1, len(jobs))
@@ -506,8 +530,8 @@ class WorkflowService:
         with w.lock:
             base = w.authoring.check_revision(expected_revision)
             data_base = data_revision(w.runtime.store)
-            with self.isolated_candidate(base, change_id, data_base) as isolated:
-                report = self.execute_scenario(isolated.runtime, scenario, base, data_base, change_id)
+            with self.isolated_candidate(base, change_id, data_base) as runtime:
+                report = self.execute_scenario(runtime, scenario, base, data_base, change_id)
                 self._check_run_base(base, data_base)
                 self._save_report(report)
                 return report

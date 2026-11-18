@@ -349,8 +349,8 @@ class AIService:
         _, candidate = w.authoring.check_candidate(change_id, base, base_data=checked.data, base_workflows=checked.workflows)
         sample = None
         if probe is not None:
-            with w.workflows.isolated_candidate(base, change_id, checked.data) as isolated:
-                sample = inspect_property(isolated.runtime, probe)
+            with w.workflows.isolated_candidate(base, change_id, checked.data) as runtime:
+                sample = inspect_property(runtime, probe)
         suite = w.workflows.validate_saved(base, change_id, record_pass=False)
         w.workflows.require_same_verification(checked, entry=candidate)
         broken = next((run for run in suite['runs'] if run['status'] != 'passed'), None)

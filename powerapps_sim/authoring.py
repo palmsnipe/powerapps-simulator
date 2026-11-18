@@ -63,6 +63,27 @@ def _source_name(root, name):
     return name
 
 
+def write_source_changes(root, sources):
+    for name, content in sources.items():
+        target = safe_path(root, _source_name(root, name))
+        if content is None:
+            target.unlink(missing_ok=True)
+        else:
+            atomic_write(target, content)
+
+
+def write_list_changes(store, lists, definitions, rows):
+    for name in lists:
+        store.db.execute('INSERT OR REPLACE INTO lists VALUES(?,?)', (name, json.dumps(definitions[name])))
+        for item_id, record in rows[name]:
+            store.db.execute('UPDATE items SET record=? WHERE list_name=? AND id=?',
+                             (json.dumps(record), name, item_id))
+        store.catalog.write(name, definitions[name])
+    store.definitions = definitions
+    if lists:
+        store.catalog_marker()
+
+
 def _restore_files(root, files):
     for name, content in files.items():
         target = safe_path(root, name)
@@ -234,18 +255,14 @@ class AuthoringService:
                     shutil.copy2(target, root / name)
             self._database_backup(root / 'data.sqlite')
             for name, content in sources.items():
-                if content is None:
-                    safe_path(root, name).unlink(missing_ok=True)
-                else:
+                if content is not None:
                     try:
                         load_yaml(content)
                     except YAMLError as error:
                         raise ValueError(f'Invalid YAML in {name}: {error}\n{YAML_FORMULA_HINT}') from None
-                    atomic_write(safe_path(root, name), content)
+            write_source_changes(root, sources)
             candidate = Project(root)
-            old_errors = {(e['source'], e['message']) for e in self.workspace.project.source_errors}
-            if any(e['source'] in sources or (e['source'], e['message']) not in old_errors for e in candidate.source_errors):
-                raise ValueError('The combined source change creates an invalid source model')
+            self.check_source_model(candidate, sources)
             r = Runtime(candidate)
             try:
                 definitions, _, _ = r.store.plan_schemas(lists, migrations)
@@ -254,6 +271,11 @@ class AuthoringService:
                 return deepcopy(r.bind_diagnostics)
             finally:
                 r.close()
+
+    def check_source_model(self, candidate, sources):
+        old_errors = {(e['source'], e['message']) for e in self.workspace.project.source_errors}
+        if any(e['source'] in sources or (e['source'], e['message']) not in old_errors for e in candidate.source_errors):
+            raise ValueError('The combined source change creates an invalid source model')
 
     @staticmethod
     def _public(entry):
@@ -294,22 +316,10 @@ class AuthoringService:
                 self.store.db.rollback()
                 raise
             try:
-                for name, content in entry['sources'].items():
-                    target = safe_path(self.root, _source_name(self.root, name))
-                    if content is None:
-                        target.unlink(missing_ok=True)
-                    else:
-                        atomic_write(target, content)
+                write_source_changes(self.root, entry['sources'])
                 for name, scenario in workflows.items():
                     atomic_write(safe_path(self.root, 'tests/' + name), json_text(scenario))
-                for name in entry['lists']:
-                    self.store.db.execute('INSERT OR REPLACE INTO lists VALUES(?,?)', (name, json.dumps(definitions[name])))
-                    for item_id, record in rows[name]:
-                        self.store.db.execute('UPDATE items SET record=? WHERE list_name=? AND id=?', (json.dumps(record), name, item_id))
-                    self.store.catalog.write(name, definitions[name])
-                self.store.definitions = definitions
-                if entry['lists']:
-                    self.store.catalog_marker()
+                write_list_changes(self.store, entry['lists'], definitions, rows)
                 p = Project(self.root)
                 if entry['sources']:
                     p.config['source_edited'] = True

@@ -7,7 +7,7 @@ import sys
 import pytest
 
 from powerapps_sim.application import Workspace
-from powerapps_sim.authoring import RevisionConflict, data_revision, revision
+from powerapps_sim.authoring import AuthoringService, RevisionConflict, data_revision, revision
 from powerapps_sim.fixtures import forms_project, lifecycle_project
 from powerapps_sim.workflows import STARTER, validate
 
@@ -140,14 +140,16 @@ def test_saved_suite_prepares_candidate_once_and_isolates_every_write(workspace,
     name = 'Src/forms.pa.yaml'
     source = w.project.documents[name].replace('Set(selectedId, 1)', 'Set(selectedId, 1); Set(pilotMarker, true)', 1)
     staged = w.authoring.stage(expected_revision=base, sources={name: source})
-    prepare = w.workflows.isolated_candidate
+    prepare = w.workflows.prepared_snapshot
     calls = []
 
     def count_preparation(*args):
         calls.append(args)
         return prepare(*args)
 
-    monkeypatch.setattr(w.workflows, 'isolated_candidate', count_preparation)
+    monkeypatch.setattr(w.workflows, 'prepared_snapshot', count_preparation)
+    monkeypatch.setattr(AuthoringService, 'apply', lambda *a, **kw: pytest.fail('Workflow tried to apply the candidate'))
+    monkeypatch.setattr(AuthoringService, 'stage', lambda *a, **kw: pytest.fail('Workflow tried to restage the candidate'))
     suite = w.workflows.validate_saved(base, staged['id'])
     assert suite['status'] == 'passed', suite['runs']
     assert len(calls) == 1
@@ -159,6 +161,25 @@ def test_saved_suite_prepares_candidate_once_and_isolates_every_write(workspace,
         assert saved['candidate_revision'] != base and saved['change_id'] == staged['id']
     assert revision(w.project.root) == base and data_revision(w.runtime.store) == data
     assert 'pilotMarker' not in w.runtime.globals
+
+
+@pytest.mark.parametrize('batched', [False, True])
+def test_workflows_validate_strict_candidate_binding_in_each_runtime(workspace, batched):
+    w = workspace
+    base = revision(w.project.root)
+    name = 'Src/forms.pa.yaml'
+    original = w.project.documents[name]
+    staged = w.authoring.stage(expected_revision=base, sources={name: original + '\n# Review candidate\n'}, strict=True)
+    path, entry = w.authoring._entry(staged['id'])
+    entry['sources'][name] = original.replace('Set(selectedId, 1)', 'Set(selectedId, missingIdentifier)', 1)
+    path.write_text(json.dumps(entry), encoding='utf-8')
+    with pytest.raises(ValueError, match='Strict validation'):
+        if batched:
+            w.workflows.run_batch([STARTER, STARTER], expected_revision=base, change_id=staged['id'])
+        else:
+            run(w, STARTER, change_id=staged['id'])
+    assert revision(w.project.root) == base
+    assert not list((w.project.root / '.emu/runs').glob('*.json'))
 
 
 def test_scope_environment_and_disposable_fixture_records(workspace):
