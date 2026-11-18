@@ -1,4 +1,5 @@
 """Workflow isolation, pure assertions, staged changes and browser-equivalent events."""
+from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 import json
 import subprocess
@@ -9,6 +10,7 @@ import pytest
 from powerapps_sim.application import Workspace
 from powerapps_sim.authoring import AuthoringService, RevisionConflict, data_revision, revision
 from powerapps_sim.fixtures import forms_project, lifecycle_project
+from powerapps_sim import workflows
 from powerapps_sim.workflows import STARTER, validate
 
 
@@ -161,6 +163,32 @@ def test_saved_suite_prepares_candidate_once_and_isolates_every_write(workspace,
         assert saved['candidate_revision'] != base and saved['change_id'] == staged['id']
     assert revision(w.project.root) == base and data_revision(w.runtime.store) == data
     assert 'pilotMarker' not in w.runtime.globals
+
+
+@pytest.mark.parametrize(('cpus', 'workers'), [(2, 2), (8, 4), (12, 6)])
+def test_batch_starts_longer_scenarios_first_and_returns_results_in_request_order(workspace, monkeypatch, cpus, workers):
+    submitted = []
+    limits = []
+
+    class RecordingExecutor(ThreadPoolExecutor):
+        def __init__(self, max_workers):
+            limits.append(max_workers)
+            super().__init__(max_workers=max_workers)
+
+        def submit(self, fn, job):
+            submitted.append(job[1]['name'])
+            return super().submit(fn, job)
+
+    monkeypatch.setattr(workflows.os, 'process_cpu_count', lambda: cpus, raising=False)
+    monkeypatch.setattr(workflows, 'ThreadPoolExecutor', RecordingExecutor)
+    sizes = [1, 4, 2, 3, 2, 1, 1]
+    cases = [{**scenario(*(check('true') for _ in range(size))), 'name': f'Case {index}'}
+             for index, size in enumerate(sizes)]
+    reports = workspace.workflows.run_batch(cases, expected_revision=revision(workspace.project.root))
+    assert limits == [workers]
+    assert submitted == [cases[index]['name'] for index in (1, 3, 2, 4, 0, 5, 6)]
+    assert [report['name'] for report in reports] == [case['name'] for case in cases]
+    assert all(report['status'] == 'passed' for report in reports)
 
 
 @pytest.mark.parametrize('batched', [False, True])

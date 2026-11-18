@@ -501,10 +501,14 @@ class WorkflowService:
                         _copy_project(prepared, root, source_db)
                         jobs.append((root, scenario, base, data_base, change_id, strict))
                 # Separate processes let the CPU-bound runs overlap. Each only
-                # sees its own project/database, and reports stay in suite order.
-                workers = min(4, os.cpu_count() or 1, len(jobs))
+                # sees its own project/database. Start longer scenarios first
+                # so they can overlap with short ones, then report in suite order.
+                cpus = getattr(os, 'process_cpu_count', os.cpu_count)() or 1
+                workers = min(6 if cpus >= 12 else 4, cpus, len(jobs))
+                order = sorted(range(len(scenarios)), key=lambda index: -len(scenarios[index]['steps']))
                 with ThreadPoolExecutor(max_workers=workers) as pool:
-                    files = list(pool.map(_run_worker, jobs))
+                    pending = {index: pool.submit(_run_worker, jobs[index]) for index in order}
+                    files = [pending[index].result() for index in range(len(jobs))]
                 if checked:
                     self.require_same_verification(checked)
                 self._check_run_base(base, data_base)
